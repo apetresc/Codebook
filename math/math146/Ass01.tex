@@ -1,0 +1,105 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\renewcommand{\v}[1]{\ensuremath{\overrightarrow{#1}}}
+%opening
+\title{MATH 146: Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+\maketitle
+\textbf{1. (a) Find the equation of the line through the points $(3,-2,4)$ and $(-5,7,1)$.}
+
+Let $\v{A}$ be the first position vector, and $\v{B}$ the second position vector. The vector passing through those points has the same direction as the vector from $\v{A}$ to $\v{B}$, namely the vector $\v{B}-\v{A}=(3,-2,4)-(-5,7,1)$. Therefore, the direction of the resultant vector is given by $(8,-9,3)$. All that is left to uniquely define a line is a point on it, and for that we can just choose one of the points given in the question. Thus our resulting vector is \[\boxed{\v{C}=(3,-2,4)+t(8,-9,3)}\]
+
+\textbf{1. (b) Find the equation of the plane containing the points $(2,-5,-1)$, $(0,4,6)$, and $(-3,7,1)$.}
+
+Let $\v{A}$ be the first position vector, $\v{B}$ the second, and $\v{C}$ the third. To uniquely define a plane, we need two direction vectors and one position vector. The two direction vectors are easily given by $\v{B}-\v{A}=(0,4,6)-(2,-5,-1)=(-2,9,7)$ and $\v{C}-\v{A}=(-3,7,1)-(2,-5,-1)=(-5,12,2)$. The position vector can be any of the three points, say $\v{A}$. So the resulting plane is given by \[\boxed{(2,-5,-1)+s(-2,9,7)+t(-5,12,2)}\]
+
+\textbf{2. Prove that the diagonals of a parallelogram bisect each other.}
+
+Consider the parallelogram whose vertices are given by the position vectors $(0,0)$, $\v{X}=(2a,2b)$, $\v{Y}=(2c,2d)$, and $\v{Z}=\overrightarrow{(X+Y)}=(2a+2c,2b+2d)$. Then we know that the diagonals are given by the vectors from $0$ to $\v{Z}$ (which is just the position vector for $\v{Z}$), and the vector from $\v{X}$ to $\v{Y}$ which is given by $\v{Z'}=\v{X-Y}=(2a-2c,2b-2d)$. Their point of intersection is given by the solution to the equation $\alpha\v{Z}=\v{Y}+\beta\v{Z'}$. So,
+\[\alpha\v{X}+\alpha\v{Y}=\v{Y}+\beta\v{X}-\beta\v{Y}\]
+which can be rearranged to \[\v{X}(\alpha-\beta)=\v{Y}(1-\alpha-\beta)\] Since $\v{X}$ and $\v{Y}$ are not equal, the only way this equation can be satisfied is if the coefficients on them are equal to $0$; thus we have
+\begin{align}
+\alpha-\beta=&0\\
+1-\alpha-\beta=&0
+\end{align}
+
+If we add $(1)$ and $(2)$, we get $1-2\beta=0\implies1=2\beta\implies\beta=\frac12$. And since we know from $(1)$ that $\alpha=\beta$, we get that \[\alpha=\beta=\frac12\] So the intersection between the two vectors happens exactly halfway up the $\v{Z}$ and $\v{Z'}$ diagonals; that is, they bisect each other.
+
+\textbf{3. (a) Let $V\subset\R^3$ be the set \[V=\left\{(x,y,z)|x+y+z=0\right\}\] Is $V$ a vector space with respect to the standard operations of $\R^3$? Prove your answer.}
+
+We will show that each of the properties (VS1)-(VS8) hold for $V$.
+
+\textbf{(VS1-2)} Clearly addition is commutative, since $\R^3$ is a vector space. The restriction that $x+y+z=0$ does not affect the commutativity of the pairwise addition. The associativity of addition holds for the same reason.
+
+\textbf{(VS3)} The $0$ element of $V$ is $(0,0,0)$. It is clear that $(x,y,z)+(0,0,0)=(x+0,y+0,z+0)=(x,y,z)$.
+
+\textbf{(VS4)} For every element $(x,y,z)\in V$, the element $(-x,-y,-z)$ is also in $V$, since $x+y+z=0\implies-(x+y+z)=-(0)\implies(-x)+(-y)+(-z)=0$. Clearly $(x,y,z)+(-x,-y,-z)=(0,0,0)$, which is the $0$ element from (VS3).
+
+\textbf{(VS5)} It is clear that $1(x,y,z)=(1x,1y,1z)=(x,y,z)$.
+
+\textbf{(VS6-8)} These properties are clear from the fact that $V\subset\R^3$. The added restriction on the membership of an element does not affect the properties of the elements that do remain. Since these three properties must hold for $\R^3$, they also hold for $V$.
+
+Since $V$ satisfies properties (VS1) through (VS8), it must be a vector field.
+
+\textbf{3. (b) Let $V=\left\{(a_1,a_2):a_1,a_2\in\R\right\}$. For $(a_1,a_2),(b_1,b_2)\in V$ and $c\in\R$, define 
+\[(a_1,a_2)+(b_1,b_2)=(a_1+2b_1,a_2+3b_2) \text{  and  } c(a_1,a_2)=(ca_1,ca_2).\]
+Is $V$ a vector space over $\R$ with these operations? Justify your answer.}
+
+Right from the very first property, the commutativity of addition, we see that $V$ fails to be a vector space. We see \[(a_1,a_2)+(b_1,b_2)=(a_1+2b_1,a_2+3b_2)\] but \[(b_1,b_2)+(a_1,a_2)=(b_1+2a_1,b_2+3a_2)\] which are clearly not neccesarily equal. (There is no reason why $b_1+2a_1=a_1+2b_1$ neccesarily.) For an easy counterexample, consider $(1,2)+(3,4)=(7,14)$ while $(3,4)+(1,2)=(5,10)$, which are not the same at all. Therefore, since $V$ does not satisfy all the properties, it is not a vector field.
+
+\textbf{4. Let $W_1$ and $W_2$ be subspaces of a vector space $V$. Prove that $W_1\cup W_2$ is a subspace of $V$ if and only if $W_1\subseteq W_2$ or $W_2\subseteq W_1$}
+
+We will begin by first proving that the condition is sufficient. Without loss of generality, let $W_2\subseteq W_1$. Well, in that case $W_1\cup W_2=W_1$, which we already know is a subspace of $V$, so the condition is clearly sufficient.
+
+To prove the condition is neccesary, suppose that $W_1\not\subseteq W_2$ and $W_2\not\subseteq W_1$. Let $a\in W_1-W_2$ and $b\in W_2-W_1$. By addition, $a+b\not\in W_1$ since otherwise $b=(a+b)+(-1)a\in W_1$. Similarly, $a+b\not\in W_2$. So $a+b\not\in W_1\cup W_2$; since addition is not closed, this implies that $W_1\cup W_2$ is not a subspace of $V$. This contradicts our hypothesis, so our initial assumption that $W_1\not\subseteq W_2$ must have been false.
+
+\textbf{5. Prove that if $W$ is a subspace of a vector space $V$ and $w_1,w_2,...,w_n$ are in $W$, then $\sum_{k=1}^n{a_kw_k}\in W$ for any scalars $a_1,a_2,...,a_n$.}
+
+By Theorem $3.3$, we know that $W$ being a subspace of $V$ is equivalent to closure under addition and scalar multiplication; that is, we know
+\[\v{x},\v{y}\in W,a\in F\implies\v{x}+\v{y}\in W,a\v{x}\in W\] since $W$ is a subspace of $V$ by hypothesis. So we know that for any scalar $a_i\in F$, where $F$ is the field over which $V$ is defined, it holds that $a_iw_i$ is also in $W$. Let's set $w'_i=a_iw_i\in W$  $\forall{ 1\leq i\leq n}$. So now we have a list $w'_i$ of vectors which are also in $W$. Again, by the property given by Theorem $3.3$, the sum of vectors in $W$ is also in $W$ (ie, closed under addition). Therefore, \[\boxed{ \sum_{i=1}^n{w'_i}=\sum_{i=1}^n{a_iw_i} \in W }\]
+
+\textbf{6. Let $W_1$ and $W_2$ be subspaces of a vector space $V$. \\(a) Prove that $W_1+W_2$ is a subspace of $V$ that contains both $W_1$ and $W_2$}
+
+Let $W=W_1+W_2=\left\{x+y:x\in W_1, y\in W_2\right\}$. Since both $W_1$ and $W_2$ are subspaces, they each have a $0$ element, and so the element $0+0=0$ is also in $W$, satisfying the first condition of being a subspace. We must also check that if $\v{m}\in W$ and $\v{n}\in W$ and $a\in F$, then $\v{m}+\v{n}\in W$ and $a\v{m}\in W$.
+
+By the definition for $W$, we can write $m=\v{x_1}+\v{y_1}$ and $n=\v{x_2}+\v{y_2}$, where $\v{x_1},\v{x_2}\in W_1$ and $\v{y_1},\v{y_2}\in W_2$. Then $\v{m}+\v{n}$ is simply $\left(\v{x_1}+\v{x_2}\right)+\left(\v{y_1}+\v{y_2}\right)$; since each of $W_1$ and $W_2$ are subspaces, they are closed under addition, and thus the bracketed quantities are in $W_1$ and $W_2$ respectively, making their sum an element of $W$. Therefore $W$ is also closed under addition.
+
+The last thing to check is closure under scalar multiplication. If $\v{m}\in W=\v{x}+\v{y}$, then $a\v{m}=a(\v{x}+\v{y})=a\v{x}+a\v{y}$. Since $\v{x}\in W_1$ and $\v{y}\in W_2$, which are both subspaces of $V$, they are themselves closed under scalar multiplication, so $a\v{x}\in W_1$ and $a\v{y}\in W_2$ also, and so $a\v{m}$ is the sum of two vectors in $W_1$ and $W_2$, making it an element of $W$. So $W$ is also closed under scalar multiplication, meaning it is a subspace of $V$.
+
+The only thing left to show is that $W$ contains both $W_1$ and $W_2$. This is easy to see since both $W_1$ and $W_2$ contain the $0$ vector, so for any $\v{x}\in W_1$ or $W_2$, the element $\v{x}+0=\v{x}$ is in $W$; therefore, $W$ contains $W_1$ and $W_2$.
+
+\textbf{6. (b) Prove that any subspace of $V$ that contains both $W_1$ and $W_2$ must also contain $W_1+W_2$.}
+
+Let $W$ be the subspace that contains both $W_1$ and $W_2$ (this is a different $W$ from part (a), where it represented $W_1+W_2$). Since $W$ is a subspace, it is closed under addition; in particular, for all $\v{x}\in W_1$ and $\v{y}\in W_2$, their sum $\v{x}+\v{y}$ must also be in $W$; but this is the exact definition of $W_1+W_2$! So it is contained in $W$ as well.
+
+\textbf{7. Let $W_1$ denote the set of all polynomials in $P(\C)$ such that in the representation \[f(x)=a_nx^n+a_{n-1}x^{n-1}+...+a_1x+a_0,\] we have $a_i=0$ whenever $i$ is even. Likewise, let $W_2$ denote the set of all polynomials in $P(\C)$ such that in the representation \[g(x)=b_mx^m+b_{m-1}x^{m-1}+...+b_1x+b_0,\] we have $b_i=0$ whenever $i$ is odd. Prove that $P(\C)=W_1\oplus W_2$.}
+
+First we must show that $W_1, W_2$ are subspaces of $P(\C)$. Clearly they both contain the $0$ vector (simply let $a_i=b_i=0$ for all $i$). They are also closed under addition since \begin{align*}
+\left(a_{2n}x^{2n}+a_{2(n-1)}x^{2(n-1)}+...+a_2x^2+a_0\right)+\left(b_{2n}x^{2n}+b_{2(n-1)}x^{2(n-1)}+...+b_2n^2+b_0\right)\\
+=(a_{2n}+b_{2n})x^{2n}+(a_{2(n-1)}+b_{2(n-1)})x^{2(n-1)}+...+(a_2b_2)x^2+a_0b_0
+\end{align*}
+which is an element of $W_2$. An identical argument holds for $W_1$. Lastly, they are both closed under scalar multiplication since
+\[\lambda\left(a_{2n}x^{2n}+a_{2(n-1)}x^{2(n-1)}+...+a_2x^2+a_0\right)
+=(\lambda a_{2n})x^{2n}+(\lambda a_{2(n-1)})x^{2(n-1)}+...+\lambda a_2x^2+\lambda a_0\] 
+which is an element of $W_2$. An identical argument holds for $W_1$. Therefore, $W_1$ and $W_2$ are indeed subspaces.
+
+Next we must show that $W_1\cup W_2=\left\{0\right\}$. As shown above, $0$ is an element of both subspaces, and they have no other elements in common since every element in $W_1$ has only terms with an odd power of $x$, while $W_2$ has terms with only an even power of $x$.
+
+Now all that remains to show that $P(\C)=W_1+W_2$. By problem $6$ (b), since $P(\C)$ contains $W_1$ and $W_2$, it must also contain $W_1+W_2$; in other words, $(W_1+W_2)\subseteq P(\C)$. We also know that everything in $P(\C)$ can be written in the form 
+\begin{align*}
+&z_nx^n+z_{n-1}x^{n-1}+...+z_2x^2+z_1x+z_0\\
+&\equiv\left(z_{2k}x^{2k}+z_{2(k-1)}x^{2(k-1)}+...+z_2x^2+z_0\right)+\left(z_{2k-1}x^{2k-1}+z_{2(k-1)-1}x^{2(k-1)-1}+...+z_3x^3+z_1x\right)
+\end{align*}
+
+The first term is an element of $W_2$ and the second term is an element of $W_1$, so we can also say $P(\C)\subseteq W_1+W_2$. Since $P(\C)\subseteq W_1+W_2$ and $W_1+W_2\subseteq P(\C)$, this implies that $P(\C)=W_1+W_2$, fulfilling our last requirement of the proof. Therefore, \[\boxed{P(\C)=W_1\oplus W_2}\]
+
+\textbf{8. Let $W_1$ and $W_2$ be subspaces of a vector space $V$. Prove that $V$ is the direct sum of $W_1$ and $W_2$ if and only if each vector in $V$ can be \textit{uniquely} written as $x_1+x_2$ where $x_1\in W_1$ and $x_2\in W_2$}
+
+\end{document}

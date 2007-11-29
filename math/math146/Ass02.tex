@@ -1,0 +1,152 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\mspan}[1]{\ensuremath{\text{span}\left(#1\right)}}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 146 $-$ Assignment 2}
+\author{Adrian Petrescu}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. (a) Consider  $\R^3$ as a vector space over $\R$. Determine whether or not $(2,-1,0)$ can be expressed as a linear combination of $(1,2,-3)$ and $(1,-3,2)$.}
+
+If such a solution were to exist, then there would exist some $s,t$ such that \[(2,-1,0)=s(1,2,-3)+t(1,-3,2)\] This is analogous to the solutions of the system
+\begin{align}
+2=s+t\\
+-1=2s-3t\\
+0=-3s+2t
+\end{align}
+
+We see that if we add $(2)$ and $(3)$ we get \[(2)+(3)\rightarrow-1=-s-t=\implies1=s+t\] However, this result contradicts equation $(1)$. Therefore, no solutions exist and $(2,-1,0)$ cannot be expressed as a linear combination of the given vectors.
+
+\textbf{(b) Consider the space $P_3(\R)$ of polynomials of degree less than or equal to $3$ having real coefficients as a vector space over $\R$. Determine whether or not $6x^3-3x^2+x+2$ lies in the span of $\left\{x^3-x^2+2x+3,2x^3-3x+1\right\}$.}
+
+We want to find if there exists $s,t$ such that \[6x^3-3x^2+x+2=s(x^3-x^2+2x+3)+t(2x^3-3x+1)\] Right away we can deduce that, if a solution were to exist, then $s=3$, since the polynomial under $t$ does not have an $x^2$ term. In that case it simplifies to \[3x^3-3x^2+6x+9+t(2x^3-3x+1)=(3+2t)x^3-3x^2+(6-3t)x+(9+t)\] So now we need a $t$ that simultaneously satisfies both $3+2t=6$ and $6-3t=1$. Clearly such a $t$ is not possible (since it would have to be $\frac53$ in the latter case and $\frac32$ in the former). Therefore, there is no solution, so $6x^3-3x^2+x+2$ cannot be expressed as a linear combination of the given polynomials.
+
+\textbf{2. Let $\F$ be a field. Decide whether the vectors $(1,1,0)$, $(1,0,1)$ and $(0,1,1)$ generate $\F^3$}
+
+We already know that the vectors $(0,0,1)$, $(0,1,0)$, and $(1,0,0)$ generate $F^3$ (since $a(1,0,0)+b(0,1,0)+c(0,0,1)=(a,b,c)$ with $a,b,c\in\F$). It is also easy to see that we can produce any of these three unit vectors as a linear combination of the given vectors:
+\begin{align*}
+(1,1,0)+(1,0,1)+(0,1,1)-2(0,1,1)=(2,0,0)\implies(1,0,0)=\frac12(1,1,0)+\frac12(1,0,1)-\frac12(0,1,1)\\
+(1,1,0)+(1,0,1)+(0,1,1)-2(1,0,1)=(0,2,0)\implies(0,1,0)=\frac12(1,1,0)-\frac12(1,0,1)+\frac12(0,1,1)\\
+(1,1,0)+(1,0,1)+(0,1,1)-2(1,1,0)=(0,0,2)\implies(0,0,1)=-\frac12(1,1,0)+\frac12(1,0,1)+\frac12(0,1,1)
+\end{align*}
+
+Therefore since these three vectors generate vectors which span $F^3$, they also span $F^3$ themselves.
+
+\textbf{3. Show that if $M_1=\left[\begin{matrix}1 & 0 \\0 & 0 \\\end{matrix}\right]$, $M_2=\left[\begin{matrix}0 & 0 \\0 & 1 \\\end{matrix}\right]$ and $M_3=\left[\begin{matrix}0 & 1 \\1 & 0 \\\end{matrix}\right]$, then the (real) span of $\left\{M_1,M_2,M_3\right\}$ is the set of all $2\times2$ symmetric matrices. }
+
+For $a,b,c\in\R$, consider the linear combination \[M=aM_1+bM_2+cM_3=\left[\begin{matrix}a & 0 \\0 & 0 \\\end{matrix}\right]+\left[\begin{matrix}0 & 0 \\0 & b \\\end{matrix}\right]+\left[\begin{matrix}0 & c \\c & 0 \\\end{matrix}\right]=\left[\begin{matrix}a & c \\c & b \\\end{matrix}\right]\] Then we see that \[M^t=\left[\begin{matrix}a & c \\c & b \\\end{matrix}\right]=M\] and so it is always symmetric. Thus we have shown that $\mspan{M_1,M_2,M_3}$ is a subset of the set of all symmetric $2\times2$ matrices. In order to prove equality it remains to show that the set of all symmetric $2\times2$ matrices is a subset of $\mspan{M_1,M_2,M_3}$. Well, in order for a given $2\times2$ matrix of the form \[\left[\begin{matrix}e & f \\g & h \\\end{matrix}\right]\] to be symmetrical, we must have
+\[\left[\begin{matrix}e & f \\g & h \\\end{matrix}\right]=\left[\begin{matrix}e & g \\ f & h \\\end{matrix}\right]\implies g=f\] Now it is easy to see that this is essentially the same structure as $\mspan{M_1,M_2,M_3}$, only with different variable names, and thus the set of all symmetric $2\times2$ matrices is a subset of the span. Since they are both subsets of each other, they must therefore be equal.
+
+\textbf{4. Let $\F$ denote a field of characteristic not equal to two. Find a generating set for the set $K_3(\F)$ of all skew-symmetric $3\times3$ matrices over $\F$.}
+
+Firstly, we begin by noting that the diagonal of a skew-symmetric matrix (the elements of the form $[a_{ii}]$) must be $0$, since $a_{ii}=-a_{ii}$ can only have a solution if $a_{ii}=0$. So for some arbitrary matrix:
+\[\left[\begin{matrix}0 & a & b\\ c & 0 & d\\ e & f & 0\end{matrix}\right]^t=\left[\begin{matrix}0 & c & e\\ a & 0 & f\\ b & d & 0\end{matrix}\right]=\left[\begin{matrix}0 & -a & -b\\ -c & 0 & -d\\ -e & -f & 0\end{matrix}\right]\]
+So we can from this that $c=-a$, $e=-b$, and $f=-d$, so the general form for a skew-symmetric $3\times3$ matrix is \[\left[\begin{matrix}0 & -a & -c\\ a & 0 & -b\\ c & b & 0\end{matrix}\right]\] This implies that a sufficient generating set for the set of all $3\times3$ skew-symmetric matrices is \[\left\{\left[\begin{matrix}0 & -1 & 0\\ 1 & 0 & 0\\ 0 & 0 & 0\end{matrix}\right],\left[\begin{matrix}0 & 0 & -1\\ 0 & 0 & 0\\ 1 & 0 & 0\end{matrix}\right],\left[\begin{matrix}0 & 0 & 0\\ 0 & 0 & -1\\ 0 & 1 & 0\end{matrix}\right]\right\}\]
+
+\textbf{5. Show that if $S_1$ and $S_2$ are arbitrary subsets of a vector space $V$, then $\mspan{S_1\cup S_2}=\mspan{S_1}+\mspan{S_2}$.}
+
+Let elements of $S_1$ be denoted by $u$, elements of $S_2$ be denoted by $v$, and $\alpha,\beta$ be arbitrary elements of the field over which $V$ is defined.. Then $\mspan{S_1\cup S_2}$ can be expressed as 
+\[\sum_{u\in S_1}{\alpha_iu}+\sum_{v\in S_2}{\beta_jv} \] where all but finitely many $\alpha_i,\beta_j$ are zero.
+
+But by the definition of the sum of two subsets, $\mspan{S_1}+\mspan{S_2}$ can be expressed as the set
+\[\left\{x+y|x\in\mspan{S_1},y\in\mspan{S_2}\right\}\]
+Since every element in $\mspan{S_1}$ can be written as $\sum_{u\in S_1}{\alpha_iu}$, and every element in $\mspan{S_2}$ can be written as $\sum_{v\in S_2}{\beta_jv}$ (where all but finitely many $\alpha_i,\beta_j$ are zero), this just simplifies to \[\sum_{u\in S_1}{\alpha_iu}+\sum_{v\in S_2}{\beta_jv} \] which is the same as our expression for $\mspan{S_1\cup S_2}$.
+
+\textbf{6. Let $S_1$ and $S_2$ be subsets of a vector space $V$. Prove that $\mspan{S_1\cap S_2}\subseteq\mspan{S_1}\cap\mspan{S_2}$. Give an explicit example where we have equality, and another example where we don't.}
+
+Let $\left\{ a_1,a_2,...\right\}$ denote the elements in $S_1$, and $\left\{b_1,b_2,...\right\}$ denote the elements in $S_2$, and $\left\{c_1,c_2,...\right\}$ denote the elements in $S_1\cap S_2$. We have the following:
+\begin{align*}
+\mspan{S_1}=\sum_{a\in S_1}{\alpha_ia}\\
+\mspan{S_2}=\sum_{b\in S_2}{\beta_ib}\\
+\mspan{S_1\cap S_2}=\sum_{c\in S_1\cap S_2}{\gamma_ic}
+\end{align*}
+
+It is easy to see that any element in $\mspan{S_1}\cap\mspan{S_2}$ would have to be of the form $\delta d$, where $d\in S_1$ and $d\in S_2$. In particular, any element from $\mspan{S_1\cap S_2}=\gamma c$ satisfies this restriction, since $\delta\in\F$ and $c\in S_1\cap S_2\implies c\in S_1,c\in S_2$.
+
+An easy example for when the equality holds is the special case when $S_1=S_2$; in that case, $S_1=S_2=S_1\cap S_2$ and so $\mspan{S_1\cap S_2}=\mspan{S_1}=\mspan{S_1}\cap\mspan{S_2}$.
+
+\textbf{7. Determine whether the following sets are linearly dependent or linearly independent.}
+
+\textbf{(a) $\left\{\left[\begin{matrix}1 & -3 \\-2 & 4 \\\end{matrix}\right],\left[\begin{matrix}-2 & 6 \\ 4 & -8 \\\end{matrix}\right]\right\}$ in $\mathbb{M}_2(\R)$.}
+
+It is easy to see, simply by inspection, that the second matrix is a multiple of the first, with a constant factor of $-2$. Thus, they are linearly dependent.
+
+\textbf{(b) $\left\{x^3-x,2x^4+4,-2x^3+3x^2+2x+6\right\}$ in $P_4(\R)$.}
+
+We want to find solutions to \[a(x^3-x)+b(2x^4+4)+c(-2x^3+3x^2+2x+6)=0\] Right away we can tell that $b$ will have to be zero, since none of the other polynomials have an $x^4$ term with which to cancel $2x^4$. Similarly, $c=0$ because it is the only polynomial with an $x^2$ component. That only leaves us with $a(x^3-x)=0$ which clearly requires $a=0$. So our only solution is $a=b=c=0$, signifying that this set is linearly independent.
+
+\textbf{8. Let $V$ be a vector space over a field of characteristic not equal to two.}
+
+\textbf{(a) Let $u$ and $v$ be distinct vectors in $V$. Prove that $\left\{u,v\right\}$ is linearly independent if and only if $\left\{u+v,u-v\right\}$ is linearly independent.}
+
+If $\left\{u+v,u-v\right\}$ are linearly independent, then 
+\begin{align*}
+a(u+v)+b(u-v)=0 \quad\text{iff } a=b=0\\
+au+av+bu-bv=0 \quad\text{iff } a=b=0\\
+(a+b)u+(a-b)v=0 \quad\text{iff } a=b=0
+\end{align*}
+
+Clearly $a=b=0\Longleftrightarrow a+b=a-b=0$ as well. So when $a=b=0$, then $a+b=a-b=0\implies \left\{u,v\right\}$ are linearly independent, and thus the condition is sufficient. Similarly, $a+b=a-b=0\implies a=b=0\implies \left\{u+v,u-v\right\}$ are linearly independent, so the condition is also necessary.
+
+\textbf{(b) Let $u,v$ and $w$ be distinct vectors in $V$. Prove that $\left\{u,v,w\right\}$ are linearly independent if and only if $\left\{u+v,u+w,v+w\right\}$ is linearly independent.}
+
+We can use an almost identical argument for this case. The linear independence of $\left\{u+v,u+w,v+w\right\}$ is equivalent to
+\setcounter{equation}{0}
+\begin{align}
+a(u+v)+b(u+w)+c(v+w)=0 \quad\text{iff } a=b=c=0\nonumber\\
+au+av+bu+bw+cv+cw=0 \quad\text{iff } a=b=c=0\nonumber\\
+(a+b)u+(a+c)v+(b+c)w=0 \quad\text{iff } a=b=c=0
+\end{align}
+
+To show that the condition is necessary, we need to show that the linear independence of $\left\{u,v,w\right\}$ implies $(1)$. Well, if $\left\{u,v,w\right\}$ is linearly independent, then $a+b=0,a+c=0$ and $b+c=0$, which certainly implies that $a=b=0$. To prove that the condition is sufficient, we need to show that $(1)$ implies the linear independence of $\left\{u,v,w\right\}$; this is also easily seen, since if $a=b=c=0$, then $a+b=a+c=c+b=0$ also.
+
+\textbf{9. Let $S=\left\{u_1,u_2,...,u_n\right\}$ be a linearly independent subset of a vector space $V$ over the field $\Z_2$. How many vectors are there in $\mspan{S}$? Justify your answer.}
+
+All terms in the span of $S$ can be expressed as
+
+\[ \sum_{j=1}^n{\alpha_j u_j} \quad ,\alpha_j\in\Z_2\]
+
+There are $n$ vectors $u_j$, and 2 choices for the coefficient $\alpha_j$ (since there are only two elements in $\Z_2$). Thus we must make a binary choice $n$ times, for a total of $2^n$ different vectors in the span. We know we do not have to worry about overlap in the different configurations because $S$ is linearly independent.
+
+\textbf{10. Let $f,g\in F(\R,\R)$ be the functions defined by $f(t)=e^{rt}$ and $g(t)=e^{st}$, where $r\not=s$. Prove that $f$ and $g$ are linearly independent in $F(\R,\R)$.}
+
+Without loss of generality, let us assume $r>s$. We can assume that $f,g$ are in fact linearly dependent, and seek a contradiction.
+
+If $f,g$ are linearly dependent, then there exists some scalar $\alpha\not=1$ such that \[\alpha e^{st}=e^{rt}\]
+In order for two elements of $F(\R,\R)$ to be equal, they must produce equal values for every element in their domain. 
+
+Well, if we take the derivative of each, we see
+\[\frac{d\left[\alpha g(t)\right]}{dt}=s\alpha e^{st}\]
+\[\frac{d\left[f(t)\right]}{dt}=re^{rt}\] 
+
+In order for the functions to be equal, their derivatives must also be equal at every point; in other words \[re^{rt}=s\alpha e^{st}\]
+
+If $e^{rt}\not=e^{st}$, then our contradiction has already  been arrived it. If the equality does hold, then we can cancel it from both sides to obtain $r=s\alpha\implies\alpha=\frac{r}{s}$. In that case, by substituting back to our first equation, we can write it as \[re^{sq}=se^{rq}\] The only way this can hold for all $q$ is if $r=s$, but this contradicts the hypothesis. Therefore we have found our contradiction, so such a linear combination does not exist and thus $f,g$ are linearly independent.
+%We do some algebraic manipulation:
+%\begin{align*}
+%\alpha=\frac{e^{rt}}{e^{st}}\\
+%\alpha=e^{(r-s)t}
+%\end{align*}
+%In order for $f$ and $g$ to be linearly independent, then we must have
+%\begin{align*}
+%af+bg=0 \quad \text{iff }a=b=0\\
+%ae^{rt}+be^{st}=0 \quad\text{iff }a=b=0\\
+%\end{align*}
+\end{document} 

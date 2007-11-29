@@ -1,0 +1,133 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\renewcommand{\v}[1]{\ensuremath{\overrightarrow{#1}}}
+%opening
+\title{MATH 146: Assignment 3}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+\maketitle
+
+\textbf{1. Do the polynomials $x^3-2x^2+1$, $4x^2-x+3$, and $3x-2$ generate $P_3(\R)$? Justify your answer.}
+
+We know that a basis for $P_n(\R)$ must have at least $n+1$ linearly independent elements. There are only three elements in the given set, so, regardless of whether or not they are linearly independent, they cannot possibly span $P_3(\R)$.
+
+\textbf{2. Let $W$ denote the subspace of $\R^5$ consisting of all vectors having coordinates that sum to zero. The vectors
+\begin{align*}
+&u_1=(2,-3,4,-5,2), &&u_2=(-6,9,-12,15,-6)\\
+&u_3=(3,-2,7,-9,1), &&u_4=(2,-8,2,-2,6)\\
+&u_5=(-1,1,2,1,-3), &&u_6=(0,-3,-18,9,12)\\
+&u_7=(1,0,-2,3,-2), &&u_8=(2,-1,1,-9,7)\\
+\end{align*}
+generate $W$. Find a subset of the set $\left\{u_1,u_2,...,u_8\right\}$ that is a basis for $W$.
+}
+
+We can find the appropriate subset, $S$, by construction. We begin by adding $u_1$ to $S$. The next element, $u_2$, does not belong in $S$ because $u_2=-3u_1$. The third element is added to $S$ because the only way two vectors can fail to be linearly independent is if they are multiples of each other, and this is clearly not the case with $u_1$ and $u_3$. So now $S=\left\{u_1,u_3\right\}$. Next we need to determine if $u_4$ can be expressed as a linear combination of $u_1$ and $u_3$; in other words, to check if there are non-zero solutions to \[s(2,-3,4,-5,2)+t(3,-2,7,-9,1)=(2,-8,2,-2,6)\] which is analogous to the system of equations
+\begin{align}
+2s+3t=2&\\
+-3s-2t=-8&\\
+4s+7t=2&\\
+-5s-9t=-2&\\
+2s+t=6&
+\end{align}
+
+Solving, we have $(3)-(2)\implies2s+4t=0$. Subtracting $(5)$ from this, we see $3t=-6\implies t=-2$. Substituting back into $(5)$, this gives us $s=4$. Since $(s,t)=(4,-2)$ satisfies all five equations, we know that $u_4$ can be written as a linear combination of $u_1$ and $u_3$, so it does not belong in $S$.
+
+So we continue on to $u_5$, and once again we must solve
+\[s(2,-3,4,-5,2)+t(3,-2,7,-9,1)=(-1,1,2,1,-3)\]
+which is analogous to the system of equations
+\setcounter{equation}{0}
+\begin{align}
+2s+3t=-1&\\
+-3s-2t=1&\\
+4s+7t=2&\\
+-5s-9t=1&\\
+2s+t=-3&
+\end{align}
+
+Once again, we subtract $(5)$ from $(1)$ to get $2t=2\implies t=1$, which, when subbed into $(5)$ imply that $s=-2$. However, this does not satisfy $(3)$, for example. Therefore $u_5$ cannot be written as a linear combination of $u_1$ and $u_3$, so now $S=\left\{u_1,u_3,u_5\right\}$ is linearly independent.
+
+We move on to $u_6$. This time, we want to find solutions to
+\[s(2,-3,4,-5,2)+t(3,-2,7,-9,1)+u(-1,1,2,1,-3)=(0,-3,-18,9,12)\]
+which is analogous to the system of equations
+\setcounter{equation}{0}
+\begin{align}
+2s+3t-u=0&\\
+-3s-2t+u=-3&\\
+4s+7t+2u=-18&\\
+-5s-9t+u=9&\\
+2s+t-3u=12&
+\end{align}
+
+So we take $(1)+(2)\implies-s+t=-3\implies t=s-3\quad(6)$.
+
+Also, $(2)-(4)\implies2s+7t=-12\quad(7)$.
+
+By substitution, $(6)\rightarrow(7)$:
+\begin{align*}
+2s+7(s-3)=&-12\\
+2s+7s-21=&-12\\
+9s=&9\\
+s=&1
+\end{align*}
+
+Putting that back into $(6)$ we get $t=-2$, and substituting these both into $(2)$ gives $-3+4+u=-3\implies u=-4$. All we must do now is verify that $(s,t,u)=(1,-2,-4)$ satisfies all five equations; these trivial calculations have been omitted, but they do; therefore $u_6$ can be written as a linear combination of $S$, and thus does not belong in $S$.
+
+We move on to $u_7$. Yet again we are looking for a solution to 
+\[s(2,-3,4,-5,2)+t(3,-2,7,-9,1)+u(-1,1,2,1,-3)=(1,0,-2,3,-2)\]
+which is analogous to the system of equations
+\setcounter{equation}{0}
+\begin{align}
+2s+3t-u=1&\\
+-3s-2t+u=0&\\
+4s+7t+2u=-2&\\
+-5s-9t+u=3&\\
+2s+t-3u=-2&
+\end{align}
+
+Almost identically to the last system, we add $(1)+(2)\implies t=1+s$. Then $(2)-(4)\implies2s+7t=-3$. By substitution we get $2s+7(1+s)=3\implies s=\frac{-4}{9}$. Then substituting into $(6)$ we get $t=1+s=\frac59$. Substituting all these values into $(3)$ we also obtain $u=\frac{-37}{9}$. However, substituting these three values into $(1)$ gives us $-30=0$, which is a contradiction; therefore no solution exists, and $u_7$ cannot be written as a linear combination of $S$. So now we have \[\boxed{S=\left\{u_1,u_3,u_5,u_7\right\}}\] We know that this is enough to form a basis for $W$ because it is of dimension 4; if it were of dimension 5, then we would have $W=\R^5$, which is clearly not true. Thus $S$ is a basis for $W$.
+
+\textbf{3. Let $W_1$ and $W_2$ be subspaces of a vector space $V$ having dimensions $m$ and $n$ respectively, where $m\geq n$.}
+
+\textbf{(a) Prove that $\dim{(W_1\cap W_2)}\leq n$.}
+
+Let $A=\left\{x_1,x_2,...,x_m\right\}$ be a basis for $W_1$, and $B=\left\{y_1,y_2,...,y_n\right\}$ be a basis for $W_2$.
+
+Then let $W=\left\{v\vert v\in W_1,v\in W_2\right\}=W_1\cap W_2$, and let $C=\left\{z_1,z_2,...,z_k\right\}$ be a basis for $W$. Since any $v\in W$ is also in $W_1$ and $W_2$, it can be written as \[ v=\sum_{i=1}^m{\alpha_ix_i}=\sum_{i=1}^n{\beta_iy_i} \] 
+
+\textbf{4. Find bases for the following subspaces of $\F^5$:}
+
+\textbf{(a) $W_1=\left\{(a_1,a_2,a_3,a_4,a_5)\in\F^5:a_1-a_3-a_4=0\right\}$}
+
+The two simplest cases for $a_1,a_3,a_4$ are $a_1=1,a_3=1,a_4=0$ and $a_1=1,a_3=0,a_4=1$. For each of these, there are $2$ choices for the other elements: $a_2=0,a_5=1$ and $a_2=1,a_5=0$. There are four possible permutations of these:
+
+\[\boxed{(1,1,1,0,0),(1,0,1,0,1),(1,1,0,1,0),(1,0,0,1,1)}.\]
+
+We know there can be at most $4$ elements in the basis for $W_1$; we also see that these 4 vectors are linearly independent. Therefore they are the basis for $W_1$, of dimension 4.
+
+\textbf{(b) $W_2=\left\{(a_1,a_2,a_3,a_4,a_5)\in\F^5:a_2=a_3=a_4\text{ and }a_1+a_5=0\right\}$}
+
+We consider how many pieces of information we need to construct any given element of $W_2$. If we know any one element in $a_2,a_3,a_4$, then we know all three of them. Similarly, if we know $a_1$ or $a_5$, we know the other (the additive inverse over $\F$). Thus we need two pieces of information, which implies it is of dimension 2. So \[\boxed{(1,0,0,0,-1) , (0,1,1,1,0)}.\]
+
+\textbf{5. Let $V$ be a vector space having dimension $n<\infty$, and let $S$ be a subset of $V$ that generates $V$.}
+
+\textbf{(a) Prove that there is a subset of $S$ that is a basis for $V$.}
+
+\textbf{(b) Prove that $S$ contains at least $n$ vectors.}
+
+If $S$ had fewer than $n$ vectors, then it would be a generating set for $V$ with fewer than $n$ vectors which contradicts the fact that $\dim{(V)}=n$.
+
+\textbf{6. Let $V$ be a finite-dimensional vector space over $\C$ with dimension $n$. Prove that if $V$ is now regarded as a vector space over $\R$, then $\dim{V}=2n$.}
+
+\textbf{7. Let $V$ be the set of real numbers regarded as a vector space over the field $\Q$ of rational numbers. Prove that $V$ is infinite-dimensional.}
+
+Consider $\pi\in V$ since it is a real number. In order for $V$ to be finite-dimensional, there must exist some $n\in\N$ such that \[\sum_{i=1}^n{\alpha_iv_i}=\pi \]
+
+\end{document}

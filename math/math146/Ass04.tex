@@ -1,0 +1,336 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\M}{\ensuremath{\mathbb{M}}}
+\newcommand{\ran}[1]{\ensuremath{\text{ran }#1}}
+\newcommand{\rank}[1]{\ensuremath{\text{rank }#1}}
+\newcommand{\mspan}[1]{\ensuremath{\text{span}\left(#1\right)}}
+%\newcommand{\ker}{\ensuremath{\text{ker}$1}}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{MATH 146 $-$ Assignment 4}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+%: Problem 1
+\textbf{1. Prove that the map $T=\M_{2\times3}(\F)\to\M_{2\times2}(F)$ defined by
+\[
+T  \left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      a_{11} & a_{12} & a_{13} \\
+      a_{21} & a_{22} & a_{23} \\
+   \end{matrix}\right)
+   =\left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         2a_{11}-a_{12} & a_{13}+2a_{12} \\
+         0 & 0 \\
+      \end{matrix}\right)
+\]
+is a linear transformation, and find bases for $\ker{T}$ and $\ran{T}$.
+}
+
+We must check that $T(a+b)=T(a)+T(b)$. Taking generic matrices
+\[
+a=\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      a_{11} & a_{12} & a_{13} \\
+      a_{21} & a_{22} & a_{23} \\
+   \end{matrix}\right),\quad
+   b=\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      b_{11} & b_{12} & b_{13} \\
+      b_{21} & b_{22} & b_{23} \\
+   \end{matrix}\right)
+\]
+
+Then
+
+\[
+a+b=\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      a_{11}+b_{11} & a_{12}+b_{12} & a_{13}+b_{13} \\
+      a_{21}+b_{21} & a_{22}+b{22} & a_{23}+b_{23} \\
+   \end{matrix}\right)
+\]
+
+And so
+\begin{align*}
+T(a+b)=&T\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      a_{11}+b_{11} & a_{12}+b_{12} & a_{13}+b_{13} \\
+      a_{21}+b_{21} & a_{22}+b{22} & a_{23}+b_{23} \\
+   \end{matrix}\right)\\
+   =&\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      2(a_{11}+b_{11})-(a_{12}+b_{12}) & (a_{13}+b_{13})+2(a_{12}+b_{12})  \\
+      0 & 0 \\
+   \end{matrix}\right)
+\end{align*}
+%: Scalar multiplcation
+Similarly, we know
+\begin{align*}
+T(a)+T(b)=&\left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         2a_{11}-a_{12} & a_{13}+2a_{12} \\
+         0 & 0 \\
+      \end{matrix}\right) +
+      \left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         2b_{11}-b_{12} & b_{13}+2b_{12} \\
+         0 & 0 \\
+      \end{matrix}\right)\\
+      =&
+      \left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         2a_{11}-a_{12}+2b_{11}-b_{12} & a_{13}+2a_{12}+b_{13}+2b_{12} \\
+         0 & 0 \\
+      \end{matrix}\right)\\
+      =&\left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      2(a_{11}+b_{11})-(a_{12}+b_{12}) & (a_{13}+b_{13})+2(a_{12}+b_{12})  \\
+      0 & 0 \\
+   \end{matrix}\right)\\
+   =&T(a+b)
+\end{align*}
+
+And so $T$ is closed under matrix addition. Lastly, we must check closure under scalar multiplication; namely \[T(\lambda a)=\lambda T(a)\] So once again we see
+\begin{align*}
+\lambda a= \left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      \lambda a_{11} & \lambda a_{12} & \lambda a_{13} \\
+      \lambda a_{21} & \lambda a_{22} & \lambda a_{23} \\
+   \end{matrix}\right)
+\end{align*}
+And so
+\begin{align*}
+T(\lambda a)=& \left( \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      \lambda a_{11} & \lambda a_{12} & \lambda a_{13} \\
+      \lambda a_{21}  
+     & \lambda a_{22} & \lambda a_{23} \\
+   \end{matrix}\right)
+\end{align*}
+Taking the linear transform of $\lambda a$, we obtain
+\begin{align*}
+T(\lambda a)=& \left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         2\lambda a_{11}-\lambda a_{12} & \lambda a_{13}+2\lambda a_{12} \\
+         0 & 0 \\
+      \end{matrix}\right)\\
+      =& \left(
+      \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+         \lambda(2a_{11}-a_{12}) & \lambda(a_{13}+2a_{12}) \\
+         0 & 0 \\
+      \end{matrix}\right)\\
+      =&\lambda a
+\end{align*}
+
+And so $T(a)$ is closed under scalar multiplication as well; therefore, $T$ is a linear transformation.
+
+To find a basis for the kernel of $T$, we want to find all $a$ such that $T(a)=0$. Well, the bottom row is always $0$, so we're interested in solving
+\begin{align*}
+2a_{11}-a_{12}=&0\implies a_{11}=\frac{a_{12}}{2}\\
+a_{13}+2a_{12}=&0\implies a_{13}=-2a_{12}
+\end{align*}
+
+The bottom row does not affect the "kernel-ness" of $a$. So this implies a basis for the kernel of $T$ is
+\[
+\left\{
+   \left[ \begin{matrix} % brackets may be (...), [...], \{...\}, or left out
+      0 & 0 & 0\\
+      1 & 0 & 0\\
+   \end{matrix} \right],
+      \left[\begin{matrix} % brackets may be (...), [...], \{...\}, or left out
+      0 & 0 & 0\\
+      0 & 1 & 0\\
+   \end{matrix}\right],
+      \left[\begin{matrix} % brackets may be (...), [...], \{...\}, or left out
+      0 & 0 & 0\\
+      0 & 0 & 1\\
+   \end{matrix}\right],
+      \left[\begin{matrix} % brackets may be (...), [...], \{...\}, or left out
+      \frac12 & 1 & -2\\
+      0 & 0 & 0\\
+   \end{matrix}\right]
+\right\}
+\]
+
+Similarly, a basis for the range of $T$ is simply
+\[
+\left\{
+\left[
+   \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      \frac12 & 1 & -2 \\
+      0 & 0 & 0 \\
+   \end{matrix}
+\right]
+\right\}
+\]
+\textbf{2. Prove that the map $\tau:\M_{n\times n}(\F)\to\F$ defined by $\tau(\left[a_{ij}\right])=\sum_{i=1}^n{a_{ii}}$ is a linear transformation, and find bases for the kernel of $\tau$ and the range of $\tau$.}
+
+Let $a,b\in\M_{n\times n}$. Then $(a+b)=[a_{ii}+b_{ii}]$. Then
+\begin{align*}
+\tau(a+b)=&\sum_{i=1}^n{[a_{ii}+b_{ii}}]\\
+=&\sum_{i=1}^n{[a_{ii}]}+\sum_{i=1}^n{[b_{ii}]}\\
+=&\tau(a)+\tau(b)
+\end{align*}
+
+Similarly, for $\lambda a=[\lambda a_{ij}]$, we have
+\begin{align*}
+\tau(\lambda a)=&\sum_{i=1}^n{[\lambda a_{ii}]}\\
+=&\lambda\sum_{i=1}^n{a_{ii}}\\
+=&\lambda\tau(a)
+\end{align*}
+
+It is easy to see that the range of $\tau$ is simply $\R$, since the sum of the diagonal of some matrix could conceivably be anything.
+
+The dimension of the kernel of $\tau$ is $n^2-1$.
+
+\textbf{3. Suppose that $T:\R^2\to\R^2$ is linear. $T(1,0)=(1,4)$, $T(1,1)=(2,5)$. What is $T(2,3)$? Is $T$ one-to-one?}
+
+Since $T$ is linear, we know that $T(cx+dy)=cT(x)+dT(y)$. Well, $(2,3)=3\cdot(1,1)+(-1)\cdot(1,0)$. So then
+\begin{align*}
+T(2,3)=&3T(1,1)-T(1,0)\\
+=&3\cdot(2,5)-(1,4)=(6,15)-(1,4)\\
+T(2,3)=&(5,11)
+\end{align*}
+
+$T$ is one-to-one since there is only one way to express any given $(a,b)$ as a linear combination of $(1,1)$ and $(0,1)$, since, for $(a,b)=s(1,1)+t(0,1)$, we necessarily have $s=a$, and so $t=b-s$.
+
+\textbf{4. Let $V$ and $W$ be vector spaces, and $T:V\to W$ be linear. Let $\left\{w_1,w_2,...,w_k\right\}$ be a linearly independent subset of the range of $T$. Prove that if $S=\left\{v_1,v_2,...,v_k\right\}$ is chosen so that $T(v_i)=w_i$ for $1\leq i\leq k$, then $S$ is linearly independent.}
+
+Consider $x\in\mspan{S}$. There are two ways (not necessarily unique) to express it as a linear combination of elements in $S$. So,
+\[
+x=\alpha_1v_1+\alpha_2v_2+...+\alpha_kv_k=\beta_1v_1+\beta_2v_2+...+\beta_kv_k
+\]
+
+We then take the linear map of all three sides to get
+\begin{align*}
+T(x)=&T\left(\sum_{i=1}^k{\alpha_iv_i}\right)=T\left(\sum_{i=1}^k{\beta_iv_i}\right)\\
+\implies&\sum_{i=1}^k{\alpha_iT(v_i)}=\sum_{i=1}^k{\beta_iT(v_i)}\\
+&\sum_{i=1}^k{\alpha_iw_i}=\sum_{i=1}^k{\beta_iw_i}
+\end{align*}
+
+However, we do know that $\left\{w_1,w_2,...,w_k\right\}$ is linearly independent, so the only way this equality can hold is if $\alpha_i=\beta_i$ for all $1\leq i\leq k$. Thus, going back to the first equation, every element $x\in\mspan{S}$ can be expressed uniquely as a linear combination of the elements of $S$, thus implying that $S$ is also linearly independent.
+
+\textbf{5. Let $V$ and $W$ be vector spaces, and $T:V\to W$ be linear.}
+
+\textbf{(a) Prove that $T$ is one-to-one if and only if $T$ carries linearly independent subsets of $V$ onto linearly independent subsets of $W$.}
+
+First we will show that the condition is sufficient. If $T$ carries linearly independent subsets of $V$ onto linearly independent subsets of $W$, then each element $x,y\in\mspan{V}$ can be uniquely expressed as a linear combination of elements in $V$, and each $z\in\mspan{W}$ can be uniquely expressed as a linear combination of elements in $W$. We want to show that $T(x)=T(y)\implies x=y$. Well,
+\begin{align*}
+T(x)=&T(y)\\
+\implies T\left(\sum_{i=1}^k{\alpha_iv_i}\right)=&T\left(\sum_{i=1}^k{\beta_iw_i}\right)\\
+\implies\sum_{i=1}^k{\alpha_iT(v_i)}=&\sum_{i=1}^k{\beta_iT(w_i)}
+\end{align*}
+But we know that $T\left(\sum_{i=1}^k{T(v_i)}\right)=\sum_{i=1}^k{u_i}$, where $\left\{u_i:1\leq i\leq k\right\}$ is a linearly independent subset of $W$, by hypothesis. The same thing can be said for $T\left(\sum_{i=1}^k{T(w_i)}\right)=\sum_{i=1}^k{t_i}$. So now we have
+\[
+\sum_{i=1}^k\alpha_iu_i=\sum_{i=1}^k\beta_it_i
+\]
+
+Since both $u_i$ and $t_i$ are linearly independent subsets of $W$, both $x$ and $y$ have unique representations as linear combinations of elements in $W$. So the only way this equality can hold is if they actually represent the same vector; in other words, $x=y$.
+
+Next we will show the condition is necessary. Well, if it were not necessary, there would exist a linearly independent subset $A\subseteq V$ where $T(A)$ would yield a linearly dependent subset of $W$. However, this would contradict our result from problem 5. Therefore the condition is also necessary.
+
+\textbf{(b) Suppose that $T$ is one-to-one and that $S$ is a subset of $V$. Prove that $S$ is linearly independent if and only if $T(S)$ is linearly independent.}
+
+We know from part (a) that $T$ is one-to-one only if it carries $S$ into linearly independent subsets of $W$; thus $T(S)$ is a linearly independent subset of $W$, so the condition is necessary.
+
+To show that the condition is sufficient, we need to show that $T(S)$ being linearly independent implies $S$ is. Then, by the result of problem 4, $T(S)$ is, by hypothesis, a linearly independent subset of the range of $T$, and so $S$ is linearly independent.
+
+\textbf{(c) Suppose that $B=\left\{v_1,v_2,...,v_n\right\}$ is a basis for $V$ and $T$ is one-to-one and onto. Prove that $T(B)=\left\{T(v_1),T(v_2),...,T(v_n)\right\}$ is a basis for $W$.}
+
+To prove that $T(B)$ is a basis for $W$, we need to show that it is both linearly independent and a generating set for $W$. Well, since $B$ is a basis for $V$, we know it is linearly independent, and since $T$ is one-to-one, by the previous result we know that $T(B)$ is also linearly independent. All that remains is to show that $T(B)$ is a generating set for $W$. 
+
+\textbf{6. Let $V$ and $W$ be vector spaces and $T:V\to W$ be linear.}
+
+\textbf{(a) Prove that if $\dim{(V)}<\dim{(W)}$, then $T$ cannot be onto.}
+
+Let $A=\left\{v_1,v_2,...,v_n\right\}$ be a basis for $V$, and $B=\left\{w_1,w_2,...,w_m\right\}$ be a basis for $W$. Then $\dim{(V)}=n$ and $\dim{(W)}=m$. Let's assume $n<m$ and $T$ is onto, and seek a contradiction.
+
+If $T$ is onto, then for any $w\in W$ there exists some $v\in V$ such that $T(v)=w$. We can write $v,w$ as linear combinations of their bases:
+\begin{align*}
+T\left(\sum_{i=1}^n{\alpha_iv_i}\right)=&\sum_{j=1}^m{\beta_jw_j}\\
+\sum_{i=1}^n{\alpha_iT(v_i)}=&\sum_{j=1}^m{\beta_jw_j}
+\end{align*}
+
+We see that, if $m>n$, the basis for $w$ has $m-n$ degrees of freedom that the basis for $n$ does not. For example, consider $w_j=x^j$ with $\beta_j\not=0\not=\beta_k$ for $1\leq j,k\leq m$. It is clear that, regardless of what the basis for $v_i$ is, $T$ can never be onto.
+
+\textbf{(b) Prove that if $\dim{(V)}>\dim{(W)}$, then $T$ cannot be one-to-one.}
+
+Let $A=\left\{v_1,v_2,...,v_n\right\}$ be a basis for $V$, and $B=\left\{w_1,w_2,...,w_m\right\}$ be a basis for $W$. Then $\dim{(V)}=n$ and $\dim{(W)}=m$. Let's assume $n>m$ and $T$ is one-to-one, and seek a contradiction.
+
+By the result of $5(a)$, the assumed fact that $T$ is one-to-one implies that $T$ carries linearly independent subsets of $V$ onto linearly independent subsets of $W$; in other words, $T(A)$ is linearly independent. However, $T(A)$ has the same number of elements as $A$, namely $n$ of them. But the dimension of $W$ is $m$, which is less than $n$; you cannot have a linearly independent subset of $W$ that contains more elements than the dimension of $W$. Thus, we have a contradiction, so $n>m$ implies that $T$ cannot be one-to-one.
+
+%\textbf{7. Give an example of a linear transformation $T:\R^2\to\R^2$ such that $\ker{T}=\ran{T}$}
+
+%Clearly $T(0)=0$, since $0$ must be in the range, so it must also be in the kernel. We also know the dimension of each of the range and kernel is $1$, by the dimensional theorem. Given that, it's easy to deduce the rest of the example. Define $T(a,b)=(a,0)$ if $b\not=0$, and $T(a,0)=(0,0)$. 
+
+\textbf{8. Let $T:\R^3\to\R^3$}
+
+\textbf{(a) If $T(a,b,c)=(a,b,0)$, show that $T$ is the projection onto the $xy$-plane along the $z$-axis.}
+
+We know that $\R^3=\R^2\oplus\R$. We need to show that, for $v=w+z$ with $w\in\R^2$ and $z\in\R$, we have $T(v)=w$. Well, $w=(a,b)$ and $z=c$. Then $T(v)=T(w+z)=w$, so it is a projection.
+
+\textbf{(b) Find a formula for $T(a,b,c)$ where $T$ represents the projection on the $z$-axis along the $xy$-plane.}
+
+We have $W=\R$ and $Z=\R^2$. For $v=w+z$, we want $T(v)=w$. Well, $w$ is the $z$-axis, so we just need to nullify that. So we have
+\[
+T(a,b,c)=(0,0,c)
+\]
+
+\textbf{(c) If $T(a,b,c)=(a-c,b,0)$, show that $T$ is the projection on the $xy$-plane along the line $L=\left\{(a,0,a):a\in\R\right\}$}
+
+We have $W$ as the $xy$-plane and $Z=\left\{(a,0,a):a\in\R\right\}$. For $v=w+z$, we want to show $T(v)=w$. Well, $T(w+z)=T(w)+T(z)=T(a,b,0)+T(a,0,a)=T(a-0,b,0)+T(a-a,0,0)=(a,b,0)=w$. So it is the desired projection.
+
+\textbf{9. Assume that $W$ is a subspace of a vector space $V$ and that $T:V\to V$ is linear.}
+
+\textbf{(a) Prove that the subspaces $\left\{0\right\}$, V, \ran{T} and $\ker{T}$ are all $T$-invariant.}
+
+We know that $T(0)=0$ for any linear mapping. So for the subspace $A=\left\{0\right\}$, $T(A)=\left\{T(0)=0\right\}$, so $T(A)\subseteq A$, and so $\left\{0\right\}$ is $T$-invariant.
+
+In the case of $W=V$, we know that $\ran{T}=V$ so $\rank{(T)}=\dim{(V)}$ and by Theorem 2.5, this means that $T$ is onto, so $T(W)=T(V)=V=W$, and so $V$ is $T$-invariant.
+
+In the case of $W=\ran{T}$, since the domain and range of $T$ are the same, $T(\ran{(T)}$ maps $\ran{(T)}$ onto itself, so it is also $T$-invariant.
+
+Finally, for $W=\ker{T}$, we know that $T(W)=\left\{0\right\}$. If $\ker{T}$ is a subspace, it contains the $0$ vector, so $T(W)=\left\{0\right\}\subseteq\ker{T}=W$ and so it also is $T$-invariant.
+
+\textbf{(b) If $W$ is $T$-invariant, prove that $T_W$ is linear.}
+
+$T_W(x)$ is defined as \[T_W(x)=T(x)\] for all $x\in W$, where $T$ is known to be linear. We want to show that $T_W(ax+y)=aT_W(x)+T_W(y)$ for $x,y,\in W$, $a\in F$. Well,
+\begin{align*}
+T_W(ax+b)=&T(ax+y)\\
+=&aT(x)+T(b)\\
+=&aT_W(x)+T_W(y)
+\end{align*}
+So it is linear.
+
+\textbf{10. Let $V$ be a vector space and $W$ be a subspace of $V$ . Define the mapping $\pi:V\to V/W$ by $\pi(v)=v+W$ for all $v\in V$.}
+
+\textbf{(a) Prove that $\pi$ is a linear transformation from $V$ to $V/W$ and that $\ker{\pi}=W$.}
+
+If $\pi$ is a linear transformation, then $\pi(ax+y)=a\pi(x)+\pi(y)$. Well,
+\begin{align*}
+\pi(ax+y)=&ax+y+w\quad,w\in{W}
+\end{align*}
+$W$ is a subspace, so it is closed under addition and scalar multiplication, so we can write $w=w_1+aw_2$, for $w_1,w_2\in W$ and so we have
+\begin{align*}
+\pi(ax+y)=&ax+y+w_1+aw_2\\
+=&(ax+aw_2)+(y+w_1)\\
+=&a(x+W)+(y+W)\\
+=&a\pi(x)+\pi(y)
+\end{align*}
+And so $\pi$ is a linear transform. To find the kernel, we need to consider when $\pi(x)=0+W$. By our earlier definition for equality in a quotient space, we know $x+W=y+W$ if $(x-y)\in W$. In this case, $x+W=0+W$ when $(x-0)=x\in W$, which implies that $\ker{\pi}=W$. 
+
+\textbf{(b) Suppose that $V$ is finite-dimensional. Derive a formula relating $\dim{V}, \dim{W}$ and $\dim{(V/W)}$.}
+
+We know from (a) above that $\ker{\pi}=W$. We also know from the dimensional theorem that $\dim{(\ker{\pi})}+\dim{(\ran{\pi})}=\dim{V}$, so by substitution we know so far that \[ \dim{V}=\dim{W}+\dim{(\ran{\pi})}\] All that remains is to evaluate the range of the dimension of the range of $\pi$. Well, it's easy to see that any element in $V/W$ can be expressed as $\pi(x)$ for some $x$. So the range of $\pi$ is actually the entire quotient space $V/W$. So $\dim{(\ran\pi)}=\dim{(V/W)}$. Thus we finally have
+\[
+\boxed{\dim{(V/W)}=\dim{V}-\dim{W}}
+\]
+\end{document}
