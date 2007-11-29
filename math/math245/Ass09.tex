@@ -1,0 +1,284 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{MATH 245 - Assignment 9}
+\author{Adrian Petrescu - (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\newcommand{\inner}[2]{\ensuremath{\left\langle#1,#2\right\rangle}}
+\newcommand{\dint}{\ensuremath{\displaystyle\int}}
+\newcommand{\rank}{\ensuremath{\operatorname{rank}}}
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $C[0,1]$ be the inner product space of continuous functions on the interval $[0,1]$, with the usual integration inner product. Find the straight line $y=mx+b$ such that $\int_0^1{(x^3-mx-b)^2dx}$ is a minimum.}
+
+This is equivalent to finding a linear regression line for the data point $y=x^3$. Thus, following the algorithm for a linear regression line, we need to solve the equation
+\[
+\begin{bmatrix}
+\inner x x & \inner1x \\
+\inner x1 & \inner11
+\end{bmatrix}\begin{bmatrix}
+m \\ b
+\end{bmatrix}=\begin{bmatrix}
+\inner{x^3}{x} \\ \inner{x^3}{1}
+\end{bmatrix}
+\]
+
+We now have some simple integration to do in order to evaluate these inner products:
+\begin{align*}
+\int_0^1{(x\cdot x)dx}=&\int_0^1{x^2dx}=\left.\frac{x^3}{3}\right|_0^1=\frac13\\
+\int_0^1{(x\cdot1)dx}=&\int_0^1{xdx}=\left.\frac{x^2}{2}\right|_0^1=\frac12\\
+\int_0^1{(1\cdot1)dx}=&\int_0^1{dx}=\left.x\right|_0^1=1\\
+\int_0^1{(x^3\cdot x)dx}=&\int_0^1{x^4dx}=\left.\frac{x^5}{5}\right|_0^1=\frac15\\
+\int_0^1{(x^3\cdot1)dx}=&\int_0^1{x^3dx}=\left.\frac{x^4}{4}\right|_0^1=\frac14
+\end{align*}
+Thus the matrix equation above simplifies to
+\[
+\begin{bmatrix}
+\frac13 & \frac12 \\ \frac12 & 1
+\end{bmatrix}\begin{bmatrix}m \\ b\end{bmatrix}=\begin{bmatrix}
+\frac15 \\ \frac14
+\end{bmatrix}
+\]
+This leads to the system of equations
+\begin{align}
+\frac{m}3+\frac{b}{2}&=\frac15 \\
+\frac{m}2+b&=\frac14
+\end{align}
+Multiplying (1) by 2 gives $\frac{2m}{3}+b=\frac25$; subtracting (2) from this yields $\frac{m}{6}=\frac{3}{20}\implies m=\frac9{10}$ A quick substitution then gives us that $b=\frac{-1}{5}$. Thus our line is
+\[
+\boxed{y=\frac{9}{10}x-\frac15}
+\]
+
+\textbf{2. If $T$ is an invertible operator on a finite-dimensional inner product space, show that $T^*$ is invertible by proving that $(T^{-1})^*$ is the inverse of $T^*$.}
+
+Let $\beta_1,\beta_2,\ldots,\beta_n$ be an orthonormal basis for the inner product space $V$ over which $T$ is defined. Then $T^*$ can be represented as $[T]^*$ (that is, the conjugate transpose of the matrix for $T$). Then, since $T$ is invertible, we have a matrix $T^{-1}$ such that $T^{-1}T=I$. Well, consider the conjugate transpose of $T^{-1}$ with respect to $\beta_1,\beta_2,\ldots,\beta_n$ as well. We want to show that $[T^{-1}]^*[T]^*=I$. In order to prove this, we will prove that for any two square matrices $A,B$, we have $(AB)^*=B^*A^*$. For instance, the proof in Friedberg proceeds as follows. Since $L_{(AB)^*}=(L_{AB})^*=(L_AL_B)^*=(L_B)^*(L_A)^*=L_{B^*}L_{A^*}=L_{B^*A^*}$, thus it follows that $(AB)^*=B^*A^*$. 
+
+So, by the result above, it is also true that $[T^{-1}]^*[T]^*=[TT^{-1}]^*=I^*=I$. Thus, $(T^{-1})^*$ is indeed the inverse of $T^*$.
+
+\textbf{3. Let $V$ be the $3$-dimensional real vector space of polynomials of degree at most $2$. For the inner product on $V$ take the formula $\inner{f}{g}=\int_0^1{f(t)g(t)dt}$. Find a polynomial $g$ in $V$ such that $f(1/2)=\inner{f}{g}$ for every $f$ in $V$.}
+
+Consider the basis $\{f_0,f_1,f_2\}=\{1,x,x^2\}$ for $V$. If the identity $f(\frac12)=\inner{f}{g}$ for all $f\in V$, then in particular it holds for those three basis vectors, leading to the system of inequalities
+\begin{align*}
+f_0\left(\frac12\right)&=1=\inner{1}{g}=\int_0^1{g(x)dx}\\
+f_1\left(\frac12\right)&=\frac12=\inner{x}{g}=\int_0^1{x\cdot g(x)dx}\\
+f_2\left(\frac12\right)&=\frac14=\inner{x^2}{g}=\int_0^1{x^2\cdot g(x)dx}
+\end{align*}
+
+Let's express $g$ as a linear combination of the basis: $g(x)=ax^2+bx+c$. Now we evaluate the integrals above:
+\begin{align*}
+\int_0^1{g(x)dx}=&\int_0^1{(ax^2+bx+c)dx}=\frac13a+\frac12b+c=1\\
+\int_0^1{x\cdot g(x)dx}=&\int_0^1{(ax^3+bx^2+cx)dx}=\frac14a+\frac13b+\frac12c=\frac12\\
+\int_0^1{x^2\cdot g(x)dx}=&\int_0^1{(ax^4+bx^3+cx^2)dx}=\frac15a+\frac14b+\frac13c=\frac14
+\end{align*}
+Now we simply have a system of three equations in three unknowns to solve for. A bunch of boring calculations and substitutions yield the solutions:
+\[
+a=-15, b=15, c=-\frac32\implies \boxed{g(x)=-15x^2+15x-\frac32}
+\]
+
+\textbf{4. Let $T$ be an operator on a finite-dimensional, inner product space $V$, and take $\mathbb F=\mathbb R$. If $T$ is normal, and its characteristic polynomial splits over $\mathbb R$, show that $T=T^*$.}
+
+We know that $T^*T=TT^*$ by the normality of $T$, and the characteristic polynomial splits over $\mathbb R$, so the Spectral Theorem tells us that $T$ comes with an orthonormal basis of eigenvectors. Then the matrix of $T$ using that base is a diagonal matrix with $\{\lambda_i\}_{i=1}^n$ across the main diagonal. But $T^*$ is the conjugate transpose of that matrix; since the matrix $T$ is diagonal, the transpose does not affect it, and we get that $T^*$ is also a diagonal matrix, and has $\{\overline{\lambda_i}\}_{i=1}^n$ across the main diagonal. But since the eigenvalues are all in $\mathbb R$, $\lambda_i=\overline{\lambda_i}$ for all $i$, so we simply get that $T^*=T$, and we are done.
+
+\textbf{5. (a) If $A$ is a complex matrix that commutes with its conjugate transpose, show that there is a complex matrix $B$ such that $B^2=A$.}
+
+By the spectral theorem, since the characteristic polynomial of $A$ splits over $\mathbb C$, and $A$ is normal, then it is diagonalizable; that is, there exist $P$ and $P^{-1}=P^*$ such that \[A=P^*\begin{bmatrix}\lambda_1 & 0 & \ldots & 0 \\ 0 & \lambda_2 & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \lambda_n\end{bmatrix}P\]
+
+Then consider the matrix
+\[
+\sqrt{A}=P^*\begin{bmatrix}\sqrt{\lambda_1} & 0 & \ldots & 0 \\ 0 & \sqrt{\lambda_2} & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \sqrt{\lambda_n}\end{bmatrix}P
+\]
+
+It is then obvious that
+\begin{align*}
+\sqrt{A}^2=&P^*\begin{bmatrix}\sqrt{\lambda_1} & 0 & \ldots & 0 \\ 0 & \sqrt{\lambda_2} & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \sqrt{\lambda_n}\end{bmatrix}PP^*\begin{bmatrix}\sqrt{\lambda_1} & 0 & \ldots & 0 \\ 0 & \sqrt{\lambda_2} & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \sqrt{\lambda_n}\end{bmatrix}P\\
+=&P^*\begin{bmatrix}\sqrt{\lambda_1} & 0 & \ldots & 0 \\ 0 & \sqrt{\lambda_2} & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \sqrt{\lambda_n}\end{bmatrix}\begin{bmatrix}\sqrt{\lambda_1} & 0 & \ldots & 0 \\ 0 & \sqrt{\lambda_2} & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \sqrt{\lambda_n}\end{bmatrix}P\\
+=&P^*\begin{bmatrix}\lambda_1 & 0 & \ldots & 0 \\ 0 & \lambda_2 & \ldots & 0 \\ \vdots & \vdots & \ldots & \vdots \\ 0 & 0 & \ldots & \lambda_n\end{bmatrix}P\\
+=A
+\end{align*}
+
+Thus, since we have constructed it, it must always exist.
+
+\textbf{(b) Find a complex matrix that does not have a square root in the sense of part (a) above.}
+
+Consider the matrix $A=\begin{bmatrix}0 & 1 \\ 0 & 0\end{bmatrix}$. We quickly see that it does not associate with its conjugate transpose, so it has a chance of not having a square root. Let's assume that it does, and seek a contradiction. Well, we are looking for a matrix $B$ such that
+\[
+B^2=\begin{bmatrix}a & b \\ c & d\end{bmatrix}^2=\begin{bmatrix}a^2+bc & ab+bd \\ ac+cd & bc+d^2\end{bmatrix}=A
+\]
+
+This leads to the system of equations
+\setcounter{equation}{0}
+\begin{align}
+a^2+bc=&0\\
+ac+cd=&0 \\
+ab+bd=&1 \\
+bc+d^2=&0
+\end{align}
+
+(2) and (3) give us that $c(a+d)=0$ and $b(a+d)=1$. In the first equation we know either $c$ or $a+d$ are zero, but the second equation assures us that $a+d$ is not zero; thus we must conclude that $c=0$. Then $(4)$ reduces to $d^2=0\implies d=0$ and $(1)$ reduces to $a^2=0\implies a=0$. But now putting this all back into (3), we see that $ab+bd=0$ after all; but this is a contradiction, as our system tells us it should be 1. Thus no such matrix $B^2$ can exist, and so $A$ has no square root.
+
+\textbf{(c) If $A$ is a real, symmetric matrix, show that $A=B^2$ for some real symmetric matrix $B$ if and only if all eigenvalues of $A$ are non-negative.}
+
+If $A$ is symmetric, the spectral theorem tells us that it is diagonalizable. Thus if all the eigenvalues of $A$ are non-negative, an argument identical to the one above in part (a) applies, and so $A$ has a square root. Similarly, if $A$ has a square root, then $\sqrt A^2=A=P^*CP$ for some orthonormal $C$. Thus $PBBP^*=C$. Now, for an entry on the main diagonal of $C$ (where the eigenvalues occur), we note that $P$ and $P^*$ share that value (because transposition does not affect the main diagonal), and the factor contributed by $B$ is squared, so we will invariable get a nonnegative entry. Thus the main diagonal of $C$ is all  non-negative, hence each eigenvector is nonnegative.
+
+\textbf{6. If $T$ is a linear operator on a finite-dimensional inner product space, show that
+\[
+\ker{(T^*T)}=\ker T,\quad\rank(T^*T)=\rank{T},\quad\rank T=\rank T^*.
+\]}
+(a) The operator $T^*T$ refers to the composition $T^*(T(x))$; it is therefore obvious that $\ker{T}\subseteq\ker{T^*T}$ since for any $x\in\ker{T}$, we have $T(x)=0$, thus since $T^*$ is linear, certainly $T^*(T(x))=0$ as well. It is harder to show that $\ker(T^*T)\subseteq\ker T$. Well, we know that $\inner{T(x)}{y}=\inner{x}{T^*(y)}$. If we let $y=T(x)$, we have that $\inner{T(x)}{T(x)}=\inner{x}{T^*T(x)}$. If $T^*T(x)=0$, then the whole right hand side is 0 by the property of the inner product. But then the left-hand side must also be zero, and by the positive-definite property, this happens only when $T(x)=0$. Thus, if $x$ sends $T^*(T(x))$ to 0, it also sends $T$ to $0$, so $\ker(T^*T)\subseteq\ker{T}$. This is what we needed to prove.
+
+(b) Both $T$ and $T^*T$ are transformations on $V$, so by the rank-nullity theorem, we have
+\[
+\operatorname{null}(T)+\rank{(T)}=\dim{V}=\operatorname{null}(T^*T)+\rank{(T^*T)}
+\]
+Since we showed above that $T$ and $T^*T$ have the same kernel, they obviously have the same nullity, which leaves us simply with $\rank{(T)}=\rank{(T^*T)}$, which is precisely what we were trying to prove.
+
+(c) Since we've already shown that $\rank{T}=\rank{(T^*T)}$, it suffices to show that $\rank{T^*}=\rank{(T^*T)}$. Well, half of that is easy to show; namely, $\rank{(T^*T)}\subseteq\rank T^*$ since you can always choose $x'=T(x)$ to send $T^*(x')$ to anything you could send $T^*T(x)$ to. Thus it only remains to show that $\rank{T^*}\subseteq\rank{(T^*T)}$. Well, in the case where $\operatorname{null}{T}=0$, this is obvious as well by taking $x'=T^{-1}(x)$ (since $T$ is invertible if its nullity is 0). Now, let's say that the nullity is greater than 0; then there are some $x\in\ker{T}$ that may cause us problems. But in that case, consider $\inner{T(x)}{y}=\inner{x}{T^*(y)}$. If $x$ is in the kernel, $T(x)=0$ so by the property of the inner product, the whole left-hand side goes to $0$. Thus the right-hand side goes to 0 as well, so $T^*(x)=0$; thus if $T$ loses $x$, so does $T^*T$ so we aren't missing anything. Thus $\rank{T^*}\subseteq\rank{(T^*T)}$, and we are done.
+
+\textbf{7. Let the matrix $A=\begin{bmatrix}1 & i \\ i & 1\end{bmatrix}$ give the usual linear operator $L_A$ on $\mathbb C^2$. Take the standard inner product of $\mathbb C^2$. Explain briefly why $L_A$ must come with an orthonormal basis of eigenvectors, and then find such an orthonormal basis.}
+
+The conjugate transpose of $A$ is $\begin{bmatrix}1 & -i \\ -i & 1\end{bmatrix}$, so it is easy to see that
+\[
+AA^*=\begin{bmatrix}2 & 0 \\ 0 & 2\end{bmatrix}=A^*A
+\]
+Thus $A$ is normal, (and the characteristic polynomial obviously splits, since this is over $\mathbb C$), so it must have an orthonormal basis of eigenvectors. To actually find these vectors, we attack the eigenvalue problem.
+
+The characteristic polynomial is $(X-1)^2+1=X^2-2X+2$ by observation. The roots over $\mathbb C$ are $(X-1+i)$ and $(X-1-i)$, so the eigenvalues are $(1+i)$ and $(1-i)$. Thus we have two systems to solve.
+
+First,
+\[
+\begin{bmatrix}1 & i \\ i & 1\end{bmatrix}\begin{bmatrix}x \\ y\end{bmatrix}=\begin{bmatrix}
+x+ix \\ y+iy
+\end{bmatrix}
+\]
+Just by inspection it is obvious that $x=y$ is a solution to this system, so we'll take $(1,1)$ as the eigenvector.
+
+Secondly, 
+\[
+\begin{bmatrix}1 & i \\ i & 1\end{bmatrix}\begin{bmatrix}x \\ y\end{bmatrix}=\begin{bmatrix}
+x-ix \\ y-iy
+\end{bmatrix}
+\]
+
+Here it is just as obvious that $x=-y$ is a solution, so we'll take $(1,-1)$ as the eigenvector. Since $\inner{(1,1)}{(-1,1)}=1-1=0$, we see that these are indeed orthogonal. All we have to do is normalize them, so divide them by $\sqrt2$. Thus our orthonormal basis is
+\[
+\left\{\begin{bmatrix}\frac1{\sqrt2} \\ \frac1{\sqrt2}\end{bmatrix},\begin{bmatrix}\frac{-1}{\sqrt2} \\ \frac1{\sqrt2}\end{bmatrix}\right\}.
+\]
+
+\textbf{8. Let $A=\begin{bmatrix}
+2 & -1 & -1 \\
+-1 & 2 & -1 \\
+-1 & -1 & 2
+\end{bmatrix}$}
+
+\textbf{(a) Find and factor the characteristic polynomial of $A$.}
+
+This is easy. We look at $XI-A$:
+\begin{align*}
+|XI-A|=&\left|\begin{matrix}
+X-2 & 1 & 1 \\
+1 & X-2 & 1 \\
+1 & 1 & X-2
+\end{matrix}\right|\\
+=&((X-2)^3+2)-3(X-2)\\
+=&(X^3-6X^2+12X-8+2)-3X+6\\
+=&X^3-6X^2+9X\\
+=&X(X-3)^2
+\end{align*}
+\textbf{(b) Find a matrix $P$ such that $P^{-1}=P^t$ and $P^tAP$ is a diagonal matrix.}
+
+First we must solve the eigenvector problem for $A$ above. We need two vectors corresponding to $\lambda=3$ and one vector corresponding to $\lambda=0$. We do the easy one first.
+\[\begin{bmatrix}
+2 & -1 & -1 \\
+-1 & 2 & -1 \\
+-1 & -1 & 2
+\end{bmatrix}\begin{bmatrix}x \\ y \\ z\end{bmatrix}=\begin{bmatrix}0 \\ 0 \\ 0\end{bmatrix}
+\]
+A very quick inspection tells us that $(x,y,z)=(1,1,1)$ satisfies this system, but for the sake of normalization, let's call it $(x,y,z)=\left(\frac1{\sqrt3},\frac1{\sqrt3},\frac1{\sqrt3}\right)$. Secondly, 
+\[
+\begin{bmatrix}
+2 & -1 & -1 \\
+-1 & 2 & -1 \\
+-1 & -1 & 2
+\end{bmatrix}\begin{bmatrix}x \\ y \\ z\end{bmatrix}=\begin{bmatrix}3x \\ 3y \\ 3z\end{bmatrix}
+\]
+It is not much harder to see by inspection that any two of $(-2,1,1),(1,-2,1),(1,1,-2)$ would work here, so we'll take the two on the end. We get for free the fact that these are orthogonal to the eigenvector from above since they are in different eigenspaces, but it still remains to make these orthogonal to each other, and normalize them. Through a totally boring application of Gram-Schmidt, we get the orthonormal basis of $V_3$:
+\[
+\begin{bmatrix}
+\frac{-\sqrt6}3 \\ \frac{\sqrt6}{6} \\ \frac{\sqrt6}{6}
+\end{bmatrix},\begin{bmatrix}
+0 \\ \frac{\sqrt2}2 \\ \frac{-\sqrt2}{2}
+\end{bmatrix}
+\]
+Since this is an orthogonal basis of eigenvectors, it follows that $P^{-1}=P^t$, so the final matrix is
+\[
+P=\begin{bmatrix}
+\frac{-\sqrt6}{3} & \frac{\sqrt3}{3} & 0 \\
+\frac{\sqrt6}{6} & \frac{\sqrt3}{3} & \frac{\sqrt2}{2} \\
+\frac{\sqrt6}{6} & \frac{\sqrt3}{3} & \frac{-\sqrt2}{2}
+\end{bmatrix}
+\]
+
+\textbf{9. If $f(X)=(X-\lambda)^n$ is both the characteristic polynomial and the minimal polynomial of an operator $T$ on a vector space $V$, show that the matrix $A=\begin{bmatrix}
+\lambda & 0 & 0 & 0 & \ldots & 0 & 0 \\
+1 & \lambda & 0 & 0 & \ldots & 0 & 0 \\
+0 & 1 & \lambda & 0 & \ldots & 0 & 0 \\
+0 & 0 & 1 & \lambda & \ldots & 0 & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ldots & \lambda & 0 \\
+0 & 0 & 0 & 0 & \ldots & 1 & \lambda
+\end{bmatrix}$ represents $T$.}
+
+Consider the matrix $S=T-\lambda I$. We see that $S$ is zero everywhere except on the first subdiagonal, where it is a string of $1$'s. Then $S-XI$ will be an upper-triangular matrix with $X$ everywhere on the main diagonal, so $X^n$ is its characteristic polynomial. Moreover, it is easy to see that every time we iteratively multiply $S$ by itself, it pushes the subdiagonal lower and we lose a $1$-entry. Thus after exactly $n$ iterations, we will have the zero matrix, so the minimal polynomial of $S$ is $X^n$ as well.
+
+We recall from assignment five that in the case where $n=4$, we deduce that if the minimal polynomial and characteristic polynomial of $T$ were both $X^4$, the subdiagonal matrix equivalent to $S$ above does in fact represent $T$. The proof was a fairly straightforward application of the Cayley-Hamilton theorem, and would work similarly for any finite $n$. So we see that $S$ is a representation of a linear transformation which, when you add $\lambda$ to it, gives you $T$. Thus the matrix representation of $T$ is just $S+\lambda I$, which is precisely $A$.
+
+\textbf{10. By considering all possible characteristic and minimal polynomials, show that every $3\times3$ complex matrix is similar to one of the shown matrices, where $\lambda,\mu,\nu$ are distinct complex numbers.}
+
+\begin{align*}
+A=\begin{bmatrix}
+\lambda & 0 & 0 \\
+0 & \mu & 0 \\
+0 & 0 & \nu
+\end{bmatrix},\quad B=\begin{bmatrix}\lambda & 0 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 & \mu\end{bmatrix},\quad C=\begin{bmatrix}\lambda & 0 & 0 \\ 1 & \lambda & 0 \\ 0 & 0 & \mu\end{bmatrix}\\
+D=\begin{bmatrix}\lambda & 0 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 & \lambda\end{bmatrix},\quad E=\begin{bmatrix}\lambda & 0 & 0 \\ 1 & \lambda & 0 \\ 0 & 0 & \lambda\end{bmatrix},\quad F=\begin{bmatrix}\lambda & 0 & 0 \\ 1 & \lambda & 0 \\ 0 & 1 & \lambda\end{bmatrix}
+\end{align*}
+
+\setcounter{equation}{0}
+
+There are three possible characteristic polynomials:
+\begin{align*}
+(X-\lambda)^3,\quad (X-\lambda)^2(X-\mu),\quad (X-\lambda)(X-\mu)(X-\nu)
+\end{align*}
+
+Each of these have a few possible corresponding minimal polynomials. They are expressed here as ordered pairs $(P,Q)$ where $P$ is the characteristic polynomial, and $Q$ is the minimal polynomial.
+\begin{align}
+\left((X-\lambda)^3,(X-\lambda)\right)\\
+\left((X-\lambda)^3,(X-\lambda)^2\right)\\
+\left((X-\lambda)^3,(X-\lambda)^3\right)\\
+\left((X-\lambda)^2(X-\mu),(X-\lambda)(X-\mu)\right)\\
+\left((X-\lambda)^2(X-\mu),(X-\lambda)^2(X-\mu)\right)\\
+\left((X-\lambda)(X-\mu)(X-\nu),(X-\lambda)(X-\mu)(X-\nu)\right)
+\end{align}
+
+Each of these correspond to one of the six matrices. I claim the following correspondence holds.
+\begin{align*}
+1\sim D\\
+2\sim E\\
+3\sim F\\
+4\sim B\\
+5\sim C\\
+6\sim A
+\end{align*}
+Each of the above matrices are upper-triangular, so it is easy to compute the characteristic polynomials and make sure they match up. As for the minimal polynomials, once we eliminate the diagonals, it is easy to see that each additional $1$ in the matrix keeps it alive for one additional iteration of multiplication, thus matching up all the minimal polynomials to the original matrix.
+\end{document}  

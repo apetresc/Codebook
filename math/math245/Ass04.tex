@@ -1,0 +1,742 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\newcommand{\tr}[1]{\ensuremath{\mathrm{tr}\left(#1\right)}}
+
+\title{Math 245 - Assignment 4}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. The \textit{Special Linear Group $SL_3$} is the set of all $3\times3$ matrices $A$ such that $\det A=1$. Show that there is a path between any two matrices in the special linear group.}
+
+Well, in class we proved that there is a path between any two $3\times3$ invertible matrices; all the matrices in $SL_3$ are invertible since their determinant is nonzero, so this result applies to them too. But you want us to imitate the the proof for this more specific result, so here we go.
+
+First, let us show that if there is a path from $A$ to $B$, and from $B$ to $C$, there is also a path from $A$ to $C$. Let $P:[0,1]\to SL_3$ be a path from $A$ to $B$, and let $Q:[0,1]\to SL_3$ be a path from $B$ to $C$. The consider the function
+\[
+R(t) = \left\{ \begin{array}{cc}P(2t) & 0\leq t\leq\frac12\\\\Q(2t-1) & \frac12\leq t\leq1\end{array}\right.
+\]
+It is obvious that $R(0)=A$ and $R(1)=C$, and it is made up of two continuous functions (where $P(1)=Q(0)$), so this function is also continuous.
+
+Secondly, we point out that if there is a path from $A$ to $B$, then there is a path from $B$ to $A$ as well. In fact, if $P(t)$ is a path from $A$ to $B$, simply $Q(t)=P(1-t)$ is a path from $B$ to $A$.
+
+Next, let us show that there is always a path from $A\in SL_3$ to $I$ (which is also in $SL_3$). Then for any $B$, there must also be a path from $B$ to $I$, which means there must be a path from $I$ to $B$ by the second proposition, which means there must be a path from $A$ to $B$, by the first proposition.
+
+To find this path, we will do a succession of type-II row and column operations until $A$ becomes a diagonal matrix $H$ with $1$ in the diagonal. We note that if there is a type-II row or column operation to take $A$ to $A'$, written as $\lambda R_i+R_j\to R_j$, then there is also a path from $A$ to $A'$. It looks like
+\[
+P(t)=\begin{bmatrix}
+\alpha_1\\
+\vdots \\
+t\lambda\alpha_i+\alpha_j\\
+\vdots\\
+\alpha_n
+\end{bmatrix},\quad\mbox{ where }A=\begin{bmatrix}\alpha_1 \\ \vdots \\ \alpha_n\end{bmatrix}
+\]
+The following is an imitation of the ``recipe'' shown in class for turning this $A$ into a diagonal matrix. Suppose the second row of $A$ is the row vector $(a_{21},a_{22},a_{23})$, which cannot be all zero since we know $\det A=1$.
+
+If $a_{21}=0$, create a new matrix $B=A$. If it's not zero, but the next one $a_{22}$ is, then perform the column operation $A\xrightarrow{C_2+C_1\to C_1}B$. And if the first two are zero (and the last one isn't), then we perform the column operation $A\xrightarrow{C_3+C_1\to C_1}B$. Thus we now have a matrix $b$ with $b_{11},b_{21}$ in the first column, with $b_{21},b_{11}\not=0$. Now we perform two more row operations
+\begin{align*}
+B\xrightarrow{\frac{1-b_{11}}{b_{21}}R_2+R_1\to R_1}C \\
+C\underset{-c_{31}R_1+R_3\to R_3}{\xrightarrow{-c_{21}R_1+R_2\to R_2}}D
+\end{align*}
+
+Thus we have knocked out the first column, reducing it to $(1,0,0)$. We proceed in a very similar way with the other two columns, finally bringing $A$ to the identity. The important part of the process is that we always restrict ourselves to type-II row/column operations, the determinant has not changed. By applying the principle above, we can compose all these paths to construct a path from $A$ to $I$. Thus, there is a path from any $A$ to any $B$.
+
+\textbf{2. The trace of a square matrix $A=[a_{ij}]$ is the sum of its diagonal entries: $\tr{A}=\sum_{i=1}^n{a_{ii}}$.}
+\setcounter{equation}{0}
+
+\textbf{(a) If $A,B$ are square matrices, prove that $\tr{AB}=\tr{BA}$.}
+
+Let
+\[
+A=\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{12} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{bmatrix},\quad
+B=\begin{bmatrix}
+b_{11} & b_{12} & \cdots & b_{1n} \\
+b_{12} & b_{22} & \cdots & b_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+b_{n1} & b_{n2} & \cdots & b_{nn}
+\end{bmatrix}
+\]
+
+We know that the formula for matrix multiplication leads to a matrix $[AB]$ where the $(i,j)$ term is defined by $\sum_{k=1}^n{a_{ik}b_{kj}}$. We only care about the diagonal, so we want to sum over all the elements where $i=j$, so we have
+\begin{align}
+\tr{AB}=\sum_{h=1}^n{\sum_{k=1}^n{a_{hk}b_{kh}}}
+\end{align}
+
+Similarly, the matrix $[BA]$ has it's $(i,j)$ term defined by $\sum_{k=1}^n{b_{ik}a_{kj}}$. So it's trace is given by
+\begin{align}
+\tr{BA}=\sum_{h=1}^n{\sum_{k=1}^n{b_{hk}a_{kh}}}=\sum_{h=1}^n{\sum_{k=1}^n{a_{kh}b_{hk}}}
+\end{align}
+But now we are done, because both $h$ and $k$ cycle from $1$ to $n$, so summing $a_{kh}b_{hk}$ is really the same thing as summing $a_{hk}b_{kh}$ up to the order of terms. Thus, $\tr{AB}=\tr{BA}$.
+
+\textbf{(b) Two square matrices $A,B$ are similar when $B=P^{-1}AP$ for some invertible matrix $P$. Show that similar matrices have equal traces.}
+
+\begin{align*}
+\tr{B}=&\tr{(P^{-1}A)P}\\
+=&\tr{P(P^{-1}A)}\\
+=&\tr{(PP^{-1})A}\\
+=&\tr{IA}\\
+\tr{B}=&\tr{A}
+\end{align*}
+
+\textbf{3. Let $T : V\to V$ be a linear mapping on a vector space $V$, and let $\dim V=n$. If $f(X)$ is a polynomial in the indeterminate $X$ with coefficients in the field $\mathbb F$, there is a natural way to evaluate $f$ at $T$ and get another operator on $V$. For example, $f(X)=X^3-2X^2+5X-7$ evaluated at $T$ is the operator $f(T)=T^3-2T^2+5T-7I$. The polynomial $X$ evaluted at $T$ gives $T$. The constant polynomial $6$ evaluted at $T$ gives $6I$. This process of making new linear operators by forming polynomial expressions in a given operator is important.}
+
+\textbf{(a) By considering the list
+\[
+I,T,T^2,T^3,\ldots,T^m,\ldots
+\]
+along with the fact that the set of linear operators on $V$ is itself a vector space of dimension $n^2$, prove that there is a non-zero polynomial $f(X)$ such that $f(T)=0$, the zero operator.}
+\setcounter{equation}{0}
+
+Consider the vector space $\mathcal L(V,V)$ of linear transformations from $V$ to $V$. We know that $\dim{\mathcal L(V,V)}=n^2$, so any basis for $\mathcal L(V,V)$ will have exactly $n^2$ elements in it.
+
+Now, consider the list 
+\[
+I,T,T^2,T^3,\ldots,T^m,\ldots
+\]
+This is simply the infinite basis for $f(X)$ evaluated at $T$. There are an infinite number of elements in this list, and they span $\mathcal L(V,V)$, but since $\dim\mathcal L(V,V)=n^2$, we know that this list cannot be linearly independent. In fact, there must be some $T^m$ and nonempty finite index set $\Lambda\subset \mathbb N$ such that
+\[
+\sum_{a\in\Lambda}{\alpha_aT^a}=T^m
+\]
+But this means that
+\begin{align}
+T^m-\sum_{a\in\Lambda}{\alpha_aT^a}=0
+\end{align}
+But then consider the polynomial $f(X)$ defined by
+\[
+f(X)=X^m-\sum_{a\in\Lambda}{\alpha_aX^a}
+\]
+If we now evaluate $f(T)$, we have the same equation as in (1); therefore, $f(T)=0$, the zero operator.
+
+\textbf{3(b) A \textit{minimal polynomial} for $T$ is a non-zero, monic polynomial $m(X)$ of least possible degree such that $m(T)=0$. Since by part (a) we saw that polynomials vanishing at $T$ actually exist, it follows that each $T$ has a minimal polynomial. If $m(X)$ is a minimal polynomial for $T$ and $f(X)$ is any polynomial such that $f(T)=0$, prove that $m(X)$ divides $f(X)$. Use this to deduce that $T$ can only have one minimal polynomial.}
+
+For a polynomial to divide another polynomial means that there exists a third polynomial that multiplies with first one to give the second. In other words, $m(X)$ divides $f(X)$ if and only if there is a polynomial $g(X)$ such that
+\[
+m(X)g(X)=f(X)
+\]
+Well, by the division algorithm, we definitely know
+\[
+f(X)=m(X)g(X)+r(X)
+\]
+(where $\deg{r}<\deg{m})$. It only remains to show that $r(X)$ is the zero polynomial. Well, for every root $T$ of $M$, we have $f(T)=0=m(X)$, which by substitution implies that $r(X)=0$. Thus $r(X)$ is valued at $0$ at $\deg{m}$ different points. But we know that $\deg{r}<\deg{m}$, so it must have less roots than $m$; so the only way this could happen is if $r$ is zero everywhere; that is, $r(X)$ is the zero polynomial. Thus $m(X)$ divides $f(X)$.
+
+Now, since $g(X)$ is monic, it is completely determined by its list of roots. Given a polynomial $f(X)$, if $\deg{f(X)}>\deg{m(X)}$, then clearly $f$ cannot be the minimal polynomial because $m$ is of even lower degree. If $\deg{f(X)}=\deg{m(X)}$, then either $f(X)$ is not monic (in which case it has no hope of being a minimal polynomial), or it is monic and therefore is completely determined by its list of roots. But since $m$ divides $f$, they must have the same zeroes; but since they are monic, they must be the same. We cannot have the case where $\deg f<\deg m$ because then $m$ could not divide $f$. Thus, in all cases, $m$ is the unique minimal polynomial.
+
+\textbf{3(c) Every matrix is a linear operator acting on $\mathbb F^n$ in the usual way, and so every matrix has a minimal polynomial. Show that similar matrices have the same minimal polynomial.}
+\setcounter{equation}{0}
+
+The intuitive notion here is that two similar polynomials are really the same linear map, but with respect to a different basis for $V$. Thus, since minimal polynomials are more of a property of a linear map than a matrix, it follows that a map's minimal polynomial will be the same regardless of what basis you express that map with regard to. However, this notion needs formalizing, so here we go.
+
+Let $f$ be a polynomial in the indeterminate $X$ such that $f(A)=0$. This means that
+\[
+f(A)=\sum{\alpha_nA^n}=0,
+\]
+where only finitely many $\alpha_n\not=0$. But, if we substitute $B=P^{-1}AP$ into this equation, we get
+\begin{align}
+f(B)=\sum{\alpha_n(P^{-1}AP)^n}
+\end{align}
+We note that 
+\[
+B^n=(P^{-1}AP)(P^{-1}AP)\cdots(P^{-1}AP)=P^{-1}A(PP^{-1})A(PP^{-1})\cdots(PP^{-1})AP=P^{-1}A^nP
+\]
+So we can rewrite $(1)$ as
+\[
+\sum{\alpha_nP^{-1} A^nP}
+\]
+Now it is simply a matter of left-multiplying every term by $P$, and right-multiplying every term by $P^{-1}$ to get
+\[
+Pf(B)P^{-1}=P\left(\sum{\alpha_nP^{-1}A^nP}\right)P^{-1}=\sum{\alpha_nPP^{-1}APP^{-1}}=\sum{\alpha_nA}=f(A)
+\]
+Thus we have that $Pf(B)P^-1=f(A)$. But if $f(A)=0$, then $Pf(B)P^{-1}$ is similar to the zero matrix. We know that nothing is similar to the zero matrix except itself; thus $f(B)$ is also a zero matrix, and so $f(A)=f(B)=0$. By the same argument as in part 2(b), this $f(B)$ must be the minimal polynomial of $B$.
+
+\textbf{4. Show that no two of the following matrices are similar.
+\[
+\begin{bmatrix}
+2 & 0 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix}, 
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix},
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 2
+\end{bmatrix},
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 1 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix},
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 1 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 2
+\end{bmatrix}.
+\]}
+
+Let us denote these matrices by $A_1,A_2,A_3,A_4,$ and $A_5$ respectively.
+
+We cannot eliminate any of these matrices just by inspection; they all have the same determinant $(2^4)$, and the same trace ($8$). Luckily we also know that similar matrices have the same minimal polynomial, so we will determine the minimal polynomial $m_{A_{i}}$ for $1\leq i\leq 5$.
+
+We know that the minimal polynomial always divides the characteristic polynomial, and that all of these five matrices actually have the same characteristic polynomial: $(2-\lambda)^4$. Thus the minimal polynomial for these matrices have to be in the form $(2I-X)^k=0$ for $0\leq k\leq 4$.
+
+Well, it is clear that $A_1=2I$, so its minimal polynomial is simply $2-X$.
+
+For $A_2$, we see that
+\[
+2I-A_2=2I-\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix}=\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+We want to find the lowest power $k$ such that $(2I-A_2)^k=0$. Well, it is pretty clear from inspection that simply squaring the matrix above is enough to give the zero matrix. So the minimal polynomial for $A_2$ is $(2-X)^2$.
+
+Similarly for $A_3$, we have
+\[
+2I-A_3=2I-\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 2
+\end{bmatrix}=\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+Once again, it is not hard to see that squaring this matrix is sufficient to reduce it to the zero matrix; so the minimal polynomial for $A_3$ is also $(2-X)^2$.
+
+For $A_4$, we have
+\[
+2I-A_4=2I-\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 1 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix}=\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+This time, squaring the matrix is not enough to zero it:
+\[
+\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}=\begin{bmatrix}
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+However, multiplying \textit{that} matrix by $A_4$ again is enough to zero it, so this time the minimal polynomial for $A_4$ is $(2-X)^3$.
+
+Lastly, for $A_5$, we know
+\[
+2I-A_5=2I-\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 1 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 2
+\end{bmatrix}=\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+We see that not even cubing this matrix is enough to zero it:
+\[
+\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0
+\end{bmatrix}\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0
+\end{bmatrix}\begin{bmatrix}
+0 & -1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0
+\end{bmatrix}=\begin{bmatrix}
+0 & 0 & 0 & -1 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+But a single application more does the trick. So the minimal polynomial for $A_5$ is $(2-X)^4$.
+
+Now, we know that similar matrices have the same minimal polynomial; however, of these five matrices, only $A_2$ and $A_3$ share a minimal polynomial. Thus the other three do not stand a chance of being similar with anything. It remains to show that $A_2$ is not similar to $A_3$. Now, clearly the eigenvalue of $A_2,A_3$ is $2$; let us find the corresponding eigenvectors for each of the two matrices.
+
+For $A_2$, we want to solve
+\[
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 2
+\end{bmatrix}
+\begin{bmatrix}
+v_1 \\ v_2 \\ v_3 \\ v_4
+\end{bmatrix}=\begin{bmatrix}
+2v_1+v_2 \\ 2v_2 \\ 2v_3 \\ 2v_4
+\end{bmatrix}=
+2\begin{bmatrix}
+v_1 \\ v_2 \\ v_3 \\ v_4\end{bmatrix}
+\]
+It is obvious that the solution to the above is any non-zero vector where $v_2=0$. Thus the eigenspace corresponding to the eigenvalue $2$ for $A_2$ has a dimension of $3$.
+
+Now, for $A_3$, we want to solve
+\[
+\begin{bmatrix}
+2 & 1 & 0 & 0 \\
+0 & 2 & 0 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 2
+\end{bmatrix}
+\begin{bmatrix}
+v_1 \\ v_2 \\ v_3 \\ v_4
+\end{bmatrix}=\begin{bmatrix}
+2v_1+v_2 \\ 2v_2 \\ 2v_3+v_4 \\ 2v_4
+\end{bmatrix}=
+2\begin{bmatrix}
+v_1 \\ v_2 \\ v_3 \\ v_4\end{bmatrix}
+\]
+So the solution to this system is any non-zero vector where $v_2=v_4=0$. Then the eigenspace corresponding to the eigenvalue $2$ only has a dimension of $2$.
+
+But we know that similar matrices have the same dimension for eigenspaces corresponding to a common eigenvalue. Thus, since $A_2$ and $A_3$ do not match up in this respect, they are not similar to each other either, and we are done.
+
+\textbf{5. Is the matrix $A=\begin{bmatrix}
+7 & -2 & 1 \\
+-2 & 10 & -2 \\
+1 & -2 & 7
+\end{bmatrix}$ diagonalizable? If so, find a diagonal matrix $D$ and an invertible matrix $P$ such that $D=P^{-1}AP$.}
+\setcounter{equation}{0}
+
+First we need to find the eigenvectors of $A$. To do that, we need the determinant of $A$, which we can calculate by hand for a $3\times3$ matrix:
+\begin{align*}
+\left|\begin{matrix}
+7 & -2 & 1 \\
+-2 & 10 & -2 \\
+1 & -2 & 7
+\end{matrix}\right|=&(7)(10)(7)+(-2)(-2)(1)+(1)(-2)(-2)-(1)(10)(1)-(-2)(-2)(7)-(7)(-2)(-2)\\
+=&490+4+4-10-28-28=432
+\end{align*}
+So we need to solve the characteristic polynomial $p(\lambda)=\det{(A-\lambda I_3)}$, which is equivalent to
+\begin{align*}
+p(\lambda)=&\left|\begin{matrix}
+7-\lambda & -2 & 1 \\
+-2 & 10-\lambda & -2 \\
+1 & -2 & 7-\lambda
+\end{matrix}\right|\\
+=&(7-\lambda)(10-\lambda)(7-\lambda)+(-2)(-2)(1)+(1)(-2)(-2)-(1)(10-\lambda)(1)-\\ &(-2)(-2)(7-\lambda)-(7-\lambda)(-2)(-2)\\
+=&-\lambda^3+24\lambda^2-180\lambda+432\\
+=&-(\lambda-12)(\lambda-6)^2
+\end{align*}
+Thus the eigenvectors of $A$ are $12$ and $6$, where 6 has multiplicity of 2. Thus we need to find a vector $\vec v\in\mathbb R^3$ such that
+\[
+\begin{bmatrix}
+7 & -2 & 1 \\
+-2 & 10 & -2 \\
+1 & -2 & 7
+\end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \\ v_3\end{bmatrix}
+=
+6\begin{bmatrix} v_1 \\ v_2 \\ v_3\end{bmatrix}
+\]
+Thus we need to solve the system of 3 equations
+\begin{align}
+7v_1-2v_2+v_3=6v_1\implies& v_1-2v_2+v_3=0\\
+-2v_1+10v_2-2v_3=6v_2\implies& -2v_1+4v_2-2v_3=0\\
+v_1-2v_2+7v_3=6v_3\implies& v_1-2v_2+v_3=0
+\end{align}
+We see that $(1)$ and (3) are actually identical, so we expect there to be a ton of solutions to this system. Just visually substituting small values into (2) and (3) we quickly see that $(v_1,v_2,v_3)=(-1,0,1)$ satisfies this system (this comes from the fact that in both (2) and (3), $v_1$ and $v_3$ always have the same coefficient.) We know that the eigenvalue 6 has multiplicity 2, so there should be some other linearly independent vector that also satisfies this system. Well, to preserve linear independence, let's make $v_2$ nonzero; then once again visually inspecting (2) and (3), we find the solution $(v_1,v_2,v_3)=(2,1,0)$. (This comes from the fact that $v_2$'s coefficient is always twice the negative of $v_1$'s. Thus we have found two of the eigenvectors of $A$.
+
+Now we turn to the second eigenvalue:
+\[
+\begin{bmatrix}
+7 & -2 & 1 \\
+-2 & 10 & -2 \\
+1 & -2 & 7
+\end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \\ v_3\end{bmatrix}
+=
+12\begin{bmatrix} v_1 \\ v_2 \\ v_3\end{bmatrix}
+\]
+Thus we need to solve the system of 3 equations
+\begin{align}
+7v_1-2v_2+v_3=12v_1\\
+-2v_1+10v_2-2v_3=12v_2\\
+v_1-2v_2+7v_3=12v_3
+\end{align}
+By adding all three equations together, we arrive at
+\[
+6v_1+6v_2+6v_3=12v_1+12v_2+12v_3\implies6v_1+6v_2+6v_3=0\implies v_1+v_2+v_3=0
+\]
+Thus, we know $v_2=-(v_1+v_3)$, so we substitute this into (2) to obtain
+\[
+v_1+2(v_1+v_3)+7v_3=12v_3\implies v_1=v_3
+\]
+Now we have enough information to guess a value. Take the smallest possible $v_1=v_3=1$. Then by our previous finding, we must have $v_2=-(v_1+v_3)=-2$. We see that substituting this into the system, it is satisfied. Thus our last eigenvector is $(v_1,v_2,v_3)=(1,-2,1)$.
+
+We have three linearly independent eigenvectors for a 3-dimensional matrix; thus this matrix is diagonalizable, and we see that
+\[
+\begin{bmatrix}
+6 & 0 & 0 \\
+0 & 6 & 0 \\
+0 & 0 & 12
+\end{bmatrix}=\begin{bmatrix}
+2 & -1 & 1 \\
+1 & 0  & -2 \\
+0 &  1 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+7 & -2 & 1 \\
+-2 & 10 & -2 \\
+1 & -2 & 7
+\end{bmatrix}
+\begin{bmatrix}
+2 & -1 & 1 \\
+1 & 0  & -2 \\
+0 &  1 & 1\\
+\end{bmatrix}^{-1}
+\]
+
+\textbf{6. Can you tell if two diagonal matrices are similar just by looking at them?}
+
+Yes, I think I can. I claim that two diagonal matrices are similar if and only if the entries on their main diagonal are permutations of one another.
+
+The right-to-left implication is easy to show; if the entries on the main diagonal are permutations of one another, then the linear map represented by matrix $A$ is the same as the linear map represented by the matrix $B$, except the ordered basis has been re-ordered.
+
+The left-to-right implication is a bit harder. We assume that they are similar and try to prove that the entries on the main diagonal are the same up to permutations. Well, if they're similar then they have the same characteristic polynomial. Say $A=[a_{ij}]$ and $B=[b_{ij}]$. Then we have 
+\[
+p_A(\lambda)=\det{(\lambda I-A)}=\prod_{i=1}^n{(\lambda-a_{ii})},\quad p_B(\lambda)=\det{(\lambda I-B)}=\prod_{j=1}^n{(\lambda-b_{jj})}
+\]
+Now, if $p_A(\lambda)=p_B(\lambda)$ are the same, then they also have the same roots. Well, we know $p_A(a_{ii})=0$ for any $1\leq i\leq n$, so this means that $p_B(a_{ii})=0$ as well. But, by looking at the formula for $p_B$, this means that for any $i$, $b_{jj}=a_{ii}$ for some $j$. Thus, every root $a_{ii}$ appears in $B$'s diagonal (though not necessarily in the same order). This is what we were trying to prove, so we are done.
+
+\textbf{7. The characteristic polynomial of an $n\times n$ matrix $A$ is $\det{(XI-A)}$. This polynomial in X looks like
+\[
+X^n+a_{n-1}X^{n-1}+a_{n-2}X^{n-2}+\cdots+a_1X+a_0,
+\]
+where the $a_j$ are scalars. The question to consider here is whether all polynomials of the above type (i.e. monic polynomials of degree one or higher) are the characteristic polynomial of some matrix.}
+
+\textbf{(a) Show that $X^3+a_2X^2+a_1X+a_0$ is the characteristic polynomial of 
+\[
+A=\begin{bmatrix}
+0 & 0 & -a_0 \\
+1 & 0 & -a_1 \\
+0 & 1 & -a_2 
+\end{bmatrix}
+\]}
+
+It is easy to see that
+\[
+XI-A=\begin{bmatrix}
+X & 0 & 0 \\
+0 & X & 0  \\
+0 & 0 & X
+\end{bmatrix}-\begin{bmatrix}
+0 & 0 & -a_0 \\
+1 & 0 & -a_1 \\
+0 & 1 & -a_2 
+\end{bmatrix}=\begin{bmatrix}
+X & 0 & a_0 \\
+-1 & X & a_1 \\
+0 & -1 & X+a_2
+\end{bmatrix}
+\]
+To calculate this determinant, we use a Laplacian expansion along the first row (I assume that Professor Zorzitto meant "Laplacian expansion" in the question, even though he wrote "Lagrange expansion" three different times.)
+\begin{align*}
+\left|\begin{matrix}
+X & 0 & a_0 \\
+-1 & X & a_1 \\
+0 & -1 & X+a_2
+\end{matrix}\right|=&X\left|\begin{matrix}X & a_1 \\ -1 & X+a_2\end{matrix}\right|+a_0\left|\begin{matrix}
+-1 & X \\
+0 & -1
+\end{matrix}\right|\\
+=&X(X\cdot(X+a_2)+a_1)+a_0\\
+=&(X(X^2+a_2X+a_1)+a_0\\
+=&X^3+a_2X^2+a_1X+a_0
+\end{align*}
+This is what we were trying to prove, so we are done.
+
+\textbf{(b) Show that $X^4+a_3X^3+a_2X^2+a_1X+a_0$ is the characteristic polynomial of
+\[
+A=\begin{bmatrix}
+0 & 0 & 0 & -a_0 \\
+1 & 0 & 0 & -a_1 \\
+0 & 1 & 0 & -a_2 \\
+0 & 0 & 1 & -a_3
+\end{bmatrix}.
+\]}
+We see that
+\[
+XI-A=\begin{bmatrix}
+X & 0 & 0 & 0\\
+0 & X & 0  & 0 \\
+0 & 0 & X & 0 \\
+0 & 0 & 0 & X
+\end{bmatrix}-\begin{bmatrix}
+0 & 0 & 0 & -a_0 \\
+1 & 0 & 0 & -a_1 \\
+0 & 1 & 0 & -a_2 \\
+0 & 0 & 1 & -a_3
+\end{bmatrix}=\begin{bmatrix}
+X & 0 & 0 & a_0 \\
+-1 & X & 0 & a_1 \\
+0 & -1 & X & a_2 \\
+0 & 0 & -1 & X+a_3
+\end{bmatrix}
+\]
+We take the Laplacian expansion along the first row
+\begin{align*}
+\left|\begin{matrix}
+X & 0 & 0 & a_0 \\
+-1 & X & 0 & a_1 \\
+0 & -1 & X & a_2 \\
+0 & 0 & -1 & X+a_3
+\end{matrix}\right|=&X\left|\begin{matrix}
+X & 0 & a_1 \\
+-1 & X & a_2 \\
+0 & -1 & X+a_3
+\end{matrix}\right|-a_0\left|\begin{matrix}
+-1 & X & 0 \\
+0 & -1 & X \\
+0 & 0 & -1
+\end{matrix}\right|\\
+=&X(X^3+a_3X^2+a_2X+a_1)+a_0\\
+=&X^4+a_3X^3+a_2X^2+a_1X+a_0
+\end{align*}
+
+\textbf{(c) Once more, show that $X^5+a_4X^4+a_3X^3+a_2X^2+a_1X+a_0$ is the characteristic polynomial of 
+\[
+A=\begin{bmatrix}
+0 & 0 & 0 & 0 & -a_0 \\
+1 & 0 & 0 & 0 & -a_1 \\
+0 & 1 & 0 & 0 & -a_2 \\
+0 & 0 & 1 & 0 &  -a_3 \\
+0 & 0 & 0 & 1 & -a_4
+\end{bmatrix}.
+\]}
+
+Once more, we see that
+\[
+XI-A=\begin{bmatrix}
+X & 0 & 0 & 0 & 0 \\
+0 & X & 0  & 0 & 0 \\
+0 & 0 & X & 0 & 0 \\
+0 & 0 & 0 & X & 0 \\
+0 & 0 & 0 & 0 & X
+\end{bmatrix}-\begin{bmatrix}
+0 & 0 & 0 & 0 & -a_0 \\
+1 & 0 & 0 & 0 & -a_1 \\
+0 & 1 & 0 & 0 & -a_2 \\
+0 & 0 & 1 & 0 & -a_3 \\
+0 & 0 & 0 & 1 & -a_4
+\end{bmatrix}=\begin{bmatrix}
+X & 0 & 0 & 0 & a_0 \\
+-1 & X & 0 & 0 & a_1 \\
+0 & -1 & X & 0 &  a_2 \\
+0 & 0 & -1 & X & a_3\\
+0 & 0 & 0 & -1 & X+a_4 
+\end{bmatrix}
+\]
+Once more, taking a Laplacian expansion to calculate this determinant, we see
+\begin{align*}
+\left|\begin{matrix}
+X & 0 & 0 & 0 & a_0 \\
+-1 & X & 0 & 0 & a_1 \\
+0 & -1 & X & 0 &  a_2 \\
+0 & 0 & -1 & X & a_3\\
+0 & 0 & 0 & -1 & X+a_4 
+\end{matrix}\right|=&X
+\left|\begin{matrix}
+X & 0 & 0 & a_1 \\
+-1 & X & 0 & a_2 \\
+0 & -1 & X & a_3 \\
+0 & 0 & -1 & X+a_4
+\end{matrix}\right|+a_0\left|\begin{matrix}
+-1 & X & 0 & 0 \\
+0 & -1 & X & 0 \\
+0 & 0 & -1 & X \\
+0 & 0 & 0 & -1 
+\end{matrix}\right|\\
+=&X(X^4+a_4X^3+a_3X^2+a_2X+a_1)+a_0\\
+=&X^5+a_4X^4+a_3X^3+a_2X^2+a_1X+a_0
+\end{align*}
+
+\textbf{(d) Using an appropriate inductive assumption, show that $X^n+a_{n-1}X^{n-1}+a_{n-2}X^{n-2}+\cdots+a_1X+a_0$ is the characteristic polynomial of
+\[
+A=\begin{bmatrix}
+0 & 0 & 0 & \ldots & 0 & -a_0 \\
+1 & 0 & 0 & \ldots & 0 & -a_1 \\
+0 & 1 & 0 & \ldots & 0 & -a_2 \\
+0 & 0 & 1 & \ldots & 0 & -a_3 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & \ldots & 1 & -a_n
+\end{bmatrix}.
+\]}
+
+\setcounter{equation}{0}
+The matrix we are trying to find the determinant of is
+\begin{align}
+XI_n-A=\begin{bmatrix}
+X & 0 & 0 & 0 & \ldots & 0 \\
+0 & X & 0 & 0 & \ldots & 0 \\
+0 & 0 & X & 0 & \ldots & 0 \\
+0 & 0 & 0 & X & \ldots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & \ldots & X
+\end{bmatrix}-\begin{bmatrix}
+0 & 0 & 0 & \ldots & 0 & -a_0 \\
+1 & 0 & 0 & \ldots & 0 & -a_1 \\
+0 & 1 & 0 & \ldots & 0 & -a_2 \\
+0 & 0 & 1 & \ldots & 0 & -a_3 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & \ldots & 1 & -a_n
+\end{bmatrix}=
+\begin{bmatrix}
+X & 0 & 0 & 0 & \ldots & a_0 \\
+-1 & X & 0 & 0 & \ldots & a_1 \\
+0 & -1 & X & 0 & \ldots & a_2 \\
+0 & 0 & -1 & X & \ldots & a_3 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & \ldots & -1 & X+a_n
+\end{bmatrix}
+\end{align}
+We will assume inductively that, for $n-1$, we have
+\begin{align}
+\left|\begin{matrix}
+X & 0 & 0 & \ldots & a_0 \\
+-1 & X & 0 & \ldots & a_1 \\
+0 & -1 & X & \ldots & a_2 \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+ 0 & 0 & \ldots & -1 & X+a_{n-1}
+\end{matrix}\right|=X^{n-1}+a_{n-2}X^{n-2}+a_{n-3}X^{n-3}+\cdots+a_1X+a_0
+\end{align}
+Then, by using a Laplacian expansion on the first row of the matrix in (1) is
+\begin{align*}
+X\left|\begin{matrix}
+X & 0 & 0 & \ldots & a_1 \\
+-1 & X & 0 & \ldots & a_2 \\
+0 & -1 & X & \ldots & a_3 \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+ 0 & 0 & \ldots & -1 & X+a_{n}
+\end{matrix}\right|\pm a_0\left|\begin{matrix}
+-1 & X & 0 & 0 & \ldots & 0\\
+0 & -1 & X & 0 & \ldots & 0 \\
+0 & 0 & -1 & X & \ldots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & 0 &  \ldots & -1
+\end{matrix}\right|
+\end{align*}
+The matrix on the right is upper-triangular, so its determinant is equal to $(-1)^{n-1}$. When $n$ is even, this will be $(-1)$, but in those cases the coefficient on the term in the Laplace expansion will also be $-1$. When $n$ is odd, both the coefficient in the Laplace expansion and $(-1)^{n-1}$ are both positive, so the rightmost term always evaluates to $a_0$. The first term, on the other hand, is simply the inductive case with the $a_i$ coefficients shifted down one. So the determinant is the same as in (2), except with all the coefficients shifted. Thus we have
+\begin{align*}
+&X(X^{n-1}+a_{n-1}X^{n-2}+a_{n-2}X^{n-3}+\cdots+a_2X+a_1)+a_0\\
+=&X^n+a_{n-1}X^{n-1}+a_{n-2}X^{n-2}+\cdots+a_1X+a_0
+\end{align*}
+This is what we were trying to prove, so we are done.
+
+\textbf{8(a) If $A=\begin{bmatrix}a & b \\ c & d\end{bmatrix}$ has eigenvalue $\lambda$ show that the vector $\begin{bmatrix} b \\ \lambda-a\end{bmatrix}$ is in the eigenspace corresponding to $\lambda$.}
+\setcounter{equation}{0}
+
+If $A$ has an eigenvalue of $\lambda$, then this means that $\det{(\lambda I-A)}=0$ This means that
+\begin{align}
+\left|\begin{matrix}a-\lambda & b \\ c & d-\lambda \end{matrix}\right|=(a-\lambda)(d-\lambda)-bc=\lambda^2+(-a-d)\lambda+ad-bc=0
+\end{align}
+%Using the quadratic formula on the second-degree polynomial in $\lambda$, we get
+%\begin{align*}
+%\lambda=&\frac{a+d\pm\sqrt{(a+d)^2-4(ad-bc)}}{2}\\
+%=&\frac{a+d\pm\sqrt{(a-d)+4cb}}{2}
+%\end{align*}
+Leaving that aside for a minute, since we know $\lambda$ is an eigenvalue for $A$, we know that there exists some $\vec{v}$ such that
+\[
+\begin{bmatrix}a & b \\ c & d\end{bmatrix}\begin{bmatrix} v_1 \\ v_2\end{bmatrix}=\begin{bmatrix}\lambda v_1 \\ \lambda v_2 \end{bmatrix}
+\]
+This is equivalent to the system of equations
+\begin{align}
+av_1+bv_2=\lambda v_1\\
+cv_1+dv_2=\lambda v_2
+\end{align}
+If we can show that the vector $(v_1,v_2)=(b,\lambda-a)$ satisfies this system, then it is also a vector in this eigenspace. So we substitute into (2):
+\begin{align*}
+ab+b(\lambda-a)=\lambda b\implies b\lambda=b\lambda
+\end{align*}
+This is trivially true. Now we look at the second equation. This one is a little harder to arrive at, but still pretty immediate:
+\begin{align*}
+&bc+d(\lambda-a)=\lambda(\lambda-a)\\
+\iff&bc+d\lambda-ad=\lambda^2-\lambda a\\
+\iff&\lambda^2-\lambda-\lambda d+ad-bc=0 \tag{4}
+\end{align*}
+But we know $(4)$ is true, because it matches up exactly with (1). Thus this vector $(b,\lambda-a)$ is an eigenvector for $A$, so it is clearly also in the eigenspace.
+
+\textbf{(b) Show that every $2\times2$ matrix $A$ in $M_2(\mathbb R)$ with strictly positive real entries has two distinct real eigenvalues.}
+\setcounter{equation}{0}
+
+If $A$ has an eigenvalue of $\lambda$, then this means that $\det{(\lambda I-A)}=0$ This means that
+\begin{align}
+\left|\begin{matrix}a-\lambda & b \\ c & d-\lambda \end{matrix}\right|=(a-\lambda)(d-\lambda)-bc=\lambda^2+(-a-d)\lambda+ad-bc=0
+\end{align}
+Using the quadratic formula on the second-degree polynomial in $\lambda$, we get
+\begin{align*}
+\lambda=&\frac{a+d\pm\sqrt{(a+d)^2-4(ad-bc)}}{2}\\
+=&\frac{a+d\pm\sqrt{(a-d)^2+4bc}}{2}
+\end{align*}
+The conclusion follows immediately, now. If $a,b,c,d$ are positive, then $(a-d)^2$ is positive, and $4bc$ is positive, so their sum is positive, so the root cannot fail to exist. Moreover, the root is nonzero so the eigenvalues are distinct. This is all we needed to show.
+
+\textbf{(c) Show that eigenvectors of any real matrix $A$ as in part (b) corresponding to the two eigenvalues can be chosen so that one is in the first quadrant of $\mathbb R^2$ and the other is in the second quadrant of $\mathbb R^2$.}
+
+The first quadrant of $\mathbb R^2$ are those vectors $(x,y)$ where $x>0$ and $y>0$. The second quadrant are those where $x>0$ but $y<0$. Well, if all the entries in $A$ are strictly positive, it follows that $b>0$. So let us choose the eigenvectors $(b,\lambda-a)$, which we know we can do thanks to part (a). It only remains to show that one of the eigenvalues makes $\lambda-a$ positive, and the other makes it negative.
+
+Well, we have $\lambda=\frac{a+d\pm\sqrt{(a-d)^2+4bc}}{2}$. This implies that $\lambda-a=\frac{d-a\pm\sqrt{(a-d)^2+4bc}}{2}$. It is also clear that $(a-d)^2=(d-a)^2$, so it is clear that $\sqrt{(a-d)^2+4bc}>(d-a)$ when $bc>0$ (which it is). Thus if we take the first eigenvalue (the plus sign), we have $(d-a)$ plus some value bigger than $(d-a)$, so it must be positive. If we take the negative version of the eigenvalue, then we have $(d-a)$ minus some quantity that is greater than $(d-a)$, so it must be negative. Thus the second coordinate is positive in one case and negative in the other, so the two eigenvectors lie in the first two quadrants of $\mathbb R^2$.
+\end{document}  

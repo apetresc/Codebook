@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\newcommand{\tr}[1]{\ensuremath{\mathrm{tr}\left(#1\right)}}
+
+\title{Math 245 - Assignment 6}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Suppose that $A$ is a $3\times3$ matrix of real numbers and that $A$ is not similar to an upper-triangular matrix using the field $\mathbb R$. Show that as a complex matrix $A$ is similar to a diagonal matrix with $3$ distinct eigenvalues.}\newline
+
+\textbf{2. Let $(X-\lambda_1)(X-\lambda_2)\ldots(X-\lambda_n)$ be the characteristic polynomial of a matrix $A$. Here we allow for repeated factors. Prove that
+\[\tr{A}=\lambda_1+\lambda_2+\cdots+\lambda_n\quad\mbox{ and } \quad\det{A}=\lambda_1\lambda_n\cdots\lambda_n. \]}\newline
+
+By Theorem 19, we know that if the minimal polynomial of $T$ factors into linear factors, then there is an upper-triangular matrix with its eigenvalues across the diagonals. Since the minimal polynomial divides the characteristic polynomial, and we know the characteristic polynomial factors into linear factors, it follows that the minimal polynomial does as well. Thus, Theorem 19 applies, and so we can write $A$ as
+\[\begin{bmatrix}
+\lambda_1 & \cdots & \cdots & \cdots & \cdots \\
+0 & \lambda_2 & \cdots & \cdots & \cdots \\
+0 & 0 & \lambda_3 & \cdots & \cdots \\
+\vdots & \vdots & \vdots & \ddots  & \vdots \\
+0 & 0 & 0 & \cdots & \lambda_n
+\end{bmatrix}\]
+From here. it is obvious that, since the matrix is upper-triangular, the determinant is simply the product across the diagonal, and since all the eigenvalues appear along the diagonal, the trace is simply their sum.\newline
+
+\textbf{3. If $A$ is any $2\times2$ complex matrix, and $n$ is a positive integer, prove that
+\[
+\tr{A^{n+1}}=\tr{A}\tr{A^n}-\det{A}\tr{A^{n-1}}
+\]}
+\end{document}  

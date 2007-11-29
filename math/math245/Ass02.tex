@@ -1,0 +1,531 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 245 - Assignment 2}
+\author{Adrian Petrescu}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. An $n\times n$ matrix $A$ is similar to a matrix $B$ whenever $B=P^{-1}AP$ for some invertible matrix $P$ . Show that similar matrices have equal determinants.}
+
+We know by the multiplicative property of determinants that the determinant of a product of matrices is equal to the product of the determinants. Moreover, by the commutativity of multiplication in fields, we know that the order of the multiplication of the determinants can be rearranged. Thus
+\begin{align*}
+\det{B}=&\det{P^{-1}AP}\\
+=&\det{P^{-1}}\det{A}\det{P}\\
+=&\det{P^{-1}}\det{P}\det{A}\\
+=&\det{P^{-1}P}\det{A}\\
+=&\det{A}
+\end{align*}
+Thus we have shown that $\det B=\det A$, which is what we were trying to prove.
+
+\textbf{2. The entries in the following matrix $A$ are residues modulo $2$. That is, the matrix lies in $M_5(\mathbb{Z}_2)$. Find its determinant.
+\[
+A=   \left[\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 1 & 0 & 1 \\
+      1 & 1 & 1 & 1 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{matrix}\right]
+\] Then calculate $\det{A}$ if the entries are taken as residues modulo $3$.}
+
+We will perform elementary matrix operations on $A\in M_5(\mathbb Z_2)$, until we have arrived at an upper-triangular matrix at which point calculating the determinant will be very easy. Then we simply track how the determinant has changed as a result of the operations we applied in order to deduce the original determinant.
+
+\begin{align*}
+&\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 1 & 0 & 1 \\
+      1 & 1 & 1 & 1 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(-1)}{\xrightarrow{R_2\leftrightarrow R_3}}
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      1 & 1 & 1 & 1 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(1)}{\xrightarrow{(R_2+R_1)\rightarrow R_2}}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}\underset{(1)}{\xrightarrow{(R_2+R_5)\to R_5}}\end{align*}
+   \begin{align*}
+   \underset{(1)}{\xrightarrow{(R_2+R_5)\to R_5}}
+   &   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 0 & 0 & 0 & 0 \\
+   \end{bmatrix}
+   \underset{(1)}{\xrightarrow{(R_2+R_4)\to R_4}}
+      \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 0 & 0 \\
+   \end{bmatrix}
+\end{align*}
+We now have an upper triangular matrix, so the determinant of this new matrix $A'$ is simply the product of the main diagonal. However, the product of this main diagonal is $0$; so multiplying by factors of $(-1)$ does not change that. Thus we can conclude right away that $A\in M_5(\mathbb{Z}_2)$ has determinant $0$.
+
+Now let's say that $A\in M_5(\mathbb Z_3)$. This changes the behavior of addition and scalar multiplication, so we may very well get a different answer.
+\begin{align*}
+&\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 1 & 0 & 1 \\
+      1 & 1 & 1 & 1 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(-1)}{\xrightarrow{R_2\leftrightarrow R_3}}
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      1 & 1 & 1 & 1 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(1)}{\xrightarrow{(2R_1+R_2)\to R_2}}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 1 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(1)}{\xrightarrow{(2R_5+R_4)\to R_4}}  \\
+ &\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 0 & 0 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+   \end{bmatrix}
+   \underset{(1)}{\xrightarrow{((-1)R_2+R_5\to R_5)}}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 1 \\
+      0 & 0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 0 & 0 \\
+   \end{bmatrix}
+\end{align*}
+Once again we have an upper-triangular matrix, and once again its product on the main diagonal is $0$. Thus $\det{A}=0$ even when $\det{A}\in M_5(\mathbb Z_3)$.
+
+\textbf{3. Find the volume of the parallelopiped determined by the vectors $(1, 2, 3),$ $(0, 4, -1),$ $(-1, 5, 0)$. Then find the volume of the tetrahedron determined by these three points and the origin.}
+
+We know that a parallelepiped determined by the vectors $\vec a=(a_1,a_2,a_3),$ $\vec b=(b_1, b_2, b_3)$, and $\vec c=(c_1,c_2,c_3)$ has a volume equal to
+\[
+V=\left|   \det\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      a_1 & a_2 & a_3 \\
+      b_1 & b_2 & b_3 \\
+      c_1 & c_2 & c_3
+   \end{bmatrix}\right|
+\]
+If we take the three given vectors to be $\vec a, \vec b, \vec c$ respectively, then we have
+\begin{align*}
+V=&\left|   \det\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 2 & 3 \\
+      0 & 4 & -1 \\
+      -1 & 5 & 0
+   \end{bmatrix}\right|\\=&\left|(1)(4)(0)+(2)(-1)(-1)+(3)(0)(5)-(-1)(4)(3)-(5)(-1)(1)-(0)(0)(2)\right|\\
+   =&|0+2+0+12+5-0|=19
+\end{align*}
+Thus the volume of the parallelepiped is $19$.
+
+For the tetrahedron, we use the formula
+\[
+V=\frac{\left|\det{(\vec a-\vec b,\vec b-\vec c,\vec c-\vec d)}\right|}{6}
+\]
+Using the same $\vec a, \vec b, \vec c$ as above, we have
+\begin{align*}
+\vec a-\vec b=&(1,2,3)-(0,4,-1)=(1,-2,4)\\
+\vec b-\vec c=&(0,4,-1)-(-1,5,0)=(1,-1,-1)\\
+\vec c-\vec d=&(-1,5,0)-(0,0,0)=(-1,5,0)
+\end{align*}
+Then our matrix is
+\[
+A=\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & -2 & 4 \\
+      1 & -1 & -1 \\
+      -1 & 5 & 0
+   \end{bmatrix}
+\]
+So it is another simple calculation to see that
+\begin{align*}
+V=\frac{\left|\det A\right|}{6}=&\frac{|(1)(-1)(0)+(-2)(-1)(-1)+(4)(1)(5)-(-1)(-1)(4)-(5)(-1)(1)-(0)(1)(-2)|}{6}\\
+=&\frac{|0-2+20-4+5+0|}{6}=\frac{21}{6}
+\end{align*}
+So the volume of the tetrahedron is $\frac{21}{6}$.
+
+\textbf{4. Evaluate $\displaystyle\det{   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 2 & 3 & 4 & \ldots & n \\
+      2 & 2 & 3 & 4 & \ldots & n \\
+      3 & 3 & 3 & 4 & \ldots & n \\
+      \vdots & \vdots & \vdots & \vdots & \ldots & n \\
+      n & n & n & n & \ldots & n
+   \end{bmatrix}}$.}
+   
+   After playing by hand with a few examples, we begin to suspect that $\det A=n$ for odd $n$, and $\det A=-n$ for even $n$. To prove this, we will again keep track of elementary row operations to $A$, and try to get it into an easy-to-calculate form.
+   
+   We notice that if we subtract the $k+1$th row from the $k$th, all but the first $k$ values of the row go to $0$ (and the first $k$ values go to $-1$). We can keep doing this $k-1$ times, leaving all but the last row as $k$ instances of -1 followed by $n-k$ instances of $0$. So if we apply this operation as many times as we can, we get
+   \[
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 2 & 3 & 4 & \ldots & n \\
+      2 & 2 & 3 & 4 & \ldots & n \\
+      3 & 3 & 3 & 4 & \ldots & n \\
+      \vdots & \vdots & \vdots & \vdots & \ldots & n \\
+      n & n & n & n & \ldots & n
+   \end{bmatrix}\underset{1^{n-1}}{\xrightarrow{(-1)R_{k+1}-R_k\to R_k\quad\forall 1\leq k<n}}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      -1 & 0 & 0 & 0 & \ldots & 0 \\
+      -1 & -1 & 0 & 0 & \ldots & 0 \\
+      -1 & -1 & -1 & 0 & \ldots & 0 \\
+      \vdots & \vdots & \vdots & \vdots & \ldots & 0 \\
+      -1 & -1 & -1 & \ldots & -1 & 0\\
+      n & n & n & n & \ldots & n
+   \end{bmatrix}
+   \]
+   We see that this is an lower triangular matrix, which means that its determinant is simply equal to the product of the main diagonal. Moreover, since all of the operations we used to arrive at this matrix do not affect its determinant, this matrix has the same determinant as the one we are looking for, $A$. Well, it is pretty obvious that the first $(n-1)$ rows contribute a factor of $(-1)$ to the product, and the $n$th row contributes $n$. So the determinant is
+   \[
+   \boxed{\det A=(-1)^{n-1}n}
+   \]
+ 
+ \textbf{5. If $\delta:M_n(\mathbb R)\to\mathbb R$ is multilinear in the rows and is such that $\delta(B)=-\delta(A)$ whenever $B$ is obtained from $A$ by interchanging two rows of $A$, prove that $\delta(A)=0$ whenever $A$ has two identical rows.\newline
+ Next, find a field $\mathbb F$ and a mapping $\delta:M_2(\mathbb F)\to\mathbb F$ such that\begin{itemize}
+\item $\delta$ is multilinear in the rows
+\item $\delta(B)=-\delta(A)$ whenever $B$ is obtained by switching the rows of $A$
+\item $\delta(A)\not=0$ for some matrix $A$ such that row $1=$ row $2$.
+\end{itemize}
+ }
+Consider the matrix
+\[
+   A=\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}
+\]
+ We want to show that $\delta(A)=0$, since it has two identical rows. Since we know $\delta$ is multilinear in each row, we can expand $\delta(A)$ as:
+ \begin{align}
+ \delta(A)=\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}+\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \beta \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}
+ \end{align}
+ However, it is multilinear in any row, so we can also factor $\delta(A)$ as
+ \begin{align}
+  \delta(A)=\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha +\beta\\
+      \vdots \\
+      \alpha \\
+      \vdots \\
+      v_n
+   \end{bmatrix}+\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha + \beta \\
+      \vdots \\
+      \beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}
+ \end{align}
+ So now we add (1)+(2) together to get
+ \[
+ 2\delta(A)=\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}+\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \beta \\
+      \vdots \\
+      \alpha+\beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}+\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha +\beta\\
+      \vdots \\
+      \alpha \\
+      \vdots \\
+      v_n
+   \end{bmatrix}+\delta\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      \vdots \\
+      \alpha + \beta \\
+      \vdots \\
+      \beta \\
+      \vdots \\
+      v_n
+   \end{bmatrix}
+ \]
+ But now we see that the first and third matrix are the same, but with rows swapped, so their $\delta$'s add to $0$. Similarly, the second and fourth matrix are the same but with rows swapped, so they also cancel to $0$. So we are left with $2\delta(A)=0\implies\delta(A)=0$, which is what we were trying to prove.
+ 
+ If we are trying to find a field and a mapping so that the property does not hold, we must look for some sort of loophole in the above argument that can be exploited by a different choice of field (than $\mathbb R$). The only one I can think of is the implication that $2\delta(A)=0\implies\delta(A)=0$; this is the assumption that our field $\mathbb F$ is of characteristic not equal to $2$. So chances are good that for such a mapping to exist, it must be over a field of characteristic 2, such as $\mathbb Z_2$. For a mapping, consider the map $\tau:M_n(\mathbb Z_2)\to\mathbb Z_2$ defined by
+ \[
+ \tau([a_{ij}])=\sum_{1\leq i,j\leq n}{a_{ij}}
+ \]
+ This is simply the map that sums every element in the matrix. To show that is multilinear, consider the fact that $\tau(A)$ is always either $0$ or $1$. If the sum of a row is $1$, then that row affects the outcome of applying $\tau$ to its matrix (by switching the choice. If the sum of a row is $0$, then it does not affect it. So $\tau$ boils down to $\tau(A)=0$ if $A$ has an even number of $1$'s in it, and $1$ otherwise. This is multilinear; if $A$ is even and $B$ is odd, then the row in $B$ that is different from $A$ must be odd, and so $\tau(A)$ will be odd, which checks out. If If $A$ is even and $B$ is even, then the row being added is also even, therefore does not affect $\tau A$, which checks out. If $A$ is odd and $B$ is even, then the row being added must be even, so we are adding even to odd and ending up with odd, which is correct. Lastly, if $A$ is odd and $B$ is odd, then the row being added must be odd, so we are adding odd to odd, so $\tau(A)$ is even, which fits since $\tau(A)+\tau(B)$ would also be even in this case. We have exhausted every possible combination of $\tau(A)$ and $\tau(B)$, and it has been multilinear in each case.
+ 
+ We must also show that swapping two rows means $\tau(A)=-\tau(B)$. This is better written as $\tau(A)+\tau(B)=0$. It is obvious that swapping two rows does not affect the number of $1$'s in the matrix. Thus $\tau(A)=\tau(B)$, which at first seems to be a contradiction; however, in a field of characteristic 2, we have
+ \begin{align*}
+ 0+0=0\\
+ 1+1=0
+ \end{align*}
+ So this does indeed check out.
+ 
+ Lastly, we just have to show that there is some matrix with two equal rows where $\tau(A)\not=0$. This is easy.
+ \[
+    \tau\left(\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       0 & 0 & 1\\
+       0 & 0 & 1\\
+       1 & 1 & 1
+    \end{bmatrix}\right)=1\not=0
+ \]
+ So we are now done.
+ \newline
+ 
+ \textbf{6.(a) Show that $\lambda$ is an eigenvalue for $A$ if and only if $\det{(\lambda I-A)}=0$.}
+ 
+ By the definition of an eigenvalue, we know that there is some non-zero $\vec v\in\mathbb F^n$ such that 
+ \[
+  A\vec v=\lambda\vec v
+ \]
+ We can factor this into
+ \[
+ A\vec v=\lambda\vec v\implies A\vec v-\lambda\vec v=0\implies(A-\lambda I)(\vec v)=0
+ \]
+ Now, we know that $\vec v$ is non-zero; this means that the linear transformation $T$ represented by the matrix $(A-\lambda I)$ is sending something non-zero to zero. But the rank-nullity theorem tells us that the nullity of $T$ and the rank of $T$ add up to the dimension of the domain. Well, the dimension of the domain is obviously $n$, so if the matrix is sending $\vec v$ to $0$, the dimension of nullity is greater than $0$, meaning the rank is less than $n$. But it is well-known that an $n\times n$ matrix is invertible if and only if its rank is $n$. By the argument given above, the rank is less than $n$ if and only if $\lambda$ is an eigenvalue. But we also know that the matrix is invertible (i.e, has rank $n$) if and only if $\det{(A-\lambda I)}=0$. We are done. 
+ 
+ \textbf{6(b) Find the eigenvalues of $A=   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 & -1 \\
+       1 & 1 \\
+    \end{bmatrix}$ inside the field $\mathbb C$.}
+    
+We are looking for $\lambda$ such that
+\[
+\det{(A-\lambda I)=0}
+\]
+ Luckily this is a pretty easy determinant to calculate. $A-\lambda I$ is simply $\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1-\lambda & -1 \\
+       1 & 1-\lambda \\
+    \end{bmatrix}$, so we are trying to evaluate:
+    \begin{align*}
+    \left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1-\lambda & -1 \\
+       1 & 1-\lambda \\
+    \end{matrix}\right|=&(1-\lambda)^2+1\\
+    =&1-2\lambda+\lambda^2+1\\
+    =&\lambda^2-2\lambda+2
+    \end{align*}
+    We apply the quadratic formula to this equation in $\lambda$ to find the roots:
+    \begin{align*}
+    \lambda=\frac{2\pm\sqrt{4-8}}{2}=\frac{2\pm2i}{2}=(1+i),(1-i)
+    \end{align*}
+    Thus the eigenvalues of $A$ are $(1+i)$ and $(1-i)$.
+    
+    \textbf{6(c) For each eigenvalue you found in $\mathbb C$ for this matrix $A$, calculate a suitable eigenvector in $\mathbb C^2$ .}
+    \setcounter{equation}{0}
+    
+    First let's find the eigenvector for $\lambda=(1+i)$. That is, we are looking for a $(v_1,v_2)$ so that
+    \begin{align*}
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 & -1 \\
+       1 & 1 \\
+    \end{bmatrix}\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1 \\
+       v_2 \\
+    \end{bmatrix}=&(1+i)\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1 \\
+       v_2 \\
+    \end{bmatrix}\\
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1- v_2 \\
+       v_1 + v_2 \\
+    \end{bmatrix}=&
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1+ iv_1 \\
+       v_2 + iv_2\\
+    \end{bmatrix}
+    \end{align*}
+    This is equivalent to the simple system of linear equations
+    \begin{align}
+    v_1-v_2=(1+i)v_1\\
+    v_1+v_2=(1+i)v_2
+    \end{align}
+    (2) tells us that $v_1=iv_2$, and (1) tells us that $v_2=-iv_1$, which are exactly the same thing. Thus, anything on the ``line" $v_1=iv_2$ is a solution to this system. Let's take $v_2=-i$ and $v_1=1$. A visual check confirms that
+    \[
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 & -1 \\
+       1 & 1 \\
+    \end{bmatrix}\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 \\
+       -i \\
+    \end{bmatrix}=(1+i)\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 \\
+       -i \\
+    \end{bmatrix}\iff\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1+i \\
+       1-i \\
+    \end{bmatrix}=\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1+i \\
+       1-i \\
+    \end{bmatrix}
+    \]
+    So this $(v_1,v_2)$ is an eigenvector.
+    
+    For the eigenvalue $\lambda=(1-i)$, we have
+    \[
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1- v_2 \\
+       v_1 + v_2 \\
+    \end{bmatrix}=
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       v_1- iv_1 \\
+       v_2 - iv_2\\
+    \end{bmatrix}
+    \]
+    which is equivalent to the system of equations
+        \begin{align}
+    v_1-v_2=(1-i)v_1\\
+    v_1+v_2=(1-i)v_2
+    \end{align}
+    This has the same solutions as before, except this time $v_1=-iv_2$, so we have the solution
+    \[
+    v=\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 \\
+       -i \\
+    \end{bmatrix}
+    \]
+    So these are two eigenvectors.\newline
+        
+    \textbf{7. The $n\times n$ Vandermonde matrix is
+    \[
+    A=   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & x_1 & x_1^2 & \ldots & x_1^{n-1} \\
+          1 & x_2 & x_2^2 & \ldots & x_2^{n-1} \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & x_n & x_n^2 & \ldots & x_n^{n-1}
+       \end{bmatrix}
+    \]
+    Find a clean formula for its determinant.
+    }
+    
+    You have asked us not to go through the formal induction argument you provided in the question, so I shall give only a loose explanation for why the expression for the determinant always has the form that it does. Given an $n\times n$ Vandermonde matrix, one performs the series of operations $(x_1C_{k-1}+C_k\to C_k)$ for all $1<k\leq n$. This has the effect of turning the Vandermonde matrix into
+ \[
+ \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & 0 & 0 & 0 & \ldots & 0 \\
+          1 & (x_2-x_1) & x_2(x_2-x_1) & x^2_2(x_2-x_1) & \ldots & x_2^{n-2}(x_2-x_1) \\
+          1 & (x_3-x_1) & x_3(x_3-x_1)& x^2_3(x_3-x_1) & \ldots & x_3^{n-2}(x_3-x_2) \\
+          \vdots & \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & (x_n-x_1) & x_n(x_n-x_1) & x_n^2(x_n-1) & \ldots & x_n^{n-2}(x_n-x_1)
+       \end{bmatrix}
+ \]
+ Then we can use the Laplace expansion along the top row. All but the first submatrix will get zeroed, so the determinant is equal to the determinant of the $(n-1)\cdot(n-1)$ submatrix
+ \[
+  \left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+          (x_2-x_1) & x_2(x_2-x_1) & x^2_2(x_2-x_1) & \ldots & x_2^{n-2}(x_2-x_1) \\
+          (x_3-x_1) & x_3(x_3-x_1)& x^2_3(x_3-x_1) & \ldots & x_3^{n-2}(x_3-x_1) \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          (x_n-x_1) & x_n(x_n-x_1) & x_n^2(x_n-1) & \ldots & x_n^{n-2}(x_n-x_1)
+       \end{matrix}\right|
+ \]
+ When we compare this to the $(n-1)\times(n-1)$ Vandermonde matrix,
+ \[
+ \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & x_2 & x_2^2 & \ldots & x_2^{n-2} \\
+          1 & x_3 & x_3^2 & \ldots & x_3^{n-2} \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & x_n & x_n^2 & \ldots & x_n^{n-2}
+       \end{bmatrix}
+ \]
+ We see that it is identical to the determinant sought above, except missing a factor of $(x_k-x_1)$ on the $(k-1)$th row. But we know that determinants are multilinear on each row, so we can take out a factor of $(x_k-x_1)$ on every individual row in order to get
+ \begin{align*}
+   &\left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+          (x_2-x_1) & x_2(x_2-x_1) & x^2_2(x_2-x_1) & \ldots & x_2^{n-2}(x_2-x_1) \\
+          (x_3-x_1) & x_3(x_3-x_1)& x^2_3(x_3-x_1) & \ldots & x_3^{n-2}(x_3-x_1) \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          (x_n-x_1) & x_n(x_n-x_1) & x_n^2(x_n-1) & \ldots & x_n^{n-2}(x_n-x_1)
+       \end{matrix}\right|\\&=(x_2-x_1)\cdot(x_3-x_1)\cdots(x_n-x_1)\left|
+        \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & x_2 & x_2^2 & \ldots & x_2^{n-2} \\
+          1 & x_3 & x_3^2 & \ldots & x_3^{n-2} \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & x_n & x_n^2 & \ldots & x_n^{n-2}
+       \end{matrix}
+       \right|\\
+       =&\prod_{i=2}^n{(x_i-x_1)}\left|
+        \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & x_2 & x_2^2 & \ldots & x_2^{n-2} \\
+          1 & x_3 & x_3^2 & \ldots & x_3^{n-2} \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & x_n & x_n^2 & \ldots & x_n^{n-2}
+       \end{matrix}
+       \right|
+ \end{align*}
+ Now we perform the same operations on this new matrix, except using $x_2$ instead of $x_1$ (the new top row). This will give us, following the pattern above,
+ \[
+ \prod_{i=2}^n{(x_i-x_1)}\prod_{i=3}^n{(x_i-x_2)}\left| \begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+          1 & x_3 & x_3^2 & \ldots & x_3^{n-3} \\
+          1 & x_4 & x_4^2 & \ldots & x_4^{n-3} \\
+          \vdots & \vdots & \vdots & \ldots & \vdots \\
+          1 & x_n & x_n^2 & \ldots & x_n^{n-3}
+       \end{matrix}
+\right|
+ \]
+ We keep repeating this process until we arrive at the $2\times2$ matrix. Following the pattern we see here, it will eventually give us a result of
+ \[
+ \prod_{i=2}^n{(x_i-x_1)}\prod_{i=3}^n{(x_i-x_2)}\prod_{i=4}^n{(x_i-x_3)}\cdots\prod_{i=n}^n{(x_i-x_{n-1})}
+ \]
+ But this is basically just every $(x_a-x_b)$ pair where $a>b$. The above product of products can be simply stated as
+ \[
+ \prod_{1\leq i<j\leq n}{(x_i-x_k)}
+ \]
+ This is the determinant we were looking for, so now we are done.
+\end{document}  

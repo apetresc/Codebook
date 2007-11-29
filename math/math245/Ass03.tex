@@ -1,0 +1,402 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\providecommand{\adj}[1]{\ensuremath{#1^{\mathrm{adj}}}}
+
+\title{Math 245 - Assignment 3}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. Show that the matrix $
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 1 & 0 \\
+      0 & 1 & 1 \\
+      1 & 0 & 1 \\
+   \end{bmatrix}$ has no inverse if the entries are taken to be in $\mathbb Z_2$, but does have an inverse if the entries are taken to be in $\mathbb Z_3$.}
+
+If we take the matrix (let's call it $A$) to be an element of $M(\mathbb Z_2)$, then it is easy to see that the operation
+\[
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 1 & 0 \\
+      0 & 1 & 1 \\
+      1 & 0 & 1 \\
+   \end{bmatrix}
+   \xrightarrow{R_2+R_1\to R_1}\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 0 & 1 \\
+      0 & 1 & 1 \\
+      1 & 0 & 1 \\
+   \end{bmatrix}
+\]
+This operation, which does not affect the determinant of $A$, results in a matrix with two identical rows; thus, under $M(\mathbb Z_2)$, the determinant of $A$ is $0$, and so it is not invertible.
+
+Under $\mathbb Z_3$, however, we can perform the following operations:
+\[
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 1 & 0 \\
+      0 & 1 & 1 \\
+      1 & 0 & 1 \\
+   \end{bmatrix}
+   \xrightarrow{2R_1+R_3\to R_3}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 1 & 0 \\
+      0 & 1 & 1 \\
+      0 & 2 & 1 \\
+   \end{bmatrix}
+   \xrightarrow{R_2+R_3\to R_3}
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & 1 & 0 \\
+      0 & 1 & 1 \\
+      0 & 0 & 2 \\
+   \end{bmatrix}
+\]
+This is now an upper-triangular matrix, so its determinant is the product of the main diagonal, which is $2$. However, none of the row operations we performed affected the determinant of $A$, so $\det{A}$ is also 2, and thus $A$ is invertible under $M(\mathbb Z_3)$.\newline
+
+\textbf{2(a) Suppose $A\in M_n(\mathbb Q)$, that $A$ is invertible, and that the entries of $A$ are integers. Prove that $A^{-1}$ has integer entries if and only if $\det A=\pm1$.}
+
+Since $A$ is invertible, we know we definitely have $A^{-1}$ such that
+\[
+\det{(AA^{-1})}=\det{A}\det{A^{-1}}=\det{I}=1\implies\det{A}=\frac{1}{\det{A^{-1}}}
+\]
+We know that $A$ is composed entirely of integers, so its determinant is also an integer. Thus, if $A^{-1}$ has all integer entries, its determinant is also an integer; but the only integer such that $\frac{1}{\det{A^{-1}}}$ is also an integer is $\pm1$. So then $\det{A}=\frac1{\pm1}=\pm1$. Thus we have proven one side of the implication; it remains to prove the converse.
+
+Next we consider the classical adjoint of $A$. Since the fields of $A$ are all integers, then the determinant of each minor matrix will also be an integer, so $A^{\mathrm{adj}}$ has all integer entries as well. Then, by the formula for the inverse of a matrix according to its classical adjoint, we have
+\[
+A^{-1}=\frac{1}{\det{A}}A^{\mathrm{adj}}
+\]
+Thus, if $\det{A}=\pm1$, then $A^{-1}=\pm A^{\mathrm{adj}}$. Obviously this preserves the integers of $A^{\mathrm{adj}}$, so $A^{-1}$ has integer entries as well.\newline
+
+\textbf{2(b) Suppose $\mathbb F$ is the field $\mathbb R(X)$ of rational functions in $X$ with coefficients in $\mathbb R$ and that a matrix $A$ in $M_n(\mathbb F)$ is invertible and that its entries are polynomials in $X$. Prove that the entries of $A^{-1}$ are polynomials if and only if $\det A$ is in $\mathbb R$.}
+
+We use a similar argument to the above. Consider the formula for $A^{-1}$ with respect to the classical adjoint of $A$:
+\[
+A^{-1}=\frac{1}{\det{A}}A^{\mathrm{adj}}
+\]
+
+One of the implications follows immediately: if $\det{A}\in\mathbb R$, then $A^{-1}$ is simply the adjoint of $A$ scaled by some real number; it is clear that the adjoint of a matrix of polynomials is itself also a matrix of polynomial (even though some of those entries may, in fact, be constant polynomials). Moreover, a polynomial divided by an element of $\mathbb R$ is still a polynomial. Thus, $\frac{1}{\det A}A^{\mathrm{adj}}$ is also a matrix of polynomials, which is what we were trying to prove.
+
+Then we need to prove that if $A^{-1}$ is made up of polynomials, then $\det A$ is in $\mathbb R$. We recall the fact from above, that
+\[
+\det{(AA^{-1})}=\det{A}\det{A^{-1}}=\det{I}=1\implies\det{A}=\frac{1}{\det{A^{-1}}}
+\]
+Since $A$ is made up of polynomials, its determinant must also be a polynomial. But the only polynomial that can be written as $\frac{1}{Y}$ is a constant polynomial where $Y\in\mathbb R$. If $Y$ were a polynomial in $X$, then its reciprocal would be a rational function, not a polynomial. Therefore, $\det{A^{-1}}$ must be a real number. But then $\det{A}=\frac{1}{\det{A^{-1}}}$ is also a real number. Thus we have proven both sides of the implication.\newline
+
+\textbf{2(c) A Gaussian integer is a complex number of type $a+bi$ where $a,b$ are integers. Let $A$ be an invertible matrix in $M_n(\mathbb C)$ whose entries are Gaussian integers. Prove that the entries of $A^{-1}$ are Gaussian integers if and only if $\det A$ is $\pm1$ or $\pm i$.}
+
+Yet again we consider
+\[
+A^{-1}=\frac{1}{\det{A}}A^{\mathrm{adj}}
+\]\newline
+
+\textbf{3. Let $GL_2(\mathbb C)$ be the group of $2\times 2$ invertible matrices with complex number entries. If $A\in GL_2(\mathbb C)$ show that there is a path in $GL_2(\mathbb C)$ from $A$ to $I$.}
+
+We want to show that there is a continuous function $P:[0,1]\to GL_2(\mathbb C)$ such that $P(0)=A$ and $P(1)=I$. Unlike $\mathbb R$, it is possible for a positive number to be continuously transformed into a negative number without having been exactly $0$ in between. We can simply go around in a circle, never touching the ``origin".
+
+First, however, we must bring ourselves to the real axis. for a matrix
+\[
+\begin{bmatrix}
+a_{11}+b_{11}i & a_{12}+b_{12}i \\
+a_{21}+b_{21}i & a_{22}+b_{22}i
+\end{bmatrix}
+\]
+Then first consider the transformation $Q:\to GL_2(\mathbb R)$ that simply brings $A$ to the space of real matrices:
+\[
+Q(t)=\begin{bmatrix}
+a_{11}+(1-t)b_{11}i & a_{12}+(1-t)b_{12}i \\
+a_{21}+(1-t)b_{21}i & a_{22}+(1-t)b_{22}i
+\end{bmatrix}
+\]
+This transformation is continuous. Now that we are on the axis, we travel to either $I$ or $-I$, depending on $A$.  Such a path is simply
+\[
+R(t)=\begin{bmatrix} t+(1-t)a_{11} & (1-t)b_{12} \\ (1-t)a_{21} & t+(1-t)a_{22}\end{bmatrix}
+\]
+
+So now we have all the matrices pooling at either the negative identity or the positive identity. It only remains to show that we can bridge these in such a way as to never have $\det P(A)=0$ along the way.
+
+The answer to this is simply the circle of radius $1$ centered around the origin. It passes through both $I$ and $-I$, without ever passing through the origin in the center. By composing all these functions together, using the theorem from class, this last combination is continuous as well.\newline
+
+\textbf{4. Let $P_n$ be the vector space of polynomials in $X$ of degree up to $n$ and having coefficients in the field $\mathbb R$. The starndard basis of $P_n$ is $1,X,X^2,\ldots,X^n$. Pick $n+1$ distinct scalars $c_1,c_2,\ldots,c_{n+1}$. Then define the linear transformation $T: P_n\to\mathbb R^{n+1}$ by $Tf=(f(c_1),f(c_2),\ldots,f(c_{n+1}))$. Thus $T$ is the transformation that assigns to each polynomial its $(n+1)$-tuple of values at the preselected points $c_j$.}
+
+\textbf{(a) Find the matrix of $T$ using the standard basis of $P_n$ and the standard basis of $\mathbb R^{n+1}$. What is the name that such a matrix was given in an earlier assignment?}
+
+We see
+\begin{align*}
+T(f(X)=1)=&(1,1,1,\ldots,1)\\
+T(f(X)=X)=&(c_1,c_2,c_3,\ldots,c_{n+1})\\
+T(f(X)=X^2)=&(c_1^2,c_2^2,c_3^2,\ldots,c_{n+1}^2)\\
+\vdots& \\
+T(f(X)=X^n)=&(c_1^n,c_2^n,c_3^n,\ldots,c_{n+1}^n)
+\end{align*}
+
+The standard basis for $\mathbb R^{n+1}$ is simply the rows of the identity matrix. Thus we can write the matrix of $T$ as
+\[
+  [T]= \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      1 & c_1 & c_1^2 & \cdots & c_1^n \\
+      1 & c_2 & c_2^2 & \cdots & c_2^n \\
+      1 & c_3 & c_3^2 & \cdots & c_3^n \\
+      \vdots & \vdots & \vdots & \cdots & \vdots \\
+      1 & c_{n+1}^n & c_{n+1}^n & \cdots & c_{n+1}^n
+   \end{bmatrix}
+\]
+Each row is in an arithmetic progression. Thus, this is a Vandermonde matrix.
+
+\textbf{4(b) Recall that a linear transformation is one-to-one and onto if and only if its representing matrix is invertible. Use this to prove that if $c_1,c_2,\ldots,c_{n+1}$ are distinct scalars in $\mathbb R$ and $b_1,b_2,\ldots,b_{n+1}$ are any numbers whatsoever, then there is one and only one polynomial of degree up to $n$ that passes through the points $(c_1,b_1),(c_2,b_2),\ldots,(c_{n+1},b_{n+1})$ in $\mathbb R^2$. This polynomial is the Lagrange interpolation polynomial.}
+
+We know that the determinant of any Vandermonde matrix is \[
+ \prod_{1\leq i<j\leq n}{(x_i-x_j)}
+ \]
+ In particular, for the Vandermonde matrix representing the linear transformation above, we have
+ \[
+ \det{[T]}=\prod_{1\leq i<j\leq n+1}{(c_i-c_j)}
+ \]
+ If we know that $c_1,c_2,\ldots,c_{n+1}$ are distinct scalars, then each $(c_i-c_j)$ is nonzero, implying that the product is nonzero; thus the determinant is nonzero and $T$ is therefore an isomorphism (both one-to-one and onto).
+ 
+ Since $T$ is onto, any point in $R^{n+1}$ must be the result of applying some polynomial $f\in P_n$ to the set of fixed distinct scalars $c_1,c_2,\ldots,c_{n+1}$. Moreover, since $f$ is one-to-one, there is only one such $f\in P_n$ that works. Thus we have
+ \[
+ f(c_1)=b_1,f(c_2)=b_2,\ldots,f(c_{n+1})=b_{n+1}\quad\text{ for exactly one } f
+ \]
+ 
+ Thus the graph $(x,f(x))$ of this polynomial certainly does pass through the points $(c_i,f(c_i))=(c_i,d_i)$ for all $1\leq i\leq n+1$.
+ 
+ \textbf{5. Let $A$ be a $k\times k$ matrix and $B$ an $l\times l$ matrix. Show that the determinant of the $(k+l)\times(k+l)$ matrix $   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{bmatrix}$ is $\det A\det B$.}
+    
+    First we note that \[   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{bmatrix}
+    =
+       \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       I_k & 0 \\
+       0 & B \\
+    \end{bmatrix}
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & I_l \\
+    \end{bmatrix}
+    \]
+    This is clear since
+    \begin{align*}
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       I_k & 0 \\
+       0 & B \\
+    \end{bmatrix}\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & I_l \\
+    \end{bmatrix}    =
+    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       AI_k + 0\cdot 0 & 0\cdot I_k+0\cdot I_l \\
+       A\cdot0 + 0\cdot B & 0\cdot0+B\cdot I_l
+    \end{bmatrix}=\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{bmatrix}
+    \end{align*}
+    (The elements I was multiplying are obviously not elements of the matrix, so I am playing somewhat loose with the notation; but since $A$ and $I_k$ are both $k\times k$ matrices, and $B$ and $I_l$ are both $l\times l$ matrices, it is easy to see that the identity still holds.)
+    
+    Now, we know that determinants are multiplicative, so we have
+    
+    \setcounter{equation}{0}
+        \begin{align}
+    	\left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{matrix}\right|
+    =
+       \left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       I_k & 0 \\
+       0 & B \\
+    \end{matrix}\right|
+    \left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & I_l \\
+    \end{matrix}\right|
+    \end{align}
+    All that remains is to find the determinant of the two pieces. Let's say $k=1$. Then the first determinant is simply
+    \[
+    X^{(1)}=\left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       1 & 0 & 0 & 0 & \ldots & 0 \\
+       0 & b_{11} & b_{12} & b_{13} & \ldots & b_{1l}\\
+       0 & b_{21} & b_{22} & b_{23} & \ldots & b_{2l}\\
+       \vdots & \vdots & \vdots & \vdots & \ldots & \vdots \\
+       0 & b_{l1} & b_{l2} & b_{l3} & \ldots & b_{ll}
+    \end{matrix}\right|
+    \]
+    Using a Laplacian decomposition along the first row, we see the only minor matrix that contributes anything to the determinant is the $X^{(1)}_{11}$ matrix, which is equal to $B$. Thus, $\det{X^{(1)}}=\det{B}$. Now, let us assume that $X^{(j)}$ matrix (which is just the case where $I_k=I_j$) has determinant equal to $\det{B}$, and we will prove that $\det{X^{(j+1)}}=\det{X^{(j)}}$. Well, this is immediate: the only minor matrix of $X^{(j+1)}$ that contributes anything to the determinant is $X^{(j+1)}_{11}=X^{(j)}$. By induction, then, the first determinant in (2) is equal to $\det{B}$.
+    
+    Using an identical argument for the second determinant, we see that it is simply $\det{A}$. So by the identity in (2), we have
+    \[
+        	\left|\begin{matrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{matrix}\right|=\det{B}\det{A}
+    \]
+    This is what we were trying to prove.\newline
+    
+    \textbf{6. Let $T:\mathbb{R}^2\to\mathbb{R}^2$ be given by $\displaystyle T\binom{x}{y}=\binom{x+y}{y}$. Show that there is no basis $\alpha_1,\alpha_2$ of $\mathbb R^2$ such that the matrix of $T$ using that basis takes the diagonal form $\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{bmatrix}$.}
+    
+    Let us assume that such a basis exists, and seek a contradiction. Well, $\mathbb R^2$ is of dimension two, so any basis for $\mathbb R$ must be a pair of linearly independent pairs:
+    \[
+    \alpha_1=\binom{a_1}{b_1},\quad\alpha_2=\binom{a_2}{b_2}
+    \]
+    Then $T(\alpha_1)=\binom{a_1+b_1}{b_1}$ and $T(\alpha_2)=\binom{a_2+b_2}{b_2}$. But the matrix
+    \[\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+       A & 0 \\
+       0 & B \\
+    \end{bmatrix}
+    \]
+    corresponds to $T(\alpha_1)=A\alpha_1$ and $T(\alpha_2)=B\alpha_2$ for $A,B\in\mathbb R$. Thus we have
+    \begin{align*}
+    &A\alpha_1=\binom{Aa_1}{Ab_1}=T(\alpha_1)=\binom{a_1+b_1}{b_1}\\
+    &B\alpha_2=\binom{Ba_2}{Bb_2}=T(\alpha_2)=\binom{a_2+b_2}{b_2}
+    \end{align*}
+    We see that $Ab_1=b_1\implies A=1$ and $Bb_2=b_2\implies B=1$. Substituting this in for the top part of the matrix we get $a_1=a_1+b_1\implies b_1=0$ and $a_2=a_2+b_2\implies b_2=0$. Thus the basis is actually
+    \[
+    \alpha_1=\binom{a_1}{0},\quad\alpha_2=\binom{a_2}{0}
+    \]
+    However, we see that $\alpha_1,\alpha_2$ neither span $\mathbb R^2$, nor are they linearly dependent. Thus this is not a basis for $\mathbb R^2$, and we have found our contradiction. So the matrix cannot be in that diagonal form.
+    
+    \textbf{7. If $a,b,c$ are coprime integers, show that
+    \[
+    r=-3a+3b+2c, s=5a+4b-6c,t=-7a+6b+5c
+    \]are also coprime integers.}
+    
+    We see that
+    \[
+       \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+          r \\
+          s \\
+          t
+       \end{bmatrix}=
+          \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+             -3 & 3 & 2 \\
+             5 & 4 & -6 \\
+             -7 & 6 & 5
+          \end{bmatrix}\begin{bmatrix}
+          a \\ b \\ c
+          \end{bmatrix}
+    \]
+    Let us take the determinant of the coefficient matrix, let's call it $C$. It's a $3\times3$, so we can compute it by hand:
+    \begin{align*}
+    \det{C}=&(-3)(4)(5)+(3)(-6)(-7)+(2)(5)(6)-(-7)(4)(2)-(6)(-6)(-3)-(5)(5)(3)\\
+    =&-60+126+60+56-108-75=-1
+    \end{align*}
+    So we see that $\det C=-1$. By 2(a) above, this means that the inverse of $A$ has entirely integer entries. So there is some matrix $A^{-1}\in M_3(\mathbb Z)$ such that
+    \[
+    A^{-1}\begin{bmatrix} r \\ s \\ t\\\end{bmatrix}=\begin{bmatrix}a \\ b\\ c\end{bmatrix}
+    \]
+    
+    Let us assume that $r,s,t$ are not coprime, and seek a contradiction. If they are not coprime, then there is some $d$ that divides all of them. We can take it out as a common factor, and we will have
+    \[
+    dA^{-1}\begin{bmatrix} \frac rd \\ \frac sd \\ \frac td\\\end{bmatrix}=\begin{bmatrix}a \\ b\\ c\end{bmatrix}
+    \]
+    Since $d>1$ is a common divisor, every entry in the new column matrix is an integer. Moreover, we know that $A^{-1}$ also has only integer entries. However, if we divide both sides of this equation by $d$, we see that the right column vector must contain a non-integer, since $d$ cannot have been a common factor of $a,b,c$ because they were coprime. Thus we have two integer matrices multiplying to give a non-integer matrix. This is a contradiction, so our assumption that $d\not=1$ must have been false. Therefore, $r,s,t$ are also coprime.\newline
+    
+    \textbf{8. An eigenvalue for a square matrix $A$ is a scalar $c$ such that $A\alpha=c\alpha$ for some non-zero column vector $\alpha$. If $n$ is odd, prove that every $n\times n$ matrix with real entries has an eigenvalue. Find a real $2\times2$ matrix with no eigenvalues.}
+    
+    Consider the function $p(\lambda)=\det{(\lambda I-A)}$. The only non-constant entry in the matrix $\lambda I-A$ is $\lambda$, which appears once on each element on the main diagonal; so when taking the determinant we are multiplying at most $n$ factors of $\lambda$ (when the permutation $\sigma$ is the identity), and so $p(\lambda)$ is of degree $n$. When $n$ is odd, then $p(\lambda)$ is an odd polynomial, which we know always has at least one root; that is, there is at least one $\lambda_0$ such that $p(\lambda_0)=0$. But $p(\lambda)=\det{(\lambda I-A)}$, which is the characteristic polynomial for $A$; thus $p(\lambda_0)$ is a solution to $A$'s characteristic polynomial, so $A$ has at least one eigenvalue.
+    
+    When $n$ is even however, the polynomial is not guaranteed to have roots. In particular, the polynomial
+    \[
+    p(\lambda)=\lambda^2+1
+    \]
+    is the canonical rootless polynomial. To which matrix does this $p(\lambda)$ correspond to, however? Well, we want a matrix
+    \[
+    A=\begin{bmatrix}
+    a_{11}-\lambda & a_{12} \\
+    a_{21} & a_{22}-\lambda
+    \end{bmatrix}
+    \]
+    such that
+    \[ 
+    \det{A}=(a_{11}-\lambda)(a_{22}-\lambda)-a_{21}a_{12}=a_{11}a_{22}-\lambda a_{11}-\lambda a_{22}+\lambda^2-a_{21}a_{12}=\lambda^2+1
+    \]
+We factor this out a bit:
+\begin{align*}
+\lambda^2-(a_{11}-a_{22})\lambda+a_{11}a_{22}-a_{12}a_{21}=\lambda^2+1
+\end{align*}
+There are, in fact, multiple solutions to this, but we just need any particular one of them. Let $a_{11}=-a_{22}=1$, which satisfies the $(a_{11}-a_{12})=0$ condition. Then $a_{11}a_{12}=-1$, so we need to make $a_{12}a_{21}=-2$. Let's do that by making $a_{12}=-1$ and $a_{21}=2$. Thus our matrix is
+\[A=
+\begin{bmatrix}
+1 & -1 \\
+2 & -1
+\end{bmatrix}
+\]\newline
+
+\textbf{9. If $A,B$ are square matrices such that $I-AB$ has an inverse $C$, show that the inverse of $I-BA$ exists and equals $I+BCA$.\newline
+Use this information to prove that $AB$ and $BA$ have the same eigenvalues.}
+
+Consider the matrix
+\[
+M=\begin{bmatrix}
+I & A \\
+B & I
+\end{bmatrix}
+\]
+We multiply it by the upper-triangular matrix $\begin{bmatrix} I & -A \\ 0 & I\end{bmatrix}$ to obtain
+\[
+\begin{bmatrix}
+I & A \\
+B & I
+\end{bmatrix}
+\begin{bmatrix} I & -A \\ 0 & I\end{bmatrix}=\begin{bmatrix}II+0A & -AI+AI \\ IB + 0I & -BA+II\end{bmatrix}=\begin{bmatrix}I & 0 \\ B & I-BA\end{bmatrix}
+\]
+However, the matrix we just multiplied by is upper-triangular, and its main diagonal has a product of $1$, so by the multiplicativity of matrices, multiplying by this matrix did not affect the determinant at all. Thus
+\[
+\det{M}=\left|\begin{matrix}I & 0 \\ B & I-BA\end{matrix}\right|
+\]
+By recursively applying a Laplacian expansion along the top row of each successive matrix, we see that the above is simply the same as $\det{(I-BA)}$.
+
+Similarly, if we multiply in the opposite order, we still maintain the same determinant (by multiplicativity), but the resultant matrix is now
+\[
+\begin{bmatrix}I & -A \\ 0 & I\end{bmatrix}\begin{bmatrix}I & A \\ B & I\end{bmatrix}
+=\begin{bmatrix}II-BA & AI-AI\\ 0I+BI & 0A+II\end{bmatrix}=
+\begin{bmatrix}I-AB & 0 \\ B & I\end{bmatrix}
+\]
+Similarly to above, we apply the Laplacian expansion along the rightmost column repeatedly until only the $(I-AB)$ matrix is left. Thus we see that 
+\[
+\det{M}=\det{(I-BA)}=\det{(I-AB)}
+\]
+So whenever $(I-BA)$ is invertible (that is, has a nonzero determinant), the determinant of $(I-BA)$ is also nonzero. Thus $(I-BA)$ is invertible.
+
+It remains to find out what $(I-BA)^{-1}$ is, however. We are trying to prove that $(I-BA)(I+BCA)=I$. We know that matrix multiplication is distributive, so
+\begin{align*}
+C(I-AB)=C-ABC&=I
+\end{align*}
+We are trying to build an instance of ``$BA$", so we left-multiply by $B$ and right-multiply by $A$ to obtain
+\begin{align*}
+BCA-BABCA&=BA\\
+BCA-BABCA-BA+I&=I\\
+(I-BA)BCA-BA+I&=I\\
+(I-BA)BCA+(I-BA)&=I\\
+(I-BA)(BCA+I)=&I\\
+(I-BA)(I+BCA)=&1
+\end{align*}
+
+This is, after all, what we were trying to prove.
+
+The very last thing that remains to be shown is that $AB$ and $BA$ have the same eigenvalues. It suffices to show that they both have the same characteristic polynomial, since the eigenvalues of a matrix are precisely those values that satisfy $p(\lambda)=0$. Well,
+\begin{align*}
+p(\lambda)=&\det{(\lambda I-AB)}\\
+		=&\det{(A^{-1}(\lambda I-AB)A}\\
+		=&\det{(\lambda A^{-1}IA-(A^{-1}A)BA)}\\
+		=&\det{(\lambda I-BA)}
+\end{align*}
+This is exactly what we were trying to prove; we have established that their characteristic polynomials are identical. Thus they also have identical eigenvalues, so we are done.
+\end{document}
