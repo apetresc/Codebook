@@ -1,0 +1,591 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+
+%opening
+\title{Math 245 - Assignment 5}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. If $T : V\to V$ has an eigenvalue $\lambda$, and $T$ is invertible, show that $\lambda\not=0$ and that $\frac1\lambda$ is an eigenvalue of $T^{-1}$ with the same eigenvectors as $T$ had at $\lambda$.}\newline
+
+If $\lambda$ is an eigenvalue of $T$, then there exists a nonzero vector $\vec v$ such that
+\[
+ T\vec v=\lambda\vec v
+\]
+First we need to justify the assertion that $\lambda\not=0$. Well, the rank-nullity theorem tells us that the rank of $T$ and the nullity of $T$ add up to $\dim{V}$. Moreover, since we know that $T$ is invertible only if its rank is equal to $\dim V$; thus we must have the nullity of $T$ being $0$, which means that nothing except $0$ gets sent to $0$ under $T$. Well, this necessarily means that $\lambda\not=0$, because if it were, then there would be some \textbf{nonzero} vector $\vec v$ that gets sent to $0$ under $T$, which is a contradiction. Now that we have settled that $\lambda\not=0$, we take $T^{-1}$ of both sides to obtain
+\begin{align*}
+ T^{-1}T(\vec v)=&T^{-1}(\lambda\vec v)\\
+ \vec v\lambda=& T^{-1}(\vec v)\\
+T^{-1}(\vec v)=&\frac1\lambda\vec v
+\end{align*}
+Well, $\vec v$ is still non-zero, so this is exactly the statement that $\frac1\lambda$ is an eigenvector of $T^{-1}$, which is exactly what we were trying to prove.\newline
+
+\textbf{2. A matrix is called \textit{symmetric} if it equals its transpose.}
+
+\textbf{(a) Show that a $2\times2$ real matrix $A$ is symmetric if and only if $A$ commutes with its transpose and has eigenvalues in $\mathbb R$}
+
+First we will show the left-to-right implication; if $A$ is symmetric, then we can write
+\begin{align*}
+ A=\begin{bmatrix}
+  a & b \\ b & d
+ \end{bmatrix}=A^t
+\end{align*}
+Well, since $A=A^t$, it is obvious that they commute (they are, after all, the same matrix). To show that it has eigenvalues in $\mathbb R$, we simply look at
+\begin{align*}
+ \det{(XI-A)}=&\det{\begin{bmatrix}
+  a-X & b \\ b & d-X
+ \end{bmatrix}}\\
+=&(a-X)(d-X)-b^2=0\\
+\implies& ad-Xa-Xd+X^2-b^2\\
+=&X^2-(a+d)X+ad-b^2=0
+\end{align*}
+The discriminant of this quadratic polynomial in $X$ is
+\[
+ X=(a+d)^2-4ad+b^2=(a-d)^2+b^2\geq0,\quad\forall a,b,d\in\mathbb R
+\]
+
+Thus the discriminant is always non-negative, so at least one root (eigenvalue) exists. This implication is thus proven.
+
+Now we need to show that any matrix that commutes with its transpose and has eigenvalues in $\mathbb R$ is symmetric. Take
+\[
+A=\begin{bmatrix}
+  a & b \\ c & d
+ \end{bmatrix},\quad A^t=\begin{bmatrix}
+  a & c \\ b & d
+ \end{bmatrix}
+\]
+Then we multiply them together in either direction and set them equal to each other:
+\begin{align*}
+ AA^t=\begin{bmatrix}
+  a & b \\ c & d
+ \end{bmatrix}\begin{bmatrix}
+  a & c \\ b & d
+ \end{bmatrix}=\begin{bmatrix}
+a^2+b^2 & ac+bd \\
+ac+bd & c^2+d^2
+\end{bmatrix}=
+\begin{bmatrix}
+ a^2+c^2 & ab+cd\\
+ ab+cd & b^2+d^2
+\end{bmatrix}
+=
+\begin{bmatrix}
+  a & c \\ b & d
+ \end{bmatrix}\begin{bmatrix}
+  a & b \\ c & d
+ \end{bmatrix}=A^tA
+\end{align*}
+We see that the equality above only holds when
+\begin{align}
+a^2+b^2&=a^2+c^2\implies b=\pm c
+\end{align}
+Thus we know that they have the same magnitude, but the possibility still exists that they may have different magnitudes. So we turn to the eigenvalue property:
+\begin{align*}
+ \det{(XI-A)}=&\det{\begin{bmatrix}
+                    a-X & b \\ c & d-X
+                   \end{bmatrix}} \\
+=&(a-X)(d-X)-bc=0
+\end{align*}
+Similarly to above, we see that the discriminant of this polynomial is
+\[
+ (a+d)^2-4(ad-bc)=(a-d)^2+4bc
+\]
+If we had $b=-c$, then this discriminant could potentially be negative, which would contradict the existance of real eigenvalues. Thus the remaining case, $b=c$, must apply, thus proving that it is a symmetric matrix.
+
+\textbf{2(b) Prove that every $2\times2$ real symmetric matrix $A=\begin{bmatrix}
+                                                                   a & b \\ c & d
+                                                                  \end{bmatrix}$ is diagonalizable.
+}
+
+Consider the characteristic polynomial of this matrix:
+\begin{align*}
+ \det{\begin{bmatrix}
+       X-a & b \\ b & X-c
+      \end{bmatrix}}=(X-a)(X-c)-b^2=0
+\end{align*}
+
+We use the quadratic formula to obtain an expression for its roots:
+\begin{align*}
+ X=&\frac{a+c\pm\sqrt{(a+c)^2-4(ac-b^2)}}{2}\\
+=&\frac{a+c\pm\sqrt{(a-c)^2+4b^2}}{2}
+\end{align*}
+Thus, we see that $X$ has either two distinct values, or one value. If it has only one value, then the discrimant is $0$, which implies that $a=c$ and $b=0$; this gives us some multiple of the identity matrix, which is certainly diagonalizable. Else, if it has two distinct values, then we have two eigenvectors for two distinct eigenspaces of a linear transformation on a space of dimension 2. Thus, it is diagonalizable in this case as well.
+
+\textbf{3. Suppose that $T: V\to V$ is a linear operator whose characteristic polynomial is $X^4$.}
+
+\textbf{(a) If $\alpha\in V$ and the vectors $\alpha,T\alpha,T^2\alpha,T^3\alpha$ are linearly dependent, show that $T^3\alpha=0$.}\newline
+
+If the vectors $\alpha, T\alpha, T^2\alpha, T^3\alpha$ are linearly dependent, then we can write 
+\[
+\alpha=\beta_1T\alpha+\beta_2T^2\alpha+\beta_3T^3\alpha
+\]
+We can then take $T$ of both sides to obtain:
+\[
+T\alpha=\beta_1T^2\alpha+\beta_2T^3\alpha+\beta_3T^4\alpha
+\]
+But we know that the characteristic polynomial of $T$ is $X^4$. By the Cayley-Hamilton theorem, then, we know the last term of the above sum is simply $0$, so we can get rid of it. We proceed in this way to get
+\begin{align*}
+T^2\alpha&=\beta_1T^3\alpha+\beta_2T^4\alpha=\beta_1T^3\alpha+0=\beta_1T^3\alpha\\
+T^3\alpha&=\beta_1T^4\alpha=0
+\end{align*}
+Thus $T^3\alpha=0$, which is what we were trying to prove.\newline
+
+\textbf{(b) If the minimal polynomial of $T$ is also $X^4$, show that the matrix$
+\begin{bmatrix}
+0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+\end{bmatrix}$ represents T.}
+
+Consider the vector $\alpha\not=0$. All on its own, it is linearly independent. Then, take $T\alpha$. Since the characteristic polynomial of $T$ is $X^4$, we know that this new vector is linearly independent with $\alpha$, because the only way two vectors can fail to be linearly independent is if they are multiples of each other, but $T$ has no non-zero eigenvalues. Then consider the vectors $T^2\alpha$ and $T^3\alpha$. This new list $T^3\alpha, T^2\alpha,T\alpha,\alpha$ is also linearly independent, because if it were not, then we would have some list of $\beta_i$'s, not all zero, such that
+\[
+\beta_1\alpha+\beta_2T\alpha+\beta_3T^2\alpha+\beta_4T^3\alpha=0
+\]
+But if such a thing were to exist, it would contradict the minimal polynomial of $T$ being $X^4$, since this equation is only cubic. Thus the list $T^3\alpha, T^2\alpha,T\alpha,\alpha$ is a basis for $V$. Well, then it is obvious that
+\begin{align*}
+T(\alpha)=&(1)\cdot T(\alpha)\\
+T(T(\alpha))=&(1)\cdot T^2(\alpha)\\
+T(T^2(\alpha))=&(1)\cdot T^3(\alpha)\\
+T(T^3(\alpha))=&(1)\cdot T^4(\alpha)=0\quad\mbox{ by the minimal polynomial.}
+\end{align*}
+
+Taking the matrix of $T$ with respect to this basis, we immediately get the desired matrix.
+
+\textbf{(c) Show that $
+\begin{bmatrix}
+0 & 0 & 0 & 0 \\
+2 & 0 & 0 & 0 \\
+3 & 2 & 0 & 0 \\
+4 & 3 & 2 & 0 \\
+\end{bmatrix}$ is similar to the matrix in part (b).}\newline
+
+We need to find a basis $\gamma_1,\gamma_2,\gamma_3,\gamma_4$ of $V$ such that
+\begin{align*}
+T(\gamma_4)=&0\\
+T(\gamma_3)=&2\gamma_4\\
+T(\gamma_2)=&2\gamma_3+3\gamma_4\\
+T(\gamma_1)=&2\gamma_2+3\gamma_3+4\gamma_4
+\end{align*}
+
+
+\textbf{4(a) Solve the eigenvalue problem for the matrix $A=\begin{bmatrix}0 & 1 \\ 1 & 1\end{bmatrix}$ acting as a linear operator on $\mathbb R^2$ in the usual way. Then find a diagonal matrix $D$ and an invertible matrix $P$ such that $D=P^{-1}AP$.}
+
+We solve for the characteristic polynomial of this matrix first.
+\[
+\det{XI-A}=\begin{bmatrix}
+X & -1 \\
+-1 & X-1
+\end{bmatrix}=(X)(X-1)-1=X^2-X-1
+\]
+Using the quadratic formula, we quickly find the roots (and therefore the eigenvalues) of this polynomial
+\[
+X=\frac{1+\sqrt5}2=\tau,\quad X=\frac{1-\sqrt5}{2}=\sigma
+\]
+Then we must solve for the eigenvector(s) of each eigenvalue:
+\begin{align}
+\begin{bmatrix}0 & 1 \\ 1 & 1\end{bmatrix}\begin{bmatrix} v_1 \\ v_2\end{bmatrix} &= \begin{bmatrix} \tau\cdot v_1 \\ \tau\cdot v_2 \end{bmatrix} \nonumber \\
+\implies &v_2=\tau\cdot v_1 \\
+\implies &v_1+v_2=\tau
+\end{align}
+
+By substituting (2) into (1), we obtain
+\[
+v_1+\tau\cdot v_1=\tau\implies v_1=\frac{\tau}{1+\tau}=\frac{\tau}{\tau^2}=\frac1\tau
+\]
+By substituting this new value of $v_1$ into (2), we immediately get $v_2=1$. Thus we have the eigenvector for $\tau$.
+
+We use a very similar argument to get the eigenvector for $\sigma$:
+ \begin{align}
+\begin{bmatrix}0 & 1 \\ 1 & 1\end{bmatrix}\begin{bmatrix} v_1 \\ v_2\end{bmatrix} &= \begin{bmatrix} \sigma\cdot v_1 \\ \sigma\cdot v_2 \end{bmatrix} \nonumber \\
+\implies &v_2=\sigma\cdot v_1 \\
+\implies &v_1+v_2=\sigma
+\end{align}
+But here we see that the identity $1+\sigma=\sigma^2$ is a valid identity for $\sigma$ as well as for $\tau$; so we can use the exact same calculations as above to also obtain the eigenvector $\begin{bmatrix}\frac{1}{\sigma} \\ 1\end{bmatrix}$ for $\sigma$ as well.
+
+Thus we know that
+\[
+A=\begin{bmatrix}0 & 1 \\ 1 & 1\end{bmatrix}, P=\begin{bmatrix}\frac{1}{\tau} & \frac1\sigma \\ 1 & 1\end{bmatrix}, D=\begin{bmatrix}\tau & 0 \\ 0 & \sigma \end{bmatrix}
+\]
+
+\textbf{(b) Find $A^n$ as a matrix whose entries are written explicitly in terms of rational numbers as well as $\tau$ and $\sigma$.}
+\setcounter{equation}{0}
+
+Since $D=P^{-1}AP$, we also have $A=PDP^{-1}$ from which it follows by the result of an earlier assignment that $A^n=PD^nP^{-1}$. Since matrix multiplication is associative, we can choose to multiply $PD^n$ first:
+\[
+PD^n=\begin{bmatrix}\frac{1}{\tau} & \frac1\sigma \\ 1 & 1\end{bmatrix}\begin{bmatrix}\tau^n & 0 \\ 0 & \sigma^n
+\end{bmatrix}=\begin{bmatrix}
+\frac{\tau^n}{\tau} & \frac{\sigma^n}{\sigma} \\
+\tau^n & \sigma^n
+\end{bmatrix}=\begin{bmatrix}
+\tau^{n-1} & \sigma^{n-1} \\
+\tau^n & \sigma^n
+\end{bmatrix}
+\]
+Now it remains to calculate $P^{-1}$. We know that
+\[
+PP^{-1}=I\implies\begin{bmatrix}\frac{1}{\tau} & \frac1\sigma \\ 1 & 1\end{bmatrix}\begin{bmatrix}
+p_{11} & p_{12} \\
+p_{21} & p_{22}\end{bmatrix}
+=\begin{bmatrix}
+\frac{p_{11}}{\tau}+\frac{p_{21}}{\sigma} & \frac{p_{12}}{\tau}+\frac{p_{22}}{\sigma} \\
+p_{11}+p_{12} & p_{21} + p_{22}
+\end{bmatrix}=
+\begin{bmatrix}
+1 & 0 \\ 0 & 1
+\end{bmatrix}
+\]
+This leads to the system of equations
+\begin{align}
+\frac{p_{11}}{\tau}+\frac{p_{21}}{\sigma}=1 \\
+p_{11}+p_{12}=0 \\
+ \frac{p_{12}}{\tau}+\frac{p_{22}}{\sigma}=0 \\
+  p_{21} + p_{22}=0
+\end{align}
+From (1) we can deduce
+\begin{align*}
+\frac{\sigma p_{11} + \tau p_{21}}{\sigma\tau}=1\implies&\sigma p_{11}-\tau p_{11}=-1\\
+\implies&p_{11}=\frac{-1}{\sigma-\tau}=\frac{1}{\tau-\sigma}\\
+\implies&p_{22}=-p_{11}=\frac{1}{\sigma-\tau}
+\end{align*}
+Similarly, from (3) we can conclude
+\begin{align*}
+\frac{p_{12}}{\tau}+\frac{t_{22}}{\sigma}=0\implies&\sigma p_{12}+\tau p_{22}=0\\
+\implies&\sigma p_{12}+\tau(1-p_{12})=0\quad\mbox{ (by (4))}\\
+\implies&p_{12}(\sigma-\tau)+\tau=0\\
+\implies&p_{12}=\frac{-\tau}{\sigma-\tau}=\frac{\tau}{\tau-\sigma}\\
+\implies&p_{22}=1-p_{12}=1-\frac{\tau}{\tau-\sigma}=\frac{-\sigma}{\tau-\sigma}=\frac{\sigma}{\sigma-\tau}
+\end{align*}
+Thus, from these calculations we have that
+\[
+P^{-1}=\begin{bmatrix}
+\frac{1}{\tau-\sigma} & \frac{\tau}{\tau-\sigma} \\
+\frac{1}{\sigma-\tau} & \frac{\sigma}{\sigma-\tau}
+\end{bmatrix}
+\]
+Now it is simply a matter of left-multiplying this matrix by the result of $PD^n$ from before:
+\begin{align*}
+PD^nP^{-1}=&\begin{bmatrix}
+\tau^{n-1} & \sigma^{n-1} \\
+\tau^n & \sigma^n
+\end{bmatrix}\begin{bmatrix}
+\frac{1}{\tau-\sigma} & \frac{\tau}{\tau-\sigma} \\
+\frac{1}{\sigma-\tau} & \frac{\sigma}{\sigma-\tau}
+\end{bmatrix}\\
+=&\begin{bmatrix}
+\frac{\tau^{n-1}}{\tau-\sigma}+\frac{\sigma^{n-1}}{\sigma-\tau} & \frac{\tau^n}{\tau-\sigma}+\frac{\sigma^n}{\sigma-\tau} \\
+\frac{\tau^n}{\tau-\sigma}+\frac{\sigma^n}{\sigma-\tau} & \frac{\tau^{n+1}}{\tau-\sigma}+\frac{\sigma^{n+1}}{\sigma-\tau}\end{bmatrix}\\
+A^n=&\frac{1}{\tau-\sigma}\begin{bmatrix}
+\tau^{n-1}+\sigma^{n-1} & \tau^n-\sigma^n \\
+\tau^n-\sigma^n & \tau^{n+1}-\sigma^{n+1}
+\end{bmatrix}
+\end{align*}
+Thus we have achieved the desired expression for $A^n$ in terms of $\tau$ and $\sigma$.
+
+\textbf{(c) Show by induction that
+\[
+A^n=\begin{bmatrix}
+f_{n-1} & f_n \\
+f_n & f_{n+1}
+\end{bmatrix}\quad\mbox{ for }n=1,2,3,\ldots
+\]}\newline
+
+First we will show the base case where $n=1$. In that case,
+\[
+A^1=\frac{1}{\tau-\sigma}\begin{bmatrix}
+1-1 & \tau-\sigma \\
+\tau-\sigma & \tau^2-\sigma^2
+\end{bmatrix}=\begin{bmatrix}
+0 & \frac{\tau-\sigma}{\tau-\sigma} \\
+\frac{\tau-\sigma}{\tau-\sigma} & \frac{\tau^2-\sigma^2}{\tau-\sigma}
+\end{bmatrix}=\begin{bmatrix}
+0 & 1 \\
+1 & \tau+\sigma
+\end{bmatrix}=
+\begin{bmatrix}
+0 & 1 \\
+1 & 1
+\end{bmatrix}
+\]
+This checks out, since indeed $f_0=0$, $f_1=1$, and $f_2=1$. Thus we will inductively assume it is true for $n<k$ and prove it true for $n=k$.
+\begin{align*}
+A^k=A^{k-1}A=\begin{bmatrix}
+f_{k-2} & f_{k-1} \\
+f_{k-1} & f_{k}
+\end{bmatrix}\begin{bmatrix}
+0 & 1 \\ 1 & 1
+\end{bmatrix}=\begin{bmatrix}
+f_{k-1} & f_{k-2}+f_{k-1}\\
+f_k & f_{k-1}+f_{k}
+\end{bmatrix}=\begin{bmatrix}
+f_{k-1} & f_k \\
+f_k & f_{k+1}
+\end{bmatrix}
+\end{align*}
+Since it also holds for $n=k$, by induction it holds for all $n\geq1$, which is what we were trying to prove.\newline
+
+\textbf{(d) Write a formula in terms of $\tau$ and $n$ for the $n$'th Fibonacci number $f_n$.}
+
+We have two different expressions for $A^n$ now:
+\[
+A^n=\frac{1}{\tau-\sigma}\begin{bmatrix}
+\tau^{n-1}+\sigma^{n-1} & \tau^n-\sigma^n \\
+\tau^n-\sigma^n & \tau^{n+1}-\sigma^{n+1}
+\end{bmatrix}=\begin{bmatrix}
+f_{n-1} & f_n \\
+f_n & f_{n+1}
+\end{bmatrix}
+\]
+In particular, this tells us that
+\[
+f_n=\frac{\tau^n-\sigma^n}{\tau-\sigma}
+\]
+But we know that $\tau+\sigma=1\implies\sigma=1-\tau$, and since $\tau=\frac{1+\sqrt5}{2}$ and $\sigma=\frac{1-\sqrt5}{2}$, it follows that $\tau-\sigma=\frac{2\sqrt5}{2}=\sqrt5$. Substituting these in, we get that
+\[
+\boxed{f_n=\frac{\tau^n-(1-\tau)^n}{\sqrt5}}
+\]
+
+\textbf{5. If $T$ is the differentiation operator on the space $\mathcal P_n$ of polynomials of degree at most $n$, specify explicitly all of the invariant subspaces of $T$.}
+
+We know that for $\textit{any}$ linear transformation $T$, the following subspaces are $T$-invariant:
+\[
+\{0\}, V, \ker{T}, \operatorname{ran } T
+\]
+In this case, the kernel of $T$ is the space generated by the polynomial $v^0=1$, and the range of $V$ is all of $V$. There are still other spaces we are missing. In particular, the eigenspaces of $V$. To find these, for any $n$ consider the basis
+\[
+1,x,x^2,\ldots,x^{n-1},x^n
+\]
+Taking the derivative of each of these polynomials gives us the list
+\[
+0, 1, 2x, 3x^2,\ldots,(n-1)x^{n-2},nx^{n-1}
+\]
+Thus the matrix for $T$ looks like
+\[A=\begin{bmatrix}
+0 & 1 & 0 & 0 & \cdots & 0 & 0 \\
+0 & 0 & 2 & 0 & \cdots & 0 & 0  \\
+0 & 0 & 0 & 3 & \cdots & 0 & 0  \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & n-1 & 0  \\
+0 & 0 & 0 & 0 & \cdots & 0 & n  \\
+0 & 0 & 0 & 0 & \cdots & 0 & 0  \\
+\end{bmatrix}
+\]
+This matrix is upper-triangular and has 0 all over the main diagonal, so it is obvious that the characteristic polynomial $\det{(XI-A)}=X^{n+1}$. Thus the only eigenvalue of $P$ is $0$. But if $0$ is the only eigenvalue of $T$, then all of its eigenvectors must be already contained in the kernel of $T$. So the eigenspaces of $T$ contribute nothing new to the collection of invariant subspaces. 
+
+The last thing to consider is the $T$-cyclic subspaces of $V$ generated by each $x^k$ for $k\leq n$. In other words, for each element in the basis of $V$, the $T$-cyclic subspace generated by that vector will be $T$-invariant, and will essentially represent the subspace of all polynomials of degree less than or equal to $k$. Since differentiation always lowers the degree of a vector in $V$, this is clearly invariant.
+
+\textbf{6. Describe the invariant subspaces of the operators given by the matrices
+$A=\begin{bmatrix}
+1 & 1 \\ 0 & 1
+\end{bmatrix}$ and $B=\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2
+\end{bmatrix}$ acting in the usual way as operators on $\mathbb R^2$ and $\mathbb R^3$ respectively.}
+\setcounter{equation}{0}
+
+For all linear operators, the trivial subspaces ($\{0\},\ker{T},\operatorname{ran}{T},V$) are always invariant and are not worth explicitly mentioning.
+
+We examine the characteristic polynomial of $A$:
+\[
+\det{XI-A}=(X-1)^2\quad\mbox{ since $A$ is upper-triangular. }
+\]
+Thus the only eigenvalue is $\lambda=1$. To find any eigenvectors, we solve
+\[
+\begin{bmatrix}
+1 & 1 \\
+0 & 1
+\end{bmatrix}\begin{bmatrix}
+v_1 \\ v_2
+\end{bmatrix}=\begin{bmatrix}
+v_1 \\ v_2
+\end{bmatrix}
+\]
+which leads to the system of linear equations
+\begin{align}
+v_1+v_2=v_1 \\
+v_2=v_2
+\end{align}
+So this tells us that $v_2$ must be $0$, and $v_1$ can be anything. So the valid eigenspace is the span of $\vec v=\begin{bmatrix}1 \\ 0\end{bmatrix}$, which is also a $T$-invariant subspace. There is also the $T$-cyclic subspaces to consider, but we see that the span of $\{(1,0),T(1,0),\ldots\}$ is precisely the eigenspace corresponding to $1$. The span of $\{(0,1),T(0,1),\ldots\}$ is the same as the range of $T$ since $\vec x=(0,1)$ and $T^2(\vec x)=(2,1)$, which are equivalent to the basis for $\mathbb R^2$. Thus the $T$-cyclic spaces add nothing new here.
+
+For $B$, we see that it is a diagonal matrix so we immediately know its eigenvalues are $\lambda=1$ with a multiplicity of $1$, and $\lambda=2$ with a multiplicity of $2$. Moreover since it is diagonal we can immediately tell that $(1,0,0)$ is an eigenvalue for $\lambda=1$, and therefore a basis for the eigenspace $V_1$, and that $(0,1,0)$ and $(0,0,1)$ are eigenvectors for $\lambda=2$, and are therefore a basis for the eigenspace $V_2$. Each of these eigenspaces are $T$-invariant. The $T$-cyclic subspaces also add nothing new to our list, since everything in the standard basis for $\mathbb R^3$ is also an eigenvector, so it was already captured in the eigenspaces. Thus the final list (besides the trivial ones) is $V_1, V_2$.\newline
+
+\textbf{7. If all subspaces of $V$ are $T$-invariant, show that $T$ must be a scalar multiple of the identity operator.}
+
+Let 
+\[
+\vec v_1, \vec v_2,\ldots,\vec v_n
+\]
+be a basis for $V$. If all subspaces of $V$ are $T$-invariant, then in particular all subspaces generated by each $\vec v_i$ is also $T$-invariant; but the only way that $T(\vec v_i)$ can remain in the span of $\vec v_i$ is if it simply maps $\vec v_i$ to a scalar multiple of $\vec v_i$ (since the span of just one vector is one-dimensional). Thus, for every $1\leq i\leq n$ we have
+$T(\vec v_i)=\lambda_i\vec v_i$. Now consider the vector $\vec v=\vec v_1+\vec v_2+\vec v_3+\cdots+\vec v_n$. The span of this $\vec v$ is also an invariant subspace, so it must also map to some $T(\vec v)=\lambda \vec v$. But this means that
+\begin{align*}
+T(\vec v)=&T(\vec v_1+\vec v_2+\vec v_3+\cdots+\vec v_n)=T(\vec v_1)+T(\vec v_2)+T(\vec v_3)+\cdots+T(\vec v_n)\\
+=&\lambda_1\vec v_1+\lambda_2\vec v_2+\lambda_3\vec v_3+\cdots+\lambda_n\vec v_n\\
+=&\lambda\vec v_1+\lambda\vec v_2+\lambda\vec v_3+\cdots+\lambda \vec v_n
+\end{align*}
+But, since $\vec v$ is a sum of linearly independent vectors, it can be \textit{uniquely} expressed as a linear combination. Thus, we must necessarily have $\lambda_1=\lambda_2=\lambda_3=\cdots=\lambda_n=\lambda$, and so the characteristic polynomial is $(X-\lambda)^n$. Thus it has an eigenvalue $\lambda$ with $n$ corresponding linearly independent eigenvectors. By Proposition $11$, it must be diagonalizable. But the only diagonal matrix with the characteristic polynomial $(X-\lambda)^n$ is the matrix $I\lambda$ (ie, the matrix with every diagonal entry equal to $\lambda$). Thus it is a scalar multiple of the identity, and we are done.\newline
+
+\textbf{8. Find the minimal polynomial of the differentiation operator on the space $\mathcal P_n$ of polynomials of degree at most $n$.}\newline
+
+We recall that the matrix of $T$ looks like
+\[
+A=\begin{bmatrix}
+0 & 1 & 0 & 0 & \cdots & 0 & 0 \\
+0 & 0 & 2 & 0 & \cdots & 0 & 0  \\
+0 & 0 & 0 & 3 & \cdots & 0 & 0  \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & 0 & \cdots & n-1 & 0  \\
+0 & 0 & 0 & 0 & \cdots & 0 & n  \\
+0 & 0 & 0 & 0 & \cdots & 0 & 0  \\
+\end{bmatrix}
+\]
+It is upper triangular with 0 along its main diagonal, so evidently its characteristic polynomial is $X^{n+1}$. We know that the minimal polynomial divides this characteristic polynomial is of the form $X^i$ for some $1\leq i\leq n+1$. I claim that $i=n+1$. To prove this, observe:
+\begin{align*}
+i=&1 \mbox{ is not the zero operator because } T(x^n)=nx^{n-1}\not=0\\
+i=&2 \mbox{ is not the zero operator because } T^2(x^n)=n(n-1)x^{n-2}\not=0\\
+i=&3 \mbox{ is not the zero operator because } T^3(x^n)=n(n-1)(n-2)x^{n-3}\not=0\\
+\vdots&\\
+i=&n\mbox{ is not the zero operator because } T^n(x^n)=n(n-1)(n-2)\cdots2\cdot1\not=0
+\end{align*}
+The only possibility left is that $i=n+1$. Thus the minimal polynomial of $T$ is $X^{n+1}$.\newline
+
+\textbf{9. Find the characteristic polynomial of the operator on $\mathbb C^4$ defined in the usual way by the matrix
+\[
+\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+-2 & -2 & 2 & 1 \\
+1 & 1 & -1 & 0
+\end{bmatrix}\]
+Show that this is also the minimal polynomial.
+}\newline
+
+We need the characteristic polynomial
+\[
+\det{\begin{bmatrix}
+X-1 & -1 & 0 & 0 \\
+1 & X+1 & 0 & 0 \\
+2 & 2 & X-2 & -1 \\
+-1 & -1 & 1 & X
+\end{bmatrix}}
+\]
+To calculate this, we take a Laplacian expansion along the last column:
+\begin{align*}
+&\det{\begin{bmatrix}
+X-1 & -1 & 0 & 0 \\
+1 & X+1 & 0 & 0 \\
+2 & 2 & X-2 & -1 \\
+-1 & -1 & 1 & X
+\end{bmatrix}}=-(-1)\left|\begin{matrix}
+X-1 & -1 & 0 \\
+1 & X+1 & 0\\
+-1 & -1 & 1
+\end{matrix}\right|-X\left|\begin{matrix}
+X-1 & -1 & 0 \\
+1 & X+1 & 0 \\
+2 & 2 & X-2
+\end{matrix}\right|\\
+=&(+1)\left((X-1)(X+1)+1\right)+X\left((X-1)(X+1)(X-2)+X-2\right)\\
+=&X^2+X((X^2-1)(X-2)+X-2)\\
+=&X^2+X(X^3-2X^2-X+2+X-2)\\
+=&X^4-2X^3+X^2
+\end{align*}
+Thus the characteristic polynomial is $X^4-2X^3+X^2$. Luckily for us, this factors very easily indeed:
+\[
+X^4-2X^3+X^2=X^2(X^2-2X+1)=X^2(X-1)^2
+\]
+This makes it somewhat easier to calculate the minimal polynomial since it is easy to enumerate all the polynomials of lower degree to ensure that they are not zero. So here we go:
+\begin{align*}
+T^2=\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+-2 & -2 & 2 & 1 \\
+1 & 1 & -1 & 0
+\end{bmatrix}\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+-2 & -2 & 2 & 1 \\
+1 & 1 & -1 & 0
+\end{bmatrix}= \begin{bmatrix}
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+-3 & -3 & 3 & 2 \\
+2 & 2 & -2 & -1
+\end{bmatrix}\\
+(T-I)^2=\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -2 & 0 & 0 \\
+-2 & -2 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -2 & 0 & 0 \\
+-2 & -2 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}=\begin{bmatrix}
+-1 & -2 & 0 & 0 \\
+2 & 3 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\end{align*}
+
+Now we are ready to start enumerating the possible minimal polynomials. We already know $T$ and $T-I$ and $T^2$ and $(T-I)^2$ are nonzero by the calculations above, so we can skip those.
+\begin{align*}
+T(T-I)=&\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+-2 & -2 & 2 & 1 \\
+1 & 1 & -1 & 0
+\end{bmatrix}\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -2 & 0 & 0 \\
+-2 & -2 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}=\begin{bmatrix}
+-1 & -1 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+-1 & -1 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}\not=0\\
+T^2(T-1)=&
+\begin{bmatrix}
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+-3 & -3 & 3 & 2 \\
+2 & 2 & -2 & -1
+\end{bmatrix}\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+-1 & -2 & 0 & 0 \\
+-2 & -2 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}=\begin{bmatrix}
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+-1 & -1 & 1 & 1 \\
+1 & 1 & -1 & -1
+\end{bmatrix}\not=0\\
+T(T-1)^2=&\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+-2 & -2 & 2 & 1 \\
+1 & 1 & -1 & 0
+\end{bmatrix}\begin{bmatrix}
+-1 & -2 & 0 & 0 \\
+2 & 3 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}=\begin{bmatrix}
+1 & 1 & 0 & 0 \\
+-1 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}\not=0
+\end{align*}
+At this point, we don't even need to bother calculating $T^2(T-1)^2$; we know the minimal polynomial exists and that it divides the characteristic polynomial. Since we have eliminated every other possible monic polynomial of lower degree that divides the characteristic polynomial, the only remaining possibility is that the minimal polynomial \textit{is} the characteristic polynomial, which is what we were trying to show.
+\end{document}
