@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 249 - Assignment 2}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+%
+%\textbf{1. Give a combinatorial proof that for all integers $m\geq0$ and $t\geq1$,
+%\[
+%\binom{m+t-1}{t-1}=\sum_{r=1}^t{\binom{t}{r}\binom{m-1}{r-1}}
+%\]}
+
+%We know that the binomial coefficient $\binom{m+t-1}{t-1}$ represents the number of $n$-element multisets with elements of $t$ types. $\binom{m-1}{r-1}$, on the other hand, represents the number of $r-1$-element subsets of an $m-1$-element set.
+
+%\textbf{}
+
+\textbf{2(a) Show that
+\[
+\frac{1}{\sqrt{1-4x}}=\sum_{n=0}^\infty{\binom{2n}{n}x^n}.
+\]}
+
+We recall the result proven in class:
+\[
+(1+z)^\alpha=\sum_{k=0}^\infty{\binom\alpha kz^k}
+\]
+If we set $z=-4x$ and $\alpha=-\frac12$, we get
+\[
+\frac{1}{\sqrt{1-4x}}=\sum_{n=0}^\infty{\binom{-\frac12}{n}(-4x)^n}=\sum_{n=0}^\infty{(-1)^n4^n\binom{-\frac12}{n}x^n}
+\]
+
+All that remains to be shown is
+\begin{align}
+\binom{2n}{n}=(-1)^n4^n\binom{-\frac12}{n}
+\end{align}
+
+We expand the binomial coefficient on the right-hand side using the generalized rule for binomial coefficients:
+\[
+\binom{-\frac12}{n}=\frac{\left(-\frac12\right)\left(-\frac12-1\right)\left(-\frac12-2\right)\cdots\left(-\frac12-n+1\right)}{n!}
+\]
+There are clearly $n$ factors in the numerator, so we can give a factor of $(-1)$ to each of them from our $(-1)^n$ to obtain
+\[
+\frac{\left(\frac12\right)\left(\frac12+1\right)\left(\frac12+2\right)\ldots\left(\frac12+(n-1)\right)}{n!}
+\]
+We also see that we have $2n$ factors of $2$ in our $4^n$, so we can spare $n$ of them to turn this into
+\[
+\frac{1\cdot3\cdot5\cdots(2n-1)}{n!}
+\]
+Where the numerator is basically the product of the first $n$ odd numbers. The only thing in (1) that we have not accounted for yet is an additional factor of $2^n$. We throw those in last to get
+\begin{align}
+\frac{(1\cdot2)(3\cdot2)(5\cdot2)\cdots(2(2n)-2)}{n!}=\frac{2\prod_{k=1}^n(2k-1)}{n!}
+\end{align}
+The $(2k-1)$ cycles from $1$ when $k=1$ to $2n-1$ when $k=n$, the same way that $\binom{2n}{n}$ does. Thus we have shown that (1) always holds, and since they are both equal to $\frac{1}{\sqrt{1-4x}}$, we are done.
+\newline
+
+\textbf{2(b) Deduce that for all integers $n\geq0$,
+\[
+\sum_{j=0}^n{\binom{2j}{j}\binom{2n-2j}{n-j}}=4^n
+\]}
+
+\textbf{3(a) Let $A\subseteq\{0,1\}^*$ be the set of binary strings in which each block of $0$'s has odd length and each block of $1$'s has length 1 or 2.  Show that 
+\[
+A(x)=\sum_{n=0}^\infty{(\#A_n)x^n}=\frac{1+2x+x^2-x^4}{1-2x^2-x^3}
+\]}
+
+It is easy to see that the block decomposition for this $A$ is
+\[
+(\epsilon\cup(00)^*0)((1\cup11)(00)0^*)^*(\epsilon\cup1\cup11)
+\]
+Proceeding in the usual way to convert this into a generating function, we get
+\begin{align*}
+A(x)=&\left(1+\frac{x}{1-x^2}\right)\left(\frac{1}{1-\frac{(x+x^2)x}{1-x^2}}\right)\left(1+x+x^2\right)\\
+=&\left(\frac{1-x^2+x}{1-x^2}\right)\left(\frac{1}{\frac{1-x^2-x(x+x^2)}{1-x^2}}\right)\left(1+x+x^2\right)\\
+=&\left(\frac{(1-x^2+x)(1+x+x^2)}{1-x^2-x^2+x^3}\right)\\
+=&\frac{1+x^2+x-x^2-x^4-x^3+x+x^3+x^2}{1-2x^2-x^3}\\=&\frac{1+2x+x^2-x^4}{1-2x^2-x^3}
+\end{align*}
+This is what we were trying to prove, so we are done.
+
+\textbf{3(b) Give initial conditions and a linear recurrence relation that determines $\#A_n$ for all $n\geq0$. Calculate $\#A_{10}$.}
+
+So we have
+\[
+\sum_{n=0}^\infty{(\#A_n)x^n}=\frac{1+2x+x^2-x^4}{1-2x^2-x^3}
+\]
+
+Using the handy theorem we proved in class, we get that for every $n\geq0$,
+\begin{align*}
+A_n-2A_{n-2}-A_{n-3}=  \left\{ 
+\begin{array}{cc}
+1,&\mbox{ if } n=0\\
+2,&\mbox{ if } n=1\\
+1,&\mbox{ if } n=2\\
+0,&\mbox{ if } n=3\\
+-1,&\mbox{ if } n=4 \\
+0, &\mbox{ if } n>4
+\end{array}\right.
+\end{align*}
+(where we use the handy convention that $A_{-k}=0$.) Then the first five values come out to
+\begin{align*}
+A_0=&1\\
+A_1=&2\\
+A_2-2A_0=A_2-2=1\implies A_2=&3\\
+A_3-2A_1-A_0=A_3-4-1=0\implies A_3=&5\\
+A_4-2A_2-A_1=A_4-6-2=-1\implies A_4=&7
+\end{align*}
+Then, for $n>4$, we simply have
+\[
+A_n=2A_{n-2}+A_{n-3}
+\]
+
+Then we can build a simple table for the values of $A_n$:
+\begin{table}[htbp]
+    \begin{center}
+        \begin{tabular}{c|ccccccccccc}
+        \toprule
+           $n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\   
+           $A_n$ & 1 & 2 & 3 & 5 & 7 & 13 & 19 & 33 & 51 & 85 & 135 \\        \bottomrule
+        \end{tabular}
+    \end{center}
+    \caption{The first few values of $A_n$}
+    \label{tab:Example}
+\end{table}
+           
+So $A_{10}=135$.\newline
+
+\textbf{3(c) Derive a formula for $\#A_n$ as a function of $n\geq0$.}
+
+Okay.\newline
+
+\textbf{4(a) Let $\alpha$ be a self-avoiding $b$-ary string, and let $N\subseteq\{0,1,\ldots,b-1\}^*$ be the set of $b$-ary strings that do not contain $\alpha$ as a substring. Show that
+\[
+\{0,1,\ldots,b-1\}=N(\alpha N)^*
+\]}
+\setcounter{equation}{0}
+
+We can show separately that
+\begin{align}
+\{0,1,\ldots,b-1\}^*\subseteq N(\alpha N)^*
+\end{align}
+and
+\begin{align}
+\{0,1,\ldots,b-1\}^*\supseteq N(\alpha N)^*
+\end{align}
+Well, (2) is pretty obvious; $N\subseteq\{0,1,\ldots,b-1\}^*$ by definition, and $\alpha\in\{0,1,\ldots,b-1\}^{|\alpha|}\subseteq\{0,1,\ldots,b-1\}^*$, so any concatenation of them will also be in $\{0,1,\ldots,b-1\}^*$. In other words, any concatenation of $b$-ary strings is still a $b$-ary string.
+
+It remains to show (1). We must take any $b$-ary string of length $n$ and show it is also an element of the set $N(\alpha N)^*$.
+
+Let me introduce some personal notation; for a $b$-ary string $\beta$, we denote the substring from character $i$ to character $j$ by $\beta[i,j]$. If the length of $\beta$ is $n$, it is always the case that $\beta=\beta[1,n]$.
+
+\textbf{Case 1}: Suppose $\beta\in\{0,1,\ldots,b-1\}^*$ of length $n$ has 0 occurrences of $\alpha$ in it. Then, by the definition of $N$, we also have $\beta\in N$. So if we take 0 iterations of the $(\alpha N)^*$ chunk of the decomposition, it is easy to see that $\beta\in N(\alpha N)^*$.
+
+\textbf{Case 2}: Suppose $\beta\in\{0,1,\ldots,b-1\}^*$ of length $n$ has at least one occurrence of $\alpha$ in it. Denote the length of $\alpha$ by $a$. Therefore, it must have a \textit{first} occurrence at index $j$. Then $\beta=\beta[1,j-1]\beta[j,j+a-1]\beta[j+a,n]$. Clearly $\beta[1,j-1]\in N$, and $B[j,j+a-1]=\alpha$. If $\beta[j+a,n]$ has no more occurrences of $\alpha$ in it, then $\beta[j+a,n]\in N$, and we are done. Otherwise, simply repeat Case 2 on the new string $\beta[j+a,n]$. Inductively we see that eventually it must hit a last occurrence of $\alpha$ past which we will have a final block of $\alpha N$. Thus we will have exactly one $\alpha N$ group for every occurrence of $\alpha$, and we are done.\newline
+
+\textbf{4(b) Deduce that if $|\alpha|=a$ then
+\[
+N(x)=\frac{1}{1-bx+x^a}
+\]}
+
+We have shown that the equality in part (a) holds, so we will use it to algebraically obtain an answer. We create a generating function for each side, using $N(x)$ as the placeholder for the generating function of $N$, and equate them:
+\[
+\frac{1}{1-bx}=N(x)\left(\frac{1}{1-N(x)x^a}\right)
+\]
+
+Now we simply solve for $N(x)$:
+\begin{align*}
+N(x)(1-bx)=&1-N(x)x^a\\
+N(x)(1-bx)+N(x)x^a=&1\\
+N(x)(1-bx+x^a)=&1\\
+N(x)=&\frac{1}{1-bx+x^a}
+\end{align*}
+This is all we were trying to show, so we are done.
+
+\textbf{5. Obtain a formula for the generating function of the set $N\subseteq\{0,1\}^*$ of binary strings that do not contain 0101 as a substring.}
+
+Any string that contains the substring 0101 must also necessarily contain the substring 010. Thus if we eliminate 010 from $\{0,1\}^*$, then we will also have eliminated all strings with 0101. Well, as we know from lectures, the decomposition for binary strings that avoid 010 is
+\[
+1^*(0^*01^*11)^*(\epsilon\cup0^*0\cup0^*01)
+\]
+There is, of course, a problem. While all strings that contain 0101 contain 010, it is not true that all strings containing 010 contain 0101. We are eliminating occurrences of ``0100" from the set. We see that this string can only occur in the middle ``loop'', since the postamble can only have a 1 as the last character. Thus can manually add these back in by doing
+\[
+1^*(0100\cup0^*01^*11)^*(\epsilon\cup0^*0\cup0^*01)
+\]
+This represents the set of all binary strings which avoid 0101. Now we just mechanically convert this to a generating function.
+
+\begin{align*}
+N(x)=\left(\frac1{1-x}\right)\cdot\left(\frac{1}{1-\left(x^4+\frac{x^3}{(1-x)^2}\right)}\right)\cdot\left(1+\frac{x}{1-x}+\frac{x^2}{1-x}\right)
+\end{align*}
+I do not look forward to expanding this out, but I must...
+\begin{align*}
+&\left(\frac1{1-x}\right)\cdot\left(\frac{1}{\frac{(1-x)^2-x^4(1-x)^2+x^3}{(1-x)^2}}\right)\cdot\left(\frac{1-x+x+x^2}{1-x}\right)\\
+=&\frac{1+x^2}{(1-x)^2-x^4(1-x)^2+x^3}=\frac{1+x^2}{1-2x+x^2-x^4+2x^5-x^6+x^3}
+\end{align*}
+So our final expression for the generating function of $N$ is
+\[
+\boxed{N(x)=\frac{1+x^2}{1-2x+x^2+x^3-x^4+2x^5-x^6}}
+\]
+\end{document}  
