@@ -141,9 +141,9 @@ Although messy, both of those integrals are essentially just polynomials in $x$,
 
 \textbf{5. (a) Let $n$ be a positive integer, let $\vec a$ be a vector in $\mathbb R^n$, and let $r>0$. Prove that the volume of the ball $B(\vec a;r)$ in $\mathbb R^n$ is equal to $r^n\Omega_n$.}
 
-First we will show that the volume of $B(0;r)$ is also $r^n\Omega_n$. We are essentially scaling $B(0;1)$ by a factor of $r$. The radius is scaled by a factor of $r$ in each of the $n$ dimensions, so the final volume will be larger by a factor of $r^n$.
+First we will show that the volume of $B(0;r)$ is also $r^n\Omega_n$. We are essentially scaling $B(0;1)$ by a factor of $r$. The radius is scaled by a factor of $r$ in each of the $n$ dimensions, so the final volume will be larger by a factor of $r^n$. So if $[a_1,b_1]\times[a_2,b_2]\times\cdots\times[a_n,b_n]$ is the original Jordan region, then $[a_1,rb_1]\times[a_2,rb_2]\times\cdots\times[a_n,rb_n]$ will contribute a factor of $r$ to the multiplication, $n$ times.
 
-Exercise 3 in the textbook (referring to the translation of a Jordan region) tells us that if $E$ is a Jordan region, then $\vec x+E$ is a Jordan region, and $\vol{E}=\vol{\vec x+E}$. In this case, $E$ is $B(0;r)$ and $\vec x=\vec a$, thus telling us that $\vol{B(0;r)}=\vol{B(\vec a;r)}$, which is what we were trying to show.
+Exercise 3 in the textbook (referring to the translation of a Jordan region) tells us that if $E$ is a Jordan region, then $\vec x+E$ is a Jordan region, and $\vol{E}=\vol{\vec x+E}$. Indeed, if $[a_1,b_1]\times[a_2,b_2]\times\cdots\times[a_n,b_n]$ is a Jordan region, then $[a_1+x^{(1)},b_1+x^{(1)}]\times[a_2+x^{(2)},b_2+x^{(2)}]\times\cdots\times[a_n+x^{(n)},b_n+x^{(n)}]$ is obviously also a Jordan region, and it is not hard to see that the volume is unaffected since the components of $\vec x$ will cancel out in the subtraction. In this case, $E$ is $B(0;r)$ and $\vec x=\vec a$, thus telling us that $\vol{B(0;r)}=\vol{B(\vec a;r)}$, which is what we were trying to show.
 
 \textbf{(b) Prove that $\Omega_{n+1}/\Omega_n=\int_{-1}^1{(1-r^2)^{n/2}dr},\forall n\geq1$.}
 
