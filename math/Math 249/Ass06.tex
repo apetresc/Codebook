@@ -28,6 +28,23 @@ Let's look at the case where $\deg{(v_0)}=4$. Let's call the neighbors of $v_0$:
 
 The remaining case is where $\deg{(v_0)}=5$. Let's call the neighbours of $v_0$: $v_1, v_2, v_3, v_4, v_5$. If all four colours are not used on these five vertices, then pick one of the unused colours and paint $v_0$ with it, and we're done. Otherwise, we must necessarily have all four colours used up, and exactly one of them appearing twice. Without loss of generality, assume $v_1$ is painted with 1, $v_2$ is painted with 2, and so on, with the overlapping $v_5$ being painted with 1 also. Then consider $H_{24}$ again; once more, if $v_2$ and $v_4$ fall on different components of $H_{24}$, simply swap one of the vertices and repaint $v_0$ with the newly freed color. Otherwise, they are in the same component.
 
+\textbf{2. Let $G$ be a bipartite graph, and let $\Delta$ by the maximum degree of any vertex in $G$. Show that $G$ has a matching with at least $q/\Delta$ edges. Also, give an example of a non-bipartite graph for which this lower bound on the size of a matching is not true.}
+
+Since $G$ is a bipartite graph, Konig's theorem holds which tells us that $\max{|M|}=\min{|C|}$. Assume by contradiction that $G$ does not have a matching with at least $q/\Delta$ edges; that means $\max{|M|}<q/\Delta$, which therefore means that $\min|C|<q/\Delta$.
+
+We draw our bipartite partition of the vertices into groups $A$ and $B$. Take some edge $v_0$ with degree $\Delta$. (One must exist). We know it must be part of the minimal cover since it exhausts more of the edges than any other vertex (except perhaps other vertices with degree $\Delta$). Thus we add it to our cover $C$ and count $\Delta$ of the $q$ edges as "exhausted". We continue adding vertices in decreasing order thus ensuring minimality. At the end, we know that each vertex occupied at most $\Delta/q$ edges. Thus in total we have
+\[
+\sum_{i=1}^{|C|}\frac{\Delta}{q}\geq\frac{q}{q}\implies|C|\frac{\Delta}{q}\geq1\implies|C|\geq\frac{q}{\Delta}
+\]
+
+But this is a contradiction, since we always chose the vertices of highest degree first. Thus a minimal cover less than $q/\Delta$ must have been impossible, thus leading to a contradiction. So it also follows that $G$ has a matching with at least $q/\Delta$ edges.
+
+As a counterexample for when $G$ is not bipartite, consider the simple triangle. It has 3 edges and the maximum degree is $4$, so $q/\Delta>1$. But you can only match one edge on the triangle before you run out, so it does not satisfy the requirement.
+
+\textbf{4. Draw an example of a $3$-regular graph that does not have a perfect matching.}
+
+The graph is drawn by hand and attached to a piece of paper that was handed in with this assignment.
+
 \textbf{5. Use the Matrix-Tree Theorem to show that for all $n\geq1$, the complete graph $K_n$ has $n^{n-2}$ spanning trees.}
 
 It is clear that $K_n$ is $(n-1)$-regular, so the main diagonal will have entirely $n-1$ across it. Moreover, every vertex is connected to every other vertex by precisely on edge in $K_n$, so all other non-diagonal entries will be $-1$ in the Laplacian matrix. So we have so far
@@ -42,5 +59,5 @@ n-1 & -1 & -1 & -1 & \ldots & -1 & -1 \\
 -1 & -1 & -1 & -1 & \ldots & -1 & n-1
 \end{bmatrix}
 \]
-It doesn't really matter which minor matrix we choose here, so let's take $M_1$ which is essentially just $Q$ but with a lower dimension by $1$; there are now $n-1$ rows and columns instead of $n$. We notice that the determinant of this matrix is precisely the characteristic polynomial of the $(n-1)\times(n-1)$ matrix with all $1$ entries. Well, such a matrix would represent a constant function that took all basis vectors to the same thing (all 1's in every component). Thus the only eigenvalue for such a transform would be $n-1$ itself; so we know it's characteristic polynomial is of degree $n-1$, and has precisely one root: $n-1$. Thus it would have to be of the form $P(x)=(x-(n-1))x^{n-2}$, which satisfies both conditions. But, as we see from the diagonal in the matrix we are evaluating, the determinant is actually equal to the characteristic polynomial evaluated at $n$. Thus we have $P(n)=(n-(n-1))n^{n-2}=n^{n-2}$. This is what we were trying to prove, so we are done.
+It doesn't really matter which minor matrix we choose here, so let's take $M_1$ which is essentially just $Q$ but with a lower dimension by $1$; there are now $n-1$ rows and columns instead of $n$. We notice that the determinant of this matrix is precisely the characteristic polynomial of the $(n-1)\times(n-1)$ matrix with all $1$ entries. Well, such a matrix would represent a constant function that took all basis vectors to the same thing (all 1's in every component). Thus the only eigenvalue for such a transform would be $0$ and $n-1$ itself; indeed, the vector $(1,1,\ldots,1)$ will always get mapped to $(n-1)$ by this transformation. We know it's characteristic polynomial is of degree $n-1$, and has precisely two roots: $n-1$ and $0$. Thus it would have to be of the form $P(x)=(x-(n-1))x^{n-2}$, which satisfies all three conditions. But, as we see from the diagonal in the matrix we are evaluating, the determinant is actually equal to the characteristic polynomial evaluated at $n$. Thus we have $P(n)=(n-(n-1))n^{n-2}=n^{n-2}$. This is what we were trying to prove, so we are done.
 \end{document}  
