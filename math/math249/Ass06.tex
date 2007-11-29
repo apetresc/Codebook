@@ -1,0 +1,28 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage{fullpage}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{MATH 249 - Assignment 6}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $G$ be a simple planar graph that does not contain a triangle. Show that the vertices of $G$ can be properly coloured with at most 4 colours.}
+
+The statement that $G$ contains no cycles of length 3, along with the fact that it is simple, ensures that the girth of $G$ is $\geq4$. We imitate the proof of the five-colour theorem. The planarity of $G$ ensures that it contains a vertex, $v_0$, of at most degree 5; we proceed by induction on such a vertex. The graph $G\backslash v_0$ is 4-colourable, 
+
+If $\deg{(v_0)}\leq3$, then adding this node back is trivial; we simply give it one of the four colors that remain.
+
+If $\deg{(v_0)}=4$, then we can 
+\end{document}  
