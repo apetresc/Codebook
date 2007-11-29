@@ -1,0 +1,365 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}             
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 7}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. (a) Show that
+\[
+-x^{2n}\leq\frac{1}{1+x^2}-\left(1-x^2+x^4-x^6+\cdots+(-1)^{n-1}(x^2)^{n-1}\right)\leq x^{2n}
+\]
+for each positive integer $n$.
+}
+
+We see that the terms in the brackets form a geometric series with first term of $a=1$ and a common ratio of $-x^2$. We have our formula for the sum of a geometric series:
+\[
+S_n=\sum_{i=0}^n{ar^k}=\frac{a(1-r^{n+1})}{1-r}
+\]
+
+So by substitution we have
+\begin{align*}
+S_n=\frac{1+x^{2n+2}}{1+x^2}=\left(-x^2+x^4-x^6+\cdots+(-1)^{n-1}(x^2)^{n-1}\right)
+\end{align*}
+So we put this into the inequality, and simplify:
+\begin{align*}
+-x^{2n}\leq\frac{1}{1+x^2}-\left(\frac{1+x^{2n+2}}{1+x^2}\right)\leq x^{2n}\\
+-x^{2n}\leq-\left(\frac{x^{2}\cdot x^{2n}}{1+x^2}\right)\leq x^{2n}\\
+x^{2n}\geq x^{2n}\left(\frac{x^2}{1+x^2}\right) \geq-x^{2n} 
+\end{align*}
+We see that the bracketed quantity is always less than $1$, so the left inequality holds. Furthermore, the quantity in the center is always positive, so the right inequality holds.
+
+\textbf{1. (b) Do an integration over $[0,1]$ of the above functions and compute the sum of the series
+\[ 
+1-\frac13+\frac15-\frac17+\frac19-\frac1{11}+\frac1{13}-\cdots
+\]
+}
+It is immediately obvious that $\displaystyle\int_0^1\pm x^{2n}dx=\pm\left[\frac{x^{2n+1}}{2n+1}\right]_0^1=\pm\frac{1}{2n+1}$. We can also see that
+\begin{align*}
+&\int{\left[\frac{1}{1+x^2}-1+x^2-x^4+x^6+\cdots(-1)^n(x^2)^n \right]}\\
+=&\int\frac{1}{1+x^2}-\int1+\int x^2-\int x^4+\int x^6+\cdots+(-1)^n\int x^{2n}\\
+=&\arctan{x}-x+\frac{x^3}{3}-\frac{x^5}{5}+\frac{x^7}{7}+\cdots+(-1)^n\frac{x^{2n+1}}{2n+1}
+\end{align*}
+At $x=0$, all of the terms above are equal to $0$, so if we take the integral over the interval $[0,1]$, all we must do is substitute $x=1$ into the above equation. Thus we have the inequality
+\[
+-\frac{1}{2n+1}\leq\arctan{1}-1+\frac13-\frac15+\frac17+\cdots+\frac{(-1)^n}{2n+1}\leq\frac{1}{2n+1}
+\]
+
+If we take the limit of all three sides as $n\to\infty$, we have
+\[
+0\leq\frac\pi4-1+\frac13-\frac15+\frac17+\cdots\leq0
+\]
+which implies our final answer
+\[
+1+\frac13-\frac15+\frac17+\cdots=\frac\pi4
+\]
+
+\textbf{2. Find the radius of convergence of the following series:}
+
+\textbf{(a) $\displaystyle\sum_{n=2}^\infty{\frac{1}{(\ln{n})^2}x^n}$}
+
+We use the root test:
+\begin{align*}
+\lim_{n\to\infty}{\sqrt[n]{\frac{1}{(\ln{n})^2}x^n}}=x\lim_{n\to\infty}{\ln{(n)}^{-\frac{2}{n}}}=x\lim_{n\to\infty}{\left(e^{-2\frac{\ln\ln{n}}{n}}\right)}=x\cdot e^{-2\lim_{n\to\infty}{\frac{\ln\ln{n}}{n}}}
+\end{align*}
+Both the numerator and denominator of the limit go to $\infty$, so we can apply L'Hopital's rule and take the derivative:
+\begin{align*}
+x\cdot e^{-2\lim_{n\to\infty}{\frac{1}{n\ln{n}}}}=x\cdot e^0=x
+\end{align*}
+So we see that the limit converges if $x<1$; in the indeterminate case $x=1$, the series is simply
+\[
+\sum_{n=2}^\infty{\frac{1}{\ln{n}^2}}\sim\sum_{k=1}^\infty{\frac{2^k}{\ln{(2^k)}^2}}=\sum_{k=1}^\infty{\frac{2^k}{k^2\ln2^2}}=\frac{1}{\ln{2}^2}\sum_{k=1}^\infty{\frac{2^k}{k^2}}
+\]
+which clearly diverges by the condensation test. Thus the radius of convergence is $R=1$.
+
+\textbf{(b) $\displaystyle\sum_{n=2}^\infty{\frac{1}{(\ln{n})^n}{x^n}}$}
+
+We apply the root test again:
+\begin{align*}
+\lim_{n\to\infty}{\sqrt[n]{\frac{1}{(\ln{n})^n}x^n}}=\lim_{n\to\infty}{\frac{x}{\ln{n}}}
+\end{align*}
+
+This converges regardless of $x$; thus the radius of convergence for this series is simply $\mathbb{R}$.
+
+\textbf{(c) $\displaystyle\sum_{n=3}^\infty{\frac{1}{(\ln{n})^{\ln{n}}}x^n}$}
+
+We once again apply the root test, and proceed almost exactly as in part (a):
+\begin{align*}
+\lim_{n\to\infty}{\sqrt[n]{\frac{1}{(\ln{n})^{\ln{n}}}x^n}}=x\lim_{n\to\infty}{\ln{(n)}^{-\frac{\ln{n}}{n}}}=x\lim_{n\to\infty}{\left(e^{-\ln{n}\frac{\ln\ln{n}}{n}}\right)}=x\cdot e^{-\lim_{n\to\infty}{\frac{\ln{n}\ln\ln{n}}{n}}}
+\end{align*}
+
+Once again we see that both the numerator and the denominator go to $\infty$, so we can apply L'Hopital's rule (twice) to the limit to get
+\begin{align*}
+x\cdot e^{-\lim_{n\to\infty}{\frac{\ln{\ln{n}}+1}{n}}}=x\cdot e^{-\lim_{n\to\infty}{\frac{1}{n\ln{n}}}}=x\cdot e^0=x
+\end{align*}
+
+Thus once again, the limit is less than $1$ when $x<1$. For the indeterminate case, the series is simply
+\[
+\sum_{n=3}^\infty{\frac{1}{(\ln{n})^{\ln{n}}}}
+\]
+which by the condensation test is equivalent to
+\begin{align*}
+\sum_{k=2}^\infty{\frac{2^k}{(\ln{2^k})^{\ln{2^k}}}}=\sum_{k=2}^\infty{\left(\frac{2}{(\ln{2^k})^{\ln2}}\right)^k}
+\end{align*}
+which, by the root test, converges if the limit
+\begin{align*}
+\lim_{k\to\infty}{\sqrt[k]{\left(\frac{2}{(\ln{2^k})^{\ln2}}\right)^k}}=\lim_{k\to\infty}{\frac{2}{(k\ln2)^{\ln2}}}
+\end{align*}
+is less than 1, which it clearly is (it goes to $0$). Thus when $x=1$, the series converges, so the radius of convergence is $R=1$.
+
+\textbf{3. Suppose $x_n$ is a bounded sequence and $c$ is a fixed positive constant. Prove that $\limsup{cx_n}=c\limsup{x_n}$.}
+
+Consider $p=\limsup{x_n}$; that is equivalent to the statement that, for every $\epsilon>0, x_n<p+\epsilon$ eventually. Then, the the statement that $c\limsup{x_n}=cp=\limsup{cx_n}$ is the statement that, for every $\epsilon>0, cx_n<cp+\epsilon$. Dividing both sides by $p$ (which we can do, even in the inequality, because $c$ is a positive real number by assumption), we get $x_n<p+\frac\epsilon c$, which we know to be true by assumption (we can ignore the difference between $\epsilon$ and $\frac\epsilon c$ since they are both just arbitrarily small positive numbers); thus it implies the required statement.
+
+\textbf{4. Suppose $\sum_{n=0}^\infty{a_nx^n}$ has a radius of convergence $R$, where $0<R<\infty$, and let $k$ be a fixed positive integer. What is the radius of convergence of $\sum_{n=0}^\infty{a_nx^{km}}$? What is the radius of convergence of $\sum_{n=0}^\infty{a_nx^{n^2}}$?}
+
+If the radius of convergence is $R$, some positive value, that means, by the root test,
+\begin{align*}
+x\cdot&\lim_{n\to\infty}{\sqrt[n]{a_n}}<1\quad\text{whenever }x<R\\
+&\lim_{n\to\infty}{\sqrt[n]{a_n}}<\frac1x\quad\text{whenever }x<R
+\end{align*}
+
+Similarly, by the comparison test,
+\begin{align*}
+\lim_{n\to\infty}{\left|\frac{a_{n+1}}{a_n}\right|}<\frac1x\quad\text{whenever }x<R
+\end{align*}
+Now, for $\sum_{n=0}^\infty{a_nx^{kn}}$, the ratio test tells us that the series converges if
+\[
+x^k\cdot\lim_{n\to\infty}{\left|\frac{a_{n+1}}{a_n}\right|}<1\implies\lim_{n\to\infty}{\left|\frac{a_{n+1}}{a_n}\right|}<\left(\frac1x\right)^k
+\implies\sqrt[k]{\lim_{n\to\infty}{\left|\frac{a_{n+1}}{a_n}\right|}}<\frac1x
+\]
+We already know that $\frac1x$ is greater than the limit when $x<R$; in order for it to be greater than the $n$th root of the limit, we must have $x<R'=\sqrt[n]R$.
+
+For the second series, we apply the root test:
+\[
+\lim_{n\to\infty}{x^n\sqrt[n]{a_n}}<1
+\]
+
+\textbf{5. Think of a power series whose radius of convergence is $1$ and converges conditionally at both $\pm1$.}
+
+The simplest example is
+\[
+\sum_{n=1}^\infty{\frac{(-1)^n}{n}x^n}
+\]
+
+By applying the ratio test, we see
+\begin{align*}
+\lim_{n\to\infty}{\left|\frac{a_{n+1}}{a_n}\right|}=\lim_{n\to
+infty}{\left|\frac{n+1}{n}x\right|}=|x|\lim_{n\to\infty}{\frac{n+1}{n}}<1\implies|x|<1
+\end{align*}
+
+However, at the equality $x=\pm1$, we simply have the series
+\[
+\pm1\mp\frac1x\pm\frac12\mp\frac13\pm\frac14\mp\frac15\pm\cdots
+\]
+
+Which is the classic example of a series which converges, but not absolutely (since $\sum{\frac1n}$ diverges).
+
+\textbf{6. Find power series expansions for each of the following functions.}
+
+\textbf{(a) $\displaystyle\frac{1}{2x^2-3x+1}$.}
+
+Using partial fractions, we decompose
+\begin{align*}
+&\frac{1}{2x^2-3x+1}=\frac{1}{(2x-1)(x-1)}=\frac{A}{2x-1}+\frac{B}{x-1}\\
+\implies&A(x-1)+B(2x-1)=1\implies(A+2B)x-A-B=1\\\implies&A=-2, B=1
+\end{align*}
+So we now have
+\[
+\frac{-2}{2x-1}+\frac1{x-1}
+\]
+
+Each of those can be expressed as a summation of an infinite series of the form
+\[
+S=\sum_{k=0}^\infty{ar^k}=\frac{a}{1-r}
+\]
+
+The first one clearly has $a=-2$ and $1-r=2x-1\implies r=2-2x$. The second one has $a=1$ and $1-r=x-1\implies r=2-x$. So we can write
+\[
+\boxed{\frac{1}{2x^2-3x+1}=\sum_{k=0}^\infty{(-2)(2-2x)^k}+\sum_{k=0}^\infty{(2-x)^k}=\sum_{k=0}^\infty{(-2)(2-2x)^k+(2-x)^k}}
+\]
+
+\textbf{(b) $\displaystyle\frac{1}{x^3-2x^2+x-2}$}
+
+The polynomial in the denominator factors into $(x-2)(x^2+1)$. Thus by partial fractions,
+\begin{align*}
+&\frac{A}{x-2}+\frac{Bx+C}{x^2+1}=\frac{A(x^2+1)+(Bx+C)(x-2)}{(x-2)(x^2+1)}\\
+=&\frac{Ax^2+A+Bx^2-2Bx+Cx-2C}{(x-2)(x^2+1)}\\
+=&\frac{(A+B)x^2+(C-2B)x+(A-2C)}{(x-2)(x^2+1)}=\frac{1}{(x-2)(x^2+1)}
+\end{align*}
+
+Solving this system of equations, we obtain
+\[
+A=\frac15,B=-\frac15,C=-\frac25
+\]
+Thus
+\[
+\frac{1}{x^3-2x^2+x-2}=\frac{1}{5x-10}+\frac{-x-2}{5x^2+5}
+\]
+
+\textbf{7. If $\displaystyle\sum_{n=0}^\infty{a_nx^n}$ has radius $R$, prove that the derived series $\displaystyle\sum_{n=1}^\infty{na_nx^{n-1}}$ has the same radius $R$.}
+
+It is sufficient to prove that $\sum_{n=1}^\infty{na_nx^{n-1}}$ converges$\implies\sum_{n=0}^\infty{a_nx^n}$ converges, and that, for any $y$ such that $|y|<|x|$, then we have $\sum_{n=0}^\infty{a_nx^n}$ converges$\implies\sum{na_ny^{n-1}}$ converges.\footnote{Thanks to Richard Liang for this insight and some guidance.} This proves it, because if they did not have the same radius of convergence, then there would be some $R_2<|x|<R_1$ such that the first series converges, but the derivative series does not; this contradicts the second condition. Conversely, there may be some $R_2>|x|>R_1$ so that the derivative series converges, but the original does not; however, that contradicts the first condition. Since there is no $|x|$ between $R_1$ and $R_2$, we must conclude that $R_1=R_2$.
+
+To prove the first one, we recall from a previous assignment that if $\sum{x_n}$ converges, then so does $\sum{nx_n}$. So we set up a comparison
+\[
+|a_nx^n|\leq|na_nx^{n-1}|\cdot|x|
+\]
+
+Thus if the derivative converges, then multiplying it by $x$ will not change that; this whole thing is bigger than the original series (by a factor of $|n|$ exactly), and so by the comparison test, they both converge. So the first part is proven.
+
+To prove the second part, take $y$ such that $|y|<|x|$. We know that
+\[
+\sum_{n=0}^\infty{n\left(\frac{|y|}{|x|}\right)^n}
+\] 
+converges with $R=1$ (by a very simple application of the ratio test), and therefore the sequence is also bounded. Let $v$ be some bound for the series; then $n\frac{|y|}{|x|}^n<v\implies n|y|^n<v|x|^n$.
+
+Now, we want to show that $\sum_{n=1}^\infty{na_ny^{n-1}}$ converges; well, if we substitute $|yx|^n$ with $|vx|^n$, we get a bigger series
+\[
+\sum_{n=0}^\infty{|a_nx^n|\cdot\frac{|v|}{|y|}}=\frac{|v|}{|y|}\cdot\sum_{n=0}^\infty{|a_nx^n|}
+\]
+
+We know by assumption that this series converges. So we have constructed a larger, convergent series; by the comparison test, the derivative series converges also; so both conditions have been proven.
+
+\textbf{8. (a) Just to warm up, calculate and simplify $\displaystyle\binom{-2}{6},\binom{1/2}{5},\binom{-1/3}{4}$.}
+
+By definition,
+\[
+\binom{\alpha}{r}=\frac{\alpha(\alpha-1)(\alpha-3)\cdots(\alpha-r+1)}{r!}
+\]
+So by simple substitution, we have
+\[
+\boxed{\binom{-2}{6}=\frac{(-2)(-3)(-4)(-5)(-6)(-7)}{6!}=(-1)^6\frac{7!}{6!}=7}
+\]
+\[
+\boxed{\binom{1/2}{5}=\frac{(1/2)(-1/2)(-3/2)(-5/2)(-7/2)}{5!}=(-1)^4\frac{7\cdot5\cdot3}{2^5\cdot5!}=\frac7{256}}
+\]
+\[
+\boxed{\binom{-1/3}{4}=\frac{(-1/3)(-4/3)(-7/3)(-10/3)(-13/3)}{4!}=(-1)^5\cdot\frac{4\cdot7\cdot10\cdot13}{3^5\cdot4!}=-\frac{455}{729}}
+\]
+
+\textbf{8. (b) Verify by grinding out the definition of binomial coefficients that
+\[
+(r+1)\binom{\alpha}{r+1}+r\binom{\alpha}{r}=\alpha\binom{\alpha}{r}
+\] for all $r=0,1,2,\cdots$}
+
+We will just bash...
+\begin{align*}
+&(r+1)\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r)}{(r+1)!}+r\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r+1)}{r!}\\
+=&\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r)}{r!}+\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r+1)}{(r-1)!}\\
+%=&\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r+1)}{(r-1)!}\cdot\left(1+\frac{(\alpha-r)}{r}\right)
+=&\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r)}{r!}+\frac{r\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r+1)}{r!}\\
+=&\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r)+r\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-r+1)}{r!}\\
+=&\left(\frac{\alpha(\alpha-1)(\alpha-3)\cdots(\alpha-r+1)}{r!}\right)\left(\alpha-r+r\right)\\
+=&\alpha\cdot\left(\frac{\alpha(\alpha-1)(\alpha-3)\cdots(\alpha-r+1)}{r!}\right)\\
+=&\alpha\binom{\alpha}{r}
+\end{align*}
+
+\textbf{8. (c) For each $\alpha$ use the ratio test to show that the radius of convergence of the series
+\[
+1+\alpha x+\binom{\alpha}{2}x^2+\binom{\alpha}{3}x^3+\cdots+\binom{\alpha}{r}+x^r+\cdots
+\] is $1$. Where did you need the fact that $\alpha\not=0,1,2,\cdots$?}
+
+We apply the ratio test
+\begin{align*}
+&\lim_{n\to\infty}{\left|\frac{\binom{\alpha}{n+1}}{\binom{\alpha}{n}}\right||x|}\\
+=&|x|\lim_{n\to\infty}{\left|\frac{\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-n)}{(n+1)!}}{\frac{\alpha(\alpha-1)(\alpha-2)\cdots(\alpha-n+1)}{n!}}\right|}\\
+=&|x|\lim_{n\to\infty}{\left|\frac{\alpha-n}{n+1}\right|}\\
+=&|x|\left(\lim_{n\to\infty}{\left|\frac{\alpha}{n+1}\right|}-\lim_{n\to\infty}{\left|\frac{n}{n+1}\right|}\right)\\
+=&|x||(0-1)|=|x|<1
+\end{align*}
+
+Thus the radius of convergence is $R=1$; we never used the fact that $\alpha$ is not an integer; this implies that it works for regular integral binomial coefficients also.
+
+\textbf{(d) If $\displaystyle f(x)=\sum_{r=0}^\infty{\binom{\alpha}{r}x^r}$ where $x\in(-1,1)$, show that
+\[
+(1+x)f'(x)=\alpha f(x)\quad\forall x\in(-1,1)
+\]}
+
+By the differentiation formula, we have
+\[
+f'(x)=\sum_{r=1}^\infty{r\binom{\alpha}{r}x^{r-1}}
+\]
+
+We do some expansion:
+\begin{align*}
+f'(x)+xf'(x)=&\alpha f(x)\implies f'(x)+\sum_{r=1}^\infty{r\binom{\alpha}{r}x^r}=\alpha f(x)
+\end{align*}
+
+Then, using the identity derived in part (b), we obtain
+\begin{align*}
+f'(x)+\sum_{r=0}^\infty{\alpha\binom{\alpha}{r}x^r}-\sum_{r=0}^\infty{(r+1)\binom{\alpha}{r+1}x^r}=\alpha f(x)\\
+\implies f'(x)=\sum_{r=0}^\infty{(r+1)\binom{\alpha}{r+1}x^r}\\
+\implies \sum_{r=1}^\infty{r\binom{\alpha}{r}x^{r-1}}=\sum_{r=0}^\infty{(r+1)\binom{\alpha}{r+1}x^r}
+\end{align*}
+
+This may at first seem to be false, but this is due to the discrepancy in the starting index of the summations; if we take $s=r+1$, we see that
+\[
+ \sum_{r=1}^\infty{r\binom{\alpha}{r}x^{r-1}}=\sum_{s=1}^\infty{s\binom{\alpha}{s}x^{s-1}}=\sum_{r=0}^\infty{(r+1)\binom{\alpha}{r+1}x^r}
+\]
+
+and these are, in fact, always equivalent. Thus the left and right sides are always equivalent, and we have proven the identity.
+
+\textbf{(e) Prove that $\displaystyle\left(\frac{f(x)}{(1+x)^\alpha}\right)'=0$, and use this result to deduce that
+\[
+f(x)=(1+x)^\alpha\quad\text{for }-1<x<1
+\]}
+
+We take the derivative:
+\begin{align*}
+&\left(\frac{f(x)}{(1+x)^\alpha}\right)'=\frac{f'(x)(1+x)^\alpha-f(x)\left(\frac{\alpha(1+x)^\alpha}{x+1}\right)}{(1+x)^{2\alpha}}\\
+=&\frac{\alpha f(x)(1+x)^{\alpha-1}-\alpha f(x)(x+1)^{\alpha-1}}{(1+x)^{2\alpha}}\\
+=&\frac{\alpha f(x)((1+x)^{\alpha-1}-(1+x)^{\alpha-1})}{(1+x)^{2\alpha}}\\
+=0
+\end{align*}
+
+This tells us that the function we were taking the derivative of is a constant function; so if we evaluate it at any point, we will know its value over the entire domain. Thus, we look at $x=0$, since it is the easiest to evaluate, and we get
+\[
+\frac{f(0)}{(1+0)^\alpha}=\frac{1}{1}=1
+\]
+
+Thus the function is equal to $1$ over its whole domain. So, rearranging, we get
+\[
+\frac{f(x)}{(1+x)^\alpha}=1\implies \boxed{f(x)=(1+x)^\alpha}
+\]
+
+\textbf{(f) Find the binomial expansion of $\frac{1}{(1+x)^2}$. Explain why the answer is the same as the series that represents
+\[
+(-1+x-x^2+x^3-\cdots+(-1)^{n+1}x^n+\cdots)'.
+\]}
+
+We know
+\[
+f(x)=(1+x)^\alpha=\sum_{r=0}^\infty{\binom{\alpha}{r}x^r}
+\]
+
+So for the specific case $\alpha=-2$, we have the binomial expansion
+\[
+\boxed{\frac{1}{1+x^2}=\sum_{r=0}^\infty{\binom{-2}{r}x^r}}.
+\]
+
+We look at the binomial coefficient $\binom{-2}{r}$:
+\[
+\binom{-2}{r}=\frac{(-2)(-3)(-4)\cdots(-r)(-r-1)}{r!}=(-1)^{r}(r+1)
+\]
+
+We also look at:
+\[
+(-1+x-x^2+x^3-\cdots+(-1)^{n+1}x^n+\cdots)'=1-2x+3x^2-4x^3+\cdots+(-1)^{n}(n+1)x^n=\sum_{r=0}^\infty{(-1)^r(r+1)x^r}
+\]
+
+We see that the binomial coefficient $\binom{-2}{r}$ matches up perfectly with the power series expansion shown above.
+
+\end{document}

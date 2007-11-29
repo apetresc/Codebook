@@ -1,0 +1,327 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}             
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 5}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. (a) The shape of a catenary is like that of the even function $y=\frac{e^x+e^{-x}}{2}$. Find the arc-length of this catenary over the interval $[-1,1]$.}
+
+We begin by taking the derivative of $\left(\frac{e^x}{2}+\frac{e^{-x}}{2}\right)$, which is quite simply $\frac{e^x-e^{-x}}{2}$.
+By the formula shown in the discussion, we know that the arc-length we are looking for is given by
+\[
+\int_{-1}^1{\sqrt{1+\left(\frac{e^x-e^{-x}}{2}\right)^2}dx}
+\]
+
+With a little bit of algebraic manipulation on the improper integral, we see
+\begin{align*}
+&\int{\sqrt{1+\left(\frac{ e^{2x} + e^{-2x}-2 }{4}\right)}dx}\\
+=&\int{\sqrt{\left(\frac{e^{2x}+e^{-2x}+2}{4}\right)}dx}\\
+=&\int{\sqrt{\left(\frac{e^x+e^{-x}}{2}\right)^2}dx}\\
+=&\frac12\int{\left(e^x+e^{-x}\right)dx}=\boxed{\frac12\left(e^x-e^{-x}\right)}
+\end{align*}
+
+So now it is simply a matter of taking the proper integral over the interval $[-1,1]$, and that simply works out to
+\begin{align*}
+\frac{(e^1-e^{-1})-(e^{-1}-e^1)}{2}=e^1-e^{-1}=\boxed{e-\frac{1}{e}}
+\end{align*}
+
+\textbf{1. (b) Find the arc-length of $y=e^x$ over the interval $[0,1]$.}
+
+The derivative of $y$ is simply $e^x$. So the desired integral is
+\[
+\int_0^1{\sqrt{1+e^{2x}}dx}
+\]
+
+We know from assignment 3 that $\int{\sqrt{1+e^x}dx}=2\sqrt{1+e^x}+\ln(\sqrt{1+e^x}-1)-\ln(\sqrt{1+e^x}+1)+C$. Well, if we let $u=2x$, then the integral we want can be written as $\frac12\int{\sqrt{(1+e^u)}du}$, so this implies that we can write
+\[
+\int{\sqrt{1+e^{2x}}dx}=\sqrt{1+e^{2x}}+\frac{\ln(\sqrt{1+e^{2x}}-1)-\ln(\sqrt{1+e^{2x}}+1)}{2}+C
+\]
+And so the proper integral evaluates to
+\[
+\left(\sqrt{e^2+1}+\frac12\ln{\left(\sqrt{e^2+1}-1\right)}-\frac12\ln{\left(\sqrt{e^2+1}-1\right)}\right)-\left(\sqrt{2}+\frac12\ln{\left(\sqrt{2}-1\right)}+\frac12\ln{\left(\sqrt{2}+1\right)}\right)
+\]
+which is a constant, after all.
+
+\textbf{2. (a) Lift the inequality $e^{-x}\leq1$ on $[0,\infty)$ a few times to show that 
+\[
+1-x+\frac{x^2}{2}-\frac{x^3}{6}\leq e^{-x}\leq1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}
+\] for all $x\geq0$.}
+
+We start with the inequality $0\leq e^{-x}\leq1$ for all $x\geq0$. Integrating this, we get \[C_1\leq -e^{-x}\leq x+C_2\] for all $x\geq0$. For this to be true at exactly $x=0$, we need $C_1=C_2=-1$, so in other words,
+\[
+-1\leq-e^{-x}\leq x-1
+\]
+We proceed in this manner, each time choosing a $C_1,C_2$ so that the equality is true at $x=0$:
+\begin{align*}
+-x+1\leq &e^{-x}\leq\frac{x^2}{2}-x+1\\
+-\frac{x^2}{2}+x-1\leq&-e^{-x}\leq\frac{x^3}{6}-\frac{x^2}{2}+x-1\\
+-\frac{x^3}{6}+\frac{x^2}{2}-x+1\leq&e^{-x}\leq\frac{x^4}{24}-\frac{x^3}{6}+\frac{x^2}{2}-x+1
+\end{align*}
+This is just a rearrangement of
+\[1-x+\frac{x^2}{2}-\frac{x^3}{6}\leq e^{-x}\leq1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}\]
+\textbf{2. (b) Use the information from part (a) to find a fraction that estimates $\displaystyle\int_0^1{e^{-t^2}dt}$ with error at most $\frac1{216}$.}
+
+We begin by substituting $x=t^2$ into the inequality from part (a), to obtain
+\[
+1-t^2+\frac{t^4}{2}-\frac{t^6}{6}\leq e^{-t^2}\leq1-t^2+\frac{t^4}{2}-\frac{t^6}{6}+\frac{t^8}{24}
+\]
+
+Then we proceed to take the integral over $[0,1]$ of all three sides; we know this is safe since the left and right sides are simply polynomials and therefore integrable everywhere.
+\begin{align*}
+\int_0^1{1}-\int_0^1{t^2}+\int_0^1{\frac{t^4}{2}}-\int_0^1{\frac{t^6}{6}}\leq&\int_0^1{e^{-t^2}}\leq\int_0^1{1}-\int_0^1{t^2}+\int_0^1{\frac{t^4}{2}}-\int_0^1{\frac{t^6}{6}}+\int_0^1{\frac{t^8}{24}}\\
+\left[ t-\frac{t^3}{3}+\frac{t^5}{20}-\frac{t^7}{42}\right]_0^1\leq&\int_0^1{e^{-t^2}}\leq\left[t-\frac{t^3}{3}+\frac{t^5}{20}-\frac{t^7}{42}+\frac{t^9}{72}\right]_0^1\\
+\frac{26}{35}\leq&\int_0^1{e^{-t^2}}\leq\frac{5651}{7560}
+\end{align*}
+
+We see that $\frac{5651}{7560}-\frac{26}{35}=\frac1{216}$, so we have approximated the integral to the desired accuracy.
+
+\textbf{3. If a function $f$ is uniformly continuous on a bounded, open interval $(a,b)$, show that $f$ is bounded over $(a,b)$. Does this hold if $f$ is merely continuous over $(a,b)$?}
+
+Since $f$ is uniformly continuous, we can choose a $\delta>0$ such that, for $x,y\in(a,b)$
+\[
+|x-y|<\delta\quad\implies\quad|f(x)-f(y)|<1
+\]
+In other words, we can choose a $\delta$ that satisfies $\epsilon=1$. Then, for any $n\in \mathbb{N}$ that is greater than $\frac{(b-a)}{\delta}$, we can take $k=\frac{(b-a)}{n}$. We then construct the sequence $p_j=a+jk$ for $0\leq i\leq n$. Since $n>\frac{(b-a)}{\delta}$, then $k<\delta$ always, so each $p_j$ is within $\delta$ of $p_{j-1}$ and $p_{j+1}$. Also, since $\delta$ is fixed, there is a $j$ large enough so that the entire interval $(a,b)$ is covered by $p_j$; thus every $x\in(a,b)$ is within some finite number of $\delta$'s of $f(p_1)$. Additionally, each addition of $\delta$ to $x$ can increase the value of $f(x)$ by at most $1$, by the implication shown above:
+\[
+|p_j-p_{j+1}|<\delta \implies |f(p_j)-f(p_{j_1})|<1
+\] Hence $f$ has some maximum value, namely \[|f(x)|\leq1+\max\left\{|f(p_j):1\leq j \leq n\right\} \]
+
+And thus $f$ is bounded. However, this is not true for regular continuous functions. The obvious counterexample is $f(x)=x^{-1}$ over the open interval $(0,1)$; it is continuous over that open interval, but not bounded as $x\to0$. Thus this is a special property of uniformly continuous functions only.
+
+\textbf{4. Two circular tubes of radius $1$ intersect each other at right angles, and their central axes do cross. Find the volume of the resulting solid of intersection.}
+
+Without loss of generality, let us assume that the central axis of tube $A$ goes through the $x$-axis, and the central axis of tube $B$ goes through the $y$-axis. It is pretty easy to see that, since cylinder $A$ is just a row of cocentric circles centered around the $x$-axis, and $B$ around the $y$-axis, that their equations are simply
+\begin{align*}
+A:\quad x^2+z^2=1\\
+B:\quad y^2+z^2=1
+\end{align*}
+We will now slice the area with horizontal planes (that is, planes that are perpendicular to the $z$-axis). Each slice has a square cross-section with respect to the $z$-axis; let us define the perpendicular distance from the $z$-axis to the edge of the square (on this perpendicular plane) by the function
+\[
+l(z)=\sqrt{1-z^2}
+\] 
+The volume of each slice is the length of the square, $2l(z)$, squared, times the thickness $dz$ of the slice. So each slice is of volume
+\[
+dV=(2l(z))^2\cdot dz
+\]
+
+Now we simply integrate this along the interval of their intersection $[-1,1]$.
+\begin{align*}
+V=&\int_{-1}^1{dV}\\
+=&\int_{-1}^1{4\left(\sqrt{1-z^2}\right)^2dz}\\
+=&4\cdot\int_{-1}^1{(1-z^2)dz}\\
+=&4\cdot\left[z-\frac{z^3}{3}\right]_{-1}^1\\
+=&4\cdot\left(1-\frac{1}{3}+1-\frac13\right)=\frac{16}{3}
+\end{align*}
+
+And thus the volume of intersection is $\frac{16}{3}$.
+
+\textbf{5. Test the following series for convergence.}
+
+\textbf{(a) $\displaystyle\sum_{n=2}^{\infty}\frac{1}{(\ln{n})^5}$}
+
+Since the sequence is clearly monotone down, by the condensation test, the given series converges only if 
+\[
+\sum_{k=2}^\infty{\frac{2^k}{\ln{(2^k)}^5}}
+\]
+converges. But by some rules of logarithms and exponents, we can simplify this to
+\begin{align*}
+\sum_{k=2}^\infty{\frac{2^k}{(k\ln{2})^5}}=\frac{1}{\ln{2}}\sum_{k=0}^\infty{\frac{2^k}{k^5}}
+\end{align*}
+which clearly does not converge; the sequence doesn't even approach $0$. Thus
+\[\boxed{\sum_{n=2}^\infty{\frac{1}{(\ln{n})^5}\quad\text{diverges.}}} \]
+
+\textbf{(b) $\displaystyle\sum_{n=2}^\infty{\frac{1}{\sqrt[3]{n^2+1}}}$}
+
+A simpler way to write this series is $\sum_{n=2}^\infty{(n^2+1)^{-3/2}}$, which converges if and only if the integral
+\[
+\int_0^\infty{(x^2+1)^\frac{-3}{2}dx}
+\]
+converges. By trigonometric substitution, the indefinite integral evaluates to
+\[
+\int{\frac{1}{\sqrt[3]{x^2+1}}dx}=\frac{x}{\sqrt{x^2+1}} + C
+\]
+So the converges of our series depends on the existence of the limit
+\[
+\lim_{x\to\infty}{\frac{x}{\sqrt{x^2+1}}}
+\]
+It is clear that this limit exists and evaluates to $1$ (since, for large values of $x$, the constant is dominated and so the limit is equivalent to $\frac{x}{\sqrt{x^2}}=1$). Thus the limit exists, which implies the integral exists, which implies that the series converges.
+
+\textbf{(c) $\displaystyle\sum_{n=2}^{\infty}{(\sqrt[n]{n}-1)^n}$}
+
+It is clear that the terms of this sequence are non-negative, since $n>1\implies\sqrt[n]{n}>\sqrt[n]{1}=1$, so $(\sqrt[n]n-1)>0$. Thus we can apply the root test; we must evaluate the limit
+\[
+\lim_{n\to\infty}{\sqrt[n]{a_n}}=\lim_{n\to\infty}{\sqrt[n]{\left(\sqrt[n]{n}-1\right)^n}}=\lim_{n\to\infty}{\sqrt[n]{n}}-1=1-1=0
+\]
+Since the limit is less than $1$, the root test tells us that the series converges.
+
+\textbf{(d) $\displaystyle\sum_{n=1}^\infty{\sin{\frac1n}}$}
+
+We know that $\sin{x}<x$. Thus, for $x=\frac1n$, we have $\sin{\frac1n}<\frac1n$. However, we must ask ourselves, how \textit{much} smaller than $\frac1n$ is it really? Well, we know that, in the first quadrant, $\sin{x}=x$ only at $x=\frac1{\sqrt2}$. Thus we multiply both sides of our inequality to obtain
+\[
+\sin{\frac1{\sqrt2}}\cdot\sin{\frac1n}<\frac{1}{\sqrt2n}
+\]
+
+However, we also know that, once $n>1>\frac1{\sqrt2}$, the right side of the inequality would have to keep on being smaller than $\sin{\frac1n}$ since, after all, it can only intersect the $\sin$ function once. (And we know it can't be greater because $\frac{1}{\sqrt2n}>\sin\frac1n\implies\frac1{\sqrt2}>1$). Thus we have
+\[
+\sin{\frac1{\sqrt2}}\cdot\sin{\frac1n}<\frac{1}{\sqrt2n}<\sin\frac1n
+\]
+
+Now clearly $\frac1{\sqrt2n}$ diverges, and it is less than the given series, so by the comparison test, it also diverges.
+
+\textbf{(e) $\displaystyle\sum_{n=1}^\infty{\cos{(\pi n)\sin{\left(\frac1n\right)}}}$}
+
+We know $\cos{(n\pi)}$ can only take on values of $1$ for even $n$ and $-1$ for odd $n$; thus it is equivalent to $(-1)^n$. So we are looking for the convergence of $\displaystyle\sum_{n=1}^\infty{(-1)^n\sin{\frac1n}}$. By the alternating series test, this converges if $\sin{\frac1n}$ is monotone decreasing and has a limit of $0$. Well, for $n>1$, $\frac{1}{n}$ is on the interval $(0,1]$; this is all on the first quadrant, where it is clear that $\sin$ is strictly decreasing and approaches $0$. Thus this series satisfies the condition of the alternating series test, and converges.
+
+\textbf{(f) $\displaystyle\sum_{n=1}^\infty{(-1)^n\frac{\arctan{n}}{n}}$}
+
+By the alternating series test, this series converges if $\left\{\frac{\arctan{n}}{n}\right\}$ is monotone decreasing, and $\lim_{n\to\infty}{\frac{\arctan{n}}{n}}=0$. To see if it is decreasing, we take the derivative:
+\begin{align*}
+\left(\frac{\arctan{x}}{x}\right)'=\frac{\frac{x}{1+x^2}-\arctan{x}}{x^2}
+\end{align*}
+
+For large values of $x$, $\arctan{x}$ gets very close to $\frac\pi2$, while $\frac{x}{1+x^2}$ approaches $0$, and is therefore less than $\frac\pi2$; so we know that the derivative will be negative eventually, thus $\left\{\frac{\arctan{n}}{n}\right\}$ is monotone down. To prove that the limit is 0, we call on the squeeze principle:
+\[
+0\leq\frac{\arctan{x}}{x}\leq\frac{\frac\pi2}{x}
+\]
+As $x\to\infty$, $0\to0$ and $\frac\pi2\to0$,  so $\left\{\frac{\arctan{n}}{n}\right\}\to0$ also. Thus it is both monotone down and tends to $0$; thus the series converges.
+
+\textbf{6. Suppose that $\displaystyle\frac{f(x)}{g(x)}=\frac{a_mx^m+...+a_0}{b_kx^k+...+b_0}$ is a rational function where $a_m\not=0$ and $b_k\not=0$. Prove that the series $\displaystyle\sum_{n=1}^\infty{\frac{f(x)}{g(x)}}$ converges if and only if $k\geq m+2$.}
+
+We can write $h(x)=\frac{f(x)}{g(x)}$ as
+\[
+h(x)=\frac{a_mx^m}{b_kx^k+...+b_0}+...+\frac{a_0}{b_kx^k+...+b_0}
+\]
+
+Since we know that all absolutely convergent series are convergent, we can assume without loss of generality that all the coefficients $a_i,b_i$ are positive.
+
+To prove that the condition is sufficient, let us assume that $k\geq m+2$ and show that $h$ is summable. Well, it will be summable if each addend shown above is summable, so let us look at the generic term
+\[
+\frac{a_jx^j}{b_kx^k+...+b_0},\quad0\leq j\leq m
+\]
+
+We also know that if a series is summable, so are its finite multiples, so the above converges only if
+\[
+\frac{x^j}{x^k+...+\frac{b_0}{b_k}}
+\]
+converges. By the comparison test,
+\[
+\frac{x^j}{x^k+...+\frac{b_0}{b_k}}\leq\frac{x^j}{x^k}\leq\frac{1}{x^{k-j}}
+\]
+(we can do this because we assumed earlier that all coefficients are positive). Since we assume that $k\geq m+2$, we know that $k-j\geq2$, so this larger series converges, and thus $h$ converges; so the condition is sufficient. To prove it is necessary, let us assume $k<m+2$ and show that $h$ diverges. Following the same steps as before, we have the first term
+\[
+\frac{x^m}{x^k+...+\frac{b_0}{b_k}}
+\]
+
+It is easy to see that for such a term, as $x\to0$, we do not even have the term approach $0$; thus it cannot possibly be summable, so the condition is also necessary.
+
+%\textbf{7. Find an $n$ such that $\displaystyle\sum_{k=n+1}^\infty{\frac1{k^5}}<10^{-6}$.}
+
+\textbf{8. Apply a couple of condensations to decide if the series
+\[
+\sum_{n=3}^\infty{\frac{1}{n\ln{n(\ln(\ln{n})})^2}}
+\] converges.}
+
+Applying the condensation test, the given series converges if
+\begin{align*}
+\sum_{k=3}^\infty{\frac{2^k}{2^k\ln{2^k}(\ln(\ln{2^k}))^2}}=\sum_{k=3}^\infty{\frac{1}{k\ln{2}(\ln k(\ln{2}))^2}}
+\end{align*} converges.
+This is not easy enough to evaluate, so we apply the condensation test again:
+\begin{align*}
+&\sum_{j=3}^\infty{\frac{2^j}{2^j\ln{2}(\ln{2^j(\ln2))^2}}}=\frac{1}{\ln2}\sum_{j=3}^\infty{\frac{1}{\ln{(2^j(\ln2))^2}}}\\
+=&\frac{1}{\ln2}\sum_{j=3}^\infty{\frac{1}{\left(j\ln2+\ln\ln2\right)^2}}\\
+=&\frac1{\ln2}\sum_{j=3}^\infty{\frac{1}{j^2\ln2^2+2j\ln2\ln\ln2+\ln\ln2^2}}
+\end{align*}
+
+Since $\ln2$ is just a constant, this is essentially a rational function with degree $0$ on top and degree $2$ on the bottom, which we know from a previous problem, will always converge.
+
+\textbf{9. Suppose that $x_1,x_2,...,x_n,...$ is a decreasing sequence of non-negative numbers, and that $\displaystyle\sum_{n=1}^\infty{x_n}$ converges. Prove that $nx_n\to0$.}
+
+There are three possibilities; either $nx_n\to0$, $nx_n\to r$ for $r\not=0$, or $nx_n$ does not converge at all; we will assume the other two possibilities and seek a contradiction.
+
+Firstly, if $x_n$ does not converge, that means that, no matter how far along we go, there is no such $l$ so that for every $\epsilon>0$ we can find some $K$ so that 
+\[
+n>K\quad\implies\quad|x_n-l|<\epsilon
+\]
+
+Thus, for any number $a$ eventually, $|x_n-a|>\epsilon\implies x_n>\epsilon+a\implies x_n>a$ and thus the sums cannot possibly converge.
+
+Next, we assume $nx_n\to r$ for some $r\not=0$. Then that means for $\epsilon>0$ there exists some $K$ such that, when $n>K$, we have
+\[
+|nx_n-r|=\epsilon\implies x_n=\frac{\epsilon+r}{n}
+\]
+
+So then
+
+\[
+\sum_{n=1}^\infty{x_n}=\sum_{n=K}^\infty{\frac{\epsilon+ r}{n}}=\sum_{n=K}^\infty{\frac{\epsilon}{n}}+\sum_{n=K}^\infty{\frac{r}{n}}
+\]
+
+If $r=0$, then we could always take $\epsilon=\frac1n$ and have a convergent series; however, for $r\not=0$, there is no way to avoid the divergence of the latter series; thus $x_n$ diverges, which is a contradiction.
+
+\textbf{10. (a) Show that $\displaystyle\sum_{n=1}^\infty{\left(\frac{e}{n}\right)^n}$ converges.}
+
+We apply the $n$th root test; the terms of the sequence are indeed non-negative, so we examine the limit
+\[
+\lim_{n\to\infty}{\sqrt[n]{a_n}}=\lim_{n\to\infty}{\sqrt[n]{\left(\frac{e}{n}\right)^n}}=\lim_{n\to\infty}{\frac{e}{n}}=0
+\]
+The limit evaluates to something less than $1$, so the series converges.
+
+\textbf{(b) Using item (a), show that $\displaystyle\int_1^\infty{\frac{e^x}{x^x}dx}$ converges.}
+
+This is a straightforward application of the integral test; if the given integral were to diverge, then so would the series given in part (a)  $-$ but we have already shown that it converges! Thus, the integral cannot diverge, so it must converge.
+
+\textbf{Does the series $\displaystyle\sum_{n=2}^\infty{\frac{1}{(\ln{n})^{\ln n}}}$ converge?}
+
+Recall the integral given in part (b):
+\[
+\int_1^\infty{\frac{e^x}{x^x}dx}
+\]
+which we know converges. For $x=\ln{n}$, we have
+\[
+\int_1^\infty{\frac{e^{\ln{n}}}{(\ln{n})^{\ln{n}}}d\ln{n}}=\int_1^\infty{\frac{n}{(\ln{n})^{\ln{n}}}d\ln{n}}
+\]
+
+We now adjust the differential; we have $d\ln{n}=\frac1ndn\implies dn=n\cdot d\ln{n}$; so by substitution we have that the convergent integral is equivalent to
+\[
+\int_1^\infty{\frac{1}{(\ln{n})^{\ln{n}}}dn}
+\]
+We know this integral converges (because it is equal to the one given in part (a)). So, by the integral test, since this converges, so does $\displaystyle\sum_{n=2}^\infty{\frac{1}{(\ln{n})^{\ln{n}}}}$.
+
+\textbf{11. Find a divergent series $\displaystyle\sum_{n=1}^\infty{x_n}$ for which the $x_n\to0$ and the partial sums $s_n$ stay bounded.}
+
+Consider the sequence
+\[
+1-\frac{1}{2^2}+\frac13-\frac{1}{4^2}+\frac15\pm\cdots-\frac{1}{(2n)^2}+\frac{1}{2n+1}\pm\cdots
+\]
+
+Quite clearly the sequence converges to 0 since both $\frac1n$ and $\frac{1}{n^2}$ do (therefore take $K=\max\{K_1,K_2\}$ for the sequence as a whole). Next we wish to show that the partial sums are bounded; it suffice to show that $s_{n+1}-s_n\to0$. In the case of $n$ being even, we have
+\begin{align*}
+s_{n+1}-s_n=&\frac{1}{n+1}-\frac{1}{n^2}\\
+=&\frac{n^2-n+1}{n^3+n^2}\\
+=&\frac{1}{n+1}-\frac{1}{n^2+n}+\frac{1}{n^3+n}
+\end{align*}
+As $n\to\infty$, each of those go to $0$, so the whole thing goes to $0$.
+
+When $n$ is odd, then we have
+\begin{align*}
+s_{n+1}-s_{n}=&\frac{1}{(n+1)^2}-\frac{1}{n}\\
+=&\frac{n-(n+1)^2}{n(n+1)^2}\\
+%=&\frac{n-(n^2+2n+1)}{n(n^2+2n+1)}\\
+=&\frac{-n^2-n-1}{n^3+2n^2+1}
+\end{align*}
+
+This, again, clearly goes to $0$ as $n\to\infty$, so $s_{n+1}-s_n\to0$ implies that the partial sums are bounded. However, the series as a whole diverges.
+\end{document}

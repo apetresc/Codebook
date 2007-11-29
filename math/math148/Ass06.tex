@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}             
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 6}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. Use a limit comparison with $\sum{\frac{1}{n^2}}$ to show that $\sum{(1-\cos{\frac1n})}$ converges.}
+
+The limit comparison test says that if $\{a_n\},\{b_n\}$ are two sequences that converge to $0$, and the limit $\lim{\frac{a_n}{b_n}}$ exists and is not equal to $0$, then $\sum{a_n}$ converges if and only if $\sum{b_n}$ converges. Well, we know $\frac1{n^2}$ converges to $0$, and as $n\to\infty, \frac1n\to0\implies\cos\frac1n\to1\implies1-\cos\frac1n\to0$ also. Thus, we should evaluate the limit
+\[
+\lim_{n\to\infty}{\left[n^2\left(1-\cos\frac1n\right)\right]}
+\]
+Consider $x=\frac1n$. As $n\to\infty,x\to0$. Thus we can rewrite this limit as
+\[
+\lim_{x\to0}{\frac{1-\cos{x}}{x^2}}
+\]
+
+We see that as $x\to0$, both the numerator and denominator approach $0$, so L'Hopital's rule applies. Taking the derivative, we obtain
+\[
+\lim_{x\to0}{\frac{\sin{x}}{2x}}
+\]
+
+Once again, as $x\to0$, both the numerator and denominator approach 0, so we take the derivative again:
+\[
+\lim_{x\to0}{\frac{\cos{x}}{2}}=\frac12
+\]
+
+Thus the limit exists and is not equal to $0$, so $\sum{1-\cos{\frac1n}}$ converges if $\sum{\frac1{n^2}}$ converges, which we know it does.
+
+\textbf{2. Show that $\displaystyle\sum_{k=3}^\infty{\frac1{k\ln{k}}}$ diverges. If $\displaystyle\sum_{k=3}^\infty{\frac1{k\ln{k}}}\geq10$, prove that $n\geq e^{e^{10}}-1$.}
+
+We will first show that the series diverges by comparing it to the integral
+\[
+\int_3^\infty{\frac{dx}{x\ln{x}}}
+\]
+
+We fix the differential by looking at $u=\ln{x}$. Then $du=\frac1xdx$, so by substitution, the integral is equivalent to
+\[
+\int_3^\infty{\frac1udu}=\left[\ln{u}\right]_3^\infty=\left[\ln\ln{x}\right]_3^\infty
+\]
+
+We know $\ln$ is not bounded, so as $x\to\infty,\ln{x}\to\infty\implies\ln\ln{x}\to\infty$, and so the integral does not exist, and thus the series diverges.
+
+Now, we know that the series corresponds to the Riemann sum where the partition is all the integer values in $[3,\infty)$, which means that all the rectangles are of width $1$. Since $\ln{\ln{x}}$ is clearly an increasing function everywhere on $[3,\infty)$, the series necessarily underestimates the integral. Thus, when the series is above $10$, we have the useful inequality
+\[
+10\leq\sum_{k=3}^n{\frac1{k\ln{k}}}<\int_3^n{\frac{dx}{x\ln{x}}}=\left[\ln\ln{x}\right]_3^n
+\]
+
+We are trying to show that $n\geq e^{e^{10}}-1$. We also know that $e^x$ is an increasing function, so $x>y\iff e^x>e^y$. Keeping that in mind, we do some algebra:
+\begin{align*}
+&\ln\ln{n}-\ln\ln3>10\implies\ln\ln{n}>10+\ln\ln3\\
+\iff&e^{\ln\ln{n}}>e^{10+\ln{\ln{3}}}\implies\ln{n}>e^{10}e^{\ln\ln3}=e^{10}\ln3\\
+\iff&e^{\ln{n}}>e^{e^{10}\ln3}\implies n>\left(e^{\ln3}\right)^{e^{10}}=3^{e^{10}}
+\end{align*}
+
+Since $e<3$, it is obvious that $3^{e^{10}}>e^{e^{10}}$, and so we have shown that
+\[
+\boxed{n>e^{e^{10}}-1}
+\] 
+
+\textbf{We know that
+\[
+0<e-\left(1+1+\frac1{2!}+\frac1{3!}+\cdots+\frac{1}{n!}\right)<\frac{1}{n!n}.
+\] Prove that $e$ is irrational.
+}
+
+For the sake of simplicity, we use
+\[
+\sum_{k=0}^n{\frac{1}{k!}}=\left(1+1+\frac1{2!}+\frac1{3!}+\cdots+\frac{1}{n!}\right)
+\]
+
+Then we can rewrite the given inequality as
+\[
+\sum_{k=0}^n{\frac{1}{k!}}<e<\frac{1}{n!n}+\sum_{k=0}^n{\frac{1}{k!}}
+\]
+
+Let us assume that $e$ is rational and can be written as $\frac{a}{b}$ where $a,b\in\mathbb{Z^+}$, and seek a contradiction. Well, as $n\to\infty$ on all three sides, we have $\frac{1}{n!n}\to0$, and thus by the squeeze principle,
+\[
+\frac{a}{b}=\sum_{k=0}^\infty{\frac{1}{k!}}
+\]
+
+We multiply both sides by $b!$ to obtain
+\[
+a(b-1)!=\sum_{k=0}^\infty{\frac{b!}{k!}}
+\]
+
+Now, in general, $\frac{m!}{n!}$ is an integer if $m\geq n$. Since $b$ is a positive integer, and $k$ iterates through all positive integers, we can write the sum as
+\begin{align*}
+a(b-1)!&=\sum_{k=0}^{b}{\frac{b!}{k!}}+\sum_{k=b+1}^\infty{\frac{b!}{k!}}\\
+a(b-1)!-\sum_{k=0}^{b}{\frac{b!}{k!}}&=\sum_{k=b+1}^\infty{\frac{b!}{k!}}=\frac{1}{b+1}+\frac{1}{(b+1)(b+2)}+\cdots
+\end{align*}
+
+It is clear that the left side is an integer, and that the right side is positive. Thus the right side is a positive integer. However, we also know
+\[
+\frac{1}{b+1}+\frac{1}{(b+1)(b+2)}+\cdots<\frac{1}{b+1}+\frac{1}{(b+1)^2}+\cdots=\sum_{j=1}^\infty{\frac{1}{(b+1)^j}}=\frac{1}{b}
+\]
+
+Since $b$ is an integer, the right-hand side is at most $1$, so the left hand side is less than $1$... but that contradicts the fact that it is a positive integer, since there are no positive integers less than 1. Thus, our assumption that $e=\frac{a}{b}$ must have been faulty, and so $e$ is irrational.
+
+\textbf{4. (a) Show that the series $\displaystyle\sum_{n=1}^\infty{\frac{n!}{n^n}x^n}$ converges absolutely when $|x|<e$ and diverges when $|x|>e$.}
+
+We know $n$ is a positive integer, so $n!$ and $n^n$ are also positive. Thus the series converges absolutely if
+\[
+\sum_{n=1}^\infty{\frac{n!}{n^n}|x|^n}
+\]
+converges. By the limit test for convergence, we wish to examine
+\[
+\lim_{n\to\infty}{\sqrt[n]{\frac{n!}{n^n}|x|^n}}=\lim_{n\to\infty}{\left[\sqrt[n]{\frac{|x|^n}{n^n}}\sqrt[n]{n!}\right]}=\lim_{n\to\infty}{\left[|x|\cdot\frac{\sqrt[n]{n!}}{n}\right]}=|x|\lim_{n\to\infty}{\frac{\sqrt[n]{n!}}{n}}
+\]
+
+Assuming we know the famous identity
+\[
+e=\lim_{x\to\infty}{\frac{x}{\sqrt[x]{x!}}}\implies\frac1e=\lim_{x\to\infty}{\frac{\sqrt[x]{x!}}{x}}
+\]
+So our limit evaluates to \[\lim_{n\to\infty}{\sqrt[n]{a_n}}=\frac{|x|}{e}\]
+
+By the root test, if $|x|<e$, the limit is less than $1$, so the series converges. If $|x|>e$, the limit is greater than $1$, so the series diverges. As a note, when $|x|=e$, the limit is exactly 1, so the root test is indeterminate.
+
+\textbf{4. (b) Use a simple diagram to explain the inequality
+\[
+\int_0^n{\ln{(t)}dt}<\ln2+\ln3+\cdots+\ln{n}\quad\text{for }n=2,3,4,_{\cdots}
+\]
+}
+Since $\int_0^1{\ln{(t)}dt}$ is negative, it suffices to show that $\int_1^n{\ln{(t)}dt}<\sum_{k=1}^n{\ln{k}}$, since the integral from $0$ is even smaller than the integral from $1$.
+\begin{figure}[htp]
+\centering
+\includegraphics[totalheight=0.5\textheight]{ln_inequality.eps}
+\caption[$\ln$ inequality]
+{$\ln$ inequality}\label{fig:ln_inequality}
+\end{figure}
+
+\textbf{4. (c) Show that $n^ne^{1-n}<n!$ for $n=2,3,...$.}
+
+We start with a bit of rearrangement of the inequality:
+
+\[
+n!>n^n\frac{e}{e^n}\implies\frac{n!}{n^n}>\frac{e}{e^n}\implies\frac{n!}{n^n}e^n>e
+\]
+For $n=2$, we have $\frac{e^2}{2}>e$ which is clearly true. We will proceed by mathematical induction on $n$; assume it is true for all $k\leq n$, prove it true for $n+1$. Thus we are trying to prove that
+\[
+\frac{(n+1)!}{(n+1)^{n+1}}e^{n+1}=\frac{n!}{(n+1)^n}e^{n+1}>e\implies\frac{n!e^n}{(n+1)^n}>1
+\]
+
+We know from the inductive hypothesis that $n!e^n>en^n$, so it suffices to show that
+\[
+\frac{en^n}{(n+1)^n}>1\iff e>\left(\frac{n+1}{n}\right)^n
+\]
+
+Well, we know that the actual definition of $e$ is
+\[
+e=\lim_{n\to\infty}{\left(1+\frac1n\right)^n}
+\]
+
+So if we can show that the derivative of that function is always positive, we know that it is always growing and approaching the value $e$ (but it is therefore always below it). So, taking the derivative, we see
+\[
+\left[\left(1+\frac1n\right)^n\right]'=\left[e^{n\ln{\left(1+\frac1n\right)}}\right]'=\left(n\ln{\left(1+\frac1n\right)}\right)'\cdot e^{n\ln{\left(1+\frac1n\right)}}
+\]
+The second factor is always positive, since $e^x>0$ always, so we only need to worry about the first. Continuing the differentiation we get
+\[
+\left(n\ln{\left(1+\frac1n\right)}\right)'=\ln{\left(1+\frac1n\right)}+n\left(\frac{1}{1+\frac{1}{n}}\right)
+\]
+
+Clearly for $n>0$ this is positive. Thus the derivative is always positive, so the function above is always growing, and since it approaches $e$, it must always be below $e$ (if it were above $e$ and growing, it wouldn't approach $e$). Thus we have proven the induction for $n+1$, and thus it is always true.
+
+\textbf{4. (d) Decide on the convergence of $\displaystyle\sum_{n=1}^\infty{\frac{n!e^n}{n^n}}$ and $\displaystyle\sum_{n=1}^\infty{\frac{n!(-e)^n}{n^n}}$.}
+
+We have just proven on the previous question that \[ \frac{e^nn!}{n^n}>e\quad\forall n\geq2\] and thus the terms of the sequence do not even approach 0. Thus the first series diverges very, very quickly.
+
+For the second series, we employ the alternating series test. The series converges if $\left\{\frac{n!e^n}{n^n}\right\}$ approaches $0$, which we have just shown it does not, since all terms are greater than $e$. Thus the second series diverges also.
+
+\[
+\text{ }
+\]
+
+
+\textbf{5. If $\sum{x_n}$ converges absolutely, show that $\sum{x_n^2}$ and $\sum{\frac{x_n}{1+x_n}}$ also converge absolutely.}
+
+Consider the sequences $\left\{a_n\right\}=\left\{b_n\right\}=\left\{x_n\right\}$. Since both $\sum{a},\sum{b}$ converge absolutely, we know that their Cauchy inner product,
+\[
+c_n=\sum_{k=0}^{n}{a_kb_{n-k}}
+\]
+also converges absolutely (Theorem 23-9 in Spivak). We know that every subsequence of a convergent sequence also converges, so let us take the sequence $\left\{c_{2n}\right\}$. Then we can say that $x_n^2<c_{2n}$ for all $n$ since
+\[
+c_{2n}=\sum_{k=0}^{2n}{a_kb_{2n-k}}=\sum_{k=0}^{n-1}{a_kb_{2n-k}}+a_nb_n+\sum_{k=n+1}^{2n}{a_kb_{2n-k}}
+\]
+
+So we see that $c_{2n}>a_nb_n=x_n^2$. Thus $x_n^2$ is a smaller series than $c_{2n}$, which converges, and so it also must converge.
+
+We can use a very similar argument for the second series. Consider $\left\{a_n\right\}=x_n$ and $\left\{b_n\right\}=\frac{1}{1+x_n}$. We know by hypothesis that $\sum{a_n}$ converges absolutely, and so as long as it doesn't converge to $0$, then $\sum{b_n}$ converges absolutely also. So we have two absolutely convergent series, meaning their Cauchy inner product,
+\[
+c_n=\sum_{k=0}^{n}{a_kb_{n-k}}=\sum_{k=0}^n{\frac{x_k}{1+x_{n-k}}}
+\]
+also converges absolutely. Yet again, this means that $\sum{c_{2n}}$ converges absolutely too. Again, we can say $\frac{x_n}{1+x_n}<c_{2n}$ for all $n$ since
+\[
+c_{2n}=\sum_{k=0}^{2n}{\frac{x_k}{1+x_{n-k}}}=\sum_{k=0}^{n-1}{\frac{x_k}{1+x_{n-k}}}+\frac{x_n}{1+x_n}+\sum_{k=n+1}^{2n}{\frac{x_k}{1+x_{n-k}}}
+\] 
+(and the rest of those terms are all positive). Thus since the desired series is smaller than an absolutely convergent series, it must also be absolutely convergent.
+
+\textbf{6. For each series below, find all $x$ such that the series converges.}
+
+\textbf{(a) $\displaystyle\sum_{n=1}^\infty{nx^n}$}
+
+We examine the ratio
+\[
+\lim_{n\to\infty}{\left|\frac{(n+1)x^{n+1}}{nx^n}\right|=\lim_{n\to\infty}{\frac{(n+1)}{n}|x|}}=|x|\cdot\lim_{n\to\infty}{\frac{n+1}n}=|x|
+\]
+
+So this limit will be less than 1 (and thus have the series converge, when $|x|<1$. The only special case to consider is $|x|=1$, but in that case the series simplifies to $\sum n$ which clearly diverges. Thus the full solution is $|x|<1$.
+
+\textbf{(b) $\displaystyle\sum_{n=1}^\infty{n^nx^n}$.}
+
+We use the root test:
+\[
+\lim_{n\to\infty}{\sqrt[n]{(nx)^n}}=\lim_{n\to\infty}{nx}=x\lim_{n\to\infty}n
+\]
+
+It is easy to see that, regardless of what value we choose for $x$, the limit will diverge. Thus the only value of $x$ that will make it converge is $x=0$.
+
+\textbf{(c) $\displaystyle\sum_{n=1}^\infty{\frac{n}{4^n}(2x-1)^n}$}
+
+We use the ratio test again
+\begin{align*}
+\lim_{n\to\infty}{\left|\frac{\frac{n+1}{4^{n+1}}(2x-1)^{n+1}}{\frac{n}{4^n}(2x-1)^n}\right|}
+=\lim_{n\to\infty}{\left|\frac{n+1}{4n}(2x-1)\right|}
+=\frac14|2x-1|\lim_{n\to\infty}{\frac{n+1}{n}}
+\end{align*}
+
+As before, we know that $\frac{n+1}n\to1$, so we want
+\[
+\frac{|2x-1|}4<1\iff|2x-1|<4\iff\boxed{-\frac32<x<\frac52}
+\]
+
+\textbf{6. (d) $\displaystyle\sum_{n=1}^\infty{\frac{(n!)^p}{(pn)!}x^n}$.}
+
+By the ratio test, we evaluate the limit
+\[
+\lim_{n\to\infty}{\left|\frac{\frac{((n+1)!)^p}{(p(n+1))!}x^{n+1}}{\frac{(n!)^p}{(pn)!}x^n}\right|}=
+\lim_{n\to\infty}{\left|\frac{(pn!)(n+1)!^p}{(pn+p)!n!^p}x\right|}=
+|x|\lim_{n\to\infty}{\frac{(n+1)^p}{(pn+p)\cdot(pn+p-1)\cdots(pn+1)}}
+\]
+
+We can write the denominator as
+\[
+|x|\lim_{n\to\infty}{\frac{(n+1)^p}{\displaystyle\prod_{k=1}^p{pn+k}}}=|x|\lim_{n\to\infty}{\frac{(n+1)^p}{\displaystyle\prod_{k=1}^p{p\left(n+\frac{k}{p}\right)}}}
+\]
+
+As $n\to\infty$, $\prod_{k=1}^p\left(n+\frac{k}{p}\right)=\left(n+\frac{k}{p}\right)^p\to(n+1)^p$, so it cancels with the numerator, and we are left with
+\[
+\frac{|x|}{\prod_{k=1}^p{p}}<1\implies\boxed{|x|<p^p}
+\]
+\end{document}

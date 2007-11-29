@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 2}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. Suppose that $f$ is continuous and increasing over $[0,1]$ and that $f(0)=0$ while $f(1)=1$. If $g$ is the inverse function of $f$, why is $g$ integrable over $[0,1]$? Without doing any calculations whatsoever, find $\displaystyle\int_0^1f+\int_0^1g$.}
+
+Since $f$ is increasing, it is one-to-one; $f$ is also continuous, and so these two conditions guarantee that $g$ is also continuous and therefore integrable. We know $g(0)=0$ and $g(1)=1$ also.
+
+
+\textbf{2. (a) We saw that on any interval, functions with a bounded derivative are uniformly continuous. Is there a function on some interval with an unbounded derivative that is still uniformly continuous?}
+
+\textbf{(b) Is there a non-differentiable function that is still uniformly continuous?}
+
+\textbf{3. Find the area in the first quadrant enclosed by the curves $y=\frac1{1+x^2}$ and $y=x$. This is a routine exercise using the fundamental theorem.}
+
+We begin by finding the point of intersection between $f(x)=\frac1{1+x^2}$ and $g(x)=x$. Of course, solving cubics on our own is not very fun, but that's what we pay Maple for. We find that these two functions intersect at $(0.6823,0.6823)$.  On the interval $[0,0.6823]$, it is easy to see that $f$ dominates $g$ (since $f(0)=1$ while $g(0)=0$). They only intersect once, however, so on the interval $[0.06823,\infty)$ we know that $g$ dominates $f$. So we can reduce this problem into \[ \int_0^{0.6823}g+\int_{0.6823}^\infty f\] Obviously $\int_0^{0.6823}g=\frac{x^2}{2}\displaystyle\vert_0^{0.6823}=0.2328$ We also know by inspection that $\int\frac1{1+x^2}$ is simply $\arctan{x}$,  and so $\int_{0.6823}^\infty f=\arctan{x}\vert_{0.6823}^\infty$. It is well known that $\lim_{x\to\infty}{\arctan{x}}=\frac\pi2$, and we evaluate $\arctan{0.6823}=0.5987$ and so $\int_{0.6823}^\infty f=0.972$. Finally we have
+\begin{align*}
+&\int_0^{0.6823}g+\int_{0.6823}^\infty f\\
+=&0.2328+\frac\pi2-0.5987=\boxed{1.205}
+\end{align*}
+
+\textbf{4. The functions $y=\sin{x}$ and $y=\cos{x}$ intersect each other infinitely often. Find the area of the region enclosed by these functions between any two adjacent intersections.}
+
+By recalling the unit circle definition of the $\sin$ and $\cos$ functions, we see that the unit circle intersects the line $y=x$ in two places: $\sin\left(\frac\pi4\right)=\cos{\left(\frac\pi4\right)}=\frac1{\sqrt2}$, and then again at $\sin{\left(\frac{3\pi}4\right)}=\cos{\left(\frac{3\pi}4\right)}=-\frac1{\sqrt2}$ So:
+\begin{align*}
+&\int_{\frac\pi4}^{\frac{3\pi}4}{\sin{x}-\cos{x}}\\
+=&\int_{\frac\pi4}^{\frac{3\pi}4}{\sin{x}}-\int_{\frac\pi4}^{\frac{3\pi}4}{\cos{x}}\\
+=&-\cos{x}\big|_{\frac\pi4}^{\frac{3\pi}4}-\sin{x}\big|_{\frac\pi4}^{\frac{3\pi}4}\\
+=&\cos{\left(\frac\pi4\right)}+\sin{\left(\frac\pi4\right)}-\cos{\left(\frac{3\pi}4\right)}-\sin{\left(\frac{3\pi}4\right)}\\
+=&\frac4{\sqrt2}
+\end{align*}
+
+\textbf{5. We know, by the method of lifting, that \[x-\frac{x^3}{6}\leq\sin x\leq x-\frac{x^3}{6}+\frac{x^5}{120},\] for all $x\geq0$. Exploit this information to prove that $\displaystyle\int_0^\frac12\sin{(x^2)}dx\approx\frac{111}{2688}$ with an error that is no more than $\frac1{2703360}$.} 
+
+From the inequality given in the problem, we can infer that
+\[x^2-\frac{x^2}{6}\leq\sin{x^2}\leq x^2-\frac{x^2}{6}+\frac{x^{10}}{120}\]
+Taking the integral over the interval $[0,\frac12]$ of all sides, we get
+\[\int_0^{\frac12}{x^2}-\int_0^{\frac12}{\frac{x^6}{6}}\leq\int_0^{\frac12}{\sin{x^2}}\leq\int_0^{\frac12}{x^2}-\int_0^{\frac12}{\frac{x^6}6}+\int_0^{\frac12}{\frac{x^{10}}{120}}\]
+These are all very easy integrals to evaluate and we soon see
+\[\frac1{24}-\frac{1}{5376}\leq\int_0^{\frac12}{\sin{x^2}}\leq\frac1{24}-\frac{1}{5376}+\frac{1}{2703360}\]
+\[\boxed{\frac{223}{5376}\leq\int_0^{\frac12}{\sin{x^2}}\leq\frac{784967}{18923520}}\]
+\textbf{6. If $f$ is integrable over $[a,b]$, show that $|f|$ is also integrable over $[a,b]$. Then show that $\left|\int_a^bf\right|\leq\int_a^b|f|$. This important fact is known as the triangle theorem for integration.}
+
+\textbf{7. Let $a<c<d<b$ and suppose $f$ is the function that takes the constant value $1$ on $[c,d]$ and the value $0$ on $[a,c)$ and the value $0$ on $(d,b]$. Prove that $f$ is integrable, and calculate $\int_a^bf$.}
+
+\textbf{8. Suppose that $f$ is continuous over $[a,b]$, that $f(x)\geq0$ for all $x\in[a,b]$, and that $\displaystyle\int_a^bf=0$. Prove that $f(x)=0$ for all $x\in[a,b]$.}
+\end{document}  

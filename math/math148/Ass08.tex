@@ -1,0 +1,260 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}             
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 8}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. For any positive integers $m$ and $n$ the functions $(\cos{m!\pi x})^{2n}$ are continuous. By way of contrast, find the function you get when you calculate
+\[
+\lim_{m\to\infty}\lim_{n\to\infty}{\left(\cos{m!\pi x}\right)^{2n}}\quad\forall x
+\]}
+
+Let us consider the case of $x=\frac{a}{b}$ rational first. As $m\to\infty$, it will eventually be greater than $b$, thus making $x$ an integer; $m!$ will also contain a factor of $2$, clearly, so the argument to $\cos$ will be in the form $2k\pi$ for some integer $k$. Thus $\lim_{m\to\infty}{\cos{m!\pi x}}=1$. Then, no matter how large $n$ gets, raising $1$ to any power is still just $1$, so
+\[
+\lim_{m\to\infty}\lim_{n\to\infty}{\left(\cos{m!\pi x}\right)^{2n}}=1\quad\forall x\in\mathbb{Q}
+\]
+
+However, if $x$ is irrational, then the argument to $\cos$ can never be written as $2k\pi$ (since that would contradict the irrationality of $x$), or even $k\pi$, so it must be some other, irrational value; but then $\cos{m!\pi x}\leq1$ for any $m$, and so when you raise it to the $2n$th power and take the limit as $n\to\infty$, it will converge to $0$. Thus
+\[
+\lim_{m\to\infty}\lim_{n\to\infty}{\left(\cos{m!\pi x}\right)^{2n}}=0\quad\forall x\not\in\mathbb{Q}
+\] 
+
+Thus this function is starting to look a lot like the characteristic function of the rationals, which we know to be discontinuous. So this function is discontinuous, even though it is continuous for every finite value of $m,n$.
+
+\textbf{2. For each sequence of functions below on the domain specified, decide if the sequence converges point-wise, determine the limit function, and then if the convergence is uniform.}
+
+\textbf{(a) $f_n(x)=nx^n(1-x)$ on $[0,1]$}
+
+Since $x\in[0,1]$, we can consider $x=\frac1p$ for some $p\geq1$. Then we can compute
+\begin{align*}
+\lim_{n\to\infty}{\frac{n}{p^n}\left(\frac{p-1}{p}\right)}=(p-1)\lim_{n\to\infty}{\frac{n}{p^{n+1}}}
+\end{align*}
+
+Since $p\geq1$, clearly this has no hope of converging even point-wise.
+
+\textbf{(b) $f_n(x)=\frac{nx}{1+n+x}$ on $[0,\infty)$}
+
+Doing some computations, we see
+\[
+\lim_{n\to\infty}{\frac{nx}{1+n+x}}=x\lim_{n\to\infty}{\frac{n}{(1+x)+n}}
+\] 
+The stuff inside the limit goes to $1$, so the limit as a whole goes to $x$; thus we see that this sequence of functions converges, point-wise at least, to $f(x)=x$. If it were to converge uniformly, then for any $\epsilon>0$, there must be an $N>0$ so that for all $x\in[0,\infty)$,
+\[
+n>N\implies\left|\frac{nx}{1+n+x}-x\right|<\epsilon
+\]
+Well, since we are looking only at the interval $[0,\infty)$, we know $1+x>0$ always, so if we take it out of the denominator, it becomes smaller; therefore the fraction as a whole becomes larger, and so the whole number is larger. So:
+\begin{align*}
+\left|\frac{nx}{1+n+x}-x\right|<\left|\frac{nx}{n}-x\right|=|x-x|=0<\epsilon
+\end{align*}
+
+Thus it converges uniformly.
+
+\textbf{(c) $f_n(x)=\sqrt{x^2+\frac1{n^2}}$ on $\mathbb{R}$.}
+It is easy to see that $n\to\infty\implies n^2\to\infty\implies\frac1{n^2}\to0\implies\sqrt{x^2+\frac{1}{n^2}}\to\sqrt{x^2}=|x|$. So we know that this function converges point-wise to $f(x)=|x|$. For it to converge uniformly, we must have, for every $\epsilon>0$, an $N>0$ such that, for all $x\in\mathbb{R}$,
+\[
+n>N\implies\left|\sqrt{x^2+\frac{1}{n^2}}-|x|\right|<\epsilon
+\]
+Well, we know
+\[
+\left|\sqrt{x^2+\frac{1}{n^2}}-|x|\right|<\left|\sqrt{|x|^2+\frac{2|x|}{n}+\frac{1}{n^2}}-|x|\right|=\left|\sqrt{\left(|x|+\frac{1}{n}\right)^2}-|x|\right|=\frac{1}{n}
+\]
+Well, we know $\frac{1}{n}<\epsilon\implies n>\frac{1}{\epsilon}$. So we take $N=\frac{1}{\epsilon}$, and we have proven its uniform convergence to $|x|$.
+
+\textbf{3. Suppose $f_n$ is a sequence of continuous functions on an interval $I$ and that $f_n\to f$ uniformly on $I$. If $x_n\to x$ in $I$, show that $f_n(x_n)\to f(x)$ as $n\to\infty$.}
+
+We begin by writing out formal statements of all the hypotheses given in the statement.
+
+Since $f_n$ is continuous on $I$, that means that for all $\epsilon>0$ and $x,y\in I$, there is a $\delta>0$ such that
+\[
+|x-y|<\delta\implies|f_n(x)-f_n(y)|<\epsilon
+\]
+
+Moreover, we know that $f_n\to f$ uniformly; this means that for all $\epsilon<0$ there is some $N_1$ such that, for all $x\in I$,
+\[
+n>N_1\implies|f_n(x)-f(x)|<\epsilon
+\]
+
+Lastly, $x_n\to x$ is simply the statement that for all $\epsilon>0$ there is an $N_2$ such that, for all $x\in I$,
+\[
+n>N_2\implies|x_n-x|<\epsilon
+\]
+
+We wish to prove that $f_n(x_n)\to f(x)$; so we want to show that for any $\epsilon>0$ there is some $N_3$ such that, for all $x\in I$,
+\[
+n>N_3\implies|f_n(x_n)-f(x)|<\epsilon
+\]
+
+This is the same as
+\[
+n>N_3\implies|[f_n(x_n)-f_n(x)]+[f_n(x)-f(x)]|<\epsilon
+\]
+
+By the triangle inequality,
+\[
+|[f_n(x_n)-f_n(x)]+[f_n(x)-f(x)]|\leq|f_n(x_n)-f_n(x)|+|f_n(x)-f(x)|
+\]
+
+By the statement that $f_n$ is continuous, we know that the left term will happen when $|x_n-x|<\epsilon$, which, by the statement that $x_n\to x$, will happen when $n>N_2$. The right-hand term matches the statement that $f_n\to f$ uniformly, and it will happen when $n>N_1$. Thus if we take $N_3=\max{\left\{N_1,N_2\right\}}$, both terms will be less than $\epsilon$, so the whole thing will be less than $2\epsilon$, which is just some small positive number that is essentially the same as $\epsilon$; so $N_3$ exists, and it satisfies the conditions, so $f_n(x_n)\to f(x)$.
+
+\textbf{4. Show that the sequence of functions $f_n(x)=\frac{\sin{nx}}{\sqrt{x}}$ converges uniformly on $\mathbb{R}$ to the zero function $0$. However, demonstrate that for some $x$, the sequence of derivatives $f'_n(x)$ does not tend to $0$.}
+
+We first want to show that for every $\epsilon>0$, there is some $N>0$ such that, for all $x\in\mathbb{R}$,
+\[
+n>N\implies\left|\frac{\sin{nx}}{\sqrt{n}}\right|<\epsilon
+\]
+Well, regardless of the value of $nx$, we always know $|\sin|$ peaks at $1$, so the whole function is smaller than $\frac{1}{\sqrt{n}}$, which is less than $\epsilon$ when $n>\frac{1}{\epsilon^2}$. So if we take $N=\epsilon^{-2}$, we have proven it is uniformly convergent.
+
+Taking the derivative, we have
+\begin{align*}
+\frac{d}{dx}\left(\frac{\sin{nx}}{\sqrt{n}}\right)=&\frac{\frac{d}{dx}{\sin{nx}}}{\sqrt{n}}\\
+=&\frac{n\cos{nx}}{\sqrt{n}}=\sqrt{n}\cos{nx}
+\end{align*}
+It is easy to see that, in this case, $\cos{nx}$ is bounded by $\pm1$, while $\sqrt{n}$ continues to grow without bounds; in fact, at $x=2k\pi$, we have the function simply equal $\sqrt{n}$; thus the sequence arrives at arbitrarily large functions, eventually, so it does not converge. 
+
+\textbf{5. (a) Use the integration theorem to find a power series representation for $f(x)=\ln{(1+x)}$ on $(-1,1)$.}
+
+Using the geometric series formula $S=\frac{a}{1-r}$, and setting $r=-x$, we see that
+\[
+\sum_{n=0}^\infty{(-1)^n{x^n}}=\frac{1}{1+x}
+\]
+
+It is also obvious that $\ln{(1+x)=\int\frac{1}{1+x}}$. Thus by the theorem shown above,
+\begin{align*}
+\int_0^x{\frac{1}{1+t}dt}=\sum_{n=0}^\infty{(-1)^n\int_0^x{x^n}}\\
+\ln{(1+x)}=\sum_{n=0}^\infty{(-1)^n\frac{x^{n+1}}{n+1}}=\sum_{n=1}^\infty{\frac{(-1)^{n-1}}{n}x^n}
+\end{align*}
+
+\textbf{(b) Find a power series representation of $g(x)=\arctan{\left(\frac{x^2}{2}\right)}$, and give its radius of convergence.}
+
+To find out which power series we should be looking for, we take the derivative of $\arctan{\frac{x^2}{2}}$:
+\begin{align*}
+\arctan{\left(\frac{x^2}{2}\right)}'=\frac{\frac{2x}{2}}{\left(1+\left(\frac{x^2}{2}\right)^2\right)}=\frac{x}{1+\frac{x^4}{4}}
+\end{align*}
+This is a slightly more difficult sum to work with, but we still see that, for the geometric sum $\frac{a}{1-r}$, if we still use $a=x$ and $r=-\frac{x^4}{4}$, then we have
+\[
+\sum_{n=0}^\infty{ar^n}=\sum_{n=0}^\infty{\frac{(-1)^n}{4^{n}}x^{4n+1}}=\sum_{n=0}^\infty{\left(\frac{-1}4\right)^nx^{4n+1}}
+\]
+
+We note that this is indeed a formal power series, simply one where $a_n=\left(\frac{-1}{4}\right)^n$ when $n\equiv3\pmod{4}$, and $a_n=0$ otherwise. Now, in order to find the power series for $\arctan{\frac{x^2}{2}}$, we must integrate this series:
+\begin{align*}
+\int_0^x{\frac{t}{1+\frac{t^4}{4}}dt}=\sum_{n=0}^\infty{\left(\frac{-1}{4}\right)^n\int_0^x{x^{4n+1}}}\\
+\arctan{\left(\frac{x^2}{2}\right)}=\sum_{n=0}^\infty{\left(\frac{-1}{4}\right)^n\frac{x^{4n+2}}{4n+2}}
+\end{align*}
+
+\textbf{6. Prove that the series $\displaystyle\sum_{n=1}^\infty{\frac{x}{n(1+nx^2)}}$ converges uniformly on $\mathbb{R}$.}
+
+To prove it is uniformly convergent, we can employ the Weierstrass $M$-test. If we can find a sequence of numbers $\left\{M_n\right\}$ such that $|f_n(x)|\leq M_n\forall x\in\mathbb{R}$, and $\sum_{n=1}^\infty{M_n}$ converges, then necessarily $\sum_{n=1}^\infty{f_n}$ converges uniformly on $\mathbb{R}$.
+
+Well, let's find the maximum and minimum value that $f(x)=\frac{x}{n(1+nx^2)}$ can take on $\mathbb{R}$. We take the derivative with respect to $x$:
+\begin{align*}
+\frac{d}{dx}f_n(x)=&\frac{n+n^2x^2-x(2n^2x)}{n^2(1+nx^2)^2}=\frac{n-n^2x^2}{n^2(1+nx^2)^2}
+\end{align*}
+Thus $f_n(x)$ attains its maximum/minimum value at
+\[
+f'(x)=0\implies n-n^2x^2=0\implies x^2=\frac1n\implies \boxed{x=\frac{\pm1}{\sqrt{n}}}
+\]
+And that maximum/minimum value is:
+\[
+f_n\left(\frac{\pm1}{\sqrt{n}}\right)=\frac{\frac{\pm1}{\sqrt{n}}}{n\left(1+\frac{n}{\sqrt{n}^2}\right)}=\frac{\pm1}{2n^{3/2}}
+\]
+Thus if we take $M_n=\frac{1}{2n^{3/2}}$, it will be greater than or equal to the absolute value of the function always (since it is the functions maximum and minimum on $\mathbb{R}$). Additionally, $\sum_{n=1}^\infty{M_n}$ clearly converges, since $3/2>1$, so it is a convergent $p$-series. Thus $\sum_{n=1}^\infty{f_n}$ converges uniformly on $\mathbb{R}$, which is what we were trying to prove.
+
+\textbf{7. Prove that the sum of the series $\displaystyle\sum_{n=1}^\infty{\left(\frac34\right)^n\sin{(4^nx)}}$ defines a continuous function on $\mathbb{R}$.}
+
+We want to begin by showing that $f_n(x)=\sum_{n=1}^\infty{\left(\frac34\right)^n\sin{(4^nx)}}$ converges uniformly. Well, the $\sup{\left\{|\sin{x}|\right\}=1}$ for all $x\in\mathbb{R}$, so $|f_n(x)|\leq\left(\frac34\right)^n$ for all $n$; thus we take $M_n=\left(
+\frac34\right)^n$. We know that $\sum_{n=1}^\infty{\left(\frac34\right)^n}$ converges (since $\frac{a_{n+1}}{a_n}=\frac34<1$, so it converges by the ratio test). Thus $\sum_{n=1}^\infty{f_n(x)}$ converges absolutely.
+
+Now since we know that it converges absolutely, we claim that its sum, $f$, is continuous continuous. Well, we know that $\sin$ is always a continuous function, and so is the exponential function $\left(\frac34\right)^n$, and since the product of two continuous functions is continuous, it follows that each individual $f_n$ is continuous. We claim that this implies that $f$ is also continuous. Well, if each $f_n$ is continuous, so is the partial sum $s_n=f_1+f_2+\cdots+f_n$. Since $\sum_{n=1}^\infty{f_n(x)}$ converges uniformly, then $s_n$ converges uniformly to $f$. We know (Theorem 24.2 in Spivak) that if $\left\{s_n\right\}$ is a sequence of functions which are continuous and converge uniformly to some $s$, then $s$ is also continuous. Well, in this case, $s=f$, and therefore $f$ is also continuous.
+
+\textbf{8. Prove that
+\[
+a_0=f(0), a_1=f'(0), a_2=\frac{f''(0)}{2}, a_3=\frac{f'''(0)}{6},\cdots,a_n=\frac{f^{(n)}(0)}{n!},\cdots
+\]
+Is it possible for two different power series to represent the same function on an interval $(-R,R)$?
+}
+
+We have
+\[
+f(x)=a_0+a_1x+a_2x^2+\cdots+a_nx^n+\cdots
+\]
+Clearly, when $x=0$, the value of the polynomial is simply equal to the constant coefficient. So we have $f(0)=a_0$. Taking the derivative, we have
+\[
+f'(x)=a_1+2a_2x+3a_3x^2+\cdots+na_nx^{n-1}+\cdots
+\]
+This time, $a_1$ is the constant coefficient, so $f'(0)=a_1$. Taking the derivative again,
+\[
+f^{(2)}(x)=2a_2+6a_3x+\cdots+n(n-1)a_nx^{n-2}+\cdots
+\]
+So this time $f^{(2)}(0)=2a_2\implies a_2=\frac{f^{(2)}(0)}{2}$. Taking the derivative $k$ times, therefore, gives us
+\[
+f^{(k)}(x)=\sum_{n=1}^\infty{\frac{n!}{(n-k)!}a_nx^{n-k}}
+\]
+Therefore, when $x=0$, $x^{n-k}=0$, except when $n-k=0\implies n=k$. Therefore $f^{(k)}(0)=n!a_nx^0=n!a_n\implies a_n=\frac{f^{(n)}}{n!}$, which is what we were trying to prove.
+
+Thus we see that it is not possible to have two different power series representations for a function $f$; if you are given
+\[
+f(x)=a_0+a_1x+a_2x^2+\cdots+a_nx^n+\cdots=b_0+b_1x+b_2x^2+\cdots+b_nx^n+\cdots
+\]
+Then you have $f(0)=a_0=b_0$, $f'(0)=a_1=b_1$, $f''(0)=\frac{a_2}{2}=\frac{b_2}{2}\implies a_2=b_2,\cdots,f^{(n)}(0)=n!a_n=n!b_n\implies a_n=b_n$, and so on. So all the coefficients are the same, and thus they represent the same power series after all.
+
+\textbf{9. Let $f(x)=e^{-1/x^2}$ when $x\not=0$ and $f(0)=0$. It is easy to see that $f$ is continuous at $0$.}
+
+\textbf{(a) Show by induction on $n=0,1,2,\cdots$ that if $x\not=0$, then $f^{(n)}(x)=p\left(\frac{1}{x}\right)e^{-1/x^2}$ where $p\left(\frac1x\right)$ is a polynomial in $\frac{1}{x}$.}
+
+The inductive case is obvious for $n=0$, since the constant polynomial $1$ is a polynomial in $\frac{1}{x}$. Just for fun, we show that it is also true for $n=1$:
+\[
+f'(x)=\left(\frac{2}{x^3}\right)e^{-1/x^2}
+\]
+And $\frac{2}{x^3}$ is certainly a polynomial in $\frac1x$ so $n=1$ is true also. So we assume that the proposition is true for $n<k$, and we will try to prove it for $n=k$. So we have
+\[
+f^{(k-1)}(x)=p\left(\frac1x\right)e^{-1/x^2}
+\]
+Taking the derivative of both sides, we have
+\[
+f^{(k)}(x)=p\left(\frac1x\right)\frac{d}{dx}\left(\frac{-1}{x^2}\right)e^{-1/x^2}=p\left(\frac1x\right)\frac{-2}{x^3}e^{-1/x^2}
+\]
+Well, $\frac{2}{x^3}$ is also a polynomial in $\frac1x$, and the product of two finite polynomials is another polynomial, so it is true for $n=k$.
+
+\textbf{(b) Show that $f$ has derivatives of all orders at $0$ and that $f^{(n)}(0)=0$ for all $n=0,1,2,\cdots$}
+
+We will proceed again by induction on $n$. For $n=0$, $f(0)=0$ by definition. Just for fun, again, we'll look at $f'(0)$ by showing that the limit
+\[
+\lim_{h\to0}{\frac{f(h)-f(0)}{h}}=\lim_{h\to0}{\frac{e^{-1/h^2}}{h}}=\lim_{h\to0}{\frac{1}{h\sqrt[h^2]{e}}}
+\]
+Well, as $h$ gets very large, $\sqrt[h^2]{e}$ gets arbitrarily close to $1$, since $e$ is constant, so the whole thing gets really close to $\frac1h$, whose limit we know to be $0$. Thus $f'(0)=0$ also.
+
+Next we will assume it true for all $k<n$ and try to prove it true for $k=n$. We know from problem (a) that the derivative exists, so we must simply show that $f^{(k)}(0)=0$. Thus we are trying to evaluate
+\[
+\lim_{h\to0}{\frac{f^{(k-1)}(h)}{h}}
+\]
+We know from part (a), however, that we can represent the $(k-1)$th derivative of $f$ as
+\[
+\lim_{h\to0}{\frac{p\left(\frac1h\right)e^{-1/h^2}}{h}}
+\]
+Well, $\frac{p\left(\frac1h\right)}{h}$ is still another polynomial in $\frac1h$. Furthermore, all polynomials in $\frac1x$ can be represented as $a_0+\frac{a_1}{x}+\frac{a_2}{x^2}+\cdots+\frac{a_n}{x^n}$ so we have
+\[
+\lim_{h\to0}\left(a_0e^{-1/h^2}+\frac{a_1e^{-1/h^2}}{h}+\frac{a_2e^{-1/h^2}}{h^2}+\cdots+\frac{a_ne^{-1/h^2}}{h^n}\right)
+\]
+Now, as the hint suggests, we know that $\frac{e^-x}{x^k}\to0$ as $x\to\infty$ for any $k$, so if we take $x=\frac{1}{h}$, we get that as $x\to\infty\implies h\to0$, $\frac{a_ne^{-1/h^2}}{h^n}\to0$; so the limit exists for each individual term, and so the limit of the sums is equal to the sum of the limits, and thus it all goes to $0$, and we are done.
+
+\textbf{(c) Suppose that $\displaystyle f(x)=\sum_{n=0}^\infty{a_nx^n}$ for $x$ in some open interval $(-R,R)$. Obtain a contradiction by showing all $a_n=0$.}
+
+By question $8$, we know that
+\[
+a_n=\frac{f^{(n)}(0)}{n!}
+\]
+But as we have just shown in part (b), each $f^{(n)}(0)=0$, so all $a_n=0$, and this just forms the power series $0+0+0+\cdots$ which clearly does not equal the function, and thus is a contradiction. Thus we have found an example of a function that is infinitely differentiable anywhere on its domain, but does not have a corresponding power series definition (or Taylor series, for that matter).
+\end{document}

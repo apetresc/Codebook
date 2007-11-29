@@ -1,0 +1,255 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}             
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 148 Ð Assignment 7}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. Rotate the region in the first quadrant bounded by $y=\frac{1}{1+x^2}$ and the line $x=1$ about the $x$-axis and then about the $y$-axis and find the volumes of the resulting solids of revolution.}
+
+For the first part, we are looking for the area when the region underneath $f(x)=\frac{1}{1+x^2}$ between $0$ and $1$ is rotated about the $x$-axis. We know that this is given by
+\[ V=\pi\cdot\int_0^1{f(x)^2dx} \]
+Substituting in, we get
+\[ \pi\cdot\int_0^1{\frac{1}{(1+x^2)^2}}\]
+
+Luckily, this is one of the integrals covered in lecture.
+\begin{align*}
+\int{\frac{dx}{(1+x^2)^2}}=&\int{\frac{1+x^2}{(1+x^2)^2}dx}-\int{\frac{x^2}{(1+x^2)^2}dx}\\
+=&\arctan{x}-\int{\left[x\cdot\frac{x}{(1+x^2)^2}dx\right]}
+\end{align*}
+
+We can proceed with integration by parts. For $J_2=\int{\frac{x}{(1+x^2)^2}dx}$ letting $u=1+x^2$, $du=2xdx$ we get
+\begin{align*}
+J_2=\frac12\cdot\int{\frac1{u^2}du}=-\frac12u=\frac{-1}{2(1+x^2)}
+\end{align*}
+
+Then, for $J_1$, we have
+\[
+\frac12\cdot\int{xd\left(\frac{1}{1+x^2}\right)}=-\frac12\left(\frac{x}{1+x^2}-\int{\frac{1}{1+x^2}dx}\right)
+\]
+
+So then the overall indefinite integral is
+\[
+J=\arctan{x}-\left(-\frac12\cdot\frac{x}{1+x^2}+\frac12\arctan{x}\right)=\boxed{\frac12\arctan{x}+\frac{x}{2(1+x^2)}}
+\]
+And so we evaluate this integral over $\int_0^1$ to get
+\[
+\frac12\arctan{1}+\frac{1}{2(1+1^2)}-\left(\frac12\arctan{0}+\frac{0}{2(1+0^2)}\right)
+\]
+which evaluates to
+\[
+\boxed{V=\pi\cdot\int_0^1{\frac{1}{(1+x^2)^2}}=\pi\cdot\left(\frac\pi8+\frac14\right)}
+\]
+Now to evaluate the same volume of revolution around the $y$-axis. We use the shell method for calculating the volume, giving the formula
+\[
+V=2\pi\cdot\int_a^b{xf(x)dx}
+\]
+which in this particular case evaluates to
+\[
+V=2\pi\cdot\int_0^1{\frac{x}{1+x^2}dx}
+\]
+Again, by simple substitution, let $u={1+x^2}$; then $du=2xdx$. Substituting in, the integral simplifies to
+\[
+\pi\cdot\int_0^1{\frac{1}{u}du}=\pi\ln{u}\vert_0^1=\pi\ln{(1+x^2)}\vert_0^1
+\]
+So
+\[
+\boxed{V=\pi\ln{2}}
+\]
+\textbf{2. Find the derivative of these functions.}
+
+\textbf{(a) $g(x)=\displaystyle\int_3^{e^{x^2}}{\ln{\left(t^3\right)}dt}$}
+
+This is a sufficiently simple integration that we can use traditional methods. We note the identity $\ln{(cx)}=c\ln{(x)}$. This simplifies the above calculation greatly, leaving only
+\begin{align*}
+g(x)=&3\cdot\int_3^{e^{x^2}}{\ln{(t)}dt}\\
+=&3\cdot\left[t\ln{(t)}-t\vert_3^{e^{x^2}}\right]\\
+=&3\cdot\left[\left(e^{x^2}\ln{\left(e^{x^2}\right)}-e^{x^2}\right)-\left(3\ln{3}-3\right)\right]+C\\
+g(x)=&3x^2e^{x^2}-3e^{x^2}-9\ln{3}+9+C \\
+\end{align*}
+This is now a very simple function to find the derivative of:
+\begin{align*}
+g'(x)=&3\left[(2x)e^{x^2}+(x^2)(2x)(e^{x^2})\right]-3(2x)e^{x^2}\\
+g'(x)=&6x^3e^{x^2}
+\end{align*}
+
+\textbf{(b) $g(x)=\displaystyle\int_{\sin{x}}^{x^2}{\sqrt{1+t^3}dt}$}
+
+This integral is too difficult to evaluate for us to use the brute force method of part (a). Instead, let us consider the function $F(x)$ such that $F'(x)=\sqrt{1+x^3}$. Then, by the fundamental theorem of calculus, we can rewrite $g(x)$ as: \[g(x)=F(x^2)-F(\sin{x})\] Taking the derivative of both sides and applying the chain rule, we get \[g'(x)=2xF'(x^2)-\cos{x}F'(\sin{x})\] which simply evaluates to \[\boxed{g'(x)=2x\sqrt{1+x^6}-\cos{x}\sqrt{1+\sin^3{x}}}\]
+
+\textbf{3. Find a function $f$ and a number $a$ such that 
+$\displaystyle6+\int_a^x{\frac{f(t)}{t^2}dt}=2\sqrt{x}$ for all $x\geq0$.
+}
+
+We rearrange to obtain
+\[\int_a^x{\frac{f(t)}{t^2}dt}=2\sqrt{x}-6,\]
+which by the fundamental theorem is equivalent to
+\[F(x)-F(a)=2\sqrt{x}-6\]
+where $F(x)$ is some function such that $F'(x)=\frac{f(x)}{x^2}$. Then we can set $F(x)=2\sqrt{x}$ and $F(a)=6$ and solve the system. Taking the derivative of the first equation, we have
+\[ \frac{f(x)}{x^2}=\frac1{\sqrt{x}}\implies f(x)=x^{\frac32}\]
+Substituting this into the indefinite integral, we have
+\[ \int{\frac{t^{\frac32}}{t^2}dt}=\int{\frac{1}{\sqrt{x}}}=2\sqrt{x}\]
+Substituting this into the second equation gives us $2\sqrt{a}=6\implies a=9$. And so we get
+\[\boxed{ 
+6+\int_9^x{\frac{1}{\sqrt{t}}dt}=2\sqrt{x}} \]
+\textbf{4. (a) Prove that the function $\displaystyle f(x)=\int_{-1}^x{\sqrt{1-t^2}dt}$ is increasing over the interval $[-1,1]$.}
+
+The equation of a circle centered at the origin with radius 1 is $x^2+y^2=1$; rearranging that and solving for the top half gives us $y=\sqrt{1-x^2}$. Therefore, $f(x)$ over the interval $[-1,1]$ (which, conveniently, is the interval over which the unit circle is defined) simply represents the area of the top half. As you move from $-1$ to $1$, the top half of the circle never goes below the $x-$axis, so the total area, and thus $f$, is always increasing.
+
+\textbf{4. (b) Sketch the graph of $f$ over $[-1,1]$}
+
+We've already established that $f$ is increasing over $[-1,1]$. By convention, $f(-1)$ should be $0$ since we'd have an integral of the form $\int_{-1}^{-1}$. At $x=1$, we're looking at the area of half a circle, so $f(1)=\frac\pi2$. Similarly, $x=0$ is a quarter of the circle, so $f(0)=\frac\pi4$. From our circle analogy, we can also visualize the fact that, on $[-1,0]$, the circle is "bending up", so $f$ will be concave up, and from $[0,1]$, the circle is "shrinking", so $f$ will be concave down, with a point of inflection at $x=0$. This is enough information to draw a sketch:
+\begin{figure}[htp]
+\centering
+\includegraphics[totalheight=0.3\textheight]{fx.eps}
+\caption[Sketch of $f(x)$]
+{Sketch of $f(x)$}\label{fig:erptsqfit}
+\end{figure}
+
+\textbf{(c) What is the image of $[-1,1]$ under the function $f$?}
+
+As we can see from the sketch above, and the written explanation given in part (b), the image of $[-1,1]$ under $f$ is $\left[0,\frac\pi2\right]$.
+
+\textbf{(d) If $g$ is the inverse function of $f$, find $g'(0)$.}
+
+We begin by asking what the geometric significance of $g$ is. Well, the domain of $f$ can be considered to be the distance along the $x$-axis from $-1$ to which we are calculating the area to, and the range is the amount of area under the curve. So for the inverse function $g$, the domain is the area under the curve, and the corresponding image is the distance from $x=-1$ that one would need to be in order to achieve the given area. So $g'(0)$ represents the rate of change of moving away from the $x$-axis when the total area was $0$; however, at $0$ area, we have not yet even begun moving away from $-1$, so the question of its rate of change is meaningless. Thus we suspect that $g'(0)$ is undefined.
+
+To confirm our suspicion, we turn to the inverse function theorem, which says that
+\[
+f'(x)=\frac{1}{(f^{-1})'(f(x))}
+\]
+
+which. in our case, means
+\[
+g'(0)=\frac{1}{f'(g(0))}=\frac{1}{f'(-1)}
+\]
+
+However, $f$ is not differentiable at $x=-1$ since the limit from the left does not exist; thus $f'(-1)$ is undefined, and so is $g'(0)$. This confirms our suspicion.
+
+\textbf{5. We know that
+\[\int{\frac1{1+\sin{x}}dx}=\frac{\sin{x}-1}{\cos{x}}\] The integrand is fully defined and continuous on the open interval $(\frac{-\pi}{2},\frac{3\pi}{2})$. The Fundamental Theorem of Calculus tells us that this integrand has an anti-derivative fully defined on $(\frac{-\pi}{2},\frac{3\pi}{2})$. However, the anti-derivative we calculated does not seem to be defined at $\frac\pi2$. Explain what is going on here.}
+
+Taking the derivative of $f(x)=\frac{\sin{x}-1}{\cos{x}}$ and applying the quotient rule, we find
+\begin{align*}
+f'(x)=&\frac{\cos^2{x}+(\sin{x}-1)(\sin{x})}{cos^2{x}}\\
+=&1+\frac{\sin^2{x}-\sin{x}}{\cos^2{x}}\\
+=&1+\frac{1-\cos^2{x}-\sin{x}}{\cos^2{x}}\\
+f'(x)=&\frac{1-\sin{x}}{\cos^2{x}}
+\end{align*}
+
+Although this seems to be equal to the integrand, in order to get from $\frac{1}{1+\sin{x}}$, we must do the following:
+\[\frac{1}{1+\sin{x}}\cdot\frac{1-\sin{x}}{1-\sin{x}}=\frac{1-\sin{x}}{\cos^2{x}} \]
+which, at the point $x=\frac\pi2$, is analogous to dividing by zero.
+
+The seeming contradiction arose because the Fundamental Theorem actually states as one of its conditions that $F$ be continuous on the interval. Although the $F$ in this case has a derivative that seems to equal the integrand (thus satisfying the third condition), it is not continuous at $\frac\pi2$, and thus the Fundamental Theorem does not apply here.
+
+\textbf{6. (a) Does the improper integral $\displaystyle\int_1^\infty{\frac{1}{1+t^2}dt}$ converge? If so, find its value.}
+
+The integral really means
+\[\lim_{x\to\infty}{\int_1^x{\frac{1}{1+t^2}dt}}\]
+Luckily this is a very easy integral to take, since we know the integrand is simply the derivative of $\arctan{t}$. So we have:
+\begin{align*}
+&\lim_{x\to\infty}\left[\arctan{x}-\arctan{1}\right]\\
+=&\lim_{x\to\infty}\left[{\arctan{x}}\right]-\lim_{x\to\infty}{\left[\arctan1\right]}\\
+=&\frac\pi2-\frac\pi4
+\end{align*}
+And so we have \[\boxed{\int_1^\infty{\frac{1}{1+t^2}dt}=\frac\pi4}\]
+
+\textbf{(b) Does the improper integral $\displaystyle\int_e^\infty{\frac{1}{t\ln{t}}dt}$ converge?}
+
+We can use a quick substitution to evaluate the indefinite integral. Let $u=\ln{t}$. Then $du=\frac{1}{t}dt$. Substituting this into the integral, we get
+\[\int{\frac{du}{u}}=\ln{u}+C=\ln{(\ln{t})}+C\] So the improper integral we are looking to evaluate can be written as
+\[ \lim_{x\to\infty}{\ln{(\ln{x})}}-\lim_{x\to\infty}{\ln{(\ln{e})}} \]
+We already know that, as $x\to\infty$, $\ln{x}\to\infty$. So it follows that $\ln{(\ln{x})}$ also grows without bounds (since $\ln{(x)}$ in this case is just some divergent value). Thus the first limit does not exist, and implies that the area grows without bounds (albeit quite slowly). So the integral is divergent, which we can express as
+\[\boxed{\int_e^{\infty}{\frac{1}{t\ln{t}}dt}=\infty}\]
+
+\textbf{(c) Compute $\displaystyle\int_e^\infty{\frac{1}{t(\ln{t})^2}dt}$}
+
+First we verify that the integral really does converge. Using the same substitution as last time, $u=\ln{t}$ and $du=\frac1tdt$, we have \[\int_e^\infty\frac1{u^2}du=-\frac{1}{u}+C=-\frac{1}{\ln{x}}+C\]
+Now it is clear that $x\to\infty\implies\ln{x}\to\infty\implies-\frac{1}{\ln{x}}\to0$, so the integral does indeed converge. In fact, we can write the integral as 
+\begin{align*}
+\int_e^\infty{\frac{1}{t(\ln{t})^2}dt}=&\lim_{x\to\infty}\int_e^x{\frac{1}{t(\ln{t})^2}dt}\\
+=&\lim_{x\to\infty}{\left[-\frac{1}{\ln{x}}+\frac{1}{\ln{e}}\right]}\\
+=&1
+\end{align*}
+
+\textbf{(d) Find the values of $p>0$ for which the improper integrals $\displaystyle\int_1^\infty{\frac{dt}{t^p}}$ converge.}
+
+If we write the indefinite integral, we see that this is a simple application of the power rule:
+\[\int t^{-p}dt=-\dfrac{t^{1-p}}{p-1}+C\] 
+Now, essentially what we want is a value of $p>0$ so that \[\lim_{t\to\infty}{t^{1-p}}\] exists (we can take out the $\frac1{p-1}$ factor as a constant). We know $t^{-1}$ converges, since $\lim_{x\to\infty}{\frac1x}=0$, and it is easy to see that if $t^k$ converges, then $t^j$ also converges for any $j<k$, since every given value is smaller (for $t\geq1$, at least, which is the only case we're concerned with here). So we know that, for the minimum value of $p$, we have $1-p\geq-1\implies p\leq2$. Similarly, we know $t^0$ diverges (it is constant), and so any value greater than $0$ also diverges, so we have $1-p<0\implies p>1$. So we know the minimal value of $p$ satisfies \[1<p\leq2\]
+So let's write $p=1+\frac{a}{b}$ for some $0<a\leq b$. Then
+\[ \lim_{t\to\infty}{t^{1-p}}=\lim_{t\to\infty}{t^{-\frac{a}{b}}}=\lim_{t\to\infty}{\frac{1}{t^{\frac{a}{b}}}}=\lim_{t\to\infty}{\left(\frac1t\right)^{\frac{a}{b}}}\]
+Since $a\leq b$, each of these values is less than or equal to the corresponding $\frac1t$ value, which we already know converges. So any value of $0\leq a<b$ still gives a convergent value. Since we're looking for the smallest value of $p=1+\frac{a}{b}$, we take $a=0$, and so the integral is convergent for:
+\[p>1\]
+
+\textbf{7. Suppose $f\geq0$ on $[a,\infty)$ and let $g(x)=\displaystyle\int_a^x{f}$ be the integral function of $f$, which is also defined on $[a,\infty)$.}
+
+\textbf{(a) Show that $g$ is (not necessarily strictly) increasing on $[a,\infty)$.}
+
+Consider any two $m,n\in[a,\infty)$, with $m>n$. We want to show that $g(m)\geq g(n)$. Since $m\geq n$, then by the splicing property, we can write $g(m)$ as \[ g(m)=\int_a^n{f}+\int_n^m{f} \] The first addend is simply $g(n)$, and the second can be rewritten by the fundamental theorem of calculus to give:
+\[
+g(m)-g(n)=F(m)-F(n)
+\]
+where $F(x)$ is a function such that $F'(x)=f(x)$. We know that $f$ is the derivative of $F$, and also that $m\geq n$ and $f\geq0$ on $[a,\infty)$. In other words, the derivative of $F$ is positive, so by the increasing function theorem that means that $F(m)\geq F(n)$ whenever $m>n$, which is the case here. Thus $F(m)-F(n)$ is positive, and therefore $g(m)-g(n)\geq0\implies g(m)\geq g(n)$ which is what we were trying to prove.
+
+\textbf{(b) If $f\geq0$, show that $\displaystyle\int_a^\infty{f}=\lim_{x\to\infty}{g(x)}$ exists if and only if $g$ is bounded on $[a,\infty)$.}
+
+First we will prove the condition is sufficient. Suppose $g$ is bounded, and let $L$ be the least upper bound of $g$. We claim that \[\int_a^\infty f=\lim_{x\to\infty}g(x)=L\] For any $\epsilon>0$, we note that the number $L-\epsilon$ is no longer an upper bound for $g(x)$ and so there is some $z$ such that $L-\epsilon<g(z)\implies L-g(z)<\epsilon$. Then, for $x>z$, we have $g(x)>g(z)$ by the result in part (a) ($g$ is increasing). So
+\[L-g(x)\leq L-g(z)<\epsilon\implies L-g(x)<\epsilon\]
+and so
+\[\lim_{x\to\infty}g(x)=L\]
+and so the integral converges.
+
+To prove the condition is necessary, suppose $g$ is not bounded on $[a,\infty)$ and seek a contradiction. Well, if $g$ is not bounded, then for any $x_k$, there will always be an $x_{k+1}$ such that $g(x_{k+1})-g(x_k)=1$ (because if there wasn't, then $g(x)\leq1+g(x_k)$ for all $x$, so then $1+g(x_k)$ would be an upper bound for $g$, which contradicts the fact that $g$ is not bounded). This property means that, by the splicing property, we can write the integral as
+\[\sum_{k=1}^\infty{\int_{x_k}^{x_{k+1}}{f}}=\sum_{k=1}^\infty{\left[\int_{x_k}^{a}{f}+\int_{a}^{x_{k+1}}{f}\right]}=\sum_{k=1}^\infty{\left[g(x_{k+1})-g(x_k)\right]}=\sum_{k=1}^\infty{1}=\infty\]
+In other words, if $g$ is not bounded, then no matter how far along the $x$ axis you are, there is always some finite distance $(x_{k+1}-x_k)$ that you can traverse in order to accumulate one more unit of area. Since you can keep doing this forever, always adding $1$ to the area, the integral must not converge. Thus the condition is also necessary.
+
+\textbf{(c) Suppose $0\leq f\leq h$ on $[a,\infty)$ and that $\displaystyle\int_a^\infty h$ converges. Prove that $\displaystyle\int_a^\infty{f}$ converges.}
+
+By the result above, since $\displaystyle\int_a^\infty h$ converges, then $h$ has an upper bound $L$. Then, since $f$ is less than $h$ on $[a,\infty)$, it is also bounded by $L$ (though $L$ is not necessarily the least upper bound, it is still \textit{some} bound, and that is good enough). So $f$ is bounded, and by the result given above, it must also converge.
+
+\textbf{(d) Make a comparison to prove that $\displaystyle\int_1^\infty{\frac{1}{1+t^4}dt}$ converges.}
+
+We saw in part 6(a) that $\displaystyle\int_1\infty{\frac{1}{1+t^2}dt}=\frac\pi4$, so it is bounded. Well, for $t>1$, $1+t^4>1+t^2\implies\frac{1}{1+t^2}>\frac{1}{1+t^4}$ and so the comparison test from part (c) applies, and we automatically have that $\displaystyle\int_1^\infty{\frac{dt}{1+t^4}}$ converges.
+
+\textbf{(e) Prove that $\displaystyle\int_1^\infty{\frac{5+\cos{t}}{\sqrt t}dt}$ diverges.}
+
+Let this function be called $h(x)$. If we can find some function that is always less than $h$ but diverges, then it will contradict the comparison test, and imply that $h$ also diverges. Well, the smallest $\cos{t}$ can ever get is $-1$, so $\displaystyle f(x)=\int_a^x{\frac{4}{\sqrt{t}}dt}\leq h$ always. Then
+\[f(x)=4\cdot\int_a^x{\frac1{x^{\frac12}}}\] By the result of 6(d), since $\frac12<1$, $f$ is divergent. If $h$ were convergent, this would contradict the comparison test. Thus we conclude that $h$ diverges.
+
+\textbf{8. We again have $f$ defined on $[a,\infty)$ but we do not assume $f\geq0$ on $[a,\infty)$.}
+
+\textbf{(a) Prove that if $\displaystyle\int_a^\infty{|f|}$ converges, so does $\displaystyle\int_a^\infty{f}$ converge. }
+
+Since we have $0\leq f+|f|\leq2|f|$, we can integrate all 3 sides to get
+\[
+\int{0}\leq\int\left[f+|f|\right]\leq2\int|f|
+\]
+By the hypothesis, since $\int|f|$ exists, so does $2\int|f|$, and everything is greater than $0$, and so by the comparison test we get that $\int\left[f+|f|\right]$ exists, which can be simply unfolded to $\int{f}+\int{|f|}$; therefore, $f$ converges.
+
+\textbf{(b) Use item (a) to prove that $\displaystyle\int_1^\infty{\frac{\sin{t}}{\sqrt{t^3}}dt}$ converges.}
+
+If we look at $g(x)=\displaystyle\int_1^x{\frac{|\sin{t}|}{\sqrt{t^3}}dt}$ (which is the absolute value of the given function, since the denominator will always be positive), and find it to be convergent, then so will the given function. Well, now $|\sin{t}|\geq0$, satisfying the first part of the conditions for the comparison test. Now we just need a function that dominates $g$. Well, $\sin{t}\leq1$ no matter what, so $\displaystyle\int_1^\infty{1}{\sqrt{t^3}dt}$ works, and we know by 6(d) that this converges, since $\frac32>1$. So this greater function converges, so $g$, which is sandwiched between it and $0$, must also converge, and by the result of part (a), so does the given function.
+
+\textbf{(c) Prove that $\displaystyle\int_1^\infty{\frac{\sin{t}}{\sqrt{t}}dt}$ converges.}
+
+We integrate by parts, using $u'=\sin{t}\implies u=-\cos{t}$ and $v=\frac1{\sqrt{t}}\implies v'=-\frac{1}{2\sqrt{t^3}}$. Thus
+\[
+\int{\frac{\sin{t}}{\sqrt{t}}dt}=-\frac{\cos{t}}{\sqrt{t}}-\frac12\int{\frac{-\cos{t}}{x^{\frac32}}dt}
+\]
+
+The new integral is almost identical to the one from part (b), and an almost identical argument can be used to show that it converges; simply take the absolute value, note that $\cos{t}$ is bounded above by one, and observe that $\frac32>1$, so by 6(d) and the comparison test, it is convergent. Additionally the limit $\lim_{x\to\infty}{\frac{\cos{t}}{\sqrt{t}}}$ clearly exists since $\cos{t}$ simply bounces around $1$ and $-1$, while $\sqrt{t}$ grows without bounds, so the limit exists and is equal to $0$. Thus both of these components are convergent, and thus the integral function also is.
+\end{document}
