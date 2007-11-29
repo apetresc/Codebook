@@ -1,0 +1,169 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb,amsmath}
+\usepackage{fullpage}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\newcommand{\vol}[1]{\ensuremath{\operatorname{vol}\left(#1\right)}}
+
+\title{MATH 247 - Assignment 10}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Write down the proof of Corollary 13.7 from class. This corollary says that if $m,n\in\mathbb N,A$ is a non-empty subset of $\mathbb R^n$, $f$ is a function in $C^2(A,\mathbb R^m)$, and $1\leq i<j\leq n$, then $\partial_i\partial_jg=\partial_j\partial_if$.}
+
+We will bootstrap from the specific case of Clairaut's theorem; we know that if $A\subseteq\mathbb R^2$ and $g\in C^2(A,\mathbb R)$, then it is true that $\partial_1\partial_2f=\partial_2\partial_1g$.
+
+Well, consider any arbitrary $n,m$; then for any $B\subseteq\mathbb R^n$, if $f\in C^2(B,\mathbb R^m)$ we can define a function $g_{ij}(a,b)=f(x_1,x_2,\ldots,x_{i-1},a,x_{i+1},\ldots,x_{j-1},b,x_{j+1},\ldots,x_n)$. Since $f\in C^2(B,\mathbb R^m)$, it is clear that there is an $A\subseteq\mathbb R^2$ such that $g_{ij}\in C^2(A,\mathbb R^m)$. Moreover, each individual component of $g$ satisfies the requirements of Clairaut's theorem. Thus we can conclude that, for any $k$, $\partial_1\partial_2g^{(k)}=\partial_2\partial_1g^{(k)}$. This, however, corresponds precisely to $\partial_i\partial_jf^{(k)}=\partial_j\partial_if^{(k)}$. Since our choice of $k$ is arbitrary, it holds for all components, and by reduction to components holds for $f$ as well. Thus we have concluded that, for any $i,j$, it is true that $\partial_i\partial_jf^{(k)}=\partial_j\partial_if^{(k)}$ which is what we were trying to prove.
+
+\textbf{2. Let $f\in C(A,\mathbb R)$ where $A$ is a closed and bounded subset of $\mathbb R^n$. This problem takes you through the steps of a proof, obtained by contradiction, for the fact that $f$ has to be uniformly continuous on $A$. So assume by contradiction that $f$ is not uniformly continuous.}
+
+\textbf{(a) Prove that there exists an $\epsilon>0$ and two sequences $(\vec x_k)^\infty_{k=1}$ and $(\vec y_k)_{k=1}^\infty$ in $A$ such that
+\[
+||\vec x_k-\vec y_k||<\frac1k,\quad\mbox{and } |f(\vec x_k)-f(\vec y_k)|\geq\epsilon,\quad\forall k\geq1.
+\]}
+
+If $f$ \textit{were} uniformly continuous, then we could say that for all $\epsilon>0$, there exists a $\delta>0$ such that, for all $\vec x,\vec y\in A$, $||\vec x-\vec y||\leq\delta$ necessarily implies $|f(\vec x)-f(\vec y)|<\epsilon$. However, we are assuming that $f$ is \textit{not} uniformly continuous, so the negation of the above statement is that there exists some $\epsilon>0$ such that there is \textit{no} $\delta>0$ such that, for all $\vec x,\vec y\in A$, $||\vec x-\vec y||<\delta$ implies $|f(\vec x)-f(\vec y)|<\epsilon$. In particular, for $\delta_k=\frac1k$, we know for sure that for this bad $\epsilon$, the statement ``$||\vec x_k-\vec y_k||<\delta_k\implies|f(\vec x_k)-f(\vec y_k)|<\epsilon$" is \textit{not} satisfied. Since we certainly can find two sequences that satisfy the first part of the statement, it follows that the second part always fails. Thus $|f(\vec x_k)-f(\vec y_k)|\geq\epsilon$, which is what we were trying to prove the existence of.
+
+\textbf{(b) Prove that one can find indices $1\leq k_1<k_2<\cdots<k_p<\cdots$ such that the subsequence $(\vec x_{k_p})_{p=1}^\infty$ of $(\vec x_k)_{k=1}^\infty$ converges to an element $\vec a\in A$.}
+
+This is a slight generalization of the version of the Bolzano-Weierstrass taught in class; the ``actual" Bolzano-Weierstrass theorem claims that a subset of $\mathbb R^n$ is compact (closed and bounded, as $A$ is) if and only if it is sequentially compact (that is, if all sequences have convergent subsequences that converge to something within the set). If we take this to be the Bolzano-Weierstrass theorem, then the problem statement is instantly proven. However, in class we only proved that every bounded sequence in $\mathbb R^n$ has a convergent subsequence, so we have a little bit of work left to do.
+
+Take $(\vec x_k)_{k=1}^\infty$, the arbitrary sequence from part (a). Since $A$ is bounded, and $(\vec x_k)_{k=1}^\infty$ lives in $A$, it must also be bounded. So by our Bolzano-Weierstrass gives us a set of indices $1\leq k_1<k_2<\cdots<k_p<\cdots$ so that $(\vec x_{k_p})_{p=1}^\infty$ converges to some value, $\vec a$. Since this new sequence still lives in $A$, the fact that $A$ is closed tells us that $\vec a\in A$ as well. This is everything we needed, so we are done.
+
+\textbf{(c) Prove that for the same indices $1\leq k_1<k_2<\cdots<k_p<\cdots$ and for the same $\vec a\in A$ that were found in part (b), one has $\lim_{p\to\infty}\vec y_{k_p}=\vec a$.}
+
+We now have two sequences, $(\vec x_{k_p})_{p=1}^\infty$ and $(\vec y_{k_p})_{p=1}^\infty$; since we know from above that $||\vec x_k-\vec y_k||<\frac1k$ it follows that $||\vec x_{k_p}-\vec y_{k_p}||<\frac{1}{k_p}$ as well. Thus it follows that, in a sense, $(\vec x_{k_p})_{p=1}^\infty$ and $(\vec y_{k_p})_{p=1}^\infty$ converge ``to each other". Since $(\vec x_{k_p})_{p=1}^\infty$ converges to $\vec a$, then, loosely speaking it follows that $(\vec y_{k_p})_{p=1}^\infty$ goes to $\vec a$ as well. Indeed, $||\vec y_{k_p}-\vec a||=||\vec y_{k_p}-\vec x_{k_p}+\vec x_{k_p}-\vec a||\leq||\vec y_{k_p}-\vec x_{k_p}||+||\vec x_{k_p}-\vec a||$. Both of those terms can get arbitrarily small (the first one by the fact shown above, and the second by the result of part (b)). Thus the term on the left also gets arbitrarily small, and we get $\lim_{p\to\infty}{\vec y_{k_p}}=\vec a$, which is what we were trying to prove.
+
+\textbf{(d) Prove that the facts obtained in (a), (b), (c) above come in contradiction with the continuity of $f$ at $\vec a$.}
+
+Continuous functions respect convergent sequences. Thus, since $(\vec x_{k_p})_{p=1}^\infty\to\vec a$, then $f(\vec x_{k_p})\to f(\vec a)$. Similarly, since $(\vec y_{k_p})_{p=1}^\infty\to\vec a$, then $f(\vec y_{k_p})\to f(\vec a)$. However, from part (a) we can deduce that $|f(\vec x_{k_p})-f(\vec y_{k_p})|\geq\epsilon$. This is a contradiction because $|f(\vec x_{k_p})-f(\vec y_{k_p})|=|f(\vec x_{k_p}-\vec a+\vec a-f(\vec y_{k_p})|\leq|f(\vec x_{k_p})-\vec a|+|f(\vec y_{k_p})-\vec a|$, and both of the terms on the right vanish by the continuity of $f$ as discussed above. Thus this contradicts the continuity of $f$, so our assumption that $f$ was \textit{not} uniformly continuous must have been false.
+
+Thus, any function on a compact set is continuous if and only if it is uniformly continuous. (The other direction is painfully obvious).
+
+\textbf{3. Verify that the following subsets of $\mathbb R^n$ have Peano-Jordan content equal to $0$.}
+
+\textbf{(a) $F\subseteq\mathbb R^n$, where $F$ is an arbitrary finite set.}
+
+Since $F$ is finite, we can enumerate its elements as $c_1,c_2,\ldots,c_k$, where each $c_i\in\mathbb R^n$. Then we can define each $c_i$ as a little (infinitely small) rectangle: $R_i=[c_i^{(1)},c_i^{(1)}]\times[c_i^{(2)},c_i^{(2)}]\times\cdots\times[c_i^{(n)},c_i^{(n)}]$. Obviously the only point that fits in this rectangle is $c_i$ itself. So $F=\bigcup_{i=1}^k{R_i}$. We see that each $R_i$ has Peano-Jordan content equal to $(c^{(1)}_i-c^{(1)}_i)(c^{(2)}_i-c^{(2)}_i)\ldots(c^{(n)}_i-c^{(n)}_i)=0$. So then $0\leq|F|\leq\sum_{i=1}^n{|R_i|}=\sum_{i=1}^n{0}=0$. So we conclude that $F$ has Jordan-Peano content $0$.
+
+\textbf{(b) $A=\{(x,y)\in\mathbb R^2\mid x,y\geq0, x+y=1\}$.}
+
+We need to show that, for any $\epsilon>0$, we can find a finite set of rectangles $R_1,R_2,\ldots,R_k$ such that $\bigcup_{i=1}^k{R_i}\supseteq S$ and such that $\sum_{i=1}^k{\vol{R_i}}<\epsilon$.
+
+Well, if $\epsilon\geq1$, simply choose $R_1=[0,1]\times[0,1]$. Then the line $y=x-1$ is covered in the first quadrant, so this satisfies our requirements.
+
+Otherwise, suppose $\epsilon=\frac{p}{q}$, with $p<q$; then we can express $\epsilon$ as $\frac1k$ where $k=\lceil\frac{q}{p}\rceil$. Since $q>p$, $k>1$. With this $k$ in hand, we can define $k$ partitions, as $R_i=\left[\frac{i-1}{k},\frac{i}{k}\right]\times\left[\frac{k-i+1}{k},\frac{k-i}{k}\right]$ for $1\leq i\leq k$. This essentially tiles the line with squares of length $\frac1k$. It is clear that $\bigcup_{i=1}^k{R_i}\supseteq A$. It remains to show that the total area is sufficiently small; well,
+\begin{align*}
+\sum_{i=1}^k{\vol{R_i}}=&\sum_{i=1}^k{\left[\left(\frac{i}{k}-\frac{i-1}{k}\right)\cdot\left(\frac{k-i}{k}-\frac{k-i+1}{k}\right)\right]}\\
+=&\sum_{i=1}^k{\frac1k\cdot\frac1k}=\sum_{i=1}^k{\frac1{k^2}}=\frac1k
+\end{align*}
+Since $k\geq\frac1\epsilon$ by the definition of $k$, it follows that $\epsilon\geq\frac1k$, so it is greater than the total volume. So indeed $A$ has Jordan-Peano content equal to $0$.
+
+\textbf{(c) $A=\{(x,y)\in\mathbb R^2\mid x^2+y^2=1\}$.}
+
+This case is similar to the one above, except that the curve that these squares must cover is a bit more complicated. If $\epsilon>4$, simply choose $R=[-1,1]\times[-1,1]$, the square into which the circle is inscribed. The area of this square is $4$, so we are done.
+
+If $\epsilon<4$, then suppose $\frac\epsilon4=\frac{p}{q}$ with $p<q$. Then we can express $\epsilon$ as $\frac 1k$ where $k=\lceil\frac{q}{p}\rceil$. Now we can define $4k$ rectangles as $R_{i+}$ and $R_{i-}$ for $-k\leq i\leq k$. The first component of $R_i$ is the same as above, simply $\left[\frac{i-1}{k},\frac{i}{k}\right]$. To calculate the other interval, we note that $y=\sqrt{x^2+1}$, so the $y$-coordinate corresponding to the bottom-left corner of each square is $\sqrt{\frac{i-1}{k}+1}=\sqrt{\frac{i-1+k}{k}}$. Since we want each square to have area $\frac1k$, the corresponding end of the interval is $\sqrt{\frac{i-1+k}{k}}+\frac1k$. Thus we define our $4k$ intervals to be
+\begin{align*}
+R_{i+}=\left[\frac{i-1}{k},\frac{i}{k}\right]\times\left[\sqrt{\frac{i-1+k}{k}}+\frac1k,\sqrt{\frac{i-1+k}{k}}\right], \\ R_{i-}=\left[\frac{i-1}{k},\frac{i}{k}\right]\times\left[-\sqrt{\frac{i-1+k}{k}},-\sqrt{\frac{i-1+k}{k}}-\frac1k\right]
+\end{align*}
+for all $-k\leq i\leq k$. By construction, these rectangles cover $A$, and by an almost identical calculation to the one done in part (b), this area sums to $\frac4{k}$, which is strictly less than $\frac\epsilon4\leq\frac1k$, so this satisfies our conditions.
+
+\textbf{(d) $A=\{(x,y,z)\in\mathbb R^3\mid x,y,z\geq0,x+y+z=1\}$}
+
+This is the perfect 3-dimensional analogue to (1); indeed, for $z=0$, the two sets intersect. For $\epsilon<1$ we define $k$ as before. Then to our previous $R_i$, we simply add another component to account for this third dimension:
+\[
+R_i=\left[\frac{i-1}{k},\frac{i}{k}\right]\times\left[\frac{k-i+1}{k},\frac{k-i}{k}\right]\times\left[\frac{k-i+1}{k},\frac{k-i}{k}\right]
+\]
+It is clear that these cubes tile the plane. By imitating the calculation above, we see that each cube has an area of $\frac1{k^3}$, and there is an entire $k\times k$ plane of such cubes, so there are $k^2$ of them, and so $k^2\cdot\frac1{k^3}=\frac1k$, which is less than $\epsilon$, so this set also is of Peano-Jordan content equal to 0.
+
+\textbf{4. Evaluate the following integrals.}
+
+\textbf{(a) $\int_A{y\cos{(xy)}dx dy}$, where $A=[0,2\pi]\times[0,1]$.}
+
+\begin{align*}
+\int_Ay\cdot\cos(xy)dxdy=&\int_0^1\int_0^{2\pi}{y\cdot\cos(xy)dxdy}\\
+=&\int_0^1y\cdot\int_0^{2\pi}\cos{(xy)}dxdy\\
+=&\int_0^1y\cdot\left[\frac{\sin{(xy)}}{y}\right]_0^{2\pi}dy\\
+=&\int_0^1y\cdot\frac{\sin{(2\pi y)}}{y}dy\\
+=&\int_0^1\sin{(2\pi y)}dy\\
+=&\left.\frac{-\cos{(2\pi x)}}{2\pi}\right|_0^1=\frac{1}{2\pi}-\frac{1}{2\pi}=0
+\end{align*}
+
+\textbf{(b) $\int_A\sin{(x^2)}\,dx \,dy$, where $A=\{(x,y)\in[0,1]^2\mid x\geq y\}$.}
+
+Since both domains of integration are $[0,1]$, and $y$ is not present in the integrand at all, it can be taken to be $g(x)=1$ over $E=[0,1]$; thus by Theorem 12.22 (of the textbook), this second integral is simply equal to $\vol{E}$, which is $1$ in this case. Therefore this integral is equivalent to the one-dimensional $\int_0^1{\sin{(x^2)}dx}$.
+
+This is a non-elementary integral, but luckily one which was covered in a bonus problem in Math 148; it is equal to the Fresnel integral at $x=1$; namely $S(1)$ where
+\[
+S(x)=\int_0^x{\sin{(t^2)}}dt=\sum_{n=0}^\infty{(-1)^n\frac{x^{4n+3}}{(4n+3)(2n+1)!}}
+\]
+Thus for $x=1$, we have
+\[
+S(1)=\int_0^1\sin{(t^2)}dt=\sum_{n=0}^\infty{\frac{(-1)^n}{(4n+3)(2n+1)!}}
+\]
+Other than inputting this into Maple for a numerical answer, I do not know how to simplify this any further.
+
+\textbf{(c) $\int_Ax\,dx \,dy \,dz.$ where $A=\left\{(x,y,z)\in\mathbb R^3\mid0\leq x\leq 1,0\leq y\leq 1-x^2,0\leq z\leq x^2+y^2\right\}$.}
+
+Since $z$ is not present in the integrand, we can use $g(z)=1$ as the function, and apply again Theorem 12.22, to conclude that the first integral unwraps to the volume of the $z$ interval, which is in this case equal to $x^2+y^2$. Thus the integral above simplifies to
+\[
+\int_A{x(x^2+y^2)dx\,dy}
+\]
+We do some rearranging
+\begin{align*}
+\int_A{(x^3+xy^2)dx\,dy}=&\int_A{x^3dx\,dy}+\int_A{xy^2\,dx\,dy}\\
+\end{align*}
+In the first integral, we can again apply Theorem 12.22 to obtain $\int_0^1{x^3(1-x^2)dx}$, which we certainly know how to integrate. The second one simplifies to 
+\begin{align*}
+\int_0^1\int_0^{1-x^2}xy^2\,dx\,dy=&\int_0^1{\left[\frac{xy^3}{3}\right]_0^{1-x^2}dx}\\
+=&\int_0^1{x(1-x^2)^3\,dx}
+\end{align*}
+Thus we are left with
+\[
+\int_Ax\,dx \,dy \,dz.=\int_0^1{x^3(1-x^2)dx}+\int_0^1{x(1-x^2)^3dx}
+\]
+Although messy, both of those integrals are essentially just polynomials in $x$, and with a little bit of fighting we get that
+\begin{align*}
+\int_Ax\,dx \,dy \,dz.=&\left.\frac{x^4}{4}-\frac{x^6}{6}+\frac{x^6}2+\frac{x^2}{2}-\frac{x^8}{8}-\frac{3x^4}{4}\right|_0^1\\=&\frac{1}{4}-\frac{1}6+\frac12+\frac12-\frac18-\frac34\\=&\frac{6-4+12+12-3-18}{24}=\boxed{\frac{5}{24}}
+\end{align*}
+
+\textbf{5. (a) Let $n$ be a positive integer, let $\vec a$ be a vector in $\mathbb R^n$, and let $r>0$. Prove that the volume of the ball $B(\vec a;r)$ in $\mathbb R^n$ is equal to $r^n\Omega_n$.}
+
+First we will show that the volume of $B(0;r)$ is also $r^n\Omega_n$. We are essentially scaling $B(0;1)$ by a factor of $r$. The radius is scaled by a factor of $r$ in each of the $n$ dimensions, so the final volume will be larger by a factor of $r^n$.
+
+Exercise 3 in the textbook (referring to the translation of a Jordan region) tells us that if $E$ is a Jordan region, then $\vec x+E$ is a Jordan region, and $\vol{E}=\vol{\vec x+E}$. In this case, $E$ is $B(0;r)$ and $\vec x=\vec a$, thus telling us that $\vol{B(0;r)}=\vol{B(\vec a;r)}$, which is what we were trying to show.
+
+\textbf{(b) Prove that $\Omega_{n+1}/\Omega_n=\int_{-1}^1{(1-r^2)^{n/2}dr},\forall n\geq1$.}
+
+Loosely speaking, the projection of each $(n+1)$-sphere onto $\mathbb R^n$ is an $n$-sphere, so the difference between them ends up looking like a rotation of the $n$-sphere along a certain axis.
+
+\textbf{(c) By using part (b) of the problem, determine the values of $\Omega_3$ and $\Omega_4$.}
+
+We know $\Omega_3=\Omega_2\int_{-1}^1{(1-r^2})^{n/2}dr$. Well, $\Omega_2=\Pi$, so we have
+\begin{align*}
+\Omega_3=&\pi\int_{-1}^1{(1-r^2)\,dr}\\
+=&\pi\int_{-1}^1{1\,dr}-\pi\int_{-1}^1{r^2\,dr}\\
+=&2\pi-\pi\left[\frac{r^3}{3}\right]_{-1}^1\\
+=&2\pi-\frac\pi3-\frac\pi3=\frac{4\pi}{3}
+\end{align*}
+
+Similarly, and with the help of Maple,
+\begin{align*}
+\Omega_4=&\Omega_3\int_{-1}^1{(1-r^2)^{3/2}\,dr}\\
+=&\frac43\pi\left(\frac14x(1-x^2)^{3/2}+\frac38\sqrt{1-x^2}+\frac38\arcsin{x}\right)_{-1}^1\\
+=&\frac43\pi\left(\frac{3}{16}\pi+\frac{3}{16}\pi\right)=\frac43\pi\frac{6}{16}\pi=\boxed{\frac12\pi^2}
+\end{align*}
+
+\end{document}

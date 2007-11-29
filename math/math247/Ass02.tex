@@ -1,0 +1,217 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\providecommand{\seq}[1]{\ensuremath{(\vec #1_k)_{k=1}^\infty}}
+\providecommand{\Rn}{\ensuremath{\mathbb R^n}}
+
+\title{Math 247 - Assignment 2}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. Let $\seq x$ be a sequence in $\Rn$, and suppose that $||\vec x_k-\vec x_{k+1}||<1/2^k$ for every $k\geq1$. Prove that the sequence $\seq x$ is convergent.}
+
+We know from Assignment 1 that sequences which are Cauchy are also convergent; therefore it suffices to prove that $\seq x$ is Cauchy. In other words, we want to show that there is a $k_0$ so that
+\begin{align}
+\forall \epsilon>0,\quad ||\vec x_p-\vec x_q||<\epsilon\quad\text{ whenever } p,q>k_0
+\end{align}
+(Without loss of generality, assume $p-q=r>0$.) We can tell from our premise that consecutive elements of $\seq x$ get progressively closer together, with the maximum distance between the elements $\vec x_k$ and $\vec x_{k+1}$ being bounded above by $1/2^k$. We know from the premise that the distance 
+\begin{align*}
+||\vec x_p-\vec x_q||=&||(\vec x_p-\vec x_{p+1})+(\vec x_{p+1}-\vec x_{p+2})+\cdots+(\vec x_{q-1}-\vec x_q)||\\
+\leq&||\vec x_p-\vec x_{p+1}||+||\vec x_{p+1}-\vec x_{p+2}||+\cdots+||\vec x_{q-1}-\vec x_q||\\
+\leq&\frac1{2^p}+\frac1{2^{p+1}}+\ldots+\frac1{2^{q-1}}\end{align*}
+
+We know that the series $\sum_{k=1}^\infty{\frac1{2^k}}$ converges. In fact, $\frac{1}{2^k}=\sum_{i=k+1}^\infty{\frac1{2^i}}$. Thus for any $\epsilon$ we are given, we can just guess $p=1$. If it doesn't satisfy $\epsilon$, we just choose $p'=p+1$, and the value will be less than half of what it was before. We can obviously keep doing this until we go under $\epsilon$, it must happen eventually. Thus, this sequence still converges.
+
+\textbf{1(b) What would happen if the condition "$||\vec x_k-\vec x_{k+1}||<1/2^k$"  from part (a) would be replaced by
+\[
+||\vec x_k-\vec x_{k+1}||<c\cdot\gamma^k,\quad\forall k\geq1
+\]
+where $c\in(0,\infty)$ and $\gamma\in(0,1)$?
+}
+\setcounter{equation}{0}
+
+Any $\gamma\in(0,1)$ can be represented as $1/ \tau$ with $\tau>1$, so the assumption is equivalent to
+\[
+||\vec x_k-\vec x_{k+1}||<\frac{c}{\tau^k},\quad\forall k\geq1
+\]
+We can now use a similar argument to the above; in fact, part (a) is just the special case where $c=1$ and $\tau=2$. We want to prove that $\seq x$ is Cauchy in $\Rn$, in other words there exists a $k_0$ such that
+\begin{align}
+\forall\epsilon>0,\quad||\vec x_p-\vec x_q||<\epsilon\quad\text{ whenever }p,q>k_0
+\end{align}
+Without loss of generality, assume $p-q=r>0$. Then we know, as above, that
+\begin{align*}
+||\vec x_p-\vec x_q||=&||(\vec x_p-\vec x_{p+1})+(\vec x_{p+1}-\vec x_{p+2})+\cdots+(\vec x_{q-1}-\vec x_q)||\\
+\leq&||\vec x_p-\vec x_{p+1}||+||\vec x_{p+1}-\vec x_{p+2}||+\cdots+||\vec x_{q-1}-\vec x_q||\\
+\leq&\frac {c}{\tau^p}+\frac {c}{\tau^{p+1}}+\ldots+\frac {c}{\tau^{q-1}}
+\end{align*}
+
+Now, as before, we know that $c\sum_{k=1}^\infty{\frac1{\tau^k}}$ must converge since $\tau>1$. Therefore the sum $c\sum_{i=p}^{q+1}{\frac1{\tau^i}}$ must converge to $0$ eventually, as $p\to\infty$. This is just the statement that all series must have their corresponding sequence converge to $0$, since the interval $[p,q-1]$ is just some small finite subinterval of this infinite series. Therefore, this sequence still converges.
+
+\textbf{1(c) What would happen if the condition "$||\vec x_k-\vec x_{k+1}||<1/2^k$" from part (a) would be replaced by "$||\vec x_k-\vec x_{k+1}||<1/k^2, \forall k\geq1$"?}
+\setcounter{equation}{0}
+
+Using an identical calculation to above, we arrive at
+\[
+||\vec x_p-\vec x_q||<\left(\frac1p\right)^2+\left(\frac1{p+1}\right)^2+\cdots+\left(\frac1{q-1}\right)^2
+\]
+
+We recall from Calculus II that the sequence $\sum_{k=1}^\infty{\frac{1}{k^p}}$ converges for all $p>1$. In particular, we know
+\begin{align}
+\sum_{i=p}^{q-1}{\left(\frac{1}{i}\right)^2}=\Psi_p
+\end{align}
+for some constant $\Psi_p\in\mathbb R$. Now, for any $q=p+r$, I claim that as $p\to\infty$, $\Psi_p\to0$. Every term is positive, and lower than the one before it, so this must be true; if it were not, then there would be some $\Psi_0$ so that, no matter how small the interval $[p,q-1]$, the sum $\sum_{i=p}^{q-1}{1/i^2}$ would always have this positive value no matter how far along you went. But this contradicts the convergence of (1), since you could keep on going forever constantly adding another unit of $\Psi_0$, which can get arbitrarily large. Therefore we necessarily have $\Psi_p\to0$, which means that $||\vec x_p-\vec x_q||\to0$, which means it is less that $\epsilon$ eventually. Thus this condition also allows for convergence. 
+
+\textbf{2. Let $A$ be a subset of $\mathbb R^n$. Prove that the following two statements are equivalent:\begin{enumerate}
+\item $A$ is closed
+\item Whenever $\seq x$ is a convergent sequence of vectors from $A$, the limit $\lim_{k\to\infty}{\vec x_k}$ also belongs to $A$.
+\end{enumerate}
+}
+\setcounter{equation}{0}
+
+The closure of $A$ is defined, roughly, as the set of vectors which are limits of convergent sequences in $A$. If $A$ is closed, this means that $A$ is its own closure; in other words, all of the sequences in $A$ also have limits in $A$. This is the same as (2), so we've shown the $(1)\implies(2)$ implication. Similarly, we know that whenever $\seq x$ is a convergent sequence in $A$, its limit is in the closure of $A$. Since (2) tells us that they also  happen to be in $A$, this means that $\mathrm{cl }(A)\subseteq A$. But we also know from the last assignment that $A\subseteq\mathrm{cl}(A)$, by taking the constant sequence, so combining these two facts, we have $A=\mathrm{cl}(A)\implies A$ is closed, which is (1). So we have proven both sides of the implication, and we are done.
+
+\textbf{3. Write the proof for the implication $\Longleftarrow$ in Proposition 2.9 from the lecture. This implication states that if the $\epsilon-\delta$ condition is satisfied, then the function has a limit in the sense of the definition with sequences.}
+\setcounter{equation}{0}
+
+We want to prove that $\lim_{\vec x\to\vec a}{f(\vec x)}=\vec v$, given that we are always able to win at the $\epsilon-\delta$ game. That is, whenever $\seq x$ is a sequence in $A$ such that $\vec x_k\to\vec a$, then $f(\vec x_k)\to \vec v$.
+
+Well, we know that for any $\epsilon>0$, we are always able to find a $\delta>0$ such that
+\begin{align}
+||f(\vec x)-\vec v||<\epsilon\quad\text{ whenever }||\vec x-\vec a||<\delta
+\end{align}
+
+Now, let $\seq x$ be any sequence in $A$. Then we know that
+\begin{align}
+\forall\epsilon>0,\exists K_0>0\text{ such that }\quad||\vec x_k-\vec a||<\epsilon\quad\text{ whenever }k>K_0
+\end{align}
+
+Then we want to show that there is also a $K_1$ so that
+\begin{align}
+\forall\epsilon>0,\quad||f(\vec x_k)-\vec v||<\epsilon\quad\text{ whenever }k>K_1
+\end{align}
+The inequality in (3) can be written
+\begin{align}
+||f(\vec x_k)-\vec v||=||f(\vec x_k)-f(\vec x)+f(\vec x)-\vec v||\leq||f(\vec x_k)-f(\vec x)||+||f(\vec x)-\vec v||
+\end{align}
+
+If we can show that this greater sum can be made less than $\epsilon$, then it naturally follows that the smaller quantity $||f(\vec x_k)-\vec v||<\epsilon$ as well, satisfying (3). Well, we already know that we can get a $\delta$ to make $||f(\vec x)-\vec v||<\frac\epsilon2$, (by a slight modification of (1)), so that takes care of the second half of the sum in (4). The only thing we have left to show is that $||f(\vec x_k)-f(\vec x)||$ can be made arbitrarily small. Well, (2) tells us that $\vec x_k$ can be brought arbitrarily close to $\vec a$. At the same time, we know that $\vec x$ converges to $\vec a$, so it can also be arbitrarily close as well; so $\vec x_k$ can be brought arbitrarily close to $\vec x$, which means $f(\vec x_k)=\vec v$ is a valid choice for the limit in (1), so we get $||f(\vec x)-f(\vec x_k)||<\frac\epsilon2$. Combining these two facts into (4), we see that when $k$ is large enough to satisfy $||\vec x_k-\vec a||$, it is also large enough to satisfy
+\[
+||f(\vec x_k)-f(\vec x)||+||f(\vec x)-\vec v||<\frac\epsilon2+\frac\epsilon2=\epsilon
+\] 
+Which is what we were trying to prove
+\setcounter{equation}{0}
+
+\textbf{4. Let $A=(0,\infty)\times(0,\infty)\subseteq\mathbb R^2$, and let $f:A\to\mathbb R$ be defined by
+\[
+f(s,t)=\frac1s-\frac1{s+t},\quad\forall(s,t)\in A
+\]}
+
+\textbf{(a) Determine the closure of $A$.}
+
+The sequence $x_k=\frac1k$ is in $(0,\infty)$, but its limit as $k\to\infty$ is 0, so the closure of $A$ is
+\[
+\mathrm{cl}(A)=[0,\infty)\times[0,\infty)
+\]
+
+\textbf{4(b) Are there any vectors $\vec a\in\mathrm{cl}(A) \backslash A$ such that the limit of $f(x)$ exists, when $\vec{x}\to\vec{a}$?}
+
+In order for $\vec a$ to be in $\mathrm{cl}(A) \backslash A$, we require $s=0$ or $t=0$. By rearranging $f$, we see
+\[
+f(x)=\frac1s-\frac1{s+t}=\frac{t}{s(s-t)}
+\]
+Clearly when $s=0$, the function does not have a limit since the function grows arbitrarily large. So we examine only the subset of $\mathrm{cl}(A)\backslash A$ in which $t=0$ and $s\not=0$; in other words, we want $\vec a\in(0,\infty)\times[0,\infty)$.
+
+Well, in those cases, the function $f$ is simply
+\[
+f(s,0)=\frac{0}{s^2}
+\]
+which is a constant function. No matter what direction a convergent sequence approaches $\vec a=(s,0)$ from, $f$ will map it to a convergent sequence: the constant sequence $\seq s=0$. Thus in these cases the limit exists.
+
+\textbf{5. Consider the following statement:
+\[
+\text{``Every function } f:\mathbb Z^2\to\mathbb R\text{ is continuous."}
+\]
+Is this statement true?}
+
+The field $\mathbb Z^2$, when viewed as a subset of $\mathbb R^2$, is essentially an infinite amount of isolated points. Therefore any sequence $\seq x$ which converges in $\mathbb Z^2$ is eventually just a constant sequence. The image of that sequence under $f$, therefore, is also eventually a constant sequence. All constant sequences converge eventually, so $f$ is continuous at every individual element of $\mathbb Z^2$; since $\mathbb Z^2$ happens to be $f$'s entire domain, we know that $f$ is in fact always continuous.
+
+\textbf{6. Let $A$ be a closed non-empty subset of $\Rn$. Let $f : A\to A$ be a function, and suppose there exists a constant $\gamma\in(0,1)$ with the property that
+\[
+||f(\vec x)-f(\vec y)||\leq\gamma\cdot||\vec x-\vec y||,\quad\forall\vec x,\vec y\in A.
+\]}
+\setcounter{equation}{0}
+
+\textbf{(a) Prove that the function $f$ is continuous.}
+
+We want to show that for any $\vec x\in A$, there exists a $\delta>0$ such that
+\begin{align}
+\forall\epsilon>0,\quad\left|\left|f(\vec x)-f(\vec a)\right|\right|<\epsilon\quad\text{ whenever }||\vec x-\vec a||<\delta
+\end{align}
+So let us play the $\epsilon-\delta$ game. Our opponent gives us an $\epsilon$, so we want to ensure $||f(\vec x)-f(\vec a)||<\epsilon$. Well, we know $||f(\vec x)-f(\vec a)||\leq\gamma\cdot||\vec x-\vec y||$, so we can just focus on making $\gamma\cdot||\vec x-\vec y||<\epsilon$. Well, when $\delta=\frac\epsilon\gamma$, we have $\gamma\cdot||\vec x-\vec y||<\epsilon$. Thus, for any $\epsilon$ our opponent gives us, we reply with $\delta=\frac\epsilon\gamma$, and we are guaranteed to win. Therefore, $f$ is certainly continuous.
+
+\textbf{6(b) Prove that if $\vec x_1$ is an arbitrary element of $A$, and if we define recursively $\vec x_{k+1}=f(\vec x_k), \forall k\geq1$, then the sequence $\seq x$ is convergent, and the limit $\vec p=\lim_{k\to\infty}{\vec x_k}\in A$ is a fixed point for $f$ (one has $f(\vec p)=\vec p$).}
+\setcounter{equation}{0}
+
+To show that $\seq x$ is convergent, we will rather show that it is Cauchy. That is, we want to find a $k_0$ such that 
+\[
+\forall\epsilon>0,\quad||\vec x_p-\vec x_q||<\epsilon\quad\text{ whenever }p,q>k_0
+\]
+Without loss of generality, assume $p-q=r>0$. This is equivalent to
+\begin{align*}
+||(\vec x_p-\vec x_{p+1})+(\vec x_{p+1}-\vec x_{p+2})+\cdots+(\vec x_{q-1}-\vec x_q)||
+\end{align*}
+which is equivalent to
+\begin{align}
+&||(f(\vec x_{p-1})-f(\vec x_p))+(f(\vec x_{p})-f(\vec x_{p+1}))+\cdots+(f(\vec x_{q-2})-f(\vec x_{q-1}))|| \nonumber\\
+\leq&||f(\vec x_p)-f(\vec x_{p-1})||+||f(\vec x_{p+1})-f(\vec x_{p})||+\cdots+||f(\vec x_{q-1})-f(\vec x_{q-2})||\nonumber \\
+\leq&\gamma\cdot||\vec x_p-\vec x_{p-1}||+\gamma\cdot||\vec x_{p+1}-\vec x_{p}||+\cdots+\gamma\cdot||\vec x_{q-1}-\vec x_{q-2}|| \nonumber \\
+=&\gamma\cdot\left(||\vec x_p-\vec x_{p-1}||+||\vec x_{p+1}-\vec x_p||+\cdots+||\vec x_{q-1}-\vec x_{q-2}||\right)
+\end{align}
+We step aside from this calculation for a brief moment to remark that the distances between consecutive elements of $\seq x$ always decrease as $k$ increases. That is,
+\begin{align*}
+||\vec x_k-\vec x_{k-1}||=||f(\vec x_{k-1})-f(\vec x_{k-2})||<||\vec x_{k-1}-\vec x_{k-2}||
+\end{align*}
+We could even write $||\vec x_k-\vec x_{k-1}||=\tau\cdot||\vec x_{k-1}-\vec x_{k-2}||$ where $\tau\in(0,1)$. Also, just for ease of writing, denote $||\vec x_k-\vec x_{k-1}||$ by $d_k$. With this notation, we could write (2) as
+\begin{align*}
+&\gamma\cdot\left(||\vec x_p-\vec x_{p-1}||+||\vec x_{p+1}-\vec x_p||+\cdots+||\vec x_{q-1}-\vec x_{q-2}||\right)\\
+=&\gamma\cdot\left(d_p+\tau_1d_p+\tau_2\tau_1d_p+\cdots+(\tau_r\tau_{r-1}\ldots\tau_2\tau_1)d_{p}\right)
+\end{align*}
+We notice that each of these $\tau_i$ can be at most $\gamma$, since that is the most that $f$ can scale by. So we can write this now as:
+\begin{align*}
+\leq&\gamma\cdot(d_p+\gamma d_p+\gamma^2d_p+\cdots+\gamma^{p-q}d_p)\\
+=&\gamma d_p\cdot\sum_{i=0}^{p-q}{\gamma^i}<\gamma d_p\cdot\sum_{i=0}^\infty{\gamma^i}\quad\text{ (since $\gamma<1$) }\\
+=&\frac{\gamma d_p}{1-\gamma}
+\end{align*}
+But now we can "expand" our $d_p$; the distance $||\vec x_p-\vec x_{p-1}||$ is simply the distance $||\vec x_0-\vec x_1||$, but with $f$ applied to it $p$ times; so we can write
+\begin{align}
+\leq\frac{\gamma^p||\vec x_1-\vec x_0||}{1-\gamma}
+\end{align}
+So we see now that we can always choose a $p$ large enough to make (2) arbitrarily small, since $\gamma<1$ and everything else is constant. Thus $\seq x$ is Cauchy and therefore convergent. We call this limit point $\vec p$, and our job now is to show that $f(\vec p)=\vec p$.
+
+Well, $||\vec p-f(\vec p)||=||\vec p-\vec x_n+\vec x_n-f(\vec p)||\leq||\vec p-\vec x_n||+||f(\vec p)-\vec x_n||$. The first term approaches $0$ as $n\to\infty$ by the fact that we just proved that $\seq x$ converges to $\vec p$. The second term can be rewritten as $||f(\vec p)-f(\vec x_n)||\leq||\vec p-\vec x_n||$ by the definition of $f$, which also goes to 0. So by the squeeze principle, $||\vec p-f(\vec x_p)||=0$, which means they are the same vector according to the definition of the norm.
+
+\textbf{6(c) Suppose that someone starts with another initial point $\vec y_1\in A$ and considers the sequence $\seq y$ in $A$ defined by $\vec y_{k+1}=f(\vec y_k),\forall k\geq1$, with limit $\lim_{k\to\infty}{\vec y_k}=\vec q\in A$. Must $\vec q$ coincide with the fixed point $\vec p$ from part (b)?}
+\setcounter{equation}{0}
+
+So we now have a point $\vec q$ such that $f(\vec q)=\vec q$. We would ideally like to show that
+\begin{align}
+||\vec q-\vec p||=0
+\end{align}
+We play with (1); the only thing we know about $\vec p, \vec q$ is that they are fixed points. So we try this:
+\[
+||\vec q-\vec p||=||f(\vec q)-f(\vec p)||\leq||\gamma\cdot\vec q-\gamma\cdot\vec p||=\gamma\cdot||\vec q-\vec p||
+\] 
+This is a ``contradiction", however; since $\gamma\in(0,1)$, how could multiplying a real number by it increase that number? It cannot, so it must be that the equality holds. But the only number such that $x=\gamma x$ is $x=0$; thus the norm is 0 so the two vectors must be the same.
+\end{document}  

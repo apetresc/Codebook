@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 247 - Assignment 7}
+\author{Adrian Petrescu}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $f$ be a function in $C^1(\mathbb R^n,\mathbb R)$ , let $S$ be a level set of $f$ (corresponding to a value $\alpha\in\mathbb R$), and let $\vec a$ be a vector in $S$. Consider the gradient vector
+\[
+\nabla_f(\vec a)=(\partial_1f(\vec a),\ldots,\partial_n(\vec a)).
+\]}
+
+\textbf{(a) Suppose that $\varphi$ is a function in $C^1((-1,1),\mathbb R^n)$ and such that $\varphi(t)\in S$ for every $t\in(-1,1)$ and such that $\varphi(0)=\vec a$. Prove that the velocity vector $\varphi'(0)$ is orthogonal to $\nabla_f(\vec a)$.}
+
+Consider the composed function $f(\varphi(t))$. Since $\varphi(t)\in S$, we know that $f(\varphi(t))=c$ is a constant function. In particular, at $t=0$ we have $f(\varphi(0))=f(\vec a)=c$. We take the derivative of the composed function and apply the chain rule:
+\[
+D(f(\varphi(0)))=(Df)(\varphi(0))\cdot(D\varphi)(0)=J_f(\vec a)\cdot\varphi'(0)
+\]
+
+But $J_f(\vec a)$ is simply all the partials of $f$ multiplied with $\vec a$, and so is equivalent to $\nabla_f(\vec a)$. Moreover, the function we differentiated is a constant function, as we mentioned earlier, and the derivative of a constant function is $0$, so we can conclude that
+\[
+\boxed{\nabla_f(\vec a)\cdot\varphi'(0)=0}
+\]
+
+\textbf{1. (b) Pick a unit vector $\vec u\in\mathbb R^n$ with $||\vec u||=1$, and define $\psi:[0,1]\to\mathbb R$ by $\psi(t)=f(\vec a+t\vec u),0\leq t\leq1$. How should $\vec u$ be chosen in order to make the derivative of $\psi$ at $0$ as large as possible?}
+
+By the chain rule, we have
+\begin{align*}
+D(\psi)(0)=&(Df)(\vec a)\cdot(D(\vec a+t\vec u))(0)\\
+=&J_f(\vec a)\cdot(\vec u)\\
+=&\begin{bmatrix}(\partial_1f)(\vec a) & (\partial_2f)(\vec a) & \cdots & (\partial_nf)(\vec a)\end{bmatrix}
+\cdot\vec u\end{align*}
+Thus by the Cauchy-Schwartz inequality, $\vec u$ should be chosen to be parallel to the vector represented by the Jacobian (the gradient vector).
+
+\textbf{2. Let $\vec v_1,\ldots,\vec v_m$ be a family of linearly independent vectors in $\mathbb R^n$, where $m\leq n$. Prove that there exists $\delta>0$ with the following property: whenever $\vec w_1,\ldots,\vec w_m$ are vectors in $\mathbb R^n$ such that $||\vec w_1-\vec v_1||<\delta,\ldots,||\vec w_m-\vec v_m||<\delta$, it follows that $\vec w_1,\ldots,\vec w_m$ are linearly independent.}
+
+We know from Linear Algebra that any set of linearly independent vectors can be extended to a basis; in particular, there are zero or more vectors $\vec y_1,\ldots,\vec y_{n-m}$ such that the list $\vec v_1,\ldots,\vec v_m,\vec y_1,\ldots,\vec y_{n-m}$ is a basis for $\mathbb R^n$. Therefore the matrix \[
+V=\begin{bmatrix}
+\vec v_1 & \vec v_2 & \cdots & \vec v_m & \vec y_1 & \cdots & \vec y_{n-m}
+\end{bmatrix}
+\]
+is of rank $n$ and therefore invertible. We can apply Theorem 9.9 to conclude that there is a $\lambda>0$ so that for any matrix $W=[w_{ij}]$ such that $|w_{ij}-v_{ij}|<\lambda$ for any $1\leq i,j\leq n$, we know $W$ is invertible. Well, if $|w_{ij}-v_{ij}|<\lambda$ for all $i,j$, then in particular,
+\[
+||\vec w_{i}-\vec v_{i}||\leq|w_{i1}-v_{i1}|+|w_{i2}-v_{i2}|+\cdots+|w_{in}-v_{in}|<\lambda+\lambda+\cdots+\lambda=n\lambda
+\]
+I claim that $\delta=n\lambda$ will satisfy our requirements. The verification is clear; we know $W$ is invertible, so its rank is $n$. Thus all of the column vectors are linearly independent, including the first $m$ of them. But these first $m$ column vectors are simply $\vec w_1,\ldots,\vec w_m$, so they are linearly independent, which is what we were trying to prove.
+
+\textbf{3. Let $\vec v_1,\ldots,\vec v_m$ be a spanning family of vectors in $\mathbb R^n$, where $m\geq n$. Prove that there exists a $\delta>0$ with the following property: whenever $\vec w_1,\ldots,\vec w_m$ are vectors in $\mathbb R^n$ such that $||\vec w_1-\vec v_1||<\delta,\ldots,||\vec w_m-\vec v_m||<\delta$, it follows that $\vec w_1,\ldots,\vec w_m$ form a spanning family for $\mathbb R^n$.}
+
+The argument here is very similar to the one for linearly independent sets of vectors It is a well known result of linear algebra that any spanning set of vectors can be reduced to a basis; in particular, there is some subset of $n$ vectors from $\vec v_1,\ldots,\vec v_m$ that forms a basis for $\mathbb R^n$. Without loss of generality, let us assume that $\vec v_1,\ldots,\vec v_n$ is that subset, tossing out the vectors $\vec v_{n+1},\ldots,\vec v_m$. Then the matrix 
+\[
+V=\begin{bmatrix}\vec v_1 & \vec v_2 & \cdots & \vec v_n\end{bmatrix}
+\]
+is invertible. Thus again Theorem 9.9 applies and we get a $\lambda>0$ such that any matrix $W=[w_{ij}]$ satisfying $|w_{ij}-v_{ij}|<\lambda$ for any $1\leq i,j\leq n$, is also invertible. Once again we can conclude that
+\[
+||\vec w_{i}-\vec v_{i}||\leq|w_{i1}-v_{i1}|+|w_{i2}-v_{i2}|+\cdots+|w_{in}-v_{in}|<\lambda+\lambda+\cdots+\lambda=n\lambda
+\]I claim that $\delta=n\lambda$ satisfies this problem as well. We know that $W$ is invertible, so in particular the column vectors are linearly independent in $\mathbb R^n$. But there are $n$ of them, so they must also span $\mathbb R^n$. Thus the set of vectors $\vec w_1,\ldots,\vec w_n$ is a spanning set. Adding more vectors to a set does not reduce its span, so any remaining $\vec w_{n+1},\ldots,\vec w_{m}$ can be thrown in without ruining the spanningness of the set. This is what we were trying to prove, so we are done.
+
+\textbf{4. Let $A$ be an open subset of $\mathbb R^n$ and let $g$ be a function in $C^1(A,\mathbb R)$. Let $\vec a$ be a point of $A$ which is either a local minimum or a local maximum for $g$. Prove that $(\partial_jg)(\vec a)=0$ for every $1\leq j\leq n$.}
+
+Without loss of generality, assume that $\vec a$ is a local maximum for $g$. This means that there is an $r>0$ such that $B(\vec a; r)\subseteq A$ and such that $f(\vec x)\geq f(\vec a),\forall\vec x\in B(\vec a; r)$.
+
+Consider the function $h_j:\mathbb R\to\mathbb R$ defined by $h_j(t)=g(\vec a+t\vec e_j)$. We see that $h_j(0)$ is a local maximum for this function, since $h_j(0)=g(\vec a)$ which is a local maximum for $g$, and the image of $h$ is a subset of the image of $g$. However, this is a function on $\mathbb R$, so we can apply our previous Calculus knowledge to conclude that $h_j'(0)=0$. In other words,
+\begin{align*}
+h_j'(0)=0\implies&\lim_{t\to0}{\frac{h_j(t)-h_j(0)}{t}}=0\\
+\implies&\lim_{t\to0}{\frac{g(\vec a+t\vec e_j)-g(\vec a)}{t}}=(\partial_jg)(\vec a)=0
+\end{align*}
+Our choice of $j$ was arbitrary, so it holds true for all $j$. This is what we were trying to prove, so we are done.
+
+\textbf{5. (a) Let $A=(-1,1)\times(-1,1)\subseteq\mathbb R^2$, and let $g:A\to\mathbb R$ be defined by the formula
+\[
+g(x,y)=x^2+2xy-y^2,\quad\forall(x,y)\in A
+\]
+Prove that $g$ has no points of local minimum or local maximum on $A$.}
+
+We take both partial derivatives of $g$:
+\begin{align}
+(\partial_1g)(x,y)=&2x+2y\\
+(\partial_2g)(x,y)=&2x-2y
+\end{align}
+Suppose $g$ had some local minimum or maximum $(x_0,y_0)\in A$, and seek a contradiction. Then it would be the case that $(\partial_1g)(x_0,y_0)=(\partial_2g)(x_0,y_0)=0$. By adding (1) and (2) we see that the only time this could happen is if $(x_0,y_0)=(0,0)$. Thus $(0,0)$ is a local minimum or local maximum; that is, there is some $r>0$ such that $B(\vec 0; r)\subseteq A$ and $f(0,0)=0$ is either greater or less than $f(\vec x)$ for all $\vec x\in A$. That is, there is some tiny ball around the origin where the function is either completely non-negative, or completely non-positive. However, $g(a,-b)=a^2-2ab-b^2=-g(b,a)$. Thus no matter how small the ball, you will have both positive and negative things simply by reflecting a point in the axis and the line $y=x$, neither of which make a point leave the ball. Thus $(0,0)$ cannot possibly be a local minimum or maximum, and we have arrived at a contradiction. So our initial assumption that a local minimum or maximum existed must have been false.
+
+\textbf{5(b) Let $B=[-1,1]\times[-1,1]\subseteq\mathbb R^2$, and let $h:B\to\mathbb R$ be defined by the formula
+\[
+h(x,y)=x^2+2xy-y^2,\quad\forall(x,y)\in B
+\] Explain why $h$ must attain its minimum and maximum on $B$ and, based on part (a) of the question, explain why this minimum and maximum cannot be attained on the subset $A$ of $B$.}
+
+The domain of $h$ is closed and bounded (compact). It is also clear that this is a polynomial function, so it is also continuous. We recall the result from Assignment 3, Problem 4, which stated that if $A$ were a non-empty subset of $\mathbb R^n$ and $f:A\to\mathbb R$ was continuous, then there were vectors $\vec a, \vec b\in A$ such that $f(\vec a)\leq f(\vec b)\leq f(\vec b)$ for all $\vec x\in A$. This is precisely the statement that $f$ has a minimum and a maximum on $A$. Since $h$ is continuous and $B$ is compact, we can conclude that it also attains its minimum and maximum on $B$. We know this minimum and maximum cannot be defined on $A$, because $B\supseteq A$, so a global maximum/minimum on $B$ would also be a local minimum/maximum on $A$, which we know does not happen. Thus we know that $h$'s minimum and maximum are strictly on the boundary of $B$.
+
+\textbf{5(c) Determine what are the minimal and maximal value taken by the function $h$ in part (b) of the question.}
+\setcounter{equation}{0}
+
+We know that such minimal and maximal values must happen on the boundary of $B=[-1,1]\times[-1,1]$. First we establish a few facts to make our search easier:
+\begin{align}
+h(x,y)=&x^2+2xy-y^2=(-x)^2+2(-x)(-y)-(-y)^2=h(-x,-y)\\
+h(x,-y)=&x^2-2xy-y^2=-h(y,x)
+\end{align}
+(1) tells us that we need only search the first quadrant for a maximum, since the third quadrant mirrors it; and the second line tells us that the other two quadrants mirror the first quadrant, except that they are of opposite magnitude, and reflected through $y=x$.
+
+Now we restrict our attention to only the first quadrant (where $x,y>0$) and begin finding a maximum. It is obvious from the equation that $h(x,y)\propto x$, so we will make $x$ as big as possible ($x=1$), and see how to maximize $y$:
+\[
+g(1,y)=1+2y-y^2=-(y^2-2y-1)
+\]
+Thus we simply need to minimize the parabola $y^2-2y-1$ (that is, find its vertex). This is a simple task. The derivative is $2y-2$, which is $0$ when $y=1$, so the minimal value is at $g(1,1)=2$. So, by the reflections shown above, the other maximum is $g(-1,-1)=2$ and the two minimums are $g(-1,1)=-2$ and $g(1,-1)=-2$.
+
+\end{document}  

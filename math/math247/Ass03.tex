@@ -1,0 +1,278 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\newcounter{question}
+
+\providecommand{\seq}[1]{\ensuremath{(\vec #1_k)_{k=1}^\infty}}
+\providecommand{\cl}[1]{\ensuremath{\mathrm{cl}(#1)}}
+\providecommand{\Rn}{\ensuremath{\mathbb R^n}}
+
+\newtheorem{lem}{Lemma}[question]
+
+\title{MATH 247 - Assignment 3}
+\author{Adrian Petrescu}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\setcounter{question}{1}
+\textbf{1(a) Let $A$ be a closed subset of $\Rn$, and denote $\Rn \backslash A = D$. Prove that $D$ is open.}
+
+If $A$ is a closed subset of $\Rn$, then the closure of $A$ is equal to $A$. Now, consider a point $\vec x$ in $\cl{A}\cap\cl{D}\subseteq\Rn$. This is not an empty set, because $A\cap D=\Rn$, so if there was a point that was neither in $\cl{A}=A$ nor $\cl{D}$, then it is neither in $A$ nor $D$, which cannot happen since their union spans all of $\Rn$. Thus $\vec x$ exists and is in the closure of both sets. Since $\vec x\in\cl{A}$, we know that for any $r>0$, the ball $B(\vec x;r)\cap A\not=\emptyset$. Therefore, this same ball is not contained in $D$, since any point in $A$ is not in $D$. Thus, $\cl{D}\cap D=\emptyset$.
+
+For any $\vec z\in D$, then, we know there is some
+\[
+r=\inf{\{||\vec z-\vec x||\mid \vec x\in\cl{D}\}}
+\]
+Since $D$ and $\cl{D}$ do not intersect, $r>0$ always. Thus we can always choose $B(\vec b;\frac r2)$ as a ball, and since it does not touch $\cl{D}$, it cannot have escaped $D$, and so $D$ contains this ball; thus $D$ is open.\newline
+
+\textbf{1(b) Let $D$ be an open subset of $\Rn$, and denote $\Rn \backslash D=A$. Prove that $A$ is closed.}
+
+Consider a vector $\vec x$ in $\cl{A}$. Since $A$ and $D$ are complementary, this vector is either in $A$ or it is in $D$. Since $D$ is open, if $\vec x\in D$ then there would be some $r>0$ such that $B(\vec x;r)$ were contained entirely in $D$. Since $\vec x$ is in the closure of $A$, any $r>0$ chosen would necessarily include some points in $A$. But points in $A$ are not in $D$, so we cannot have $B(\vec x;r)$ for any $r>0$. Thus $\vec x\in A$. But this was for some arbitrary $\vec x\in\cl{A}$, so it holds for all $\vec x\in A$. We have just shown that every vector in the closure of $A$ is also in $A$, which is the definition of a closed set. Thus, $A$ is closed.\newline
+
+\textbf{2. Let $A$ be a nonempty closed subset of $\Rn$, let $f:A\to\mathbb R$ be a function, and let $\Gamma\subseteq\mathbb R^{n+1}$ be the graph of $f$.}
+
+\textbf{(a) Suppose that (i)\indent $\Gamma$ is a closed subset of $\mathbb R^{n+1}$, and\\\indent\indent\indent\indent\indent\indent$\text{       }$$\text{   }$(ii)\indent The function $f$ is bounded.\\ Prove that $f\in C(A,\mathbb R)$.}
+
+$f$ is continuous if and only if it respects convergent functions; namely, for any convergent function $\seq x\in A$, we must have $f(\vec x_k)$ converge as $k\to\infty$. 
+
+Let us assume that $f$ is discontinuous, and seek a contradiction. If $f$ is discontinuous, there is some sequence $\seq x$ in $A$ such that $\vec x_k\to\vec a$, but $f(\vec x_k)$ does not converge to $f(\vec a)$. Well, consider the sequence $f(\vec x_k)$; by assumption, this sequence is bounded, so by the Bolzano-Weierstrauss theorem, it has a convergent subsequence $f(\vec x_{k(p)})$ that converges to some $f(\vec b)\not=f(\vec a)$. Then the sequence in the graph $(\vec x_{k_{(p)}},f(\vec x_{k_{(p)}}))$ converges to $(\vec a,f(\vec b))$. However, this point does not exist in the graph of $f$; thus $\Gamma$ is not closed. But this is a contradiction, so our assumption earlier that the arbitrary $f$ is discontinuous must have been false. So $f\in C(A,\mathbb R)$.\newline
+
+\textbf{2(b) Does the conclusion of part (a) still hold if we drop the hypothesis (ii)?}
+
+Our proof made use of the Bolzano-Weierstrauss theorem, which requires $f$ to be bounded; this suggests that the condition is indeed necessary, but this is not a proof. We must seek a counterexample to be sure. 
+
+Consider the interval $[-1,1]\subseteq\mathbb R$, and the function $f(x)=\frac1x$ for all $x\not=0$, and $f(0)=0$. Then the sequence $\vec x_k=\frac1k$ converges to $0$ as $k\to\infty$, but $f(\vec x_k)$ does not converge to $f(0)=0$. Thus $\Gamma$ is not closed; so we have contradicted ourselves. So the condition that $f$ be bounded is necessary after all.
+\newline
+
+\textbf{3(a) Let $A$ be a nonempty closed subset of $\Rn$, let $f:A\mathbb\rightarrow R$ be a continuous function, and let $\Gamma\subseteq\mathbb R^{n+1}$ be the graph of $f$. Prove that $\Gamma$ is a closed subset of $\mathbb R^{n+1}$.}
+
+Consider the function $F:A\to\Gamma$ defined by 
+\[
+F(\vec x)=(\vec x,f(x))
+\]
+We see that the image of $F$ is simply $\Gamma$; in other words, we want to prove that the image of $F$ is closed. Well, we know that $F(\vec x_k)$ converges if and only if each of its component subsequences converge. For any convergent sequence $\seq x\to\vec x\in A$ we have $f(\vec x_k)\to f(\vec x)\in\mathbb R$. Thus we necessarily also have
+\[
+	(\vec x_k,f(\vec x_k))\to(\vec x,f(\vec x))\in\Gamma\implies F(\vec x_k)\to F(\vec x)\in\Gamma
+\]
+So the image of $F$ is closed, implying that $\Gamma$ is also closed.\newline
+
+\textbf{3(b) Does the conclusion of part (a) still hold if we drop the hypothesis that $A$ is closed?}
+
+The conclusion no longer holds, because $f$ is only defined over the domain $A$. Thus if $A$ is not closed, there is some $\seq x\in A$ such that $\vec x_k\to\vec x\not\in A$. But then we cannot possibly hope to have $f(\vec x_k)\to f(\vec x)$, which is required for $\Gamma$ to be closed by the argument above, because $f(\vec x)$ is not even defined. Thus $A$ must be closed.\newline
+
+\textbf{4. Let $A$ be a non-empty subset of $\Rn$ which is closed and bounded, and let $f:A\to\mathbb R$ be a continuous function.}
+
+\textbf{(a) Prove that there exist vectors $\vec a, \vec b\in A$ such that 
+\[
+f(\vec a)\leq f(\vec x)\leq f(\vec b),\quad\forall\vec x\in A
+\]}
+
+This statement is essentially the multidimensional analogue to the Extreme Value Theorem. We will first prove the result only for $\vec b$, and then extend it to include a minimal value ($\vec a$) afterwards.
+
+Since $f$ is bounded, we know there exists some $r>0$ such that $|f(\vec x)|<r,\forall\vec x\in A$. Moreover, if we take
+\[
+M=\inf{\{r\mid|f(\vec x)|\leq r\quad\forall\vec x\in A\}}
+\]
+Then, since $A$ is closed, we know that there is some $\vec b$ so that $f(\vec b)=M$. Indeed, the graph $(\vec{x},f(\vec x))$ must be closed since $A$ is closed and $f$ is continuous (so we can invoke Problem 2), so a sequence $\seq x\to\vec b\in A$ must carry $f(\vec x_k)\to f(\vec b)$. We can use the approximation property for suprema to obtain the desired $(f(\vec x_k))_{k=1}^\infty$. This property essentially says that if a subset of $\mathbb R$ (in this case, $f(A)$) has a suprema (in this case, $f(\vec b)=M$), then there is always a vector $\vec z\in f(A)$ such that for any positive $\epsilon$ we have $M-\epsilon<f(\vec z)\leq M$. Thus if we take any $f(\vec z)$ that satisfy this iteratively for $\epsilon=\frac1k$ as $k\to\infty$, we have out desired sequence. But $f(\vec b)=M\geq f(\vec x),\forall\vec x\in A$ according to the definition of $M$, so we have proven one side of the inequality.
+
+To prove the other side of the inequality, we consider the function $g(\vec x)=-f(\vec x)$. By the same argument as above, it has a maximal point, call it $m$, as well. It is easy to see that
+\[
+g(\vec x)\leq m\iff -f(\vec x)\leq m\iff f(\vec x)\geq -m\quad\forall \vec x\in A
+\]
+Since $m$ was in the image of $g$, it follows that $-m$ is also in the image of $f$, and under the same point. That is, $g(\vec a)=m\implies -f(\vec a)=m\implies f(\vec a)=-m$. Thus we have proven both sides of the inequality, and we are done.\newline
+
+\textbf{4(b) Does the conclusion of part (a) really depend on the hypothesis that $A$ is closed?}
+
+Yes, $A$ must be closed for the extreme value theorem to hold. Consider the set $A=(0,1)$ which is obviously not closed. Then consider the function $f:(0,1)\to\mathbb R$ defined by $f(x)=x$. Clearly this function has neither a minimum nor a maximum; it is true that $0<f(x)<1$ for all $x$, but $f$ is not actually defined at either $0$ or $1$, and there are no other numbers that would satisfy the needed inequality. Indeed, if anyone ever claimed that they had found an $M<1$ such that $f(x)<M$ for all $x$, I would point out that $\frac{M+1}{2}$ is both less than $1$, and greater than $M$, so a contradiction has been found. So the condition that $A$ be closed is absolutely necessary.\newline
+
+\textbf{4(c) Does the conclusion of part (a) really depend on the hypothesis that $A$ is bounded?}
+
+Yes, $A$ must also be bounded for the extreme value theorem to hold. Consider $A=\mathbb R$. We know that $\mathbb R$ is closed, though it is not bounded. Consider again the function $f:\mathbb R\to\mathbb R$ defined by $f(x)=x$. There is no maximum or minimum value for this function; indeed, if anyone ever claimed that they had an $M>f(x)$ for all $x$, I would simply point out that $M+1$ is also in $\mathbb R$, and is greater than $M$, so $f(M+1)=M+1>M$ contradicts them. A very similar argument applies for a minimal $m$. Thus the premise that $A$ is bounded is also necessary.
+
+We see that, in fact, the Extreme Value Theorem works only over compact sets; that is, sets which are both bounded and closed.\newline
+
+\textbf{5. Let $L:\mathbb R^3\to\mathbb R^2$ be the linear function defined by
+\[
+L(p,q,r)=(p,q-r),\quad\text{ for }(p,q,r)\in\mathbb{R}^3
+\]
+Determine, with justification, the value of $||L||$.}
+\setcounter{equation}{0}
+
+To determine $||L||$, we will first examine
+\[
+M=\sup_{||\vec x||=1}{||L(\vec x)||}
+\]
+Well, when $||\vec x||=1$, we know that
+\begin{align}
+\sqrt{p^2+q^2+r^2}=1\iff p^2+q^2+r^2=1
+\end{align}
+We are looking to maximize the expression:
+\begin{align}
+||L(\vec x)||=||(p,q-r)||=\sqrt{p^2+(q-r)^2}
+\end{align}
+We know that the function $f(\vec{x})=\vec{x}^2$ is continuous and monotone, so if we maximize $p^2+(q-r)^2$, we have also maximized (2). So we play with the algebra a bit:
+\begin{align}
+p^2+(q-r)^2=&p^2+q^2+r^2-2qr \nonumber \\
+=&1-2qr\quad\text{by substitution from } (1)
+\end{align}
+Well, we are trying to maximize (3), so we need to minimize $2qr$. Our constraint is that all $(p,q,r)$ must satisfy (1). We know that a product $ab=c$, with $a+b$ held constant, is maximal when $|a|-|b|$ is as small as possible. Thus we should aim to have $p^2=0$, thus $q^2+r^2=1$. We can actually get the magnitude of these two numbers exactly equal if we let $p=-q=\frac{1}{\sqrt2}$. This will satisfy (1) and make (3) have a value of
+\[
+1-2\left(\frac{1}{\sqrt2}\cdot\frac{-1}{\sqrt2}\right)=1+2\frac12=1+1=2
+\]
+However, (3) is actually an expression for $||L(\vec x)||^2$, but we are looking for $||L(\vec x)||$. Thus we have
+\[
+M=\sup_{||\vec x||=1}{||L(\vec x)||}=\sqrt2
+\]
+
+Now I claim that $M=||L||$. To prove this, we see that $M\leq||L||$ is obvious; $M$ cannot possibly be greater than $||L||$, since the set of values over which $M$ is a supremum is a proper subset of the values over which $||L||$ is a supremum. In other words, any $\vec x$ which satisfies the definition for $M$ would also satisfy the definition for $||L||$, so $||L||$ is at least as big as $M$.
+
+On the other hand, by the linear property of $L$ proved in class, we know that
+\[
+M\geq\frac{||L(\vec x)||}{||\vec x||}
+\]
+But we know that $||\vec x||\leq1$, so $\frac{||L(\vec x)||}{||\vec x||}>||L(\vec x)||$. Thus we also have $M\geq||L(\vec x)||$ for any $\vec x$, including the maximal ones, so $M\geq||L||$. Well, the only way you can have $||L||\leq M\leq ||L||$ is if $M=||L||$. Thus,
+\[
+\boxed{||L||=M=\sqrt2}
+\]
+
+\textbf{6. Suppose that $D$ is the $n\times n$ diagonal matrix,
+\[
+D=   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      d_1 & 0 & \cdots & 0 \\
+      0 & d_2 & \cdots & 0 \\
+       & & \ddots & \\
+       0 & 0 & \cdots & d_n\\
+   \end{bmatrix}
+\]
+And consider the linear map $T_D:\Rn\to\Rn$. Prove that $||T_D||=\max{\{|d_1|,|d_2|,\ldots,|d_n|\}}$
+}
+\setcounter{equation}{0}
+
+Consider a column matrix $\vec v\in\Rn$:
+\[
+\vec v =    \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      v_2 \\
+      \vdots \\
+      v_n
+   \end{bmatrix},\quad ||\vec v||=1
+\]
+(We can simplify to $||\vec v||=1$ because, by the argument show above, the supremum always happens when $||\vec v||=1$.)
+Then consider $T_D(\vec v)$:
+\[
+\begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      d_1 & 0 & \cdots & 0 \\
+      0 & d_2 & \cdots & 0 \\
+       & & \ddots & \\
+       0 & 0 & \cdots & d_n\\
+   \end{bmatrix} \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1 \\
+      v_2 \\
+      \vdots \\
+      v_n
+   \end{bmatrix}=
+   \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      v_1d_1 \\
+      v_2d_2 \\
+      \vdots \\
+      v_nd_n
+   \end{bmatrix}
+   \]
+   We are trying to maximize 
+   \begin{align}
+   \sqrt{\sum_{i=1}^n{v_i^2d_i^2}}
+   \end{align}
+   The $d_i$ are fixed, and the $v_i$ are under the restriction $\sum_{i=0}^n{v_i^2}=1$.
+   
+   In the case where there exists a $j$ such that $|v_j|=1$ and $|v_i|=0$ for $i\not=j$, we see that the column matrix for $T_D(\vec v)$ is simply
+   \[T_D(\vec v)=
+      \begin{bmatrix} % or pmatrix or bmatrix or Bmatrix or ...
+      0 \\
+      0 \\
+      \vdots \\
+      0 \\
+      \pm d_j \\
+      0 \\
+      \vdots \\
+      0
+   \end{bmatrix}\implies||T_D(\vec v)||=|d_j|
+   \] 
+   As we cycle $j$ over all the possible $i$, the supremum of this set will be simply $\max{\{|d_1|,|d_2|,\ldots,|d_n|\}}$. However, we have not yet shown that there isn't some other configuration of $v_i$'s that satisfy $\sum_{i=0}^n{v_i^2}=1$ and which give an even higher value for $(1)$.
+   
+   So we need to prove this smaller result:
+   \begin{lem}
+   If $\displaystyle\sum_{i = 1}^n{v_i^2} = 1$, then the following inequality holds:
+\[
+\sqrt {\sum_{i = 1}^n{(v_id_i)^2}}\leq\max{\{|d_1|,|d_2|,\ldots,|d_n|\}}
+\]
+   \begin{proof}
+   Let $v_i=\frac{k_i}{n}$, with $\sum{k_i^2}=n^2$. This is equivalent to \[\sum_{i=1}^n{v_i^2}=\sum_{i=1}^n{\frac{k_i^2}{n^2}=1}\]
+   Then the inequality we are trying to prove is
+   \begin{align*}
+   \sqrt{\sum_{i=1}^n{v_i^2d_i^2}}=\sqrt{\sum_{i=1}^n{\frac{k_i^2d_i^2}{n^2}}}=\sqrt{\sum_{i=1}^n{\frac{k_i^2d_i^2}{\sum_{i=1}^n{k_i^2}}}}
+   \end{align*}
+   We see that inside the square root sign, what we essentially have is a weighted average, with $k_i^2$ being the weight, and $d_i^2$ being the elements being averaged. It is obvious that if you have a set of elements whose average you want to maximize by adjusting the weights, the best you can do is to give the highest element a weight of 100\%, and a weight of 0\% to all the other elements. Thus let us choose the highest element, $d_j=\max{\{|d_1|,|d_2|,\ldots,|d_n|\}}$ and set the corresponding $k_j=1$. For all other $i\not=j$, we set $d_i=0$. Then the above reduces to
+   \[
+   \sqrt{\frac{1^2d_j^2}{1^2}}=|d_j|
+   \]
+   \end{proof}
+   \end{lem}
+   The above lemma shows that, in fact, the above configuration is in fact maximal. Thus we have proven what we wanted to prove.\newline
+   
+   \textbf{7(a) Let $L,M$ be in $L(\Rn,\mathbb R^m)$, and consider their sum $L+M\in L(\mathbb R^n,\mathbb R^m)$. Prove that $||L+M||\leq||L||+||M||$.}
+   
+   For any $\vec x\in\mathbb R^n$, we have
+   \begin{align*}
+   ||(L+M)(\vec x)||=||L(\vec x)+M(\vec x)||\leq&||L(\vec x)||+||M(\vec x)||\\
+   \leq&||L||\cdot||\vec x||+||M||\cdot||\vec x||\\
+   =&(||\vec x||)(||L||+||M||)
+   \end{align*}
+   In particular, for those $\vec x$ where $||\vec x||=1$, we have
+   \[
+   ||L(\vec x)+M(\vec x)||\leq||L||+||M||
+   \]
+   But since the above is true for all such $\vec x$, it is also true for those particular ones which maximize $||(L+M)(\vec x)||$. Thus, we can conclude
+   \[
+   ||L+M||\leq||L||+||M||
+   \]
+   
+   \textbf{7(b) Let $L$ be a linear map from $\mathbb R^n$ to $\mathbb R^m$, and let $\alpha$ be in $\mathbb R$. Prove that $||\alpha L||=|\alpha|\cdot||L||$.}
+   
+   We have
+   \begin{align*}
+   ||\alpha L||=&\sup{\left\{\frac{||\alpha L\vec{v}||}{||\vec v||}\mid\vec v\not=0\right\}}\\
+   =&\sup{\left\{\frac{||\alpha||\cdot ||L\vec{v}||}{||\vec v||}\mid\vec v\not=0\right\}}  \\
+   =&\sup{\left\{|\alpha|\frac{||L\vec{v}||}{||\vec v||}\mid\vec v\not=0\right\}} \\
+   =&|\alpha|\sup{\left\{\frac{||L\vec{v}||}{||\vec v||}\mid\vec v\not=0\right\}} = |\alpha|\cdot||L||
+   \end{align*}
+   That last step is justified because it is obvious that $|\alpha|$ is just a scalar that does not depend on $\vec v$, and is simply scaling.
+   
+   \textbf{7(c) Suppose that $L$ is a linear operator from $\Rn$ to $\mathbb R^m$, and $M$ is a linear operator from $\mathbb R^p$ to $\Rn$, and consider the composition $L\circ M$, which is also a linear operator from $\mathbb R^p$ to $\mathbb R^m$. Prove that $||L\circ M||\leq||L||\cdot||M||$.}
+   
+   Assume that there is some $\vec x\in\mathbb R^p$ with $||\vec x||=1$ such that
+   \[
+   ||L(M(\vec x))||>||L||\cdot||M||
+   \]
+   If $||M||=1$ then we have our contradiction immediately, because then $||M(\vec x)||\leq1$ as well, so we would have $||L(M(\vec x))||>||L||$. If $||M||<1$ then we would still have a contradiction, because $||L(M(\vec x))||>||L||$ would still be true (in fact, it would be even more true). If $||M||>1$, then let $\alpha=||M||$, which is a constant. By part (b) above, we have
+   \begin{align*}
+   ||L||<&\frac{1}{||M||}||L(M(\vec x))||\\
+   ||L||<&\left|\left|L\left(\frac{M(\vec x)}{||M||}\right)\right|\right|
+   \end{align*}
+   But that quantity $\frac{M(\vec x)}{||M||}$ is less than one, since $M(\vec x)\leq||M||$ and $||\vec x||=1$; thus $||L||$ is a supremum over that point, so we cannot have the inequality above. Thus we have a contradiction in all three cases, so our assumption that such a $\vec x$ existed must have been false, so it is always true that
+   \[
+   ||L\circ M||\leq||L||\cdot||M||
+   \]
+\end{document}

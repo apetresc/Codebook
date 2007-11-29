@@ -1,0 +1,265 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fullpage}
+%\usepackage{mathptm} 
+%\usepackage{times}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\renewcommand{\int}[1]{\ensuremath{\mathrm{int } (#1)}}
+\newcommand{\R}[1]{\ensuremath{\mathbb R^{#1}}}
+\renewcommand{\d}[1]{\ensuremath{\frac{\mathrm{d}}{\mathrm{d}#1}}}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+\title{Math 247 - Assignment 4}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $A$ be a subset of $\mathbb R^n$. Prove that $\int{A}$ is open.}
+
+We know that every element $\vec a\in\int A$ is an interior point of $A$ by definition. This means that for any $\vec a\in\int A$, there exists an $r_{\vec a}>0$ such that \begin{align}B(\vec a;r_{\vec a})\subseteq A\end{align} We want to show that $\int A$ is open; that is, for any element $\vec b\in\int A$, we need an $r>0$ such that $B(\vec b;r)\in A$. Well, $b$ is also an interior point, so there is an $r_{\vec b}$ that satisfies (1). So set $r=\vec r_b$ and the condition for openness is satisfied also.
+
+\textbf{2(a) Let $L$ be a linear function from $\R n$ to $\R m$. Prove the following inequality:
+\[
+||L(\vec x)||\leq ||L||_{HS}\cdot||\vec x||,\quad\forall\vec x\in\R n
+\]}
+
+If $\vec x=\vec 0$, then since $L$ is linear, we have $L(\vec x)=\vec 0$ also, so the inequality simply reduces to $\vec 0\leq\vec 0$, which is certainly true. Thus we will restrict the proof to those $\vec x\not=\vec 0$. 
+
+Let $A=[a_{i,j}]$ be the unique matrix in $\mathcal{M}_{m,n}(\R{})$ such that $L=T_A$. Denote the row vectors of $A$ with $\vec r_1,\vec r_2,\ldots,\vec r_3$, where $\vec r_i=(a_{i1},a_{i2},\ldots,a_{in})\in\R n, 1\leq i\leq n$. Thus we have
+\begin{align*}
+L(\vec v)=\begin{bmatrix}
+a_{11}, & \cdots & a_{1n} \\
+\vdots & \ddots & \vdots \\
+a_{n1}, & \cdots &a_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+v^{(1)} \\
+\vdots \\
+v^{(n)}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\vec r_1\cdot\vec v \\
+\vdots \\
+\vec r_m\cdot\vec v
+\end{bmatrix}
+\end{align*}
+So then to compute the norm of this vector $L(\vec v)$, we see that
+\begin{align*}
+||L(\vec v)||^2=&(\vec r_1\cdot \vec v)^2+(\vec r_2\cdot \vec v)^2 + \cdots + (\vec r_m\cdot \vec v)^2\\
+\leq&(||\vec r_1||^2\cdot||\vec v||^2)+\cdots + (||\vec r_m||^2\cdot||\vec v||^2)\\
+=&||\vec v||^2\cdot(||\vec r_1||^2+\cdots+||\vec r_m||^2)
+\end{align*}
+However, we now note that $||\vec r_j||=\sqrt{{r_i^{(1)}}^2+{r_i^{(2)}}^2+\cdots+{r_i^{(n)}}^2}=\sqrt{a_{i1}^2+a_{i2}^2+\cdots+a_{in}^2}$, so that
+\[
+\sum_{i=1}^m{||\vec r_i||^2}=\sum_{i=1}^m{\sum_{j=1}^n{a_{ij}^2}}=||L||_{HS}^2
+\]
+Substituting this into the inequality above, and taking the square root of both sides, we get precisely that
+\[
+||L(\vec v)||\leq||\vec v||\cdot||L||_{HS}
+\]
+
+\textbf{2(b) By using the inequality from part (a), explain why we must have $||L||\leq||L||_{HS}$.}
+
+Assume that $||L||>||L||_{HS}$ and seek a contradiction. Well, this means that there is some $\vec x$ with $||\vec x||=1$ such that $||L(\vec x)||=||L||>||L||_{HS}$. However, since $||\vec x||=1$, this contradicts the result of 2(a) above.  Thus our assumption that $||L||>||L||_{HS}$ must have been false, and we are done.
+
+\textbf{3. Let $K$ be a linear function from $\R n$ to $\R m$, and let $\gamma$ be a number in $(0,\infty)$. Suppose there exists an open set $D\subseteq\R n$ such that $D$ contains the zero vector, and such that
+\[
+||K(\vec x)||\leq \gamma\cdot||\vec x||,\quad\forall\vec x\in D
+\]
+Prove that $||K||\leq\gamma$.}
+
+Since $D$ is open, we know there is some $r$ such that $B(\vec 0;r)\subseteq D$. Let
+\[
+R=\sup{\{r\mid B(\vec 0;r)\subseteq D\}}
+\]
+If $R$ does not exist, then $D=\R n$. In that case, we know that there is a $\vec x\in D$ with $||\vec x||=1$ such that $||K(\vec x)||=||K||$. But by plugging $||\vec x||=1$ into the inequality given in the question, we immediately get that $||K||\leq\gamma$, so this statement is trivially true. In fact, for this argument to hold we simply need $R>1$. Thus for the rest of the proof we can limit ourselves to the difficult case of $R\leq1$.
+
+We define a new type of norm, the $D$-norm, as follows:
+\[
+||K||_D=\sup{\{||K(\vec v)||\mid \vec v\in D, ||\vec v||\leq R\}}
+\]
+
+We observe that $||K||_D\leq\gamma$ in those cases where $R\leq1$. This is clear, because when $R\leq 1$, then the supremum is over those $\vec v$ such that $||\vec v||\leq 1$, so the relationship given in the problem gives us $||K(\vec v)||\leq\gamma\cdot||\vec v||\leq\gamma\cdot R\leq \gamma$.
+
+What relationship does this $D$-norm have with our regularly-defined operator norm $||K||$? Well, let $\vec x=\frac{\vec v}R$. Then we see that $||K(\vec x)||=||K(\frac{\vec v}R)||=\frac{||K(\vec v)||}R$. So the norm
+\[
+||K||=\sup{\{||K(\vec x)||\mid\vec x\in \R n, ||\vec x||\leq 1\}}
+\]
+is exactly equivalent to
+\[
+||K||=\sup{\left\{\left|\left|\frac{K(\vec v)}{R}\right|\right|\mid \vec v\in \R n, ||\vec v||\leq R\right\}}=R\cdot\sup{\left\{\left|\left|K(\vec v)\right|\right|\mid \vec v\in \R n, ||\vec v||\leq R\right\}}=R\cdot||K||_D
+\]
+(We know that $\vec v\in\R n$ and $||\vec v||\leq R$ only if $\vec v\in D$, so the last step of replacing the sup with $||K||_D$ is justified).
+
+Since we are only working with $R\leq1$, we have that $||K||\leq||K||_D$. But now we are done, since we also have $||K||_D\leq\gamma$ from above. Thus $||K||\leq\gamma$.
+
+\textbf{4(a) Let $A$ be a non-empty subset of $\R n$, and let $\vec a$ be an interior point of $A$. Consider a function $f : A\to\R m$, and let $f^{(1)},f^{(2)},\ldots,f^{(m)}$ be the components of $f$.\newline
+Suppose that $f$ is differentiable at $\vec a$, and denote the derivative of $f$ at $\vec a$ by $L$. Let $L^{(1)},\ldots,L^{(m)}$ be the components of $L$ (thus $L\in\mathcal{L}(\R n,\R m)$ and $L^{(i)}\in\mathcal{L}(\R n,\R{})$ for every $1\leq i\leq m$). Prove that, for every $1\leq i\leq m$: the function $f^{(i)}$ is differentiable at $\vec a$, and the derivative of $f^{(i)}$ at $\vec a$ is equal to $L^{(i)}$.}
+\setcounter{equation}{0}
+
+We are given the differentiability of $f$, and required to prove the differentiability of each component subsequence. Luckily for us, these component subsequences fall into the one-dimensional case with which we are quite familiar. We will use a slightly different but equivalent definition of the derivative, to make calculations easier. It is the one used most by the textbook.
+
+We know that
+\begin{align}
+\lim_{\vec h\to0}{\frac{||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||}{||\vec h||}}=0
+\end{align}
+We want to show that, for all $1\leq i\leq m$, we also have
+\begin{align}
+\lim_{\vec h\to0}{\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-L^{(i)}(\vec h)|}{||\vec h||}}=0
+\end{align}
+
+(This is simply a restatement of Theorem 4.3 from the textbook, about derivatives in the one-dimensional case. It is equivalent to saying that $f^{(i)}$ is differentiable at $\vec a$, and that its derivative is $L^{(i)}$.)
+
+Well, consider the vector $\vec p=f(\vec a+\vec h)-f(\vec a)-L(\vec h)$. Then we have $p^{(i)}=f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-L^{(i)}(\vec h)$, and by Lemma 1.5, we know that $|p^{(i)}|\leq||\vec p||$. Applying this fact to the quotient from (1) and expanding the definition for $\vec p$, we see that
+\[
+0\leq|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-L^{(i)}(\vec h)|\leq||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||
+\]
+Thus we can divide all sides by $||\vec h||$ (a positive quantity), and take the limit as $\vec h\to0$ to obtain
+\[
+0\leq\lim_{\vec h\to0}{\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-L^{(i)}(\vec h)|}{||\vec h||}}\leq\lim_{\vec h\to 0}{\frac{||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||}{||\vec h||}}
+\] 
+(1) tells us that the right-hand side goes to 0, as does the constant left-hand side. Therefore, by the squeeze principle, the middle also goes to $0$, for any $1\leq i\leq m$. This, however, is exactly what we were trying to show with (2). Therefore, $f^{(i)}$ is differentiable, and its derivative is $L^{(i)}$.
+
+\textbf{4(b) Suppose that each of $f^{(1)},\ldots,f^{(m)}$ is differentiable at $\vec a$, and denote the derivative of $f^{(i)}$ at $\vec a$ by $K_i$. Consider the linear map $L\in\mathcal L(\R n,\R m)$ defined by
+\[
+L(\vec x)=\left(K_1(\vec x),\ldots,K_m(\vec x)\right),\quad\vec x\in\R n
+\]
+Prove that $f$ is differentiable at $\vec a$, and the derivative of $f$ at $\vec a$ is equal to $L$.}
+\setcounter{equation}{0}
+
+This is the converse to 4(a); we need to show that if every component $f^{(i)}$ of $f$ converges to a function $L_i$, then $f$ as a whole is differentiable, and its derivative is equal to the combination of all the individual components $L_i$.
+
+So, this time we know that
+\begin{align}
+\lim_{\vec h\to0}{\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-K_i(\vec h)|}{||\vec h||}}=0,\quad1\leq i\leq m
+\end{align}
+And we want to prove that
+\begin{align}
+\lim_{\vec h\to0}{\frac{||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||}{||\vec h||}}=0
+\end{align}
+
+Basically we just need to use the other ``version" of Lemma 1.5. We observe that (1) means that for any $\epsilon>0$ there is a $\delta_i>0$ such that
+\begin{align*}
+\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-K_i(\vec h)|}{||\vec h||}<\frac{\epsilon}{m},\quad\mbox{ whenever }||\vec h||<\delta_i
+\end{align*}
+If we take $\delta=\min{\{\delta_1,\ldots,\delta_m\}}$, then the above holds for all $1\leq i\leq m$. So we can add all of these together to obtain
+\[
+\sum_{i=1}^m{\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-K_i(\vec h)|}{||\vec h||}<\sum_{i=1}^m{\frac{\epsilon}{m}}=\epsilon},\quad\mbox{ whenever }||\vec h||<\delta
+\]
+However, we know from Lemma 1.5 that \[||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||<\sum_{i=1}^m{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-K_i(\vec h)|}\] So this tells us that
+\[
+\frac{||f(\vec a+\vec h)-f(\vec a)-L(\vec h)||}{||h||}\leq\sum_{i=1}^m{\frac{|f^{(i)}(\vec a+\vec h)-f^{(i)}(\vec a)-K_i(\vec h)|}{||\vec h||}<\epsilon},\quad\mbox{ whenever }||\vec h||<\delta
+\]
+This is precisely the statement that $f$ is differentiable at $\vec a$, and that its derivative is equal to $L$, so we are done.
+
+\textbf{5(a) Let $A=(0,1)\times(0,2\pi)\subseteq\R2$, and let $f : A\to\R2$ be defined by
+\[
+f(r,\theta)=(r\cos{\theta},r\sin{\theta}),\quad\forall(r,\theta)\in A
+\]
+Determine the Jacobian matrix of $f$ at a point $(r_0,\theta_0)\in A$.}
+
+We must take $(\partial_1{f})(r_0,\theta_0)$ and $(\partial_2 f)(r_0,\theta_0)$.
+\begin{align*}
+(\partial_1 f)(r_0,\theta_0)=&\left(\frac{\partial}{\partial r}(r\cos\theta,r\sin\theta)\right)(r_0,\theta_0)\\
+=&(\cos\theta_0,\sin\theta_0)=\begin{bmatrix}\cos\theta_0 \\ \sin\theta_0 \end{bmatrix}
+\end{align*}
+Similarly,
+\begin{align*}
+(\partial_2f)(r_0,\theta_0)=&\left(\frac{\partial}{\partial\theta}(r\cos\theta,r\sin\theta)\right)(r_0,\theta_0)\\
+=&(-r_0\sin\theta_0,r_0\cos\theta_0)=\begin{bmatrix}-r_0\sin\theta_0 \\ r_0\cos\theta_0 \end{bmatrix}
+\end{align*}
+So then the Jacobian for $f$ at $(r_0,\theta_0)$ is
+\[
+\begin{bmatrix}(\partial_1f)(r_0,\theta_0) & (\partial_2f)(r_0,\theta_0) \end{bmatrix}=
+\begin{bmatrix}
+\cos\theta_0 & -r_0\sin\theta_0 \\
+\sin\theta_0 & r_0\cos\theta_0
+\end{bmatrix}
+\]
+
+\textbf{5(b) Let $A=\{(s,t)\in\R2\mid 0<s<t<\frac\pi6\}$, and let $f:A\to\R 2$ be defined by
+\[
+f(s,t)=(\ln{(t-s)},\arctan{(2s+t)}),\quad\forall (s,t)\in A
+\]
+Determine the Jacobian matrix of $f$ at a point $(s_0,t_0)\in A$.}
+
+We must again take $(\partial_1f)(s_0,t_0)$ and $(\partial_2f)(s_0,t_0)$:
+\begin{align*}
+(\partial_1f)(s_0,t_0)=&\left(\frac{\partial}{\partial s}(\ln(t-s),\arctan{(2s+t)})\right)(s_0,t_0)\\
+=&\left(\frac{-1}{t_0-s_0},\frac{2}{1+(2s_0+t_0)^2}\right)=\begin{bmatrix}
+\frac{-1}{t_0-s_0} \\
+\frac{2}{1+(2s_0+t_0)^2}
+\end{bmatrix}
+\end{align*}
+Similarly,
+\begin{align*}
+(\partial_2f)(s_0,t_0)=&\left(\frac{\partial}{\partial t}(\ln(t-s),\arctan{(2s+t)})\right)(s_0,t_0)\\
+=&\left(\frac{1}{t_0-s_0},\frac{1}{1+(2s_0+t_0)^2}\right)=\begin{bmatrix}
+\frac{1}{t_0-s_0} \\
+\frac{1}{1+(2s_0+t_0)^2}
+\end{bmatrix}
+\end{align*}
+So the Jacobian matrix for $f$ at $(s_0,t_0)$ is
+\[
+\begin{bmatrix}(\partial_1f)(s_0,t_0) & (\partial_2f)(s_0,t_0) \end{bmatrix}=\begin{bmatrix}
+\frac{-1}{t-s} & \frac{1}{t-s} \\
+\frac{2}{1+(2s+t)^2} & \frac{1}{1+(2s+t)^2}
+\end{bmatrix}
+\]
+
+\textbf{6. Consider the function $f : \R2\to\R{}$ defined by
+\[
+f(s,t)=\sqrt{|st|},\quad\forall(s,t)\in\R2
+\]}
+
+\textbf{(a) Prove that $f\in C(\R2,\R{})$.}
+
+It is clear that when $s,t>0$ or $s,t<0$, then $f(s,t)=\sqrt{st}$ which is a composition of continuous functions, and is thus continuous. Similarly, when $s>0,t<0$ or $s<0,t>0$, we simply have $f(s,t)=\sqrt{-st}$ which is once more the composition of continuous functions, and is therefore also continuous. The only points that may pose a problem are those where $s=0$ or $t=0$. Without loss of generality, let's say $s=0$. We need to show that every convergent sequence $(0,t_k)\to(0,t)$ carries the sequence $f(0, t_k)$ to $f(0,t)$. Well, $f(0,t_k)=0$ regardless of the $t_k$, and $f(0,t)=0$ regardless of the $t$, so the constant sequence $(0,0,0,0,\ldots)$ certainly does converge to $0$. Thus $f$ is continuous.
+
+\textbf{(b) Let $\vec v=(1,2)$, and let $(a,b)$ be a vector in $\mathbb R^2$ such that $(a,b)\not=(0,0)$. Prove that the directional derivative $(\partial_{\vec v}f)(a,b)$ exists, and compute its value.}
+
+Denote the vector $(a,b)$ by $\vec a$. We want to examine the following limit:
+\[
+\lim_{t\to0\newline, t\not=0}{\frac{f(\vec a+t\vec v)-f(\vec a)}{t}}
+\]
+In this particular case, we know $\vec v=(1,2)$, so $\vec a+t\vec v=(a+t,b+2t)$. Then this limit is equivalent to
+\[
+\lim_{t\to0,t\not=0}{\frac{f(a+t,b+2t)-f(a,b)}{t}}=\lim_{t\to0,t\not=0}{\frac{\sqrt{|(a+t)(b+2t)|}-\sqrt{|ab|}}{t}}
+\]
+However, this is a one-dimensional limit, so we can use all of our Calculus 1 tools to evaluate it. Namely, we can use L'Hopital's rule on this fraction, since it is clear that as $t\to0$, we have $(a+t)\to a,(b+2t)\to b\implies\sqrt{|(a+t)(b+2t)|}\to\sqrt{|ab|}$, which means that the numerator and the denominator are both tending to $0$. So we take the derivative of numerator and denominator with respect to $t$. To make differentiating easier, we expand $(a+t)(b+2t)$ to $2t^2+(2a+b)t+ab$. The denominator simply goes to $1$, so we are left with
+\begin{align*}
+\lim_{t\to0}{\left[\d t{\sqrt{|(a+t)(b+2t)|}}\right]}=&\lim_{t\to0}{\left[\frac{\d t{|(a+t)(b+2t)|}}{2\sqrt{|(a+t)(b+2t)|}}\right]}\\
+=&\lim_{t\to0}{\frac{\sgn{((a+t)(b+2t))}\cdot\d t{(t^2+(2a+b)t+ab)}}{2\sqrt{|(a+t)(b+2t)|}}}\\
+=&\lim_{t\to0}{\frac{\sgn{((a+t)(b+2t))}\cdot(4t+2a+b)}{2\sqrt{|(a+t)(b+2t)|}}}\\
+(\partial_{\vec v}f)(a,b)=&\frac{\sgn{(ab)}\cdot(2a+b)}{2\sqrt{|ab|}}\tag{1}
+\end{align*}
+Oddly, this directional derivative does not exist at any point $(s,0),(t,0)$, not just $(0,0)$. Maple agrees with me (it is unable to compute the directional derivative towards $(1,2)$ when either $s$ or $t$ are 0), and a picture of the graph seems to suggest that $f$ is not differentiable along these edges either.
+
+Nevertheless, for $(a,b)$ where $a\not=0,b\not=0$, the equation (1) gives us an expression for the directional derivative.
+
+\textbf{(c) For $\vec v=(1,2)$, does the directional derivative of $(\partial_{\vec v}f)(0,0)$ exist? If so, compute this directional derivative. If not, explain why it does not exist.}
+
+We already have from part (b) an expression for the directional derivative. However, we notice that if $a=b=0$, the denominator becomes $0$, which leads to an undefined value. A graph of the the function is given below.
+
+\begin{figure}[htbp]
+   \centering
+   \resizebox{3in}{!}{\includegraphics{cusp.eps}} % requires the graphicx package
+   \caption{A graph of $f(a,b)$}
+   \label{fig:example}
+\end{figure}
+
+As you can see, similarly to the $2$-dimensional phenomenon, the axes form a ``cusp" for the graph where the derivative changes sign without ever having been $0$. In particular, at the origin we have the derivative tending to something different as it is approached from any of the four sides. This gives a sort of intuitive picture of why this derivative cannot exist. 
+\end{document} 
