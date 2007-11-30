@@ -1,0 +1,251 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+%opening
+\title{MATH 147: Assignment 9}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. a) Use the circle diagram that describes $y=\arctan{x}$ to explain briefly why this is an odd function. Then explain why $f(x)=x\arctan{x}$ is an even function.}
+
+As shown in Diagram 1 at the bottom of the page, $arctan{x}$ is the arc length of the circle which produces a $tan$ value of $x$. (That is simply, $\tan{\arctan{x}}$.) Since the unit circle is symmetrical along the $x$-axis, taking the angle (analogous to the arc length) negative, or below the $x$-axis, produces a value exactly the same as a positive angle, only below the axis instead of above it. Thus $\arctan{x}$ is an even function, since $\arctan{(-x)}=-\arctan{x}$. $y=x$ is also an odd function (it is of degree $1$); when you multiply two odd functions, you always get an even function. Thus $f(x)=x\arctan{x}$ is an even function.
+
+\textbf{1. b) Prove that $\arctan{\left(\frac1x\right)}\leq\frac1x$ for all $x>0$.}
+
+We will use the lifting method to prove first of all that $\arctan{t}\leq t$ for all $t>0$. Firstly, $\arctan{0}=0$, so the inequality holds for $t=0$; now we take derivative of both sides, and we want to show that \[\frac{1}{1+x^2}\leq1\] This is pretty already; the numerator is 1, and for all $x$, the denominator is at least $1$ or larger, so the numerator is less than or equal to the denominator, so the fraction overall is less than or equal to $1$. Since this inequality is true, the previous one holds as well. So $\arctan{t}\leq t$; if we simply substitute $t=\frac1x$, it follows that $\arctan{\frac1x}\leq\frac1x$.
+
+\textbf{1. c) Prove that $\frac\pi2-\arctan{x}=\arctan{\frac1x}$.}
+
+The function $\tan{x}$ is one-to-one over the interval $\left(\frac\pi2,-\frac\pi2\right)$, which happens to be the image of $arctan{x}$; in other words, it is true that $\tan{(\arctan{x})}$. So we can take the $\tan$ function of both sides of the equation we're trying to show, and if it can be proven true, then the original equality will hold also. In other words, we're now trying to show:
+\begin{align*}
+\tan{\left(\frac\pi2-\arctan{x}\right)}=&\tan{\left(\arctan{\frac1x}\right)}\\
+\tan{\left(\frac\pi2-\arctan{x}\right)}=&\frac1x
+\end{align*} 
+To simplify the left-hand side, we'll use the trigonometric addition identity $\tan{(x-y)}=\frac{\tan{x}-\tan{y}}{1+\tan{x}\tan{y}}$ and the fact that $\tan{(\arctan{x})}=x$ to show: \[\tan{\left(\frac\pi2-\arctan{x}\right)}=\frac{\tan{\frac\pi2}-x}{1+x\tan{\frac\pi2}}\] Now, $\tan{\frac\pi2}$ is not defined, but if we write $\tan{x}$ as $\frac{\sin{x}}{\cos{x}}$, we can get:
+\begin{align*}
+\frac{\frac{\sin{\frac\pi2}}{\cos{\frac\pi2}}-x}{1+\frac{x\sin{\frac\pi2}}{\cos{\frac\pi2}}}=&\frac{\frac{\sin{\frac\pi2}}{\cos{\frac\pi2}}-\frac{x\cos{\frac\pi2}}{\cos{\frac\pi2}}}{\frac{\cos{\frac\pi2}}{\cos{\frac\pi2}}+\frac{x\sin{\frac\pi2}}{\cos{\frac\pi2}}}\\\\
+=&\frac{\left(\frac{\sin{\frac\pi2}-x\cos{\frac\pi2}}{\cos{\frac\pi2}}\right)}{\left(\frac{\cos{\frac\pi2}+x\sin{\frac\pi2}}{\cos{\frac\pi2}}\right)}\\\\
+=&\frac{\sin{\frac\pi2}-x\cos{\frac\pi2}}{\cos{\frac\pi2}+x\sin{\frac\pi2}}\\\\
+=&\frac1x
+\end{align*}
+
+So by the earlier argument, since this equation is true and over the interval of $\left(\frac\pi2,-\frac\pi2\right)$ it holds that $\tan{x}=\tan{y}\implies x=y$, so is the original one we were trying to prove.
+
+\textbf{1. d) Use parts (b) and (c) to prove that $\frac\pi2x-1\leq x\arctan{x}\leq\frac\pi2x$ for all $x>0$.}
+
+We will use the lifting method; the inequality is true for $x=0$ ($-1\leq0\leq0$). To prove it true for all $x>0$, we can take the derivative of all sides and prove the resulting inequality true; taking the derivative yields \[\frac\pi2\leq \arctan{x}+\frac{x}{1+x^2}\leq\frac\pi2\] which is the same as the inequality
+\begin{align*}
+\frac\pi2\leq\arctan{x}+\frac{x}{1+x^2}\leq\frac\pi2\\
+\frac\pi2-\arctan{x}\leq\frac{x}{1+x^2}\leq\frac\pi2-\arctan{x}\\
+\arctan{\frac1x}\leq\frac{x}{1+x^2}\leq\arctan{\frac1x}&&\text{by part (c)}
+\end{align*}
+But we know by part (b) that $\arctan{\frac1x}\leq\frac1x$, and it's certainly true that $\frac{x}{1+x^2}\leq\frac1x$; so this inequality holds true, and therefore the one we lifted is also true.
+
+\textbf{1. e) Find $\lim_{x\to\infty}{\left(\frac\pi2x-x\arctan{x}\right)}$.}
+
+The first thing we to, to ease notation a bit, is take out a factor of $\frac{x}2$ and use the constant multiple rule; so now we have \[\frac12\lim_{x\to\infty}{x(\pi-2\arctan{x})}\] This can alternatively be written as \[\frac12\lim_{x\to\infty}{\frac{x}{\left(\frac{1}{\pi-2\arctan{x}}\right)}}\] We see now that this limit satisfies the conditions for applying L'Hopital's rule; the numerator tends to $\infty$ and the denominator tends to $0$ (since $\lim_{x\to\infty}{\arctan{x}}=\frac\pi2$). So we can safely take the derivative of the limit to obtain
+\[\frac12\lim_{x\to\infty}{\left(\pi-2\arctan{x}-\frac{2x}{1+x^2}\right)}\] Now it is very easy to break that limit into pieces and see that, as $x\to\infty$, $\pi\to\pi$, $2\arctan{x}\to\pi$, and $2\frac{x}{1+x^2}\to2$. So the limit overall goes to $2$, and the factor of $\frac12$ out front means that \[\boxed{\lim_{x\to\infty}{\left(\frac\pi2x-x\arctan{x}\right)}=1}\]
+
+\textbf{1. f) If $f(x)=x\arctan{x}$, calculate $f'(x)$ and $f''(x)$, and use this information to establish the intervals where $f$ increases or decreases, and also the intervals where $f$ is concave up or concave down.}
+
+Taking $f'$ and $f''$ is a straightforward application of the product rule;
+\[f'(x)=\arctan{x}+\frac{x}{1+x^2}\]
+\[f''(x)=\frac{1}{1+x^2}+\frac{1}{1+x^2}-\frac{2x^2}{(1+x^2)^2}=\frac{2}{1+x^2}-\frac{2x^2}{(1+x^2)^2}\]
+First we will find critical points by solving the equation $f'(x)=0$:
+\begin{align*}
+\arctan{x}+\frac{x}{1+x^2}=&0\\
+\arctan{x}=&-\frac{x}{1+x^2}\\
+x=&\tan{\left(-\frac{x}{1+x^2}\right)}
+\end{align*}
+The only intersection between the line $y=x$ and $\tan{x}$ over the interval of $\arctan$'s range ($\left(\frac\pi2,-\frac\pi2\right)$) is $x=0$; so this is the only solution to $f'(x)=0$, implying that $f$ only has one critical point. If we examine the sign of $f''(0)=+2$, we see that $(0,f(0))$ is a local minimum and the graph is concave-up. To see if $f$ has any concave-down intervals as well, we check to see if any solutions exist to the equation $f''(x)=0$:
+\begin{align*}
+\frac{2}{1+x^2}-\frac{2x^2}{(1+x^2)^2}=&0\\
+\frac{1}{1+x^2}-\frac{x^2}{(1+x^2)^2}=&0\\
+1-\frac{x^2}{1+x^2}=&0\\
+\frac{x^2}{1+x^2}=&1
+\end{align*}
+This equation clearly has no solutions, since $x^2$ is always less than $x^2+1$. So the entire function is concave-up, with a vertex at $(0,0)$. The last thing to check is if it has any asymptotes; well, we note that 
+\begin{align*}
+&\lim_{x\to\infty}{\frac{x\arctan{x}}{\frac\pi2x}}\\
+&=\lim_{x\to\infty}{\frac{2\arctan{x}}{\pi}}=1
+\end{align*}
+So this implies that $f$ is asymptotic to $g(x)=\frac\pi2x$.
+
+\textbf{1. g) Use all of the above information to make an accurate sketch of $f(x)=x\arctan{x}$. Your sketch should reveal any asymptotes that the function possesses.}
+
+The sketch is given on the attached graph paper.
+
+\textbf{2. We know that the function $f(x)=\frac{\sin{x}}{x}$ when $x\not=0$ and $f(0)=1$ is continuous at $0$. Now prove that $f$ is differentiable at $0$ and find $f'(0)$.}
+
+In order for $f$ to be differentiable at $0$, the limit \[\lim_{t\to x}{\frac{f(t)-f(x)}{t-x}}\] must exist at $x=0$. So,
+\begin{align*}
+&\lim_{t\to0}{\frac{f(t)-1}{t-0}}\\
+&=\lim_{t\to0}{\frac{\frac{\sin{t}}{t}-\frac{t}{t}}{t}}\\
+&=\lim_{t\to0}{\frac{\sin{t}-t}{t^2}}\\
+\end{align*}
+Both the numerator and the denominator tend to $0$ as $t\to0$, so we can use L'Hopital's rule:
+\begin{align*}
+\lim_{t\to0}{\frac{\cos{t}-1}{2t}}
+\end{align*}
+Yet again, both the numerator and the denominator tend to $0$ as $t\to0$, so we can take the derivative again:
+\[\lim_{t\to0}{\frac{-\sin{t}}{2}}=0\] This time, we can evaluate the limit. It exists, and is equal to $0$. So $f'(0)$ exists, and $f'(0)=0$.
+
+\textbf{3. By carefully lifting the inequality $\cos{x}\leq1$ for $x\geq0$ a few times, show that $\frac{x-x^3}{6}\approx\sin{x}$ with error at most $\frac{x^5}{120}$}
+
+We want to show that \[x-\frac{x^3}{6}\leq\sin{x}\pm\frac{x^5}{120}\] for $x\geq0$. It is clearly true for $x=0$. We will prove this by taking the derivative of both sides until we arrive at something obvious. At each step of the way we ensure it is true for $x=0$. 
+\begin{align*}
+1-\frac{x^2}{2}\leq&\cos{x}\pm\frac{x^4}{24}\\
+-x\leq&-\sin{x}\pm\frac{x^3}{6}\\
+-1\leq&-\cos{x}\pm\frac{x^2}{2}\\
+0\leq&\sin{x}\pm x\\
+0\leq&\cos{x}\pm 1\\
+\cos{x}-1\leq0\leq\\cos(x)+1
+\end{align*}
+And this is certainly true; it follows from the given inequality. Therefore all the intermediate steps are true, and so is what we were trying to prove.
+
+\textbf{4. Let $f(x)=\ln(1+x)+e^{-x}$ over the open interval $I=(-1,\infty)$.}
+
+\textbf{a) Show that $f$ increases on $I$.}
+
+If $f$ is increasing on $I$, then $f'(x)>0\forall x\in I$. First we evaluate $f'(x)$: \[f'(x)=\frac{1}{1+x}-e^{-x}\] Then we set it:
+\begin{align*}
+\frac{1}{1+x}-e^{-x}\geq&0\\
+\frac{1}{1+x}\geq& e^{-x}
+\end{align*}
+This is true for $x=0$; we lift the inequality to get
+\begin{align*}
+\frac{1}{(1+x)^2}\geq-e^{-x}
+\end{align*}
+Well, $e^{x}$ is always positive, so $-e^{-x}$ is always negative. But $\frac{1}{(1+x)^2}$ is also always positive, so this inequality will always be true for $x\in I$, so it proves that $f'(x)>0$, and so $f$ must be increasing.
+
+\textbf{4. b) What is the image of $I$ under the function $f$?}
+
+As $x\to\infty$, $\ln(1+x)$ grows without bounds, and $e^{-x}\to0$. But $e^x$ is always positive and it is just being added, so it does not interfere with $\ln(1+x)$'s growth, so the overall limit is \[\lim_{x\to\infty}{\ln{(1+x)}+e^{-x}}=\infty\] Additionally, as $x\to-1$, $\ln(x+1)\to-\infty$ while $e^-x\to e$. $e$ is just a constant, so it does not interfere with with $\ln(x+1)$'s growth, so the overall limit is \[\lim_{x\to-1}{\ln{(1+x)}+e^{-x}}=-\infty\] Lastly, the function is continuous so it also takes on every value in between (by the Intermediate Value Theorem). Thus we can conclude that the image of $I$ under the function $f$ is $(-\infty,\infty)$.
+
+\textbf{4. c) If $g$ is the inverse function of $f$, find $g'(1)$.}
+
+By the definition of the inverse function, $g(f(x))=x$. If we take the derivative of both sides and use the chain rule, we get \[g'(f(x))f'(x)=x'\] We want to choose $x$ in such a way that $f(x)=1$. Well, simply by inspection we see that $f(0)=1$, so we choose $x=0$ to get \[g'(1)f'(1)=0\] $f'(1)$ is simply $\frac12-\frac1e$, a non-zero value, so we conclude that $\boxed{g'(1)=0}$.
+
+\textbf{4. d) Do you think $f$ has any inflection points? Explain briefly.}
+
+We begin by calculating the second derivative $f''$:
+\begin{align*}
+f''(x)=\frac{-1}{(1+x)^2}+e^{-x}\\
+\end{align*}
+
+If $f$ does have a point of inflection, then $f''(x)=0$ has a solution. But we easily see by inspection that $f''(x)=0$ indeed. Additionally, if we go to the right a bit ($f''(0.001)$) we get a positive value, whereas going to the left ($f''(-0.001)$) yields a negative value. So $f$ has at least one point of inflection at $x=0$.
+
+\textbf{5. Let $f(x)=x^x=e^{x\ln{x}}$ for $x>0$.}
+
+\textbf{a) Find $\lim_{x\to0^+}{f(x)}$.}
+
+\begin{align*}
+&\lim_{x\to0}{e^{x\ln{x}}}\\
+&=e^{\lim_{x\to0}{x\ln{x}}}\\
+&=e^{\lim_{x\to0}{\frac{\ln{x}}{x^{-1}}}}\\
+\end{align*}
+
+In the limit in the exponent, the numerator is tending to $-\infty$ and the denominator is tending to $\infty$, so we can use L'Hopital's rule. Taking the derivative, we get
+\begin{align*}
+e^{\lim_{x\to0}{\frac{\frac1x}{\frac{-1}{x^2}}}}=e^{\lim_{x\to0}{-x}}=e^0=1\\
+\end{align*}
+So the limit as $x\to0^+$ is $1$.
+
+\textbf{5. b) Calculuate $f'(x)$ and find the intervals where $f$ increases/decreases. Does $f$ have any local maxima or minima?}
+
+By a simple application of the chain and product rules,
+\begin{align*}
+f'(x)=(\ln{(x)}+1)e^{x\ln{x}}\\
+\end{align*}
+
+$f'(x)$ only has a solution when $e^{x\ln{x}}=0$ or $\ln((x)+1)=0$ has a solution. The former will never have a solution, and the latter has a solution only at $\ln(x)=-1\implies x=e^{-1}\implies x\frac1e$. Since $f$ is continuous and has only one critical point, we can just take some sample points before and after $x=\frac1e$ to test whether it is a maximum, a minimum, or a point of inflection. (We prove in question 8 why this is a valid approach). Well, we already know from part a) that $f\to1$ as $x\to0^+$, and it is easy to see that $f(1)=1$ also. Since $f\left(\frac1e\right)=\sqrt[e]{\frac1e}$ is clearly less than $1$, the point $\left(\frac1e,f(\frac1e)\right)$ is a local minima (also a global minima, incidentally). Thus on the interval $\left(0,\frac1e\right)$, $f$ is decreasing, and on the interval $\left(\frac1e,\infty\right)$, $f$ is increasing.
+
+\textbf{5. c) Find $f''(x)$ and decide on the concavity of $f$.}
+
+We evaluate
+\begin{align*}
+f''(x)=&\left(\frac1x\right)\left(e^{x\ln{x}}\right)+\left(\ln{(x)}+1\right)\left((\ln{(x)}+1)e^{x\ln{X}}\right)\\
+=&\frac{e^{x\ln{x}}}{x}+(\ln{(x)}+1)^2e^{x\ln{x}}\\
+=&\frac{x^x}{x}+(\ln{(x)}+1)^2x^x\\
+\end{align*}
+
+We notice that $(\ln{(x)}+1)^2$ must always be positive (because it's a square), and as we saw in part b), $x^x$ is always positive as well (for $x>0$ which is the domain we're concerned with). So we're adding together a bunch of positive things, thus $f''(x)>0$ for all $x>0$; this implies that $f$ is concave-up (a valley).
+
+\textbf{5. d) Sketch the graph of $f$}
+
+See the attached graph paper for the sketch of $f$.
+
+\textbf{6. a) Prove that $x-\frac{x^2}{2}\leq\ln(1+x)\leq x$ for all $x\geq0$}
+
+We can do this by the lifting method. At each step we verify that the inequality is true for $x=0$.
+
+\begin{align*}
+x-\frac{x^2}{2}\leq\ln(1+x)\leq x\\
+1-x\leq\frac{1}{1+x}\leq1\\
+-1\leq\frac{-1}{(1+x)^2}\leq0\\
+0\leq\frac{1}{(1+x)^2}\leq1\\
+\end{align*} 
+This is obviously true; the middle part is clearly always positive, so it satisfied the left inequality, and the numerator is always less than or equal to the denominator, so the right inequality is also satisfied. Therefore all the inequalities above it hold, and so we have proven what we wanted.
+
+\textbf{6. b) Use the above estimes, or L'Hopital's rule, to compute the $\displaystyle\lim_{x\to0^+}{\frac{\ln{(1+2\sin{(x)})}}{x}}$.}
+
+We see that, as $x\to0^+$, $\ln{1+2\sin{(x)}}\to\ln{1}\to0$, and $x\to0$, so we can use L'Hopital's rule. The derivative of $x$ is just $1$. The derivative of the numerator is:
+\begin{align*}
+\frac{2\cos{x}}{1+2\sin{x}}
+\end{align*}
+And the limit of that as $x\to0$ is easy. $2\cos{x}\to2$ and $1+2\sin{x}\to1$, so \[\lim_{x\to0^+}{\frac{\ln{(1+2\sin{(x)})}}{x}}=2\]
+
+\textbf{7. Take the function $f(x)=x\ln{\left(1+\frac1x\right)}$. Decide the following: its domain, its sign, its asymptotes, its increasing/decreasing behaviour, its concavity behaviour. Then sketch the graph of $f$.}
+
+The domain of $f$ is limited by the domain of $\ln$. Specifically, we must have $1+\frac1x>0\implies\frac{x+1}{x}>0\implies x>0$ or $x<-1$. So our domain is $x\in\R,x>0$ or $x<-1$. We proceed by taking the first two derivatives of $f$:
+\begin{align*}
+f'(x)&=\ln{\left(1+\frac1x\right)}+\left(\frac{x}{1+\frac1x}\right)\left(\frac{-1}{x^2}\right)\\
+&=\ln{\left(1+\frac1x\right)}-\frac{1}{x+1}\\
+f''(x)=&\left(\frac{1}{1+\frac1x}\right)\left(\frac{-1}{x^2}\right)-\frac{1}{(x+1)^2}\\
+=&\frac{-1}{x^2+x}+\frac{1}{(x+1)^2}\\
+=&\frac{-\left(1+\frac1x\right)}{x^2\left(1+\frac1x\right)^2}+\frac{1}{x^2\left(1+\frac1x\right)^2}\\
+=&\frac{-1}{x^3\left(1+\frac1x\right)^2}\\
+\end{align*}
+
+To find its increasing intervals, we solve $f'(x)>0$. For ease of notation, let us define $u=1+\frac1x=\frac{x+1}{x}\implies x+1=ux$. So the equation is
+\begin{align*}
+\ln{u}>&\frac1{xu}\\
+u\ln{u}>&\frac1x\\
+u^u>&e^\frac1x
+\end{align*}
+But $\frac1x=u-1$, so \[u^u>e^{u-1}\] By inspection, we see that the solution to this equation is $u>1$. So we substitute that back in and we get
+\begin{align*}
+1+\frac1x>&1\\
+\frac1x>0
+\end{align*}
+This is always true for $x>0$. So $f$ is always one big increasing function to the right of the $x-axis$. We also want to see whether $f$ is concave-up or concave-down; since $f$ has no critical points past $x=0$, it will be one or the other consistently over the interval $(0,\infty)$, so we can just choose any random value in $\R^+$ for $f''(x)$ and see the sign:
+\[f''(1)=\frac{-1}{4}\] which implies that the graph is concave-down to the right of the $y-$axis. Similarly, if we take a look at \[f''(-2)=\frac12\] This implies that the graph is concave-up to the left of $x=-1$. Lastly, we see that
+\[\lim_{x\to-1^-}{f}=\infty\] which implies that $f$ has a vertical asymptote at $x=-1$. Also \[\lim_{x\to\infty}{f}=1\] so $f$ has a horizontal asymptote at $y=1$, and \[\lim_{x\to-\infty}{f}=1\] on the left side as well. We now have enough information to sketch $f$; see the attached graph paper.
+
+\textbf{7. b) On the basis of your sketch for $f$, make a quick sketch of $g(x)=\left(1+\frac1x\right)^x$.}
+
+We note that if we go back to our earlier convention of $u=1+\frac1x$, then $f(x)=x\ln{u}$ and $g(x)=u^x=e^{x\ln{u}}=e^{f(x)}$. So $g$ is a composite function of $e^x$ and $f(x)$. The graph is given on the attached graph paper.
+
+\textbf{8. Suppose that $f$ is differentiable on an interval and that $a,b$ are in the interior of the interval, and that $f'(a)<0<f'(b)$.}
+
+\textbf{a) Explain why $f(x)<f(a)$ for all $x$ just to the right of $a$, while $f(x)<f(b)$ for all $x$ just to the left of $b$.}
+
+We know $f'(a)<0$ which means that \[\lim_{t\to a}{\frac{f(t)-f(a)}{t-a}}<0\] We also know that $t>a$ (since it is to the right of $a$, so $t-a$ in the denominator is positive, which means in order for the whole thing to be negative, the numerator must be negative, which implies $f(a)>f(t)$. It is just the opposite for $b$;  \[\lim_{t\to b}{\frac{f(t)-f(b)}{t-b}}>0\] and $t<b$ because it is to the left of $b$, so the denominator is negative, which means for the whole thing to be positive, the numerator must also be negative, that is $f(b)>f(t)$, which is what we were trying to prove.
+
+\textbf{b) Explain why the minimum of $f$ over the closed interval $[a,b]$ does not occur at the endpoints $a,b$.}
+
+We just finished showing in part (a) that $f(x)<f(a)$ for $x>a$ and $f(x)<f(b)$ for $x<b$; both of these $x$'s fit in the interval $[a,b]$, and they're both less than the values at the endpoints, so it would be a contradiction for those to be the minimum; there's a smaller one right next to them!
+
+\textbf{c) Explain why there is some point $q$ between $a$ and $b$ where $f'(q)=0$.}
+
+Consider the function $g(x)=f'(x)$. We know from the problem description that $g(a)<0$ and $g(b)>0$; it is pure Intermediate Value Theorem to conclude that, somewhere in the interval $[a,b]$, there is some $q$ such that $g(q)=0\implies f'(q)=0$, which is what we were trying to show.
+
+\textbf{d) Now suppose that $f'(a)<f'(b)$ and that $k$ is a number such that $f'(a)<k<f'(b)$. Prove that $k=f'(q)$ for some number $q$ between $a$ and $b$.}
+
+Let us redefine our old $g$ from part (c) to be $g(x)=f(x)-kx$. We take the derivative to get $g'(x)=f'(x)-k$. So now we can directly apply part (c); there is some point $q$ between $a$ and $b$ so that $g'(q)=0\implies f'(q)-k=0\implies f'(q)=k$, which is what we were trying to prove.
+\end{document}

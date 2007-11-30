@@ -1,0 +1,145 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+%opening
+\title{MATH 147: Assignment 8}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. A function $f$ is continuous on the interval $[3,5]$ and its derivative on $(3,5)$ is $f'(x)=\frac{1}{1+x^3}$. If $f(3)=2$, prove that $\frac{127}{63}\leq f(5)\leq\frac{29}{14}$.}
+
+Since $f$ is continuous on $[3,5]$ and differentiable on $(3,5)$, then by the mean value theorem, it follows that there exists a value $p\in(3,5)$ such that
+%\begin{align*}
+% &\dfrac{f(5)-f(3)}{5-3}=&&\f'(p)\\
+%\end{align*}
+
+\begin{align*}
+\frac{f(5)-f(3)}{5-3}&=f'(p)\\
+\frac{f(5)-2}{2}&=\frac{1}{1+p^3}\\
+f(5)=\frac{2}{1+p^3}+2&=2\left(\frac{2+p^3}{1+p^3}\right)
+\end{align*}
+Now, it is obvious that $f'(x)$ is decreasing over the interval $[3,5]$; so its maximum value is $f'(3)$ and its minimum value is $f'(5)$. We can say
+\begin{align*}
+f'(5)\leq2\left(\frac{2+p^3}{1+p^3}\right)\leq f'(3)\\
+f'(5)\leq f(5)\leq f'(3)\\
+2\left(\frac{2+5^3}{1+5^3}\right)\leq f(5)\leq2\left(\frac{2+3^3}{1+3^3}\right)\\
+\boxed{\frac{127}{63}\leq f(5)\leq\frac{29}{14}}
+\end{align*}
+
+\textbf{2. A function $f$ is a contraction on $\mathbb{R}$ provided there is some number $\lambda$, where $0<\lambda<1$ such that $|f(x)-f(y)|\leq\lambda|x-y|$ for every $x,y$ in $\mathbb{R}$.}
+
+\textbf{a) Prove that every contraction on $\mathbb{R}$ is continuous on $\mathbb{R}$}
+
+In order for $f$ to be continuous on $\mathbb{R}$, then for every $a\in\mathbb{R}$ it must hold that \[\lim_{x\to a}{f(x)}=f(a)\] That is, for every $\epsilon>0$ there exists a $\delta>0$ such that for all $x$, \[|f(x)-f(a)|<\epsilon \textrm{   whenever  }0<|x-a|<\delta\]
+Since $f$ is a contraction, we know there is a $\lambda$ such that $|f(x)-f(a)|<\lambda|x-a|<\delta$. So if we choose $\delta=\frac{\epsilon}{\lambda}$, it follows that \[|x-a|<\frac{\epsilon}{\lambda}\implies\lambda|x-a|<\epsilon\implies|f(x)-f(a)|<\epsilon\]
+So the limit as $x\to a$ exists, and is equal to $f(a)$. Therefore $f(x)$ is continuous over $\mathbb{R}$.
+
+\textbf{b) If $f$ is a function on $\mathbb{R}$ and $\textrm{lub}\{|f'(x)|:x\in\mathbb{R}\}<1$, show that $f$ is a contraction on $\mathbb{R}$.}
+
+Consider some interval $[a,b]$ with $a,b\in\mathbb{R}$. $f$ is continuous on $[a,b]$, and differentiable on $(a,b)$ by assumption. So by the mean value theorem, it holds that \[\frac{f(a)-f(b)}{a-b}=f'(p)\textrm{    for some }p\in[a,b]\] We can take absolute value of both sides, so \[\left|\frac{f(a)-f(b)}{a-b}\right|=\frac{|f(a)-f(b)|}{|a-b|}=|f'(p)|\] So it follows that \[|f(a)-f(b)|=|f'(p)||a-b|\] Now just take $\lambda$ such that $|f'(p)|<\lambda<1$ and since $|f'(p)|<1$ it will follow that \[\boxed{|f(a)-f(b)|<\lambda|a-b|}\] so $f$ is a contraction over the interval $[a,b]$. But since, by assumption, $f'(p)<1$ over all of $\mathbb{R}$, we can make this interval arbitrarily large, so $f$ is a contraction over all $\mathbb{R}$.
+
+\textbf{c) Show that $f(x)=\frac{x}{3}+\frac12\arctan{x}$ is a contraction on $\R$}
+
+We evaluate $f'(x)$: \[f'(x)=\frac13+\frac{1}{2+2x^2}\] If we can show that $f'(x)$ has a least upper bound that is less than $1$ for all $x\in\R$, then by part b), it will follow that $f$ is a contraction. So let us take $f''(x):$ \[f''(x)=0+\frac{-4x}{(2+2x^2)^2}=\frac{-x}{(1+x^2)^2}\] $f''(x)=0$ only when $x=0$, so the maximum value of $f'(x)$ is $f'(0)=\frac13+\frac12<1$. Thus the lub$\{f'(x):x\in\R\}=\frac56$, so we can take $\lambda>f'(x)$ and therefore $f$ must be a contraction over $\R$.
+
+\textbf{d) If a function $f$ satisfies the property that $|f'(x)|<1$ for all $x$ in $\R$, must $f$ be a contraction?}
+
+No, it does not neccesarily hold that $f$ is a contraction; it is very possible for $|f'(x)|<1$ but lub$\{f'(x):x\in\R\}=1$, which violates the condition of part b). For example, consider the function $f(x)=-\sqrt{1-x^2}$, analogous to the bottom part of a hyperbola. $f'(x)=\frac{-x}{\sqrt{x^2-1}}$. Because of the $-1$ in the denominator, it is clear that $|f'(x)|<1$ for all $x\in\R$, but it is also true that \[\lim_{x\to\infty}{\left|\frac{-x}{\sqrt{x^2-1}}\right|}=\textrm{lub}\{|f'(x)|:x\in\R\}=1\] Visually, the function asymptotically approaches the line $y=\pm x$ (depending on the side). This function is not a contraction, because no matter what $\lambda<1$ we choose, by the definition of the limit, there is an $|f'(x)-1|<\epsilon<|\lambda-1|$. (In other words, $f'(x)$ can always be closer to $1$ than $\lambda$ is).
+
+\textbf{3. Prove that if $f$ is continuous at $p$ and $f'(x)$ exists for $x\not=p$ and $f'(x)\to L$ as $x\to p$, then $f'(p)$ does exist, and equals $L$.}
+
+Consider the interval $(x,p)$. $f(x)$ is continuous and differentiable over this interval, except perhaps at $p$, by assumption. So by the mean value theorem, there is some $q\in(x,p)$ such that \[\frac{f(x)-f(p)}{x-p}=f'(q)\] But now if we take the limit as $x\to p$ of both sides, we get \[\lim_{x\to p}{\frac{f(x)-f(p)}{x-p}}=\lim_{x\to p}{f'(q)}\] By assumption, the right-hand side tends to $L$ (since $q\in(x,p)$). The left-hand side is the definition of the derivative of $f$ at $p$, therefore this derivative exists, and is equal to $L$.
+
+\textbf{4. Let $f(x)=\arctan{(x)}$ defined on all of $\R$. Here you are asked to solve the $\epsilon-\delta$ continuity problem for $f$. Given $p$ in $\R$ and $\epsilon>0$, find $\delta>0$ so that $|f(x)-f(p)|<\epsilon$ when $|x-p|<\delta$.}
+
+Let us consider the interval $(x,p)$, for some fixed $x$. We know $\arctan{(x)}$ is continuous and differentiable everywhere, so by the mean value theorem, there is some $q\in(x,p)$ such that \[\frac{f(x)-f(p)}{x-p}=f'(q)\] We take the absolute value of both sides and rearrange the equation to arrive at \[|f(x)-f(p)|=|x-p||f'(q)|\] So we can write $|f(x)-f(p)|<\epsilon$ as $|x-p||f'(q)|<\epsilon$. So we're looking for a $\delta>0$ so that $|x-p||f'(q)|<\epsilon$ whenever $|x-p|<\delta$. Obviously if we choose $\delta=\frac\epsilon{|f'(q)|}$, then $\epsilon$ is satisfied. All that's left is to see that $\arctan'{(q)}=\frac1{1+q^2}$, so $\boxed{\delta=\epsilon(1+q^2)}$.
+
+\textbf{5. Let $f(x)=\arcsin{(x)}$. If $p\in[-\frac12,\frac12]$ and $\epsilon>0$ is given, find a $\delta>0$ so that $f(x)-f(p)<\epsilon$ when $|x-p|<\delta$.}
+
+Using an identical argument as above, except using $f(x)=\arcsin{(x)}$ instead of $\arctan{(x)}$, we arrive at the fact that $\delta=\frac\epsilon{f'(q)}$, where $q\in\left(-\frac{1}2,\frac12\right)$ such that \[f'(q)=\frac{\arcsin{(-\frac{1}{2})}-\arcsin{(\frac12)}}{-\frac{1}{2}-\frac12}\]
+This time around, however, we can actually evaluate $f'(q)$:
+\[f'(q)=\frac{-\frac\pi6-\frac\pi6}{-\frac12-\frac12)}=\frac\pi3\] So then $\boxed{\delta=\frac{3\epsilon}{\pi}}$.
+
+
+
+\textbf{6. A function $f$ on $\mathbb{R}$ satisfies the differential equation $f'(x)=f(x)$ for all $x$ in $\mathbb{R}$. Show that $f(x)$ must be $Ce^x$ for some constant $C$.}
+
+Let $g(x)=\frac{f(x)}{e^x}$. We take the derivative of $g$:
+\begin{align*}
+g'(x)&=\frac{f'(x)e^x-f(x)e^x}{e^{2x}}\\
+\end{align*}
+But we know $f'(x)=f(x)$, so by substitution,
+\begin{align*}
+g'(x)&=\frac{f(x)e^x-f(x)e^x}{e^{2x}}\\
+&=\frac0{e^{2x}}
+\end{align*}
+By the constant function theorem, if $g'(x)=0$ for all $x$, as is the case here, then $g(x)$ must be a constant function; that is,
+\begin{align*}
+g(x)=&\frac{f(x)}{e^x}=C\\
+&\boxed{f(x)=Ce^x}
+\end{align*}
+
+\textbf{7. a) Let $f(x)=x+x^2\sin{\left(\frac1{x^2}\right)}$ when $x\not=0$ and $0$ when $x=0$. Show that $f'(0)=1$. Yet prove that on any interval around $0$, this function is not increasing, no matter how small the interval.}
+
+To find $f'(0)$, we must look at the Newton quotient 
+\begin{align*}
+ \lim_{p\to0}{\frac{f(p)}{p}}&=\lim_{p\to0}{\frac{p+p^2\sin{\left(\frac1{p^2}\right)}}{p}}\\
+&=\lim_{p\to0}{\left(1+p\sin{\left(\frac1{p^2}\right)}\right)}\\
+&=1+\lim_{p\to0}{p\sin{\left(\frac1{p^2}\right)}}\\
+&=1
+\end{align*}
+However, we notice that if we take the derivative of $f$ for $x\not=0$, we get \[f'(x)=1+2x\sin{\left(\frac1{x^2}\right)}-\frac{2\cos{\left(\frac1{x^2}\right)}}{x}\]
+which is neither defined at $0$ nor has a limit as $x\to0$; so our function $f'$ is discontinuous at $x=0$. But for now, let us examine the interval $(0,p)$; we want to show that, regardless of how small $|p-0|$ is, $f'(q)$ for $q\in(0,p)$ can take on both positive and negative values. By the mean value theorem,
+\begin{align*}
+ \frac{f(p)-f(0)}{p}=&f'(q)\\
+ 1+p\sin{\left(\frac1{p^2}\right)}=&f'(q)
+\end{align*}
+Well, let us take $p$ in the form $\dfrac{1}{\sqrt{(2n+1)\pi}}$. Notice that $n$ can be arbitrarily large, which means the interval $(0,p)$ can be arbitrarily small. Regardless of the size of the interval, we notice that for such a $p$, $\sin{\left(\frac1{p^2}\right)}=-1$, so $f'(q)=0$; in other words, $f'(q)$ has a critical point there, as well as infinitely many more for larger $n$; so no matter how small the interval $(0,p)$, $f'(q)$ has critical points, so it is not always increasing.
+
+\textbf{7. b) If $f'(x)$ is defined on an interval around $p$ and $f'$ is continuous at $p$, explain why $f$ is indeed increasing on a little interval around $p$.}
+
+The key difference between this part and the last part is that, now, $f'$ is continuous at $p$, which it was not in part a). Consider the interval $I=(p-\epsilon,p+\epsilon), \epsilon>0$, and let there be a $q\in I$. Since $f$ is differentiable, the mean value theorem says \begin{align*}
+\frac{f(p-\epsilon)-f(p+\epsilon)}{p-\epsilon-(p+\epsilon)}=&f'(q)\\
+\frac{f(p+\epsilon)-f(p-\epsilon)}{2\epsilon}=&f'(q)
+\end{align*}
+We know from a previous assignment that if a continuous function is positive at a point, there exists an interval around that point over which it is still positive; it can't just suddenly become negative (by the Intermediate Value Theorem). So we can make the interval I small enough so that $f'(q)$ is close enough to $f'(p)$ such that $f'(q)>0$ also. Then if $f'(q)>0$:
+\begin{align*}
+\frac{f(p+\epsilon)-f(p-\epsilon)}{2\epsilon}=&f'(q)>0\\
+\implies f(p+\epsilon)>f(p-\epsilon)
+\end{align*}
+Since $\epsilon>0$, this satisfies our definition for an increasing function.
+
+\textbf{8. a) By carefully lifting the inequality $e^{-x}\leq1$ for $x\geq0$ four times, prove that \[1-x+\frac{x^2}{2}-\frac{x^3}{6}\leq e^{-x}\leq1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}\] for all $x\geq0$.}
+
+We recall the lifting result; if $f, g, h$ are differentiable on $I$ and $a\in I$ and
+\begin{enumerate}
+\item $f(a)=g(a)=h(a)$
+\item $f'(x)\leq g'(x)\leq h'(x)$\\\\ then it follows that
+\item $f(x)\leq g(x)\leq h(x)$
+\end{enumerate}
+For the equation: \[1-x+\frac{x^2}{2}-\frac{x^3}{6}\leq e^{-x}\leq1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}\] it is clear that it holds for $x=0$. So if we want to prove the inequality, we must prove that (2) holds. We take the derivative of all three sides:
+\[-1+x-\frac{x^2}{2}\leq-e^{-x}\leq-1+x-\frac{x^2}{2}+\frac{x^3}{6}\]
+This is also trivially true for $x=0$. So again, we want to prove that this inequality holds so that the previous one will also hold. To do that, we must prove item (2). So we take the derivative again:
+\[1-x\leq e^{-x}\leq1-x+\frac{x^2}{2}\] This also is trivially true for $x=0$. For this to be true, (and all the previous ones along with it), (2) must hold for it as well. So we take the derivative again:
+\[-1\leq-e^{-x}\leq-1+x\]
+And once more
+\[0\leq e^{-x}\leq1\]
+This last inequality is given, so it satisfies the condition for the previous equation, meaning that it is true that $-1\leq-e^{-x}\leq-1+x$. Similarly, this satisfies the condition for the equation before that, and so on, which ends with proving that $f'(x)\leq g'(x)\leq h'(x)$ for the very first inequality we were trying to prove; so (3) follows, and therefore the inequality holds.
+
+\textbf{8. b) Now use the above information to write a rational number as a quotient of two integers that estimates $\frac{1}{\sqrt{e}}$ with error at most $\frac{1}{384}$.}
+
+We see that $\dfrac{1}{\sqrt{e}}=e^{-\frac{1}{2}}$. So we can substitute $x=\frac12$ into the inequality \[1-x+\frac{x^2}{2}-\frac{x^3}{6}\leq e^{-x}\leq1-x+\frac{x^2}{2}-\frac{x^3}{6}+\frac{x^4}{24}\]
+to obtain
+\[1-\left(\frac12\right)+\frac{\left(\frac12\right)^2}{2}-\frac{\left(\frac12\right)^3}{6}\leq \frac{1}{\sqrt{e}}\leq1-\left(\frac12\right)+\frac{\left(\frac12\right)^2}{2}-\frac{\left(\frac12\right)^3}{6}+\frac{\left(\frac12\right)^4}{24}\]
+which evaluates to
+\begin{align*}
+1-\frac12+\frac18-\frac{1}{48}\leq&\frac{1}{\sqrt{e}}\leq1-\frac12+\frac18-\frac{1}{48}+\frac{1}{384}\\
+\frac{29}{48}\leq&\frac{1}{\sqrt{e}}\leq\frac{233}{384}
+\end{align*}
+
+We see that $\frac{233}{384}-\frac{29}{48}=\frac1{384}$, so we have estimated its value to the required accuracy.
+\end{document}
