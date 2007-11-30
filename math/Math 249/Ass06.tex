@@ -20,13 +20,21 @@
 
 \textbf{1. Let $G$ be a simple planar graph that does not contain a triangle. Show that the vertices of $G$ can be properly coloured with at most 4 colours.}
 
-The statement that $G$ contains no cycles of length 3, along with the fact that it is simple, ensures that the girth of $G$ is $\geq4$. We imitate the proof of the five-colour theorem. The planarity of $G$ ensures that it contains a vertex, $v_0$, of at most degree 5; we proceed by induction on such a vertex. The graph $G\backslash v_0$ is 4-colourable, since its size is less than $G$. Thus if we can properly insert $v_0$ back into the graph in a way that does not ruin the colouring, then our inductive step would be complete.
+We recall the result for planar graphs that $q\leq3p-6$, from Euler's formula. We begin by proving a stronger result for planar graphs that do not contain triangles, namely that $q\leq2p-4$. Substituting, we get $3p-3q+6q\leq6\implies$
 
-If $\deg{(v_0)}\leq3$, then adding this node back is trivial; we simply give it one of the four colors that remain.
+Well, by Euler's formula, we know $p-q+r=2$ so $2p-2q+2r=4$; by the handshake lemma for faces we usually get that $3r\leq2q$; however, this time we know that there are no triangles, so each face is bound by at least 4 edges, not 3; so $2r\leq q$ gives us $2p-2q+q\geq4\implies q\leq2p-4$, which is what we were trying to prove.
 
-Let's look at the case where $\deg{(v_0)}=4$. Let's call the neighbors of $v_0$: $v_1,v_2,v_3,v_4$. If all four colours are not used on these four vertices, then simply color $v_0$ with one of the remaining colours, and we're done. Otherwise, assume without loss of generality that $v_1$ is coloured with colour 1, $v_2$ is coloured with colour 2, and so on. Now, consider the subgraph of $G$ called $H_{13}$ which is the set of all vertices coloured either $1$ or $3$, and the edges connecting such vertices. Now, either $v_1$ and $v_3$ are in the same connected component of $H_{13}$, or they are not. If not, then simply reverse all the 1's and 3's in the connected component of $H_{13}$ containing $v_1$, and then paint $v_0$ with $1$, and we are done. Otherwise, they are in the same component. Then consider the subgraph $H_{24}$, similarly defined. By the planarity of $G$, $v_2$ and $v_4$ must be in different connected components of $H_{24}$. So switch all the 2's and 4's in the connected component of $H_{24}$ containing $v_2$, and paint $v_0$ with colour 2, and we are done this case as well.
+Now we use this fact to show that all planar graphs with no triangles have a vertex of degree less than or equal to 3. We proceed similarly to the technique for showing that general planar graphs have a vertex of degree less than or equal to 5.
 
-The remaining case is where $\deg{(v_0)}=5$. Let's call the neighbours of $v_0$: $v_1, v_2, v_3, v_4, v_5$. If all four colours are not used on these five vertices, then pick one of the unused colours and paint $v_0$ with it, and we're done. Otherwise, we must necessarily have all four colours used up, and exactly one of them appearing twice. Without loss of generality, assume $v_1$ is painted with 1, $v_2$ is painted with 2, and so on, with the overlapping $v_5$ being painted with 1 also. Then consider $H_{24}$ again; once more, if $v_2$ and $v_4$ fall on different components of $H_{24}$, simply swap one of the vertices and repaint $v_0$ with the newly freed color. Otherwise, they are in the same component.
+Let $n_i$ be the number of vertices of degree $i$ in $G$. We know from the handshake lemma that $2q=n_1+2n_2+3n_3+\cdots$. Also, $p=n_1+n_2+n_3+\cdots$. Then from the result above, we also have $2q\leq4p-8$. We combine these two facts to get
+\begin{align*}
+	n_1+2n_2+3n_3+\cdots\leq&4(n_1+n_2+n_3+\cdots)-8\\
+	8+n_1+2n_2+3n_3+4n_4+5n_5+\cdots\leq&4n_1+4n_2+4n_3+4n_4+4n_5+\cdots\\
+	8+n_5+2n_6+3n_7+\cdots\leq&3n_1+2n_2+n_3
+	\end{align*}  
+Since the quantity on the left is clearly positive, and the quantity on the right is bigger, it must also be positive; so there are always some vertices of degree less than or equal to 3 in $G$.
+
+But now we are essentially done. Consider one of those vertices, call it $\vec v_0$. By induction, we know $G\backslash v_0$ is 4-colourable, so it only remains to insert $v_0$ back in and make sure it is coloured properly. But it is of degree at most 3, and we have 4 colours to choose from, so we will surely have a colour at our disposal to paint $v_0$ with; thus $G$ is 4-colourable, and we are done.
 
 \textbf{2. Let $G$ be a bipartite graph, and let $\Delta$ by the maximum degree of any vertex in $G$. Show that $G$ has a matching with at least $q/\Delta$ edges. Also, give an example of a non-bipartite graph for which this lower bound on the size of a matching is not true.}
 
