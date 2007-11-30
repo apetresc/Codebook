@@ -1,0 +1,237 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+
+\newcommand{\tp}[2]{\ensuremath{\left(\begin{array}{ll} #1 & #2 \end{array}\right)}}
+\newcommand{\sgn}[1]{\operatorname{{\mathrm sgn}}\left(#1\right)}
+\providecommand{\ord}[1]{\operatorname{{\mathrm ord}}\left(#1\right)}
+\providecommand{\lcm}[1]{\operatorname{{\mathrm lcm}}\left(#1\right)}
+\providecommand{\tr}{\operatorname{{\mathrm trace}}}
+\providecommand{\det}{\operatorname{{\mathrm det}}}
+%opening
+\title{MATH 245 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+\begin{document}
+
+\maketitle
+
+\textbf{1. Is $\sigma=\left(\begin{array}{lllllllll}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ 
+6 & 3 & 2 & 9 & 8 & 7 & 4 & 5 & 1
+                      \end{array}\right)$ even or odd?}
+
+First we factor $\sigma$ into cycles:
+\[
+\sigma=\left(\begin{array}{lllll}
+1 & 6 & 7 & 4 & 9
+        \end{array}\right)\tp{2}{3}\tp{5}{8}
+\]
+Next we recall that all cycles can be factored into transpositions:
+\[
+ \sigma=\tp19\tp14\tp17\tp16\tp23\tp58
+\]
+We see that $\sigma$ factors into 6 transpositions. Since every transposition is odd, and there are an even number of them, by Proposition 3 ($\sgn{\tau\circ\sigma}=\sgn\tau\sgn\sigma$) we know that $\sigma$ must be even.\newline
+
+\textbf{2. Show that a $k$-cycle is even if and only if $k$ is odd.}
+
+Let $\sigma=\left(\begin{array}{llll} a_1, & a_2, & \ldots, & a_k\end{array}\right)$ be a $k$-cycle. We know that it can be factored into transpositions as:
+\[
+ \sigma=\underbrace{\tp{a_1}{a_k}\tp{a_1}{a_{k-1}}\tp{a_1}{a_{k-2}}\cdots\tp{a_1}{a_2}}_{k-1 \text{ transpositions}}
+\]
+We also know that even if other factorizations of $\sigma$ into transpositions exist, they will have the same parity as the one above.
+
+Thus, if $k$ is odd, $\sigma$ always factors into $(k-1)$ transpositions. Since each transposition is odd, by an identical argument to Problem 1 above, $\sigma$ must be even. Similarly, if $\sigma$ is even, all of its factorizations must be into an even number of transpositions. This means $(k-1)$ is even, implying that $k$ is odd.\newline
+
+\textbf{3. Show that every permutation on $n$ letters is the product of just the cycles $\pm12$ and $\left(\begin{array}{llll}1, & 2, & \ldots, & n\end{array}\right)$ with possible repeated use of these factors.}
+
+It suffices to show this result for adjacent transpositions, since every permutation can be factored into adjacent transpositions eventually.
+
+We can view the $\left(\begin{array}{llll}1, & 2, & \ldots, & n\end{array}\right)$ cycle as a ``conveyor belt'' that rotates a permutation one element by one, until the adjacent transposition you want to perform has been shifted to the first two positions. Then the $\tp12$ transposition performs the operation, and the conveyor belt moves everything back to its original place, except for the exchange.
+
+To formalise this, let $\sigma=\tp{k}{k+1}$ be a permutation on $n$ letters. Let $\gamma=\left(\begin{array}{llll}1, & 2, & \ldots, & n\end{array}\right)$ be the ``conveyor belt'' permutation. In order to move $\pm{k}{k+1}$ over to $\pm12$ requires $(n-k+1)$ applications of $\gamma$. After that, we can apply $\pm12$ to perform the $\tp{k}{k+1}$ switch. Then the conveyor belt simply performs another $n-(n-k+1)=n-n+k-1=k-1$ shifts in order to return everything else to its rightful place. In other words,
+\begin{align*}
+ \boxed{\tp{k}{k+1}=\gamma^{n-k+1}\circ\tp12\circ\gamma^{k-1}}
+\end{align*}
+Thus, any adjacent permutation can be expressed as a product of a conveyor belt and the $\tp12$ permutation (or, in fact, any other adjacent permutation). Since any permutation can be expressed as a product of adjacent permutations, we can simply compose these to express any permutation at all.\newline
+
+\textbf{4. Let $f:S_n\to\mathbb{Z}$ be a non-constant function, and suppose that $f(\tau\circ\sigma)=f(\tau)f(\sigma)$, for all $\tau,\sigma$ in $S_n$. Prove that $f=\operatorname{{\mathrm sgn}}$, the parity function.}
+
+Let $\tau$ be the identity permutation. Then, by definition, $\tau\circ\sigma=\sigma$, so we have
+\[
+ f(\tau\circ\sigma)=f(\sigma)=f(\tau)f(\sigma)\implies f(\tau)=1
+\]
+
+Next, suppose that $\tau=\sigma=\tp{j}{j+1}$, an adjacent transposition. Then $\tau\circ\sigma$ is simply the identity permutation. So we know
+\begin{align}
+ f(\tau\circ\sigma)=f(\tau)f(\sigma)=f^2(\tau)=1
+\end{align}
+Since $f(\tau)\in\mathbb{Z}$, the only solutions to $(1)$ are $f(\tau)=\pm1$. If it were the case that $f(\tau)=1$ for any adjacent transposition $\tau$, then we know that every transposition $\phi\in S_n$ can be factored into adjacent transpositions, which would imply that
+\[
+ f(\phi)=f(\tau_1)f(\tau_2)f(\tau_3)\cdots f(\tau_k)=1\cdot1\cdot1\cdots1=1
+\]
+This would make $f$ a constant function, since its entire domain would go to $1$. Thus the only other option is $f(\tau)=-1$, where $\tau$ is any adjacent transposition.
+
+Since any transposition is the product of an odd number of adjacent transpositions and $(-1)^{2n+1}=-1$, it follows that for any transposition $\psi$, $f(\psi)=-1$. Therefore, those permutations $\alpha$ that factor into an even number of transpositions will have an even number of factors of $(-1)$, implying $f(\alpha)=1$; those permutations $\beta$ which factor into an odd number of transpositions will have an odd number of factors of $(-1)$, implying $f(\beta)=-1$. This covers the entire domain of $f$, and we see that in all cases, the function's value always matches $\operatorname{{\mathrm sgn}}$'s. Thus,
+\[
+ f=\operatorname{{\mathrm sgn}}
+\]\newline
+
+\textbf{5. Show that every even permutation on $n$ letters is a product of $3-$cycles.}
+
+Every even permutation can be factored into an even number of adjacent transpositions. Therefore it suffices to show this result for the composition of any two adjacent transpositions, which is itself an even permutation.
+
+Let $\tau=\tp{j}{j+1}$ and $\sigma=\tp{k}{k+1}$ be adjacent permutations, with $1\leq j<k<n$. If it happens that $j+1=k$, then we are done right away since these two adjacent adjacent transpositions immediately form a 3-cycle:
+\[
+ \tp{j}{j+1}\circ\tp{j+1}{j+2}=\left(\begin{array}{lll}j & j+1 & j+2\end{array}\right)
+\]
+Thus we can assume that $j,j+1,k,k+1$ are all distinct numbers between $1$ and $n$. After much pushing of paper cups, we arrive at the factorization:
+\begin{align}
+ \tp{j}{j+1}\tp{k}{k+1}=\left(\begin{array}{lll}j & k & k+1\end{array}\right)\left(\begin{array}{lll}j & k & k+1\end{array}\right)\left(\begin{array}{lll}j & j+1 & k\end{array}\right)
+\end{align}
+
+Thus, given any even permutation, we can break it up into an even amount of transpositions, each of which break up into an odd number of adjacent transpositions, giving an even total amount of adjacent transpositions (odd $\times$ even is still even). Then, those adjacent transpositions can be paired up evenly into 3-cycles by the identity (2) given above. Thus, in the end, each even transposition can be factored into 3-cycles.\newline
+
+\textbf{6. The order of a permutation $\sigma$ is the smallest positive power $k$ so that $\sigma^k=(1)$ where $(1)$ is the identity permutation. Explain why every permutation on $n$ letters actually has an order. What is the order of a $k$-cycle in terms of $k$? If $\sigma$ is the product of a $10$-cycle and a $6$-cycle that are disjoint, what is the order of $\sigma$?}
+
+We begin with the second question on the order of a $k$-cycle. It is obvious through intuition that if you apply a $k$-cycle $k$ times, you will have done a complete rotation, and are back where you started (the identity permutation). More formally, let $\sigma:L_n\to L_n$ be a $k$-cycle defined by
+\[
+ \sigma=\left(\begin{array}{llll}a_1, & a_2, & \ldots, & a_k \end{array}\right)
+\]
+Then for any $a_i$ with $1\leq i \leq k$, the orbit under $\sigma$ of $a_i$ is the list
+\[
+ \left\{a_i, a_{i+1}, a_{i+2}, \ldots, a_{k-1}, a_k, a_1, a_2, \ldots, a_{i-2}, a_{i-1}\right\}
+\]
+which clearly has $k$ elements. Thus $\sigma^k(a_i)=a_i$ for any $a_i$; the period of a $k$-cycle is therefore $k$.
+
+The question then becomes, what is the period of any permutation? Well, since any permutation can be factored into disjoint cycles, the permutation cycles when all of its factor cycles are repeating at the same time; that is, when $\sigma_i(a)=a$ for all $1\leq i\leq n$. This first happens at the lowest common multiple of all the component cycles.
+
+More formally, let $\tau\in S_n$ be a permutation that factors as
+\[
+ \tau=\sigma_1\sigma_2\sigma_3\cdots\sigma_m,
+\]
+where $\sigma_i$ are all disjoint cycles. Let $\ord{\sigma_i}$ be the order of $\sigma_i$, which is defined for cycles as above. Then
+\begin{align}
+ \boxed{\ord{\tau}=\lcm{\ord{\sigma_1}, \ord{\sigma_2}, \ldots, \ord{\sigma_m}}}
+\end{align}
+Thus, if there were a permutation $\tau$ which was the product of a $10$-cycle and a $6$-cycle which were disjoint, then the order of the two cycles would be 10 and 6 respectively. So by (3), we would have
+\[
+ \ord\tau=\lcm{10,6}=30.
+\]\newline
+
+\textbf{7. If $A\in M_n(F)$, let $\tr A$ be the sum of the entries on the main diagonal of $A$. Thus $\tr A$ is an element of the field $F$. If $A$ is a $2\times2$ matrix, prove that $A^2=(\tr A)A-(\det A)I$.}
+
+By the rule for matrix multiplication, we have
+\[
+ A^2=\left[
+% use packages: array
+\begin{array}{ll}
+a & b \\ 
+c & d
+           \end{array}
+\right]\left[
+% use packages: array
+\begin{array}{ll}
+a & b \\ 
+c & d
+           \end{array}
+\right]=\left[
+% use packages: array
+\begin{array}{ll}
+a^2+bc & ab+bd \\ 
+ac+cd & bc+d^2
+           \end{array}
+\right]
+\]
+Quite obviously, $\tr A=a+d$, so 
+\begin{align}
+ (\tr A)A=(a+d)\left[
+% use packages: array
+\begin{array}{ll}
+a & b \\ 
+c & d
+           \end{array}
+\right]=\left[\begin{array}{ll}
+a^2+ad & ab+bd \\ 
+ac+cd & ad+d^2
+           \end{array}\right]
+\end{align}
+
+Similarly, since $A$ is a $2\times2$ matrix, we can easily calculate the determinant:
+\begin{align}
+ \det A=ad-bc\implies(\det A)I=\left[\begin{array}{ll}
+ad-bc & 0 \\ 
+0 & ad-bc
+           \end{array}\right]
+\end{align}
+And finally, we subtract (2) from (1) to obtain
+\[
+ (\tr A)A-(\det A)I=\left[\begin{array}{ll}
+a^2+ad & ab+bd \\ 
+ac+cd & ad+d^2
+           \end{array}\right]-\left[\begin{array}{ll}
+ad-bc & 0 \\ 
+ 0 & ad-bc
+           \end{array}\right]=\left[\begin{array}{ll}
+a^2+bc & ab+bd \\ 
+ac+cd & bc+d^2
+           \end{array}\right]=A^2
+\]
+
+This is what we were trying to prove.\newline
+
+\textbf{8. A matrix $A$ in $M_n(\mathbb R)$ such that $A^tA=I$ is called orthogonal. This just says that the rows of $A$ form an orthonormal basis of $\mathbb R^n$. Find all possible values of $\det A$, if $A$ is orthogonal.}
+
+We know that the determinant of $I$, the identity matrix, is always $1$. So we need to make the left side of the equation equal to $1$ as well:
+\[
+ \det{A^tA}=1
+\]
+We know that the determinant of a product is the product of the determinants, so we can simplify the above to
+\[
+ \det{A^t}\det A=1
+\]
+Thanks to the generous hint, we also know that the determinant of $A^t$ is equal to the determinant of $A$; so we finally arrive at
+\[
+ (\det A)^2=1\implies\det{A}=\pm1
+\]\newline
+
+
+\textbf{9. Calculate all real numbers $\lambda$ such that the matrix $
+% use packages: array
+\left[\begin{array}{lll}
+\lambda-3 & -1 & 1 \\ 
+-2 & \lambda-2 & 1 \\ 
+-2 & -2 & \lambda
+                                                                     \end{array}\right]
+                                                                     $
+is not invertible.}
+We know that the matrix is invertible if and only if its determinant is nonzero; so we can find this determinant in terms of $\lambda$, set it equal to $0$, and solve for $\lambda$ to find out when it is \textit{not} invertible.
+
+For a $3\times3$ matrix, we have the determinant:
+\[\left|
+% use packages: array
+\begin{array}{lll}
+a & b & c \\ 
+d & e & f \\ 
+g & h & i \\ 
+ \end{array}\right|=aei+bfg+cdh-gec-hfa-idb
+\]
+So, in particular,
+\begin{align*}
+ \left|\begin{array}{lll}
+\lambda-3 & -1 & 1 \\ 
+-2 & \lambda-2 & 1 \\ 
+-2 & -2 & \lambda
+                                                                     \end{array}\right|&=(\lambda-3)(\lambda-2)(\lambda)+(-1)(1)(-2)+(1)(-2)(-2)\\&-(-2)(\lambda-2)(1)-(-2)(1)(\lambda-3)-(\lambda)(-2)(-1)\\
+&=(\lambda^3-5\lambda^2+6\lambda)+2+4+(2\lambda-4)+(2\lambda-6)-2\lambda\\&=\lambda^3-5\lambda^2+8\lambda-4
+\end{align*}
+So we are looking for a solution to 
+\[
+ \lambda^3-5\lambda^2+8\lambda-4=0
+\]
+So we need to factor this polynomial in $\lambda$; by the rational roots test, we know any rational roots must be of the form $\pm4,\pm2,\pm1$. Starting from the easy end of that and substituting in, we soon find the factorisation
+\[
+ (\lambda-1)(\lambda-2)^2=0
+\]
+So the values of $\lambda$ we were looking for were $\lambda=1$ or $\lambda=2$.
+\end{document}
