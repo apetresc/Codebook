@@ -1,0 +1,85 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\M}{\ensuremath{\mathbb{M}}}
+\renewcommand{\v}[1]{\ensuremath{\overrightarrow{#1}}}
+%opening
+\title{MATH 148: Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+\maketitle
+
+\textbf{1. Show that a constant function $f(x)=c$ is integrable over an interval $[a,b]$ and that $\int_a^bf=c(b-a)$. Give a proof based strictly on upper and lower sums.}
+
+We know that $f$ is integrable over $[a,b]$ if and only if for any $\epsilon>0$, there is a partition $R$ such that we have $U(f,R)-L(f,R)<\epsilon$. In other words, we need
+\begin{align*}
+U(f,R)-L(f,R)=&\sum_{j=1}^n{\sup{f[x_{j-1},x_j](x_j-x_{j-1})}}-\sum_{j=1}^n{\inf{f[x_{j-1},x_j](x_j-x_{j-1})}}<\epsilon\\
+%=&(x_j-x_{j-1})\left(\sum_{j=1}^n{\sup{f[x_{j-1},x_j]}}-\sum_{j=1}^n{\inf{f[x_{j-1},x_j]}}\right)
+\end{align*}
+
+However, by virtue of the fact that $f$ is constant, we know that $\inf{f}=\sup{f}=c$ over any interval. Thus we can write
+\begin{align}
+=&\sum_{j=1}^n{c(x_j-x_{j-1})}-\sum_{j=1}^n{c(x_j-x_{j-1})}\nonumber\\
+=&c\left(\sum_{j=1}^n{(x_j-x_{j-1})}-\sum_{j=1}^n{(x_j-x_{j-1})}\right)=0<\epsilon
+\end{align}
+
+So we see that $f$ is indeed integrable. The interesting thing to note from equation $(1)$ for $f$ is that the upper and lower sums are equal regardless of which partition $R$ was used. Thus, in order to find the value of the integral $\int_a^b{f}$, we can use any partition we like, including the trivial one $R=\left\{a,b\right\}$. Hence, by our definition of the integral, its value is
+\begin{align*}
+\sup_P{L(f,P)}=&L(f,R)\\
+=&\sum_{j=1}^n{\inf{f[x_{j-1},x_j](x_j-x_{j-1})}}
+=c\sum_{j=1}^n{(x_j-x_{j-1})}
+=c(b-a)
+\end{align*}
+And therefore $\boxed{\int_a^b{f}=c(b-a)}$.
+
+\textbf{2. Show that the function $f(x)=x$ is integrable over $[0,1]$, and compute $\int_0^1{f}$.}
+
+In order for $f$ to be integrable, for every $\epsilon>0$, there must exist some partition $R$ of $[0,1]$ such that $U(f,R)-L(f,R)<\epsilon$. In other words, we need
+\begin{align*}
+U(f,R)-L(f,R)=&\sum_{j=1}^n{\sup{f[x_{j-1},x_j](x_j-x_{j-1})}}-\sum_{j=1}^n{\inf{f[x_{j-1},x_j](x_j-x_{j-1})}}<\epsilon\\
+\end{align*}
+
+We know that the function $f$ is strictly increasing, and therefore $\inf{f[x_{j-1},x_j]}$ always occurs at $f(x_{j-1})$, while $\sup{f[x_{j-1},x_j]}$ always occurs at $f(x_j)$ regardless of the partition used. Thus we can write 
+\begin{align*}
+=&\sum_{j=1}^n{f(x_j)(x_j-x_{j-1})}-\sum_{j=1}^n{f(x_{j-1})(x_j-x_{j-1})}\\
+=&\sum_{j=1}^n{\left(f(x_j)-f(x_{j-1})\right)(x_j-x_{j-1})}
+\end{align*}
+
+We now consider the partition $R$. For any given $\epsilon$, we will choose the partition \[R:0=x_0<x_1<...<x_n=1\] such that all $x_j-x_{j-1}<\epsilon$. In other words, the closer together we are required to bring the upper and lower sums, the more we must refine our partition.
+
+With this new restriction, we continue from our previous equation
+\begin{align*}
+&\sum_{j=1}^n{\left(f(x_j)-f(x_{j-1})\right)(x_j-x_{j-1})}\\
+\leq&\sum_{j=1}^n{f(x_j)-f(x_{j-1})\epsilon}\\
+=&\epsilon\sum_{j=1}^n{f(x_j)-f(x_{j-1})}\\
+=&\epsilon\left(f(x_n)-f(x_0)\right) 
+=\epsilon(1-0)=\epsilon &&\text{ (by a telescoping sum)}
+\end{align*}
+
+And therefore, we see that $f$ is integrable over $[0,1]$.
+
+To find the value of the integral, we assume without loss of generality that the partitions $P$ are uniformly distributed; that is, $(x_j-x_{j-1})=\frac1n$ is constant for any $j$. We can assume this is true, because for any partition $P$, there is some refinement $P'$ that is uniform (to obtain it, simply take a common refinement of $P$ and the uniform partition $P_s$ where $s=\min{(x_j-x_{j-1})}$). We must evaluate
+\begin{align*}
+\inf_P{U(f,P)}=&\inf_P{\sum_{j=1}^n{\sup{f[x_{j-1},x_j](x_j-x_{j-1})}}}\\
+=&\inf_P{\sum_{j=1}^n{f(x_j)(x_j-x_{j-1})}}\\
+=&\inf_P{\sum_{j=1}^n{\frac{j}{n}\frac1n}}=\inf_P{\sum_{j=1}^n{\frac{j}{n^2}}}\\
+=&\inf_P{\frac12\cdot\frac{n+1}{n}}
+\end{align*}
+
+We see that as $n\to\infty$, $\frac{n+1}{n}\to1$, so the infinimum is $\frac12$ and thus \[\boxed{\int_0^1{f}=\frac12}\]
+
+\textbf{4. Prove that the function $f(x)=\frac{\sin{x}}{1+x^2}$ is uniformly continuous over $\R$.}
+
+We know that $f$ is uniformly continuous on $\R$ if for every $\epsilon>0$ there is some $\delta>0$ such that, for all $x,a\in\R$,
+\[|f(x)-f(a)|<\epsilon \text{ whenever } |x-a|<\delta\]
+
+
+\textbf{5. Prove that the function $f(x)=\frac1x$ is not uniformly continuous over the open interval $(0,1)$.}
+
+We know that $f$ is continuous on $(0,1)$, namely that for any $x,p\in(0,1),|x-p|<\delta\implies\left|\frac1x-\frac1p\right|<\epsilon$. but we would like to show that the choice of $\delta$ is a function of $p$.
+\end{document}
