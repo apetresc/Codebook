@@ -43,6 +43,8 @@ As a counterexample for when $G$ is not bipartite, consider the simple triangle.
 
 \textbf{3. Let $G$ be a bipartite graph with bipartition $(A,B)$ such that $|A|=|B|$. Assume that the Hall condition holds with strict inequality for every subset of $A$; that is, assume that for all $S\subseteq A,|N(S)|>|S|$. Show that for every edge $e\in E$ there is a perfect matching of $G$ that contains $e$.}
 
+As per the usual proof of Hall's Theorem, split $A$ and $B$ into equally-sized partitions. Consider the arbitrary edge $e\in E$ that we wish to include in a perfect matching of $G$. Say that $e=\{a_0,b_0\}$. Then the graph $G\backslash a_0\backslash b_0$ is another bipartite graph with $|A|=|B|$. Now, we know that $|S|<|N(S)|$ for any subset, including those which did not include $a_0$. Thus all the subsets $N(S)$, which may have included $b_0$, may lose up to one vertex but because the inequality was strict, this loss is not enough to make the resulting $G\backslash a_0\backslash b_0$ lose the regular (soft) Hall condition. Thus Hall's theorem applies to $G\backslash a_0\backslash b_0$, and so it has a perfect matching. But now, if we bring back $a_0$ and $b_0$, they are the only unmatched pair in the graph; thus we add the edge $e=\{a_0,b_0\}$ into the matching, and we have a perfect matching. Since our choice of $e$ was arbitrary, we could apply this to any edge in $G$ to ensure it is included in the perfect matching, which is what we were trying to prove; thus we are done.
+
 \textbf{4. Draw an example of a $3$-regular graph that does not have a perfect matching.}
 
 The graph is drawn by hand and attached to a piece of paper that was handed in with this assignment.
