@@ -1,0 +1,201 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+
+%opening
+\title{Math 249 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. Consider the following sets of binary strings (strings in the set $\{0,1\}^*$).}
+
+\textbf{(a) $A$ is the set of binary strings in which each block has length at least 3. Let $a_n$ be the number of such strings of length $n$. Show that
+\[
+ \sum_{n=0}^\infty{a_nx^n}=\frac{1-x+x^3}{1-x-x^3}
+\]
+ }
+We must first construct a block decomposition for $A$:
+\begin{align}
+ A=\{\epsilon,0^*(000)\}\left(1^*(111)0^*(000)\right)^*\{\epsilon,1^*(111)\}
+\end{align}
+This decomposition is unambiguous; it is exactly identical to the general one for $\{0,1\}^*$, except that we have replaced $1^*1$ with $1^*(111)$ (and respectively for 0) to ensure that the length of each block is at least 3. We can use our rules for systematically transforming block decompositions to turn (1) into a generating function:
+\[
+ \sum_{n=0}^\infty{a_nx^n}=\left(1+\frac{x^3}{1-x}\right)\left(\frac{1}{1-\left(\frac{x^3}{1-x}\right)\left(\frac{x^3}{1-x}\right)}\right)\left(1+\frac{x^3}{1-x}\right)
+\]
+This is a rather complicated expression to simplify; so to make things simpler, we will let $v=\frac{x^3}{1-x}$. Then the expression above is simply
+\begin{align*}
+ \sum_{n=0}^\infty{a_nx^n}=&(1+v)\left(\frac1{1-v^2}\right)(1+v)\\
+=&\frac{(1+v)^2}{1-v^2}=\frac{1+v}{1-v}
+\end{align*}
+Now that it has been substantially simplified, we substitute back in:
+\begin{align*}
+ \sum_{n=0}^\infty{a_nx^n}={\frac{1+\frac{x^3}{1-x}}{1-\frac{x^3}{1-x}}}=\frac{\frac{1-x+x^3}{1-x}}{\frac{1-x-x^3}{1-x}}=\frac{1-x+x^3}{1-x-x^3}
+\end{align*}
+This is the expression we were trying to arrive at, so we are done.\newline
+
+\textbf{(b) $B$ is the set of binary strings in which each block has length congruent to 1 (modulo 3). Let $b_n$ be the number of such strings of length $n$. Show that
+\[
+ \sum_{n=0}^\infty{b_nx^n}=\frac{1+x-x^3}{1-x-x^3}
+\]
+}
+\setcounter{equation}{0}
+
+We need a new block decomposition for blocks of length congruent to 1 mod 3. It is, once again, a mere variation on the general one, using this time ``$(111)^*1$'' to represent a block. It is clear that this is valid, since each chunk from $(111)^*$ leaves the length unchanged modulo 3, and the final $1$ at the end leaves the required remainder of 1. So we have
+\begin{align}
+ B=\{\epsilon,(000)^*0\}\left((111)^*1(000)^*0\right)^*\{\epsilon,(111)^*1\}
+\end{align}
+Once again we apply our rules for systematically converting block decompositions into generating functions to (1) in order to obtain
+\begin{align*}
+ \sum_{n=0}^\infty{b_nx^n}=\left(1+\frac{x}{1-x^3}\right)\left(\frac{1}{1-\left(\frac{x}{1-x^3}\right)\left(\frac{x}{1-x^3}\right)}\right)\left(1+\frac{x}{1-x^3}\right)
+\end{align*}
+We notice great similarities between this and our generating function for $A$. Even in the block decompositions, we see that the only difference is the conversion of ``$0^*(000)$'' into ``$0(000)^*$''. Similarly, the generating functions here look exactly the same except instead of $\frac{x^3}{1-x}$, we have instead $\frac{x}{1-x^3}$. Since they are so similar, we can let $v=\frac{x}{1-x^3}$, do the same manipulations as above, and we will still arrive at $\frac{1+v}{1-v}$. All that we do now is substitute our new value for $v$ in:
+\begin{align*}
+ \sum_{n=0}^\infty{b_nx^n}=\frac{1+\frac{x}{1-x^3}}{1-\frac{x}{1-x^3}}=\frac{\frac{1-x^3+x}{1-x^3}}{\frac{1-x^3-x}{1-x^3}}=\frac{1+x-x^3}{1-x-x^3}
+\end{align*}
+Once again, this is precisely what we were looking for, so we are now done.\newline
+
+\textbf{1. (c) Show that for all $n\geq1, b_n=a_{n+2}$.}
+\setcounter{equation}{0}
+
+Now we actually need to get some information about the coefficients. We start with the generating function for $A$:
+\begin{align*}
+ \sum_{n=0}^\infty{a_nx^n}=&{\frac{1-x+x^3}{1-x-x^3}}\\
+1-x+x^3=&(1-x-x^3)\sum_{n=0}^\infty{a_nx^n}\\
+=&\sum_{n=0}^\infty{a_nx^n}-\sum_{n=0}^\infty{a_nx^{n+1}}-\sum_{n=0}^\infty{a_nx^{n+3}}\\
+=&\sum_{n=0}^\infty{a_nx^n}-\sum_{n=1}^\infty{a_{n-1}x^n}-\sum_{n=3}^\infty{a_{n-3}x^n}
+\end{align*}
+We can now get a recurrence relation. First, some initial values: on the left, the coefficient of $x^0$ is $1$, and on the right it is $a_0$, so it follows that $\boxed{a_0=1}$. The coefficient on the left of $x^1$ is $-1$, and on the right it is $a_1-a_0=a_1-1$. Thus, $\boxed{a_1=0}$. On the left, the coefficient of $x^2$ is 0, and on the right it is $a_2-a_1=a_2$, so $\boxed{a_2=0}$ as well. On the left, the coefficient on $x^3$ is 1; on the right, it is $a_3-a_2-a_0=a_3-1$, implying that $\boxed{a_3=2}$. So far, all of these initial values make sense (the empty string for length 0, and $(111),(000)$ for length 3). Now we find the recurrence pattern: on the left, for all $n>3$, the coefficient is $0$. On the right, it is $a_n-a_{n-1}-a_{n-3}$; thus, $\boxed{a_n=a_{n-1}+a_{n-3}}$.
+
+Next we look at the generating function for $B$:
+\begin{align*}
+ \sum_{n=0}^\infty{b_nx^n}=&\frac{1+x-x^3}{1-x-x^3}\\
+1+x-x^3=&(1-x-x^3)\sum_{n=0}^\infty{b_nx^n}\\
+=&\sum_{n=0}^\infty{b_nx^n}-\sum_{n=0}^\infty{b_nx^{n+1}}-\sum_{n=0}^\infty{b_nx^{n+3}}\\
+=&\sum_{n=0}^\infty{b_nx^n}-\sum_{n=1}^\infty{b_{n-1}x^n}-\sum_{n=3}^\infty{b_{n-3}x^n}
+\end{align*}
+We proceed similarly to above, a bit less verbose this time. We see $\boxed{1=b_0}$. Then $1=b_1-b_0\implies \boxed{b_1=2}$. Then $0=b_2-b_1\implies \boxed{b_2=2}$. Then $-1=b_3-b_2-b_0\implies \boxed{b_3=2}$. Then, for any $n>3$, we have $0=b_n-b_{n-1}-b_{n-3}\implies \boxed{b_n=b_{n-1}+b_{n-3}}$.
+
+Now that we have found our recurrence relation, we can use a simple inductive argument to prove that $b_n=a_{n+2}$. First, it is true for the base cases of $b_1=a_3,b_2=a_4,b_3=a_5$ by inspection. Then we assume it is true for all $k$ up to $n-1$. We must prove it true for $b_n$. Well,
+\[
+ b_n=b_{n-1}+b_{n-3}=a_{n+1}+a_{n-1}=a_{n+2}
+\]
+Thus, using the principle of strong induction, it is true for all $n$, and we are done.\newline
+
+\textbf{2. A sequence of integers is determined by the initial conditions $f_0=1, f_1=0, f_2=0, f_3=2$, and the recurrence $f_n=f_{n+1}+f_{n+2}-f_{n+4}$ for all $n\geq4$. Obtain an algebraic formula for the generating function
+\[
+ \sum_{n=0}^\infty{f_nx^n}
+\]
+}
+\setcounter{equation}{0}
+
+From the inital terms, we know that
+\begin{align*}
+ \sum_{n=0}^\infty{f_nx^n}=&1+0x+0x^2+2x^3+\sum_{n=4}^\infty{(f_{n-1}+f_{n-2}-f_{n-4})x^n}\\
+=&1+2x^3+\sum_{i=4}^\infty{f_{i-1}x^i}+\sum_{j=4}^\infty{f_{j-2}x^j}-\sum_{k=4}^\infty{f_{k-4}x^k}
+\end{align*}
+To simplify this, we need to reindex all of the summations on the right side to all begin at 0:
+\begin{align*}
+ \sum_{n=0}^\infty{f_nx^n}=&1+2x^3+\sum_{i=3}^\infty{f_ix^{i+1}}+\sum_{j=2}^\infty{f_jx^{j+2}}-\sum_{k=0}^\infty{f_kx^{k+4}}
+\end{align*}
+However, now we must tweak the starting indexes to be from $0$, by adding and subtracting some terms:
+\begin{align*}
+ \sum_{n=0}^\infty{f_nx^n}=&1+2x^3+\left(\sum_{i=0}^\infty{f_ix^{i+1}}-f_0x\right)+\left(\sum_{j=0}^\infty{f_jx^{j+2}}-f_0x^2\right)-\sum_{k=0}^\infty{f_kx^{k+4}}\\
+=&1-x-x^2+2x^3+\sum_{n=0}^\infty{f_n\cdot x\cdot x^{n}}+\sum_{n=0}^\infty{f_n\cdot x^2\cdot x^n}-\sum_{n=0}^\infty{f_n\cdot x^4\cdot x^n}\\
+\sum_{n=0}^\infty{f_nx^n}=&1-x-x^2+2x^3+\left(x+x^2-x^4\right)\sum_{n=0}^\infty{f_nx^n}
+\end{align*}
+All that remains now is to solve for $\sum_{n=0}^\infty{f_nx^n}$:
+\begin{align*}
+ \left(\sum_{n=0}^\infty{f_nx^n}\right)\left(x^4-x^2-x+1\right)=2x^3-x^2-x+1\\
+\boxed{\sum_{n=0}^\infty{f_nx^n}=\frac{2x^3-x^2-x+1}{x^4-x^2-x+1}}
+\end{align*}
+Thus we have found an algebraic formula for the generating function, which is what we were looking for.\newline
+
+\textbf{3. Let $H$ be the set of ternary strings (strings in the set $\{0,1,2\}^*$) such that each block has odd length. Let $h_n$ be the number of such strings of length $n$.}
+
+\textbf{(a) Show that
+\[
+ \sum_{n=0}^\infty{h_nx^n}=\frac{1+x-x^2}{1-2x-x^2}
+\]}
+
+Thanks to Professor Wagner's highly generous hints, we know that we can take the general formula for $S^*$ and specialize it to $\{0,1,2\}^*$. Let $D_H\subseteq S^*$ be the set of words of the alphabet $S$ with no two consecutive equal letters. In this case, since our $S$ has 3 elements in it, the generating function for $D_H$ is
+\[
+ D_H(x)=\sum_{n=0}^\infty{|D_n|x^n}=1+3x^1+3(3-1)x^2+3(3-1)^2x^3+\ldots=1+\frac{3x}{1-2x}=\frac{1+x}{1-2x}
+\]
+But we want to relate this $D$ to our set of ternary words, $H$. In particular, we want to relate it to the set of ternary words where each block is of odd length. Thus, each block composition is really $(aa)^*a$, which has a generating function $\frac{x}{1-x^2}$. We plug this into our generating function for $D(x)$ and obtain:
+\[
+ D\left(\frac{x}{1-x^2}\right)=\frac{1+\frac{x}{1-x^2}}{1-\frac{2x}{1-x^2}}=\frac{\frac{1-x^2+x}{1-x^2}}{\frac{1-x^2-2x}{1-x^2}}=\frac{1+x-x^2}{1-2x-x^2}=\sum_{n=0}^\infty{h_nx^n}
+\]
+This is the relation we were looking for, so we are done.\newline
+
+\textbf{3. (b) Show that for all $n\geq1$,
+\[
+ h_n=\frac{3}{2\sqrt2}\left[\left(1+\sqrt2\right)^n-\left(1-\sqrt2\right)^n\right].
+\]
+}
+\setcounter{equation}{0}
+
+We now have our generating function, we simply need to extract the coefficients of the power series. First we do a bit of simplification:
+\begin{align}
+ H(x)=\sum_{n=0}^\infty{h_nx^n}=\frac{1+x-x^2}{1-2x-x^2}=\frac{1-2x-x^2}{1-2x-x^2}+3\left(\frac{x}{1-2x-x^2}\right)=1+3\left(\frac{x}{1-2x-x^2}\right)
+\end{align}
+
+We proceed by partial fraction decomposition. The inverse roots of the denominator are the roots of the polynomial $t^2-2t-1$:
+\[
+ x=\frac{2\pm\sqrt{4+4}}{2}=\frac{2\pm2\sqrt2}{2}=1\pm\sqrt2
+\]
+So then, by the technique demonstrated in class,
+\begin{align*}
+ \frac{x}{1-2x-x^2}=&\frac{A}{1-\alpha x}+\frac{B}{1-\beta x}\quad\text{ for some }A,B\in\mathbb C\\
+=&A\sum_{n=0}^\infty{\alpha^nx^n}+B\sum_{n=0}^\infty{\beta^nx^n}\\
+=&\sum_{n=0}{\left(A\alpha^n+B\beta^n\right)x^n}
+\end{align*}
+Substituting this equality back into (1), we get a new statement for our generating function:
+\begin{align*}
+ H(x)=&1+3\left(\sum_{n=0}{\left(A\alpha^n+B\beta^n\right)x^n}\right)\\
+=&1+\sum_{n=0}^\infty{3(A\alpha^n+B\beta^n)x^n}
+\end{align*}
+We are in good shape now! We can use a few of the simple cases (for which we can ``guess'' the coefficients) to solve for $A,B$. We know there are three strings of length $1: \{1,2,3\}$. Thus $H(1)=3$, and so
+\begin{align}
+ H(1)=&3=3(A\alpha+B\beta) \nonumber \\
+\implies&A\alpha+B\beta=1
+\end{align}
+For $n=2$, there are $6$ valid strings: $\{12,13,21,23,31,32\}$. Thus we have
+\begin{align}
+ H(2)=&6=3(A\alpha^2+B\beta^2) \nonumber \\
+\implies&A\alpha^2+B\beta^2=2
+\end{align}
+
+Equations (2) and (3) now form a system of two equations which we must solve for $A,B$. We start with (2) and play with it:
+\begin{align}
+ A(1+\sqrt2)+B(1-\sqrt2)=&1 \nonumber \\
+A+\sqrt2A+B-\sqrt2B=&1 \nonumber \\
+A+B+\sqrt2(A-B)=&1
+\end{align}
+Next we play with (3):
+\begin{align}
+ A(3+2\sqrt2)+B(3-2\sqrt2)=&2 \nonumber \\
+3A+2\sqrt2A+3B-2\sqrt2B=&2 \nonumber \\
+3(A+B)+2\sqrt2(A-B)=2
+\end{align}
+Finally we subtract (4) from (5):
+\begin{align*}
+ 2(A+B)+\sqrt2(A-B)=1
+\end{align*}
+By contrasting this line with (4), it becomes obvious that $A+B=0$. Substituting this into the line above, we conclude that $A-B=\frac{1}{\sqrt2}$. But now we're done, because we can add the two statements we just derived to obtain
+\begin{align*}
+ A=\frac1{2\sqrt2},\quad B=\frac{-1}{2\sqrt2}
+\end{align*}
+We simply plug these values for $A$ and $B$ (as well as those for $\alpha$ and $\beta$) into the generating function to conclude
+\begin{align*}
+ h_n=|H(n)|=&3(A\alpha^n+B\beta^n)\\
+=&3\left(\frac{\alpha^n}{2\sqrt2}-\frac{\beta^n}{2\sqrt2}\right)\\
+h_n=&\frac{3}{2\sqrt2}\left[(1+\sqrt2)^n-(1-\sqrt2)^n\right]
+\end{align*}
+This is what we were trying to prove, so we are done!
+
+
+\end{document}

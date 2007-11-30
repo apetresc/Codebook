@@ -1,0 +1,294 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{fullpage}
+
+%opening
+\title{Math 249 - Assignment 3}
+\author{Adrian Petrescu (\#20240298)}
+\begin{document}
+
+\maketitle
+
+\textbf{1. Consider Conway's checker-jumping game in any number of dimensions $d\geq1$. We place checkers on any finite subset of the points $(a_1,\ldots,a_d)\geq1\in\mathbb Z^d$ with $a_d\leq0$, and try to get a checker onto the $g$-th goal square $(0,0,\ldots,0,g)$. Checkers are allowed to jump over one another in a line of three consecutive squares parallel to one of the axes. Show that for any $d\in\mathbb N$ there is a $g(d)\in\mathbb N$ such that we lose the $g(d)$-th level game on $\mathbb Z^d$.}\newline
+
+Consider the $d$-dimensional space $\mathbb Z^d$. We allow placement on $H\subseteq\mathbb Z^d$ defined by
+\[
+ H:=\{(a_1,\ldots,a_d)\in\mathbb Z^d: a_d\leq0\}
+\]
+Movement happens along lines parallel to one of the axes. We want to show that a $g$ exists for any given $d$ such that no assortment of checkers on $H$ that can reach the point $(0,0,\ldots,0,g)$ using only horizontal and vertical jumps. 
+
+To do this, we do this, we need a value function $V : \mathbb Z^d\to\mathbb R$ which satisfies the following properties:
+\begin{enumerate}
+ \item[i] The value of the $g$-th level goal square is one: $V(\{(0,0,\ldots,0,g)\})=1$
+ \item[ii] If $S$ is a finite subset of the lower half-plane $H$, then $V(S)<1$.
+ \item[iii] If $S'$ is obtained from $S$ by one checker jump, then $V(S')\leq V(S)$.
+\end{enumerate}
+
+To do this, we need a weight function $\omega:\mathbb Z^d\to\mathbb R$, that measures its ``distance'' from the goal square. We will use a multidimensional analogue of the standard weighting function:
+\[
+ \omega(a_1,a_2,\ldots,a_n):=|a_1|+|a_2|+\ldots+|a_{n-1}|+|a_n-g|
+\]
+We then use this weight to define a generating function for any subset $S\subseteq \mathbb Z^d$ as follows:
+\[
+ \Phi_S(x)=\sum_{(a_1,\ldots,a_n)\in S}{x^{\omega(a_1,\ldots,a_n)}}
+\]
+We then use this generating function to define the aforementioned value function $V$. However, we need a particular real value $\xi$ that will make the value function
+\[
+ V(S):=\Phi_S(\xi)
+\]
+satisfy the three conditions above.
+
+The first condition falls right out of the definition of the weighting function; for $S=\{(0,0,\ldots,0,g)\}$, we have
+\[
+ \omega{(0,0,\ldots,g)}=|0|+|0|+\cdots+|0|+|g-g|=0\implies\Phi_S(\xi)=\sum_{(0,\ldots,g)}{x^{\omega(0,0,\ldots,g)}}=x^0=1
+\]
+
+To check for the satisfiability of condition (ii), we need to evaluate the generating function of $H$, the ``starting zone''.
+\begin{align}
+ \Phi_H(x)=&\sum_{a_1=-\infty}^\infty{\sum_{a_2=-\infty}^\infty{\cdots{\sum_{a_{d-1}=-\infty}^\infty{\sum_{a_d=-\infty}^0{x^{|a_1|+|a_2|+\cdots+|a_{d-1}|+|a_d-g|}}}}}}\nonumber \\
+=&\left(\sum_{a_1=-\infty}^\infty{x^{|a_1|}}\right)\left(\sum_{a_2=-\infty}^\infty{x^{|a_2|}}\right)\cdots\left(\sum_{a_d=g}^\infty{x^{a_d}}\right)\nonumber \\
+=&\left(\frac{1+x}{1-x}\right)^{d-1}\left(\frac{x^g}{1-x}\right)=\frac{x^g(1+x)^{d-1}}{(1-x)^d}
+\end{align}
+Thus we need to find a $0<\xi<1$ (due to the radius of convergence) such that $V(H)=\Phi_H(\xi)\leq1$.
+
+The last condition that our $\xi$ needs to fulfill is (iii) - namely, that no single checker jump increase $V$. That is, if $S'$ is a subset of $\mathbb Z^d$ that is obtained by one checker jump from another subset $S$, then we must have $V(S')\leq V(S)$. So let us define the difference function
+\[
+ \Delta(x)=V(S)-V(S')=\Phi_S(x)-\Phi_{S'}(x)
+\]
+Now, there seem to be a lot of possible cases for the different kinds of jumps that can be made; but in fact movement can only take place along \textit{one} of the $d$ components of $\mathbb Z^d$. Moreover, since the weighting function simply adds together all the components, affecting one component in a particular direction is equivalent to affecting any of the other components in the same direction. That is, suppose that $\vec v=(a_1,a_2,\ldots,a_d)$, and $e_i=(0,0,\ldots,0,1,0,\ldots,0)$ (where the $1$ happens in the $i$-th component). Then we see that $\omega(v+e_1)=\omega(v+e_2)=\ldots=\omega(v+e_d)$. Thus a move in a particular direction in $\mathbb Z^d$ has the same effect on the weighting function as it did in $\mathbb Z^2$, so our cases for $\Delta(x)$ are the same as in the 2-dimensional case:
+\begin{enumerate}
+ \item[(a)] $\Delta(x)=x^{k+2}+x^{k+1}-x^k$,
+ \item[(b)] $\Delta(x)=x^{k+1}+x^k-x^{k+1}$,
+ \item[(c)] $\Delta(x)=x^{k}+x^{k+1}-x^{k+2}$.
+\end{enumerate}
+
+As we saw in the original discussion, if we want to ensure $\Delta(x)\geq0$ for any jump, we must choose 
+\[
+ \xi\in\left[\frac{-1+\sqrt5}{2},1\right)
+\]
+
+In other words, we have boiled the problem down to proving that for any $d$, there is a corresponding $g$ such that
+\begin{align}
+ \exists\xi\in\left[\frac{-1+\sqrt5}{2},1\right)\mbox{ such that }\quad\frac{\xi^g(1+\xi)^{d-1}}{(1-\xi)^d}<1
+\end{align}
+
+A quick look at the fraction tells us that for $\xi\in(0,1)$, the fraction is increasing. Thus, if it is ever less than $1$, it is also less than $1$ at $\xi$ precisely equal to $\frac{-1+\sqrt5}{2}$. So without loss of generality, (2) can be simplified to the statement that for every $d$ there is a $g$ such that
+\[
+ \frac{\xi^g(1+\xi)^{d-1}}{(1-\xi)^d}<1\quad\mbox{for $\xi=\frac{-1+\sqrt5}{2}$}
+\]
+
+Now we make some observations based on the fortunate properties of this particular $\xi$. We know $\xi$ is the inverse of the Golden Ratio, so it is the root of the equation $x^2+x-1=0$. This tells us two important things; firstly, $(1-\xi)=\xi^2$ and $\xi^2+\xi=1$. Well, we notice that the denominator is $(1-\xi)^d$, so that can be translated to $(1-\xi)^{2d}$. Moreover, if we also lend $(1+\xi)$ a factor of $\xi$ from the $\xi^g$ next to it for each multiplicity (all $d-1$ of them), then those go to $1$, and we are left with
+\begin{align*}
+ \frac{\xi^g(1+\xi)^{d-1}}{(1-\xi)^d}=&\frac{\xi^{g-d+1}(\xi+\xi^2)^{d-1}}{\xi^{2d}}\\
+=&\xi^{g-(3d+1)}<1
+\end{align*}
+
+Now, we know that $\xi<1$, so if we make $g-(3d+1)>0$, we will definitely have the inequality we want. Therefore, we simply take any $g>3d+1$ to prove this result.\newline
+
+\textbf{2. Let's change the rules of Conway's game slightly, in a different way. We're back in dimension 2, but we also allow checker jumps along the diagonals (in three diagonally consecutive squares). In this case, $N(0)=1, N(1)=2, N(2)=3, N(3)=5, N(4)=8$, and so on. Find a value of $g\in\mathbb N$ such that we lose the $g$-th level of this version of the game.}\newline
+\setcounter{equation}{0}
+
+We begin by defining the weighting function; although techniques exist which use the weighting function $\omega(a,b)=\max{(a,b)}$, we will use the same one as before:
+\[
+ \omega(a,b)=|a|+|b-g|
+\]
+where $g$ is the height above the starting zone that we are trying to achieve with one checker. Now we consider the generation function for $S$ with respect to $\omega$:
+\[
+ \Phi_S(x)=\sum_{(a,b)\in S}{x^{\omega{(a,b})}}
+\]
+
+What we need to do now is define a value function $V : \mathbb Z\times\mathbb Z\to\mathbb R$ that has the following properties
+\begin{enumerate}
+ \item[i] The value of the $g$-th level goal square is one: $V(\{(0,g)\})=1$
+ \item[ii] If $S$ is a finite subset of the lower half-plane $(b\leq0)$, then $V(S)<1$.
+ \item[iii] If $S'$ is obtained from $S$ by one checker jump, then $V(S')\leq V(S)$.
+\end{enumerate}
+If we can find such a $V$, it neccesarily follows that the $g$th-level game cannot be one, since the initial starting value is less than 1, and can only go down.
+
+The first property is trivial; $\omega(0,g)=|0|+|g-g|=0$, which means that \[\sum_{\{(0,g)\}}{x^{\omega{(a,b)}}}=x^0=1\]
+
+The second property is not much changed from the original checker game. We compute the generating function for the lower half-plane as before, except for $g$ instead of $5$. Thus we have
+\begin{align}
+ \Phi_H(x)=&\sum_{a=-\infty}^\infty{\sum_{b=-\infty}^\infty{x^{|a|+|b-g|}}}=\left(\sum_{a=-\infty}^\infty{x^{|a|}}\right)\left(\sum_{c=g}^\infty{x^c}\right) \nonumber \\ 
+=&\left(\frac{1+x}{1-x}\right)\left(\frac{x^g}{1-x}\right)=\frac{x^g+x^{g+1}}{(1-x)^2}
+\end{align}
+The radius of convergence of this series is $1$, so we need a $\xi\in(0,1)$ such that $(1)\leq1$.
+
+It is in the third condition where the key part of the proof happens. Consider two finite subsets $S,S'$ of the grid such that $S'$ is obtained from $S$ by exactly one checker jump. Then we consider the function $\Delta(x)=\Phi_S(x)-\Phi_{S'}(x)$, which must always be positive in order for condition (ii) to be satisfied. We must consider all the possible cases for any type of horizontal, vertical, or diagonal jump. Well, adding the capability of a diagonal jump does not affect the first two kinds; therefore the equations from the regular game do not change
+\begin{enumerate}
+ \item[(a)] $\Delta(x)=x^{k+2}+x^{k+1}-x^k$,
+ \item[(b)] $\Delta(x)=x^{k+1}+x^k-x^{k+1}$,
+ \item[(c)] $\Delta(x)=x^{k}+x^{k+1}-x^{k+2}$.
+\end{enumerate}
+We recall from before that this limited our choice of $\xi$ down to the interval $\left[\frac{-1+\sqrt5}{2},1\right)$. Now that we are allowed diagonal moves, however, there are a few additional cases:
+\begin{enumerate}
+ \item[(d)] $\Delta(x)=x^{k+2}+x^{k}-x^{k}=x^{k+2}$,
+ \item[(e)] $\Delta(x)=x^{k}+x^{k}-x^{k}=x^{k}$,
+ \item[(f)] $\Delta(x)=x^{k+4}+x^{k+2}-x^{k}=x^k(x^4+x^2-1)$.
+\end{enumerate}
+We notice that for $x\in(0,1)$, we will always have (d) and (e) positive; (f), however, presents a bit of a challenge. We see that for $x\in(0,1)$, we always have $x^k>0$, so we focus our attention on making $(x^4+x^2-1)$ positive. It does not factor easily, so we use Maple to find its positive root on the interval $(0,1)$, and we get $x=\frac{\sqrt{-2+2\sqrt5}}{2}$. It is easy to see that this is larger than $\frac{-1+\sqrt5}{2}$, so we have indeed refined our target interval to
+\begin{align}
+ \xi\in\left[\frac{\sqrt{-2+2\sqrt5}}{2},1\right)
+\end{align}
+
+Any $\xi$ in this interval will satisfy condition (iii), but we also need it to satisfy condition (ii). We take a look at the graph of $(1)$ over the interval $(0,1)$ for $g\in\{5,6,\ldots,10\}$:
+
+\begin{figure}[hb]
+ \centering
+ \includegraphics[scale=0.2]{value.jpg}
+ % value.jpg: 1179666x1179666 pixel, 0dpi, infxinf cm, bb=
+ \caption{A graph of $\frac{x^g+x^{g+1}}{(1-x)^2}$ for $g=5,6,\ldots,10$.}
+\end{figure}
+
+We see that it is an increasing function on $(0,1)$ regardless of $g$; since we are trying to minimize (1), therefore, it suffices to try the lowest value in our allowable range in (2); so $\xi=\frac{\sqrt{-2+2\sqrt5}}{2}$. Using Maple, we evaluate increasing values of (1) at increasing levels of $g$. We summarize this in the following table.
+
+\begin{table}[hb]
+  \begin{center}
+   \begin{tabular}{c|cccccccccccc}
+    \toprule
+	$g$ & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+	$\Phi_H(\xi)$ & 11.73 & 9.22 & 7.25 & 5.69 & 4.48 & 3.52 & 2.77 & 2.18 & 1.71 & 1.35 & 1.06 & 0.83
+   \end{tabular}
+	\caption{Values of $\Phi$ using Maple to crunch numbers.}
+  \end{center}
+\end{table}
+
+At long last, when $g=16$, we see that $\Phi_H(\xi)\leq1$, so property (ii) is also satisfied by our new function. Thus this $V$ acts as an impossibility proof for $g=16$. While there may exist other value functions which bring $g$ lower than 16, we have definitely found a $g$ for which not even diagonal jumps can provide a winning strategy.\newline
+
+\textbf{3. Consider the set $\{0,1,\ldots,b-1\}^*$ of all $b$-ary strings (of finite length). For such a string $\sigma$, let $h(\sigma)$ denote the number of blocks of length $1$ in $\sigma$ minus the number of blocks of even length (at least 2) in $\sigma$. What is the expected value of $h(\sigma)$ among all $b^n$ $b$-ary strings of length $n$?}\newline
+\setcounter{equation}{0}
+
+Let $j(\sigma)$ denote the number of blocks of length $1$ in $\sigma$, and let $k(\sigma)$ denote the number of blocks of even length in $\sigma$. It is clear then that $h(\sigma)=j(\sigma)-k(\sigma)$, and each of these is easier to calculate.
+
+First we will calculate $k(\sigma)$. We will need a second variable, say $y$, to keep track of the number of blocks of even length. If we recall the generating function of the ``squish'' operator, we have
+\[
+ D(z)=\frac{1+z}{1-(b-1)z}
+\]
+We see that the series $x^2y+x^4y+\ldots+x^{2k}y+\ldots$ corresponds to the generating function $\frac{x^2y}{1-x^2}$, and the series $x+x^3+x^5+\ldots+x^{2n+1}+\ldots$ corresponds to the generating function $\frac{x}{1-x^2}$. The series that associates a $y$ with all the even-length terms is the sum of these two power series. Thus, let us set
+\[
+ z=\frac{x+x^2y}{1-x^2}
+\]
+Then $D(z)$ goes to
+\begin{align*}
+ D\left(\frac{x+x^2y}{1-x^2}\right)=&\frac{1+\left(\frac{x+x^2y}{1-x^2}\right)}{1-(b-1)\left(\frac{x+x^2y}{1-x^2}\right)}\\
+=&\frac{1-x^2+x+x^2y}{1-x^2-(b-1)x-(b-1)x^2y}
+\end{align*}
+To eliminate the $y$, we take the partial derivative with respect to $y$ and set $y=1$:
+\begin{align*}
+ \left.\frac{\partial}{\partial y}D(z)\right|_{y=1}=&\left.\frac{x^2(1-(b-1)x-x^2-(b-1)x^2y)+(1+x-x^2+x^2)(b-1)x^2}{\left(1-x^2-(b-1)x-(b-1)x^2y\right)^2}\right|_{y=1}\\
+=&\frac{x^2(1-(b-1)x-x^2-(b-1)x^2)+(1+x)(b-1)x^2}{(1-(b-1)x-bx^2)^2}\\
+=&\frac{x^2-(b-1)x^3-bx^4+(b-1)x^2+(b-1)x^3}{(1-(b-1)x-bx^2)^2}\\
+=&\frac{bx^2-bx^4}{(1-(b-1)x-bx^2)^2}
+\end{align*}
+We note that the quadratic inside the denominator factors nicely; by the quadratic formula, we have
+\[
+ x=\frac{b-1\pm\sqrt{(b-1)^2+4b}}{2b}=\frac{b-1\pm(b-1)}{2b}=\left\{-1,\frac1b\right\}
+\]
+Thus we conclude that the generating function for $k(\sigma)$ is
+\[
+ \frac{bx^2-bx^4}{(x+1)^2(x-\frac1b)^2}
+\]
+
+Now we turn our attention to $j(\sigma)$. The only term we want to endow with a $y$ this time is $x$. All the others, starting with $x^2$, should be in a simply geometric series. The generating function we are looking for is therefore
+\[
+ z=xy+\frac{x^2}{1-x}=\frac{xy-x^2y+x^2}{1-x}
+\]
+We substitute this into $D$ from above and obtain the dreadful-looking
+\begin{align*}
+ D\left(\frac{xy-x^2y+x^2}{1-x}\right)=&\frac{1+\left(\frac{xy-x^2y+x^2}{1-x}\right)}{1-(b-1)\left(\frac{xy-x^2y+x^2}{1-x}\right)}\\
+=&\frac{1-x+xy-x^2y+x^2}{1-x-(b-1)(xy-x^2y+x^2)}
+\end{align*}
+
+We take the partial derivative with respect to $y$ and set $y=1$:
+\begin{align*}
+ \left.\frac{\partial}{\partial y}D(z)\right|_{y=1}=&\left.\frac{(x-x^2)(1-x-(b-1)(xy-x^2y+x^2))-(1-x+xy-x^2y+x^2)(b-1)(x^2-x)}{\left(1-x-(b-1)(xy-x^2y+x^2)\right)^2}\right|_{y=1}\\
+=&\frac{(x-x^2)(1-x-(b-1)x)-(b-1)(x^2-x)}{\left(1-x-(b-1)x\right)^2}\\
+=&\frac{bx(1-x)^2}{(1-bx)^2}=\frac{x(x-1)^2}{b(x-\frac1b)^2}
+\end{align*}
+We now have a generating function for both $k(\sigma)$ and $j(\sigma)$. To get the generating function for $h(\sigma)$, we need to subtract $k(\sigma)$ from $j(\sigma)$. We get
+\begin{align*}
+\frac{x(x-1)^2}{b(x-\frac1b)^2}-\frac{bx^2-bx^4}{(x+1)^2(x-\frac1b)^2}
+\end{align*}
+
+\textbf{4. Fix an integer $k\geq2$. A $k$-ary rooted tree $T$ has a root node $\odot$, and each node may have at most one child of each of $k$ ``types''. The case $k=2$ gives binary rooted trees, and the case $k=3$ gives trinary rooted trees. Show that the number of $k$-ary rooted trees with $n$ nodes is
+\[
+ \frac{1}{n}\binom{kn}{n-1}
+\]}
+
+Define the weighting function $n(T)$ to be the number of nodes in the $k$-ary rooted tree $T$. Then we define the generating function
+\[
+ F(x)=\sum_{T\in\mathcal{T}}{x^{n(T)}}
+\]
+Now let $S_1,S_2,\ldots S_k$ be the $k$ subtrees of $k$ different ``types''. These $S_i$ are also $k$-ary rooted trees. Thus we have
+\begin{align*}
+ F(x)=\sum_{T\in\mathcal{T}}{x^{n(T)}}=&\sum_{(S_1,S_2,\ldots,S_k)\in\{\emptyset\cup\mathcal T\}^k}{x^{1+n(S_1)+n(S_2)+\cdots+n(S_k)}}\\
+=& \left(\sum_{(S_1,\ldots,S_k)\in\{\emptyset\cup\mathcal T\}^k}{x^0+x^{n(S_1)+\cdots+n(S_k)}}\right)\\
+=& \left(\sum_{(S_1,\ldots,S_k)\in\{\emptyset\cup\mathcal T\}^k}{x^{n(S_1)}\cdot x^{n(S_2)}\cdots x^{n(S_k)}}\right)\\
+=& \left(\sum_{S_1\in\{\emptyset\cup\mathcal T\}^k}{x^{n(S_1)}}\cdot\sum_{S_2\in\mathcal T}{x^{n(S_2)}}\cdots\sum_{S_k\in\mathcal T}{x^{n(S_k)}}\right)\\
+=&\left(1+\sum_{S_1\in\mathcal T}{{n(S_1)}}\right)\left(1+\sum_{S_2\in\mathcal T}{{n(S_2)}}\right)\cdots\left(1+\sum_{S_k\in\mathcal T}{{n(S_k)}}\right)\\
+=&x\left(1+F(x)\right)^k
+\end{align*}
+We see that this matches very closely the circumstances for the Lagrange Interpolation Function Theorem (LIFT). The unique polynomial $G(x)$ such that $F(x)=xG(F(x))$ is $G(x)=(1+x)^k$. So, by LIFT, we have
+\begin{align*}
+ [x^n]F(x)=\frac{1}{n}[u^{n-1}](1+u)^{kn}
+\end{align*}
+We can now use the binomial expansion theorem on $(1+u)^{kn}$ to deduce that
+\[
+ (1+u)^{kn}=\sum_{j=1}^{kn}{\binom{kn}{j}u^j}
+\]
+Thus the coefficient on $u^{n-1}$ occurs when $j=n-1$, which means that
+\[
+ [x^n]F(x)=\frac{1}{n}\binom{kn}{n-1}
+\]
+This is what we were trying to prove, so we are done.\newline
+
+\textbf{5. Show that among all $k$-ary rooted trees with $n$ nodes, the expected number of terminal nodes is asymptotically equal to $\left(1-\frac1k\right)^kn$.}
+
+Let $\tau(T)$ denote the number of terminal nodes in a $k$-ary rooted tree $T$. Define
+\[
+ T(x,y)=\sum_{T\in\mathcal{T}}{x^{n(T)}y^{\tau(T)}}
+\]
+Then
+\[
+ \left.\frac{\partial}{\partial y}T(x,y)\right|_{y=1}=\sum_{n=0}^\infty{A_nx^n}
+\]
+We know that a factor of $y$ shows up only when $S_1,\ldots,S_k$ are all empty. For every node, there is a question of how many of its $k$ potential subtrees are non-empty, to which the answer is $\binom{n}{k}$. The summation over all these subsets is then an instance of the binomial theorem. Thus we can express $T(x,y)$ as
+\[
+ T(x,y)=x((1+T)^k+(y-1))
+\]
+(The $(y-1)$ is there to provide the needed $y$ for the single case where all the chosen subtrees were empty.)
+
+This structure for $T(x,y)$ allows us to apply the Langrange Interpolation Function Theorem, with $G(u)=(1+u)^k+(y-1)$. Then we have
+\begin{align*}
+ \left.[x^n]\frac{\partial}{\partial y}T(x,y)\right|_{y=1}=&\left.\frac{\partial}{\partial y}[x^n]T(x,y)\right|_{y=1}\\
+=&\left.\frac{\partial}{\partial y}\frac1n[u^{n-1}]\left((1+u)^k+(y-1)\right)^n\right|_{y=1}\\
+=&\left.\frac{1}{n}[u^{n-1}]\frac{\partial}{\partial y}\left((1+u)^k+(y-1)\right)^n\right|_{y=1}\\
+=&\left.\frac1n[u^{n-1}]n\left((1+u)^k+(y-1)\right)^{n-1}\right|_{y=1}\\
+A_n=&[u^{n-1}](1+u)^{kn-k}=\binom{kn-k}{n-1}
+\end{align*}
+Thus we have found an expression for $A_n$, the number of terminal nodes among all $k$-ary trees with $n$ nodes. Thus the expected value is simply $A_n$ divided by the total number of $k$-ary rooted trees with $n$ nodes, whose quantity we found in the last question.
+\[
+ E(k,n):=\frac{\binom{kn-k}{n-1}}{\frac{1}{n}\binom{kn}{n-1}}=n\frac{\binom{kn-k}{n-1}}{\binom{kn}{n-1}}
+\]
+In particular, we want to examine the asymptotic behaviour of $E$ as $n\to\infty$. This is a fairly unattractive limit to take, but I think I've found it. I begin by claiming that
+\[
+\lim_{n\to\infty}{\frac {\binom{nk - k}{n - 1}}{\binom{nk}{n - 1}}} = \left(\frac {k - 1}{k}\right)^k
+\]
+To prove this, I begin by expanding the binomial coefficients on the left side:
+\begin{align*}
+ \lim_{n\to\infty}{\frac {\binom{nk - k}{n - 1}}{\binom{nk}{n - 1}}}=&\lim_{n\to\infty}{\frac{\frac{(kn-k)!}{(n-1)!(kn-k-n+1)!}}{\frac{(kn)!}{(n-1)!(kn-n+1)!}}}\\
+=&\lim_{n\to\infty}{\frac{(kn-k)!(kn-n+1)!}{(kn)!(kn-n-k+1)!}}\\
+=&\lim_{n\to\infty}{\left[\frac{(kn-k)!}{(kn)!}\cdot\frac{(kn-n+1)!}{(kn-n-k+1)!}\right]}\\
+=&\lim_{n\to\infty}{\left[\frac{1}{\underbrace{(kn)(kn-1)\cdots(kn-k+1)}_{k\mbox{ terms }}}\cdot\frac{\overbrace{(n(k-1)+1)(n(k-1))\cdots(n(k-1)+2-k)}^{k\mbox{ terms }}}{1}\right]}\\
+=&\lim_{n\to\infty}{\frac{(n(k-1)+1)(n(k-1))\cdots(n(k-1)+2-k)}{(kn)(kn-1)\cdots(kn-k+1)}}\\
+\end{align*}
+
+Next, we notice that as $k$ grows arbitrarily large, the ratios $\frac{kn}{kn-1}$ go to $1$; that means that the denominator simply approaches $(kn)(kn)\cdots(kn)=(kn)^k$. The same concept holds for the numerator; as $n$ grows without bounds, the constant difference between the terms becomes unimporant, and the numerator also goes to $n(k-1)\cdot n(k-1)\cdots n(k-1)=(n(k-1))^k$. Thus the limit goes to $\frac{n^k(k-1)^k}{n^kk^k}=\left(\frac{k-1}{k}\right)^k$, which is what we were trying to prove.
+
+Now that we have this fact, it is easy to see that $E(k,n)\to n\left(\frac{k-1}{k}\right)^k$ as $n\to\infty$, which is what we were trying to prove; thus we are done.
+
+\end{document}
