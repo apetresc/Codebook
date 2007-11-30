@@ -1,0 +1,102 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\newcommand{\cis}{\ensuremath{\text{ cis}}}
+\newcommand{\cs}{\ensuremath{\text{ cs}}}
+\newcommand{\sn}{\ensuremath{\text{ sn}}}
+\newcommand{\myexp}{\ensuremath{\text{ exp}}}
+%opening
+\title{MATH 145: Assignment 7}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. Find all the cube roots of $8i$. Express then in both exact standard (Cartesian) and polar form, and plot them on the complex plane.}
+
+We are trying to solve the equation $z^3=8i$. It is immediately apparent that, if we write $z=r\cis(\theta)$, then
+\begin{align*}
+(r\cis(\theta))^3=&8i\\
+r^3\cis(3\theta)=&8i
+\end{align*} 
+It follows that $r^3=8\implies r=2$ and $\cis(3\theta)=i\implies3\theta\equiv\frac\pi2\pmod{2\pi}$. So
+\begin{align*}
+3\theta=&\frac\pi2+2k\pi\\
+\theta=&\frac\pi6+\frac{2\pi}{3}k=\frac\pi6+\frac{4\pi}{6}k
+\end{align*}
+Since $\cis$ is $2\pi$-periodic, we are looking at values of $k=0,1,2$. By substitution, our solutions are therefore:
+\begin{align*}
+z_1=\boxed{2\cis\left(\frac\pi6\right)}=&2\left(\frac{\sqrt3}{2}+\frac{i}2\right)=\boxed{i+\sqrt3}\\
+z_2=\boxed{2\cis\left(\frac{5\pi}6\right)}=&2\left(\frac{-\sqrt3}{2}+\frac{i}2\right)=\boxed{i-\sqrt3}\\
+z_3=\boxed{2\cis\left(\frac{9\pi}6\right)}=&2\left(-i\right)=\boxed{-2i}
+\end{align*} 
+So we have our three roots. The plot is given on the attached piece of graph paper.
+
+\textbf{2. Find all the (complex) roots explicitly of the following polynomials, and plot the roots on the complex plane.}
+
+\textbf{ a) $z^6+1=0$. Express all roots in exact standard form.}
+
+This polynomial has the same solutions as the equation $z^6=-1$. Again, expressing $z$ as $r\cis(\theta)$, we have \[(r\cis(\theta))^6=r^6\cis(6\theta)=-1=1\cis(\pi)\] It follows that $r^6=1\implies r=1$ and $6\theta\equiv\pi\pmod{2\pi}$. So,
+\begin{align*}
+6\theta=&\pi+2k\pi\\
+\theta=&\frac\pi6+\frac\pi3k\\
+\theta=&\frac\pi6+\frac{2\pi}6k
+\end{align*}
+Again, since$\cis$ is $2\pi$-periodic, the values of $k$ in which we are interested are $k=0,1,2,3,4,5$. We simply substitute into our definition of $z$ to obtain the roots:
+\begin{align*}
+z_1=&\cis\left(\frac\pi6\right)=\frac{\sqrt3}{2}+\frac{i}2\\
+z_2=&\cis\left(\frac{3\pi}6\right)=i\\
+z_3=&\cis\left(\frac{5\pi}6\right)=\frac{-\sqrt3}{2}+\frac{i}2\\
+z_4=&\cis\left(\frac{7\pi}6\right)=\frac{-\sqrt3}{2}-\frac{i}2\\
+z_5=&\cis\left(\frac{9\pi}6\right)=-i\\
+z_6=&\cis\left(\frac{11\pi}6\right)=\frac{\sqrt3}{2}-\frac{i}2\\
+\end{align*} 
+These are all the roots of $z^6+1=0$. The plot is given on the attached piece of graph paper.
+
+\textbf{b) $z^{10}+z^5+1=0$. Express at least one root in standard form.}
+
+Expressing $z$ as $r\cis(\theta)$, we can rewrite this polynomial as \[\cis(10\theta)+\cis(5\theta)+1=0\] We notice that, by De Moivre's Theorem, $\cis(10\theta)=\cis^2(5\theta)$; so our polynomial is actually \[\cis^2(5\theta)+\cis(5\theta)+1=0\] This is a simply quadratic polynomial which can be solved by the quadratic equation; For the convenience of notation, let $x=\cis(5\theta)$.
+\begin{align*}
+x=&\frac{-b\pm\sqrt{b^2-4ac}}{2a}\\
+x=&\frac{-1\pm\sqrt{1-4}}{2}\\
+x=&\frac{-1\pm\sqrt{3}i}{2}\\
+\cis(5\theta)=&\frac{-1}{2}+\frac{\sqrt3}{2}i\text{  or  }\cis(5\theta)=\frac{-1}{2}-\frac{\sqrt3}{2}i\\
+\end{align*}
+We can easily solve each case individually. $\cis(5\theta)=\frac{-1}{2}+\frac{\sqrt3}{2}i\equiv\cis\left(\frac{2\pi}{3}\right)\pmod{2\pi}$. So $5\theta\equiv\frac{2\pi}{3}\pmod{2\pi}\implies5\theta=\frac{2\pi}{3}+2k\pi\implies\theta=\frac{2\pi}{15}+\frac{6\pi}{15}k$ for $k=0,1,2,3,4$. We substitute in to get our first five roots, \[\cis\left(\frac{2\pi}{15}\right),\cis\left(\frac{8\pi}{15}\right),\cis\left(\frac{14\pi}{15}\right),\cis\left(\frac{20\pi}{15}\right),\cis\left(\frac{26\pi}{15}\right)\]
+For the second case, $\cis(5\theta)=\frac{-1}{2}-\frac{\sqrt3}{2}i\equiv\cis\left(\frac{4\pi}{3}\right)\pmod{2\pi}$. So $5\theta\equiv\frac{4\pi}{3}\pmod{2\pi}\implies5\theta=\frac{4\pi}{3}+2k\pi\implies\theta=\frac{4\pi}{15}+\frac{6\pi}{15}k$ for $k=0,1,2,3,4$. We substitute in to get our last five roots,
+\[\cis\left(\frac{4\pi}{15}\right),\cis\left(\frac{10\pi}{15}\right),\cis\left(\frac{16\pi}{15}\right),\cis\left(\frac{22\pi}{15}\right),\cis\left(\frac{28\pi}{15}\right)\]
+
+These are the ten needed roots in complex form; of these, two of them can be simplified into something much nicer: \[\cis\left(\frac{20\pi}{15}\right)=\cis\left(\frac{4\pi}{3}\right)=-\frac12-\frac{\sqrt3}{2}i\]
+And just for good measure, even though we only needed one in standard form,
+\[\cis\left(\frac{10\pi}{15}\right)=\cis\left(\frac{2\pi}{3}\right)=-\frac12+\frac{\sqrt3}{2}i\]
+
+\textbf{3. For a complex number $z=x+iy$ in the standard form, define $\exp(z)$,$\sn(z)$ and$\cs(z)$ as shown on the assignment handout.}
+
+\textbf{a) Prove that if $x\in\mathbb{R}$, then $\myexp(x)=e^x\cis(y)$, $\cs(x)=\cos(x)$, and $\sn(x)=\sin(x)$.}
+
+If $x\in\mathbb{R}$, then $x=a+0i$; by the definitions, 
+\begin{align*}
+\myexp(x)=&e^a\cis(0)\\
+=&e^a(\cos(0)+i\sin(0))\\
+=&e^a(1+0i)\\
+\boxed{\myexp(x)={e^a}}\\
+\end{align*}
+
+Similarly,
+
+\[\cs(x)=\frac{\myexp(ix)+\myexp(-ix)}{2}\]
+But we know from the previous result that, since $x\in\mathbb{R}$, then $ix=0+ai\implies\myexp(x)=\cis(a)$. So:
+\begin{align*}
+\cs(x)=&\frac{\cis(a)+\cis(-a)}{2}\\
+=&\frac{\cos(a)+i\sin(0)+\cos(-a)+i\sin(0)}{2}\\
+\end{align*}
+Since $\cos(-a)=\cos(a)$, \[\cs(x)=\frac{2\cos(a)}{2}=\cos(a)\]
+Almost identically,
+\[\sn(x)=\frac{\myexp(ix)-\myexp(-ix)}{2i}\]
+And using the same argument as above, this is the same as
+\begin{align*}
+\sn(x)=&\frac{\cis(x)-\cis(-x)}{2i}\\
+=&\frac{\cos(a)+i\sin(0)-(\cos(-a)+i\sin(0))}{2i}\\
+\end{align*}
+\end{document}
