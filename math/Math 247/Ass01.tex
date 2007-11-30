@@ -1,0 +1,301 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{array}
+
+\providecommand{\ord}[1]{\operatorname{{\mathrm ord}}\left(#1\right)}
+\providecommand{\seq}[1]{\ensuremath{(\vec{#1}_k)_{k=1}^\infty}}
+\providecommand{\sseq}[2]{\ensuremath{(\vec{#1}_k^{(#2)})_{k=1}^\infty}}
+\providecommand{\Rn}{\ensuremath{\mathbb{R}^n}}
+\providecommand{\cl}[1]{\operatorname{{\mathrm cl}}\left(#1\right)}
+
+%opening
+\title{MATH 247 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+\begin{document}
+
+\maketitle
+
+\textbf{1. Write the proof for Proposition 1.7 in Lecture 1. The proposition stated that for a sequence $\seq{x}$ in $\Rn$, we have the following equivalence:
+\[
+\begin{array}{>{\centering}m{4cm}c>{\centering}m{7cm}}
+ $\begin{pmatrix}
+   (\vec{x}_k)_{k=1}^\infty \text{ is Cauchy} \\
+   \text{ in }\mathbb{R}^n
+  \end{pmatrix}$
+ & \Longleftrightarrow
+ & $\begin{pmatrix}
+     \text{ each of the component sequences }\\
+     (x_k^{(1)})_{k=1}^\infty, \dots, (x_k^{(n)})_{k=1}^\infty \\
+     \text{ is Cauchy in } \mathbb{R}^n
+    \end{pmatrix}$
+\end{array}
+\]
+}
+
+First we will prove that having Cauchy component sequences is a sufficient condition for a sequence to be Cauchy in $\Rn$. Thus, we know that for $\seq{x}\in\Rn$, we have $\sseq{x}{i}\in\mathbb{R}$ are all Cauchy for $1\leq i\leq n$. Then we have some $k_i\in\mathbb{N}$ so that 
+\begin{align}
+ \forall\epsilon>0,\quad |x^{(i)}_p-x^{(i)}_q|<\frac{\epsilon}{n} \quad\text{ whenever } p,q>k_i
+\end{align}
+If we take $k=\max{(k_1,k_2,\ldots,k_n)}$, then (1) is true that every single component sequence of $\seq{x}$ is within $\frac{\epsilon}{n}$ when $p,q>k$.
+
+We want to find a $K$ such that, for all $\epsilon>0$, we have
+\begin{align}
+ ||\vec{x}_p-\vec{x}_q||<\epsilon\quad\text{ whenever } p,q>K
+\end{align}
+
+Well, if we take $K=k$, then we know that (1) is true for every $i$. Invoking the second inequality of Lemma 1.5, we see that
+\[
+ 0\leq||\vec{x}_p-\vec{x}_q||\leq\sum_{i=1}^n{|x^{(i)}_p-x^{(i)}_q|}\leq\sum_{i=1}^n{\frac{\epsilon}{n}}=\epsilon\quad\text{ whenever } p,q>K
+\]
+Thus $\seq{x}$ meets the criteria for being Cauchy. Therefore it is a sufficient condition.
+
+Next we must prove that it is a necessary requirement. Take $\seq{x}\in\Rn$ to be Cauchy. We wish to prove that each of its component sequences is also Cauchy. Well, if $\seq{x}$ is Cauchy then we know there exists a $k\in\mathbb{N}$ such that
+\begin{align}
+ \forall\epsilon>0,\quad||\vec{x}_p-\vec{x}_q||<\epsilon\quad\text{ whenever }p,q>k
+\end{align}
+It follows from the first inequality of Lemma 1.5 that 
+\begin{align}
+ ||\vec{x}_p-\vec{x}_q||\geq|x^{(i)}_p-x^{(i)}_q|,\quad 1\leq i\leq n
+\end{align}
+Thus, for any $\epsilon$, choose the same $k$ that satisfied (3) at it will necessarily satisfy
+\[
+ |x^{(i)}_p-x^{(i)}_q|<\epsilon\quad\forall p,q>k
+\]
+as well, by inequality (4). Therefore, each component sequence is also Cauchy, which is what we were trying to prove.\newline
+
+\textbf{2. In this problem $\seq{x}$ and $\seq{y}$ are convergent sequences in $\Rn$, and $(\alpha_k)_{k=1}^\infty$ and $(\beta_k)_{k=1}^\infty$ are convergent sequences in $\mathbb{R}$. We denote 
+\[
+ \lim_{k\to\infty}{\vec{x}_k}=\vec{x},\quad\lim_{k\to\infty}{\vec{y}_k}=\vec{y},\quad\lim_{k\to\infty}{\alpha_k}=\alpha,\quad\lim_{k\to\infty}{\beta_k}=\beta
+\]
+}
+
+\textbf{(a) Prove that the sequence $(\alpha_k\vec{x}_k+\beta_k\vec{y}_k)_{k=1}^\infty$ is convergent in \Rn, and that its limit is $\alpha\vec{x}+\beta\vec{y}$.}
+\setcounter{equation}{0}
+Let $\vec{z}_k=(\alpha_k\vec{x}_k+\beta_k\vec{y}_k)$. We wish to show that $\lim_{k\to\infty}{\vec{z}_k}=\alpha\vec{x}+\beta\vec{y}$, let's call it $\vec{z}$. By Proposition 1.6, $\vec{z}_k=\vec{z}$ if and only if each of the component sequences $z^{(i)}_k$ converge to $z^{(i)}$ in $\mathbb{R}$; that is, if there exist $K_i$ such that
+\[
+ \forall\epsilon>0,\quad \left|z^{(i)}_k-z^{(i)}\right|<\epsilon\quad\text{ whenever } k>K_i
+\]
+
+This inequality is equivalent to
+\begin{align}
+ \left|\left(\alpha_k\vec{x}^{(i)}_k+\beta_k\vec{y}^{(i)}_k\right)-\left(\alpha\vec{x}^{(i)}+\beta\vec{y}^{(i)}\right)\right|
+=\left|\left(\alpha_k\vec{x}^{(i)}_k-\alpha\vec{x}^{(i)}\right)+\left(\beta_k\vec{y}^{(i)}_k-\beta\vec{y}^{(i)}\right)\right|<\epsilon
+\end{align}
+
+However, these component sequences are only in $\mathbb{R}$; all the rules about simple sequences apply to them. In particular, because of the limits given in the question hold, and by Proposition 1.6, we know that each component sequence $x^{(i)}_{k}$ converges to $x^{(i)}$, and that $\alpha_k\to\alpha$. Since these are simple sequences in $\mathbb R$, we know that they can be combined to state that $\alpha_kx^{(i)}_k\to\alpha x^{(i)}$. In other words, there is an $M_1$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\alpha_kx_k^{(i)}-\alpha x^{(i)}\right|<\frac\epsilon2\quad\text{ whenever }k>M_1
+\end{align}
+Using an identical argument, we can get that there is an $M_2$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\beta_ky_k^{(i)}-\beta y^{(i)}\right|<\frac\epsilon2\quad\text{ whenever }k>M_2
+\end{align}
+If we take $M=\max{(M_1,M_2)}$, both (2) and (3) hold. Then, applying the triangle inequality to (1) and taking $K=M$, we get
+\begin{align*}
+ \left|\left(\alpha_k\vec{x}^{(i)}_k-\alpha\vec{x}^{(i)}\right)+\left(\beta_k\vec{y}^{(i)}_k-\beta\vec{y}^{(i)}\right)\right|\leq&\left|\alpha_kx_k^{(i)}-\alpha x^{(i)}\right|+\left|\beta_ky_k^{(i)}-\beta y^{(i)}\right|
+\\<&\frac\epsilon2+\frac\epsilon2=\epsilon\quad\text{ whenever } k>M
+\end{align*}
+Thus $\vec{z}_k^{(i)}$ does indeed converge to $\vec{z}^{(i)}$ in $\mathbb R$ for all $i$. Invoking Proposition 1.6, it follows that $\vec{z}_k\to\vec{z}$ in \Rn, which is what we were trying to prove.\newline
+
+\textbf{2. (b) Consider the sequence of real numbers $(\vec{x}_k\cdot\vec{y}_k)_{k=1}^\infty$. Prove that this sequence is convergent in $\mathbb R$, and that its limit is equal $\vec{x}\cdot\vec{y}$.}
+\setcounter{equation}{0}
+
+By the definition of the dot product,
+\[
+ \left(\vec{x}_k\cdot\vec{y}_k\right)_{k=1}^\infty=\left(\sum_{i=1}^n{x_k^{(i)}y_k^{(i)}}\right)_{k=1}^\infty
+\]
+This is, again, a sequence in $\mathbb R$. So we are trying to show that there exists some $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left(\sum_{i=1}^n{x^{(i)}_ky^{(i)}_k}\right)-\left(\sum_{i=1}^n{x^{(i)}y^{(i)}}\right)\right|=\left|\left(\sum_{i=1}^n{x_k^{(i)}y_k^{(i)}-x^{(i)}y^{(i)}}\right)\right|<\epsilon\quad\text{ whenever } k>K
+\end{align}
+Luckily, however, we know that both $\vec{x}_k$ and $\vec{y}_k$ converge to $\vec{x}$ and $\vec{y}$ respectively. More importantly, we know by Proposition 1.6 (I love that thing) that each of the component sequences of $\vec{x}_k$ and $\vec{y}_k$ converge to the component sequences of $\vec{x}$ and $\vec{y}$ respectively. However, since these are sequences in $\mathbb R$, we know that the limit of the products is equal to the product of the limits: that $(x^{(i)}_ky^{(i)}_k)\to(x^{(i)}y^{(i)})$. More precisely, for every $i$ there is a $K_i$ such that 
+\begin{align}
+ \forall\epsilon>0,\quad\left|x_k^{(i)}y_k^{(i)}-x^{(i)}y^{(i)}\right|<\frac{\epsilon}{n}\quad\text{ whenever } k>K_i
+\end{align}
+And again, if we take $K=\max{(K_1,K_2,\ldots,K_n)}$, we will know (2) is true for all $i$. So we can substitute the result from (2) into the equation in (1) to obtain
+\begin{align*}
+ \left|\left(\sum_{i=1}^n{x_k^{(i)}y_k^{(i)}-x^{(i)}y^{(i)}}\right)\right|<&\left|\sum_{i=1}^n{\frac \epsilon n}\right|=\epsilon\quad\text{ whenever }k>K
+\end{align*}
+Thus each component sequence converges to $x^{(i)}y^{(i)}$. Therefore, the main sequence converges to $\vec{x}\cdot\vec{y}$.\newline
+
+\textbf{3. (a) Let $\seq{x}$ be a convergent sequence in $\Rn$, and let $\vec{x}$ be its limit. Consider the sequence of real numbers $(||\vec{x}_k||)_{k=1}^\infty$. Prove that this sequence is convergent in $\mathbb R$, and that its limit is equal to $||\vec{x}||$.}
+\setcounter{equation}{0}
+
+We wish to prove that there exists a $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad \left|||\vec{x}_k||-||\vec{x}||\right|=\left|\sqrt{\vec{x}_k\cdot\vec{x}_k}-\sqrt{\vec{x}\cdot\vec{x}}\right|<\epsilon\quad\text{ whenever }k>K
+\end{align}
+This looks suspiciously similar to what we have already proven in question 2.(b). In order to invoke it, however, we must bring this to a statement about sequences in $\mathbb R$. Invoking our favorite Proposition 1.6 yet again, we know that (1) holds when each component sequence $||x^{(i)}_k||$ also converges to $||x^{(i)}||$ in $\mathbb R$.
+We recall from Calculus 148 that continuous functions preserve sequential limits; that is, if a sequence $x_k$ converges to $x$, and $f$ is a continuous function, then $f(x_k)$ converges to $f(x)$. We know the inner product is always non-negative, so taking the square root of an inner product is not ambiguous. Since we know from problem 2(b) that $x^{(i)}_k\cdot y^{(i)}_k$ converges to $x^{(i)}\cdot y^{(i)}$, and that $f(x)=\sqrt{x}$ is a continuous function, we can simply set $y^{(i)}_k=x^{(i)}_k$ and conclude that $\sqrt{x^{(i)}_k\cdot x^{(i)}_k}$ also converges to $\sqrt{x^{(i)}\cdot x^{(i)}}=||x^{(i)}||$. Reassembling this through Proposition 1.6, we can conclude that $||\vec{x}_k||$ also converges to $||\vec{x}||$.\newline
+
+\textbf{3. (b) Let $\seq{x}$ and $\seq{y}$ be convergent sequences in $\Rn$. Consider the sequence of real numbers $(d_k)_{k=1}^\infty$, where $d_k=d(\vec{x}_k,\vec{y}_k)$. Must this sequence be convergent in $\mathbb R$?}
+\setcounter{equation}{0}
+
+I claim that $(d_k)_{k=1}^\infty$ is convergent, and converges to $d=d(\vec{x},\vec{y})$, where $\vec{x}=\lim_{k\to\infty}{\seq x}$ and $\vec{y}=\lim_{k\to\infty}{\seq y}$.
+
+We know that
+\begin{align}
+ d_k=\left|\left|\vec{x}_k-\vec{y}_k\right|\right|\leq\left|\left|\vec x\right|\right|+||\vec y||
+\end{align}
+Well, $d_k$ is a sequence in $\mathbb R$, and we know that in $\mathbb R$, the sum of two convergent sequences is convergent. But $||\vec x||$ and $||\vec y||$ are both convergent by our result from 3(a), so $d_k$ is also convergent. Moreover, in $\mathbb R$, the limit of the sum is the sum of the limits, so as a bonus we have
+\[
+ d_k\to d(\vec x,\vec y),\quad\text{ where }\vec x=\lim_{k\to\infty}\seq x, \vec y=\lim_{k\to\infty}\seq y
+\]
+\newline
+
+
+\textbf{4. Let $\seq{x}$ be a sequence in $\Rn$, and suppose that
+\setcounter{equation}{0}
+\[
+ \sum_{k=1}^\infty{||\vec{x}_k||}<\infty
+\]
+For every $k\geq1$ consider the vector
+\[
+ \vec{s}_k=\vec{x}_1+\vec{x}_2+\cdots+\vec{x}_k\in\Rn
+\]
+Prove that \seq{s} is a convergent sequence in $\Rn$.}
+
+As we have proven, if a sequence is Cauchy, it is also convergent. Thus it suffices to prove that $\vec{s}_k$ is Cauchy. In other words, we have to prove that there is some $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left||\vec{s}_p-\vec{s}_q\right||
+=\left|\left|\sum_{k=q+1}^p{\vec{x}_k}\right|\right|
+<\epsilon\quad\text{ whenever }p,q>K
+\end{align}
+By the triangle inequality for the norm, we know that \[\displaystyle\left|\left|\sum_{k=q+1}^p{\vec{x}_k}\right|\right|\leq\sum_{k=q+1}^p{||\vec{x}_k||}\] So if we can show that the right-hand side summation is less than $\epsilon$ eventually, it follows that the left-hand side is as well. To show that the right-hand side is less than $\epsilon$ eventually, we use an argument by contradiction.
+
+Assume that for some $\epsilon>0$, there is no $K$ such that $\sum_{k=q+1}^p{||\vec{x}_k||}<\epsilon$ once $p,q>K$. This means that $\sum_{k=q+1}^p{||\vec{x}_k||}>\epsilon$ infinitely many times (since if it were only a finite number of times, then after the last one it would always be less, so we could have chosen $K$ to be the last $q$ where it was greater). But $\epsilon$, although small, is positive, and by the Archimedian property of $\mathbb R$, an infinite number of $\epsilon$ is still infinite, no matter how small $\epsilon$ is. Clearly $\sum_{k=q+1}^p{||\vec{x}_k||}=\infty$ is less than $\sum_{k=1}^\infty{||\vec{x}_k||}$ since $||\vec{x}_k||$ is always positive, so it \textit{cannot} be infinite. This is a contradiction. Therefore our initial assumption that no such $K$ existed must have been false. Therefore $K$ exists, and it satisfies (1). Therefore $\seq{s}$ is Cauchy, and must also therefore be convergent in $\Rn$.\newline
+
+\textbf{5. (a) Suppose that $A$ is the open ball $B(\vec{a};r)$, where $\vec{a}\in\Rn$ and $r\in\mathbb R,r>0$. Determine what is $\cl{A}$.}
+\setcounter{equation}{0}
+
+By definition,
+\[
+\cl{A}=\left\{
+\begin{array}{c|>{\centering}m{6cm}}
+ \vec{x} \in \mathbb{R}^n & $\exists$ a sequence $(\vec{x}_k)_{k=1}^\infty$ in $B(\vec{a};r)$ \newline
+ such that  $(\vec {x}_k)_{k=1}^\infty$ converges to $\vec{x}$
+\end{array}
+\right\}
+\]
+First, it is clear that $B(\vec{a};r)\in\cl{A}$, since for any $\vec{x}\in B(\vec{a};r)$, we can just choose the constant sequence $\left\{\vec{x},\vec{x},\vec{x},\ldots\right\}$ which clearly converges to $\vec{x}$ and is a member of $A$ by definition. All that remains is to examine the boundaries. I claim that every vector in the set $\overline{B}(\vec{a};r)$ is also in the closure of $A$. The only part of this not included in the open ball are those vectors $\vec{x}$ where $||\vec{a}-\vec{x}||=r$. So we need to show that for any such vector $\vec{x}$, there is a sequence $\seq{x}$ that converges to $\vec{x}$. Well, consider the sequence
+
+\begin{align}
+ \seq{x}=\left(\vec{x}^{(1)}-\frac{|\vec{x}^{(1)}-\vec{a}^{(1)}|}{(\vec{x}^{(1)}-\vec{a}^{(1)})k},\vec{x}^{(2)}-\frac{|\vec{x}^{(2)}-\vec{a}^{(2)}|}{(\vec{x}^{(2)}-\vec{a}^{(2)})k},\ldots,\vec{x}^{(n)}-\frac{|\vec{x}^{(n)}-\vec{a}^{(n)}|}{(\vec{x}^{(n)}-\vec{a}^{(n)})k}\right).
+\end{align}
+It is immediately obvious that this sequence converges to $\vec x$, since as $k\to\infty,\frac{|\vec{x}^{(i)}-\vec{a}^{(i)}|}{(\vec{x}^{(i)}-\vec{a}^{(i)})k}=\pm\frac1k\to0$, so each component sequence $\vec{x}^{(i)}-\frac{|\vec{x}^{(i)}-\vec{a}^{(i)}|}{(\vec{x}^{(i)}-\vec{a}^{(i)})k}\to\vec{x}^{(i)}$.
+
+Perhaps less obvious is the fact that every element of $\seq x$ is in $A$. Well, in the case where $\vec{x}^{(i)}>\vec{a}^{(i)}$, the $i$th component of $\vec{x}_k$ is $\vec{x}^{(i)}-\frac{1}{k}$ which is certainly closer to $\vec{a}^{(i)}$ than $\vec{x}^{(i)}$ is. In the opposite case, when $\vec{a}^{(i)}>\vec{x}^{(i)}$, we have the $i$th component of $\vec{x}_k$ as $\vec{x}^{(i)}+\frac1k$, which is also closer to $\vec{a}^{(i)}$ then $\vec{x}^{(i)}$ is.
+
+Thus, for each component sequence of $\seq x$, we have $d(\vec{x}_k^{(i)},\vec{a}^{(i)})<d(\vec{x}^{(i)},\vec{a}^{(i)})$, so it follows that $d(\vec{x}_k,\vec{a})<d(\vec{x},\vec{a})=r$, so each $\vec{x}_k$ is in the open ball. Thus the closed ball $\overline{B}(\vec{a};r)$ is the closure of $A$.\newline
+
+\textbf{5. (b) Prove that for an arbitrary set $A\subseteq\Rn$ we have the inclusion $A\subseteq\cl{A}$. Can this be a strict inclusion?}
+
+As was alluded to in the solution to 5(a), it is clear that the closure of any set $A$ contains the set $A$ itself. For any vector $\vec{x}\in A$, you can easily construct a sequence contained in $A$ that converges to $\vec{x}$: it is simply the sequence $\left\{\vec{x},\vec{x},\vec{x},\ldots\right\}$. Moreover, this relation \textit{can} certainly be a strict inclusion $-$ in fact, we just found one in 5.(a); the closed ball is a strict superset of the open ball. There are also cases where the sets are actually equal, like the case where $A$ contains only one element.\newline
+
+\textbf{6. Let $A$ be a subset of $\Rn$, and let $\vec z$ be a vector in $\Rn$. Prove the equivalence
+\[
+ \vec{z}\in\cl{A}\iff\left(B(\vec{z};r)\cap A\not=\emptyset,\quad\forall r>0\right)
+\]
+}
+\setcounter{equation}{0}
+
+First we will prove the left-to-right implication: If $\vec{z}$ is an element of $\cl{A}$, then every open ball of positive radius centered at $\vec{z}$ intersects $A$ in some way.
+
+We can prove this by contradiction. Assume $\vec{z}\in\cl{A}$, but there is some $r>0$ such that $\left(B(\vec{z};r)\cap A=\emptyset\right)$. Then there is a sequence $\seq{z}\in A$ that converges to $\vec z$. So there is some $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec{z}_k-\vec{z}\right|\right|<\epsilon\quad\text{ whenever }k>K
+\end{align}
+
+We know that $\vec{z}_k\in A$ for all $k$, but since $A$ and $B(\vec{z};r)$ do not intersect for some $r$, the distance between the center of the ball ($\vec{z}$) and $\vec{z}_k$ must be greater than $r$ for any $k$. Thus if we set $\epsilon=r$, (1) can never be satisfied. If it could, then we would have $||\vec{z}_k-\vec{z}||<r$ which would put $\vec{z}_k$ in the ball, which would contradict the intersection of the ball and $A$ being empty. Therefore, no such $k$ exists, which means that $\seq z$ does not converge, which means $\vec{z}\not\in\cl A$, so we have arrived at a contradiction. Therefore, the open ball does intersect $A$ somewhere, and the left-to-right implication is proven.
+
+Next we must prove the right-to-left implication; if the open ball centered at $\vec z$ intersects $A$ somewhere for any positive radius $r$, then $\vec z$ must belong to the closure of $A$. Geometrically speaking, this means that if $\cl A$ and the open ball are touching, there is always a sequence that starts in the closure, passes through the intersection of the ball and the closure, and makes its way to the center of the ball ($\vec z$). Since the radius of the ball can be arbitrarily small, this means the center of the ball is arbitrarily close to $A$. This is a very convincing intuitive picture, but it demands proof. 
+
+We want to find a sequence $\seq{y}$ in $A$ such that there is a $K$ so that 
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec{y}_k-\vec{z}\right|\right|<\epsilon\quad\text{ whenever }k>K
+\end{align}
+
+Well, for any $r$, we know there is an element $\vec{x}$ in $B(\vec{z};r)\cap A$ such that \begin{align}||\vec{x}-\vec{z}||<r\end{align} (If there ever wasn't, then this would contradict the intersection of the ball and $A$ being non-empty). We can simply set $r=\epsilon$, and set $\vec{y}_k$ to be whichever $\vec{x}$ satisfies.(3). We can proceed in this fashion indefinitely, producing a sequence $\seq y$ that is always contained in $A$, and always within $r$ of $\vec z$. Thus, $\vec z$ is in the closure of $A$, and we are done.\newline
+
+\textbf{7. Let $A$ be an arbitrary subset of $\Rn$. Prove that
+\[
+ \cl{\cl{A}}=\cl{A}
+\]
+}
+\setcounter{equation}{0}
+
+To prove that these two sets are equal, we must prove the following two statements:
+\begin{align}
+ \cl{\cl A}\subseteq\cl A\\
+ \cl A\subseteq \cl{\cl A}
+\end{align}
+
+We notice that we have already proven (2) in problem 5(b); specifically, let $B=\cl A$. Then (2) is equivalent to $B\subseteq\cl B$, which we already know to be true. So the only part we have to show is (1).
+
+To prove (1), we use an argument by contradiction; let's assume there exists a vector $\vec x$ that is in $\cl{\cl A}$, but is not in $\cl A$. This means that there \textit{does} exist a sequence $\seq{x}$ in $\cl A$ that converges to $\vec x$, but there is \textit{no} sequence in $A$ that converges to $\vec{x}$. Geometrically speaking, $\seq x$ must live on the ``border'' of $A$; it must be entirely made up of those values that elements in $A$ approach, but never quite reach. In other words, there are infinitely many $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec{x}_k-\vec{x}\right|\right|<\frac\epsilon2\quad\text{ whenever }k>K
+\end{align}
+
+Conversely, for each of those $\vec{x}_k$, there is a sequence $(\vec{y}_j)_{j=1}^\infty$ in $A$ for which there are infinitely many $J$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec{y}_j-\vec{x}_k\right|\right|<\frac\epsilon2\quad\text{ whenever }j>J
+\end{align}
+We can see by combining (3) and (4) that, eventually, when $j>J$, $\vec{y}_j$ is within half an $\epsilon$ from $\vec{x}_k$, which, when $k>K$, is also within half an epsilon of $\vec{x}$. Thus we can conclude that
+\[
+ \forall\epsilon>0,\quad\left|\left|\vec{y}_j-\vec{x}\right|\right|<\epsilon\quad\text{ whenever }j>J,k>K
+\]
+This means that $(\vec{y}_j)_{j=1}^\infty$ also converges to $\vec{x}$. But $(\vec{y}_j)_{j=1}^\infty$ is in $A$, which means $\vec{x}$ is in the closure of $A$ by definition; so we have arrived at a contradiction. Thus our assumption that a vector $\vec x$ exists which is in $\cl{\cl A}$ but not in $\cl A$ must have been false; therefore $\cl{\cl A}\subseteq\cl A$, and combining this with (2), we conclude that these two sets are equal.\newline
+
+\textbf{8. In this problem $\seq a$ is a sequence of vectors in $\Rn$ and $r_1,r_2,\ldots,r_k,\ldots$ are strictly positive numbers with $\lim_{k\to\infty}{r_k}=0$. Suppose that the closed balls $\overline{B}(\vec{a}_k;r_k)$ are \textit{nested} inside each other, in the sense that we have the inclusions:
+\[
+ \overline{B}(\vec{a}_1;r_1)\supseteq\overline{B}(\vec{a}_2;r_2)\supseteq\cdots\supseteq\overline{B}(\vec{a}_k;r_k)\supseteq\cdots
+\]
+}
+
+\textbf{(a) Prove that the sequence $\seq a$ is convergent.}
+\setcounter{equation}{0}
+
+This sequence is convergent if and only if it is Cauchy. In this case, we need to show there exists a $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec{a}_p-\vec{a}_q\right|\right|<\epsilon\quad\text{ whenever }p,q>K
+\end{align}
+Geometrically speaking, this is saying that for any given distance $\epsilon$, no matter how small, eventually the centers of the balls have to be at least that close. Well, this is obvious, since no matter how small that length is, eventually $2r_K$ is smaller than it; since all balls $B(\vec{a}_k;r_k)$ are contained in that ball, they cannot be farther apart than $2r_K$ either, once $k>K$. 
+
+To formalize this, we claim that if two closed balls $B_x=\overline{B}(\vec{a}_x;r_x),B_y=\overline{B}(\vec{a}_y;r_y)$ are both contained in a third ball, $B_z=\overline{B}(\vec{a}_z;r_z)$, then $||\vec{a}_x-\vec{a}_y||\leq r_z$. This can be shown by the fact that
+\[
+ ||\vec{a}_x-\vec{a}_y||=||\vec{a}_x-\vec{a}_z+\vec{a}_z-\vec{a}_y||\leq||\vec{a}_x-\vec{a}_z||+||\vec{a}_y-\vec{a}_z||
+\]
+Obviously $||\vec{a}_x-\vec{a}_z||\leq r_z$ and $||\vec{a}_y-\vec{a}_z||\leq r_z$; this needs no further explanation since if the center of the smaller ball is farther away from the center of the bigger ball than the radius of the bigger ball, it cannot possibly be contained in the bigger ball. So by the triangle inequality shown above, $||\vec{a}_x-\vec{a}_y||\leq 2r_z$. Thus if set $\epsilon=2r_z$ (they are both arbitrarily small positive values, so this is legal), we see that the inequality (1) must hold eventually. Thus $\seq a$ is Cauchy, so it is also convergent.\newline
+
+\textbf{8 (b) Let $\vec{a}=\lim_{k\to\infty}\vec{a}_k$. Prove that $\vec{a}\in\cap_{k=1}^\infty{\overline{B}(\vec{a}_k;r_k})$.}
+\setcounter{equation}{0}
+
+We know that if $\vec{a}\in\cap_{k=1}^\infty{\overline{B}(\vec a_k;r_k)}$ does not hold for some $k$, it does not hold for all $k'>k$, since $\overline B(\vec a_{k'};r_{k'})\subseteq\overline B(\vec a_k;r_k)$ for all $k'>k$. Basically, if $\vec a$ is \textit{not} in some ball, it can't be in any of the balls inside of that ball either. Thus there must be some smallest $k_1$ such that 
+\begin{align}
+ \left|\left|\vec{a}-\vec{a}_{k}\right|\right|>r_{k}\quad\forall k>k_1
+\end{align}
+However, we know from the limit that there is a $K$ such that
+\begin{align}
+ \forall\epsilon>0,\quad\left|\left|\vec a_k-\vec a\right|\right|<\epsilon\quad\text{ whenever }k>K
+\end{align}
+(2) must also hold, in particular, for $\epsilon\leq r_k$, since they are both just arbitrarily small positive values. However, this leads to a contradiction; once $k>\max{(k_1,K)}$, we have to have both (1) and (2) being true at the same time, which is not possible. Thus our inital assumption that (1) is true must be false; thus there is no first $k_1$, and so $\vec a$ must be contained in \textit{all} of the balls, which is what we were trying to prove.\newline
+
+\textbf{8. (c) Could the intersection of closed balls $\cap_{k=1}^\infty{\overline{B}(\vec{a}_k;r_k)}$ contain some other vector, besides the vector $\vec a$ from part (b) of the problem?}
+\setcounter{equation}{0}
+
+Intuitively speaking we feel that such a vector cannot exist; if it did, say $\vec{b}$, no matter how little you offset it from $\vec{a}$, eventually the radius of the balls will be smaller than that offset, so $\vec b$ will fail to be in all of the balls. But we must still convince ourselves of this.
+Say we have $\vec{b}\in\cap_{k=1}^\infty{\overline{B}(\vec{a}_k;r_k)}$. There is some $\mu$
+such that \begin{align}||\vec a-\vec b||=\mu\geq0\end{align} We know by the properties of norms that the only time $\mu=0$ is when $\vec a-\vec b=\vec 0\iff\vec a=\vec b$. So we will try to show that $\mu=0$.
+Well, we know by the triangle inequality that
+\begin{align}
+ 0\leq||\vec a-\vec b||=||\vec a-\vec a_k+\vec a_k+\vec b||=||(\vec{a}-\vec{a_k})-(\vec{b}-\vec{a_k})||\leq||\vec a-\vec a_k||+||\vec b-\vec a_k||
+\end{align}
+Well, we know that $||\vec a-\vec a_k||\to0$, and that $||\vec b-\vec a_k||\to0$, so it follows that $||\vec a-\vec a_k||+||\vec b-\vec a_k||\to0$. So we apply the squeeze principle to (2) in order to see that
+\[
+ ||\vec a-\vec b||=\mu\longrightarrow0\quad \text{ as } k\to\infty
+\]
+However, $\vec a$ and $\vec b$ are constant, so $\mu$ is constant. Thus if $\mu$ tends to $0$, it must actually \textit{be} 0. So we've proven that the distance between $\vec a$ and $\vec b$ is actually 0, so they are the same vector. Since $\vec b$ was just chosen to be some arbitrary vector in the intersection of all the balls, it follows that $\vec a=\lim_{k\to\infty}{a_k}$ is the only such vector.
+\end{document}

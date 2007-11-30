@@ -1,0 +1,189 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{graphicx}
+
+\title{Math 247 - Assignment 5}
+\author{Adrian Petrescu (\#20240298)}
+\begin{document}
+
+\newcommand{\R}[1]{\ensuremath{\mathbb{R}^#1}}
+
+\maketitle
+
+\textbf{1. Let $A$ be a subset of \R n such that $\vec 0$ is an interior point of $A$. Suppose that $f: A\to\R{m}$ is a function with the property that 
+\[
+||f(\vec x)||\leq||\vec x||^{\frac32},\quad\forall\vec x\in A
+\]
+Prove that $f$ is differentiable at $\vec 0$, and determine the derivative of $f$ at $\vec 0$.}
+
+For $f$ to have a derivative $L$ at $\vec 0$ means that
+\begin{align*}
+	\lim_{\vec x\to \vec 0}{\frac{||f(\vec x)-f(\vec 0)-L(\vec x)||}{||\vec x||}}
+\end{align*}
+Now, we know that $0\leq||f(\vec 0)||\leq||\vec 0||^\frac32=0$. By squeeze, this means that $f(\vec 0)=\vec 0$, so this is equivalent to 
+\begin{align}
+	0\leq\lim_{\vec x\to \vec 0}{\frac{||f(\vec x)-L(\vec x)||}{||\vec x||}}\leq\lim_{\vec x\to\vec 0}{\frac{||f(\vec x)||-||L(\vec x)||}{||\vec x||}}\leq\lim_{\vec x\to\vec 0}{\frac{||\vec x||^\frac32-||L(\vec x)||}{||\vec x||}}
+\end{align}
+If we can find a linear function $L$ that makes the limit $0$, the squeeze principle will apply and we will have proven what we wanted. Well, $L(\vec x)=\vec 0$ is certainly a linear transformation, so we substitute that in:
+%\begin{align*}
+% \lim_{\vec x\to\vec0}{\frac{||\vec x||^\frac32-||\vec x||}{||\vec x||}}=\lim_{\vec x\to\vec 0}{\frac{||\vec x||\cdot(\sqrt{||\vec x||}-1)}{||\vec x||}}=\lim_{\vec x\to\vec 0}{(\sqrt{||\vec x||}-1)}
+%\end{align*}
+\begin{align*}
+ \lim_{\vec x\to\vec 0}{\frac{||\vec x||^\frac32-\vec 0}{||\vec x||}}=\lim_{\vec x\to 0}{\sqrt{||\vec x||}}=\vec 0
+\end{align*}
+Applying the squeeze principle in (1), then, we get that the limit exists and is equal to $\vec 0$.\newline
+
+\textbf{2. Consider the function $f: \R2 \to \mathbb R$ defined by 
+\[
+ f(p,q)= \left\{ 
+\begin{array}{cc}
+\frac{p^2q}{p^2+q^2},&\mbox{ if } (p,q) \neq (0,0)\\
+0, &\mbox{ if } (p,q)=(0,0)
+\end{array}\right.
+\]
+(a) Verify that $f$ has partial derivatives at every point in $\R2$, and determine the Jacobian matrix of $f$ at a point $(p_0,q_0)\in\R2$.
+}
+
+Since the image of $f$ is $\mathbb R$, we can use simple one-dimensional derivative rules from Calculus 147 help I'm trapped in a math factory to calculate this derivative.
+\begin{align*}
+ \frac{\partial}{\partial p}\left({\frac{p^2q}{p^2+q^2}}\right)=\frac{(2pq)(p^2+q^2)-(p^2q)(2p)}{(p^2+q^2)^2}=\frac{2pq^3}{(p^2+q^2)^2},\quad\forall (p,q)\not=(0,0)
+\end{align*}
+And for the other partial derivative:
+\begin{align*}
+  \frac{\partial}{\partial q}\left({\frac{p^2q}{p^2+q^2}}\right)=\frac{(p^2)(p^2+q^2)-(p^2q)(2q)}{(p^2+q^2)^2}=\frac{p^2(p^2-q^2)}{(p^2+q^2)^2},\quad\forall (p,q)\not=(0,0)
+\end{align*}
+However, in both cases we see that these partial limits are rational functions, where the degree of the numerator is more than 2 below the degree of the denominator, so it follows that both of these limits go to $0$ as $p,q$ go to $0$ respectively. Thus the limits exist at $(p,q)=(0,0)$ as well. Thus the Jacobian of this matrix at $(s_0,t_0)$ is simply the matrix
+\[
+ \begin{bmatrix}
+ \frac{2p_0q_0^3}{(p_0^2+q_0^2)^2} & \frac{p_0^2(p_0^2-q_0^2)}{(p_0^2+q_0^2)^2}
+ \end{bmatrix}
+\]
+
+\textbf{2(b) Is it true that $f\in C^1(\R2,\R{})$?}
+
+Theorem 7.7 tells us that if a function is in $C^1(A,\R m)$, then it is everywhere differentiable. At the same time, however, Remark 7.3 tells us that this particular $f$ is not differentiable at $(0,0)$. The contrapositive tells us that, therefore, $f$ is not in $C^1(\R2,\mathbb R)$.
+
+\textbf{3. Consider the function $g:\mathbb R^2\to\mathbb R$ defined by \[
+ g(p,q)= \left\{ 
+\begin{array}{cc}
+1,&\mbox{ if } p\not=0\mbox{ and }q\in(0,p^2)\\
+0, &\mbox{ if } \mbox{otherwise}
+\end{array}\right.
+\]\newline
+(a) On a picture of \R2 mark the subset of the plane where $g$ takes the value $0$, and mark the subset of the plane where it takes the value $1$.}
+
+\begin{figure}[hb]
+ \centering
+ \includegraphics[scale=0.4]{x2.jpg}
+ % x2.jpg: -1215491728x-1215491728 pixel, 0dpi, -infx-inf cm, bb=
+\end{figure}
+
+\textbf{(b) Let $\vec v$ be a non-zero vector in $\mathbb R^2$. By using the picture drawn in part (a), prove that the directional derivative $(\partial_{\vec v}g)(\vec 0)$ exists, and compute its value.}
+
+Let us look at a fresh picture and try to use it to get a visual insight into this problem.
+
+Let $R$ be the set of points colored red in the drawing (that is, all points $(p,q)$ where $q>0$ and $q\in(0,p^2)$, and $B$ be the set of points colored black in the drawing (that is, $\mathbb R^2\backslash R$).
+
+We are trying to show that the directional derivative $(\partial_{\vec v}g)(\vec 0)$ exists; that is equivalent to the existance of the limit
+\[
+ \lim_{t\to0}{\frac{g(\vec a+t\vec v)-g(\vec a)}{t}}
+\]
+However, we are looking specifically at the case $\vec a=0$, in which case we have $g(\vec a)=0$. So this simplifies to
+\[
+ \lim_{t\to0}{\frac{g(t\vec v)}{t}}
+\]
+This is where the picture comes into play; consider a $\vec v\in B$ and $t\in(0,1)$. Then $t\vec v$ is simply a scaling of $\vec v$ towards the origin. But it is easy to see by looking at the picture that the entire line segment from the origin to $\vec v$ is entirely in a black region, so $t\vec v$ is always going to be in $B$. Thus, for $\vec v\in B$, we have $g(t\vec v)$ being the constant zero function, so the limit equals $0$.
+
+Next, consider a $\vec v\in R$, and $t\in(0,1)$. Once again, $t\vec v$ is a scaling from $\vec v$ to the origin, so it can be represented as a line passing through these two points. Now, we know that this line intersects the parabola at least once at the origin; we also know that it is not tangent to the parabola (because to be tangent to a parabola at the origin is a horizontal line, but $\vec v$ cannot be on the $p$-axis). Therefore it intersects the parabola in exactly one other place. Now, $\vec v\in R$, and every time the parabola is crossed, we pass from $R$ to $B$ or vice-versa. Thus one crossing implies that a portion of the line from the origin to the point of intersection is in $B$. But for this section, we have $g(t\vec v)=0$, so the function is constant eventually, and the derivative equals $0$.
+\begin{figure}[hb]
+ \centering
+ \includegraphics[scale=0.4]{x2.jpg}
+ % x2.jpg: -1215491728x-1215491728 pixel, 0dpi, -infx-inf cm, bb=
+\end{figure}
+
+\textbf{4. Let $f : \mathbb R^2\to\mathbb R$ be a function, and show that $(\partial_{\vec v}f)(\vec 0)$ exists for every $\vec v\not=0$ in $\mathbb R^2$. Does it follow that $f$ is continuous at $\vec 0$?}
+
+$f$ is not necessarily continuous at $\vec 0$. In fact, consider the function $g$ as defined in 3. We have just proven in $3$ that the directional derivative in the direction of $\vec v$ at $0$ exists for any nonzero $\vec v$. We claim that it is not continuous at $\vec 0$. 
+
+Consider the convergent sequence $\vec x_k=\left(\frac{1}{k},\frac{1}{2k^2}\right)$. We see that as $k\to0$, we have $\vec x_k\to\vec 0$. The important realization is that each element of $x_k$ is in $R$ as defined above; $p=\frac1k$ is never zero, and $q=\frac{1}{2k^2}$ is always strictly smaller than $p^2$ but positive. Thus $g(\vec x_k)=1$ for any $k$. But $g(\vec 0)=0$; thus $g$ is not continuous. Thus it is not necessarily true that the existance of partial derivatives at a point implies continuity there.
+
+\textbf{5. Let $I\subseteq R$ be an open interval. Let $f : I\to\mathbb R^m$ be a function, and let $f_1,\ldots,f_m : I\to\mathbb R$ denote the components of $f$. Let $a\in I$ be a point with the property that each of the functions $f_1,\ldots,f_m$ is differentiable at $a$. Then the vector 
+\[
+ f'(a)=(f'_1(a),\ldots,f'_m(a))\in\R m
+\]
+is called the \textit{velocity vector} of $f$ at $a$.
+}
+
+\textbf{(a) Prove that the function $f$ is differentiable at $a$.}
+\setcounter{equation}{0}
+
+We want to show that there exists some $L\in\mathcal L(\mathbb R,\R m)$ such that
+\begin{align}
+ \lim_{x\to a}{\frac{||f(x)-f(a)-L(x-a)||}{|x-a|}}=0
+\end{align}
+
+We begin by noting that
+\[
+ (\partial_1f)( a)=\lim_{t\to0}{\frac{f( a+t)-f(a)}{t}}
+\]
+By Remark 6.4, this is equivalent to
+\[
+ \left(\lim_{t\to0}{\frac{f_1( a+t)-f_1( a)}{t}}, \lim_{t\to0}{\frac{f_2( a+t)-f_2( a)}{t}},\ldots,\lim_{t\to0}{\frac{f_m( a+t)-f_m( a)}{t}}\right)
+=\left(f_1'( a),f_2'( a),\ldots,f_m'( a)\right)=f'( a)
+\]
+
+With this proven, let us consider the derivative $L(v)$; the dimension of $\mathbb R$ is 1, so let's take $L$ to be the line passing through the origin (obviously) and the point $(1,f'( a))$. We will use this as our guess for the derivative in (1), and see if it exists. In particular, this means that $L(1)=(\partial_1f)( a)=f'( a)$. Now we turn our attention to (1) again:
+\begin{align*}
+ \lim_{x\to a}{\frac{f(x)-f(a)-L(x-a)}{|x-a|}}=&\lim_{x\to a}{\frac{f(x)-f(a)-(x-a)L(1)}{|x-a|}}\\
+=&\lim_{x\to a}{\frac{f(x)-f(a)-(x-a)(\partial_{ 1}f)(a)}{|x-a|}}
+\end{align*}
+At this point we consider the cases where $x\to a^+$ and $x\to a^-$ separately. When $x\to a^+$, we know $|x-a|=x-a$, so we get
+\begin{align*}
+ \lim_{x\to a^+}{\left[\frac{f(x)-f(a)}{x-a}-(\partial_1f)(a)\right]}=&\lim_{x\to a^+}{\left[\frac{f(x)-f(a)}{x-a}\right]}-f'(a)\quad\mbox{(since $f'(a)$ is constant)}\\
+=&f'(a)-f'(a)=0
+\end{align*}
+Similarly, when $x\to a^-$ we have $|x-a|=a-x$, and so the limit evaluates to
+\begin{align*}
+ \lim_{x\to a^-}{\left[\frac{f(x)-f(a)}{a-x}+(\partial_1f)(a)\right]}=&\lim_{x\to a^+}{\left[\frac{f(x)-f(a)}{a-x}\right]}+f'(a)\quad\mbox{(since $f'(a)$ is constant)}\\
+=&-\lim_{x\to a^-}{\left[\frac{f(x)-f(a)}{x-a}\right]}+f'(a)\\
+=&-f'(a)+f'(a)=0
+\end{align*}
+
+Thus the limit approaches $0$ from both sides, from which we can conclude $(1)$, and we are done.
+
+\textbf{(b) Let $L\in\mathcal L(\mathbb R,\mathbb R^m)$ denote the derivative of $f$ at $a$. Explain what is the relation between $L$ and the velocity vector $f'(a)$.}
+
+The only link is that $L$ and $f'(a)$ intersect at $(1,f'(a))$.\newline
+
+\textbf{6. Let $I\subseteq\mathbb R$ be an open interval, and let $f : I\to\R m$ be a function. Suppose $f$ has the property that
+\[
+ ||f(t)||=1,\quad\forall t\in I
+\]
+Let $a\in I$ be a point where $f$ is differentiable, and consider the velocity vector $f'(a)\in\mathbb R^m$. Prove that the vectors $f(a),f'(a)\in\R m$ are perpendicular to each other.}
+
+We want to show that $f(a)\cdot f'(a)=0$ for any $a\in I$ where $f$ is differentiable. We recall from Problem 5 that $f'(a)=L(1)=(\partial_1f)(a)$, so the previous assertion is the same as saying that
+\[
+ f(a)\left((\partial_1f)(a)\right)=0
+\]
+We expand the partial derivative according to its definition:
+\begin{align*}
+ f(a)\cdot\lim_{t\to0}{\frac{f(a+t)-f(a)}{t}}=&\lim_{t\to0}{\frac{f(a)\cdot f(a+t)-f(a)\cdot f(a)}{t}}\\
+=&\lim_{t\to0}{\frac{f(a)\cdot f(t+a)-1}{t}},\quad\mbox{ since $f(a)\cdot f(a)=||f(a)||=1$ }
+\end{align*}
+We wish to show that this limit goes to $0$. Since this limit is in $\mathbb R$, we can use Math 247 concepts to evaluate it. In particular, as $t\to0$, the denominator goes to $0$, and the numerator goes to $f(a)\cdot f(a+0)-1=||f(a)||-1=0$. Thus L'Hopital's rule applies, and we take the derivative of the numerator and the denominator separately, with respect to $t$. The denominator obviously goes to $1$, and the numerator goes to
+\[
+\frac{\mathrm{d}}{\mathrm{d}t}(f(a)\cdot f(t+a))
+\]
+Thus the limit as a whole goes to
+\[
+ \lim_{t\to0}{\frac{\mathrm{d}}{\mathrm{d}t}(f(a)\cdot f(t+a))}
+\]
+Now, we know $f$ is some continuous composition of $g(x)=\sqrt{1-x^2}$, so its derivative is some continuous composition with $g'(x)=\frac{-x}{\sqrt{1-x^2}}$. Therefore the derivative is continuous, and we can bring the limit inside of the derivative to obtain
+\[
+ \frac{\mathrm{d}}{\mathrm{d}t}\lim_{t\to0}{f(a)\cdot f(a+t)}=\frac{\mathrm{d}}{\mathrm{d}t}(f(a)\cdot f(a+0))=||f(a)||'=1'=0
+\]
+This relates back to the dot product at the very beginning; thus $f(a)\cdot f'(a)=0$, so the vector and its velocity vector are perpendicular, so we are done.
+\end{document}
+

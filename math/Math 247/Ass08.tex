@@ -1,0 +1,247 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fullpage}
+
+\newtheorem{thm}{Theorem}[section]
+
+%opening
+\title{MATH 247 - Assignment 8}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+\setcounter{section}{10}
+\textbf{1. Consider the notations of Theorem 10.1 from class. That theorem was called the ``open mapping theorem'', but it only states that $f(A)$ is an open subset of $\mathbb R^n$ (rather than stating that $f$ satisfies the condition (OM)). Question: under the hypothesis of Theorem 1.10, does it follow or not $f$ satisfies (OM)?}
+
+Our Theorem 10.1 stated
+
+\begin{thm}[Open Mapping Theorem]\label{Open Mapping Theorem} Let $A\subseteq\mathbb R^n$ be open, $f\in C^1(A,\mathbb R^n)$, and suppose that $J_f(\vec x)$ is invertible for every $\vec x\in A$. Then $f(A)$ is an open subset of $\mathbb R^n$.
+\end{thm}
+
+Well, given any open subset $D\subseteq A$, we define the restriction of $f$ to $D$:
+\begin{align*}
+ g &: D\to\mathbb R^n \\
+\vec x&\longmapsto f(\vec x)
+\end{align*}
+
+We check that $g$ satisfies all the hypotheses of Theorem 10.1; if it does, then we can conclude that $f(D)$ is open, which is precisely what we need.
+
+Well, $D$ is open by definition. Secondly, if $f$ is $C^1$ on its domain, and $g$ merely mimicks $f$ on $D$, it is also $C^1(D,\mathbb R^n)$. Lastly, if $\vec x\in D$, then $\vec x\in A$ as well, so $J_g(\vec x)$ is invertible by the assumption that $f$ satisfies the hypotheses of Theorem 1.10. Thus, if $f$ satisfies the Open Mapping Theorem, then so does $g$; thus $g(D)\subseteq\mathbb R^n$ is indeed open.
+
+\textbf{2. Let $A,B$ be two open subsets of $\mathbb R^n$, let $f:A\to B$ be a bijective function, and let $g:B\to A$ be the inverse of $f$.}
+
+\textbf{(a) Suppose that the function $f$ is continuous. Prove that $g$ satisfies the condition (OM).}
+
+The continuity of $f$ implies that for any convergent sequence $\{\vec x_k\}_{k=1}^\infty\to\vec x\in A$, the sequence $f(\vec x_k)$ also converges to $f(\vec x)\in B$. Assume that there is some non-empty subset $D\subseteq B$ where $g(D)$ is not open. Let $f(\vec x_k)$ be a sequence in $D$. Then the function $g(f(\vec x_k))\to \vec x\in g(D)$ converges. But, since $g$ is not open, there is some point $\vec c$, where there is no $r>0$ such that $B(\vec c;r)\subseteq g(D)$. Well, $\vec c=g(\vec b)$ for some $\vec b\in B$, which likewise is equal to $f(\vec a)$ for some $\vec a\in A$. Thus we can apply the principle above to $\vec a$; let $\{\vec x_k\}_{k=1}^\infty\to\vec a$, from any direction; then following the argument above, $g(f(\vec x_k))\to\vec a$ converges. Thus there must have been points in a neighborhood around $\vec a$ in order for them to converge to $\vec a$. Thus, $g$ must satisfy (OM). 
+
+\textbf{(b) Suppose that $f$ satisfies the condition (OM). Prove that $g$ is continuous.}
+
+Suppose $g$ were not continuous. Then there is some convergent sequence $\{\vec x_k\}_{k=1}^\infty\in B$ such that $\vec x_k\to\vec x$, but $g(\vec x_k)\not\to g(\vec x)$. Well, taking the sequence $f(g(\vec x_k))$ should give us back $\vec x_k\to\vec x$. Then in particular, $f(g(\vec x_k))\to f(g(\vec x))=\vec x$. But since $f$ maps open subsets to open subsets, this domain of $g(\vec x_k)$ also get mapped to an open subset where they converge to $f(g(\vec x))=\vec x$; this contradicts the non-convergence of $g(\vec x_k)$; thus $g$ is continuous.
+
+\textbf{3. Let $A=\{(x,y)\in\mathbb R^2\mid y>0,x>y\}$ and let $f:A\to\mathbb R^2$ be defined by $f(x,y)=(x+y,xy)$ for $(x,y)\in A$. It is accepted that $f$ is a $C^1$ function.}
+
+\textbf{(a) Let $\vec a$ be an arbitrary point in $A$. By computing the Jacobian $|J_f|(\vec a)$, verify that $J_f(\vec a)$ is an invertible $2\times2$ matrix.}
+
+Let $\vec a=(x,y)$. First we evaluate the Jacobian matrix by taking the two partial derivatives:
+\begin{align*}
+ (\partial_1f)(\vec a)=&(1,y)\\
+ (\partial_2f)(\vec a)=&(1,x)
+\end{align*}
+Thus
+\[
+ J_f=\begin{bmatrix}
+      1 & 1 \\ y & x
+     \end{bmatrix}
+\]
+Thus $|J_f|(\vec a)=x-y$. Since $x>y$ for all $\vec a\in A$, we can be assured that $x-y>0$; thus the determinant is nonzero, ensuring that $J_f(\vec a)$ is an invertible matrix.
+
+\textbf{(b) Prove that the function $f$ is one-to-one on $A$.}
+
+We want to show that $f(s)=f(t)\implies s=t$. Let $s=(x,y)$ and $t=(a,b)$. Then $f(s)=f(t)$ tells us
+\begin{align}
+ x+y=&a+b\\
+ xy=&ab
+\end{align}
+A bit of algebra convinces us that these two equations (along with the restrictions on $A$) imply that $x=a$ and $y=b$. Indeed, if we square (1) and subtract 4 times (2), we get:
+\begin{align*}
+ (1)^2-4(2)\implies\quad\quad (x+y)^2-4xy=&(a+b)^2-4ab\\
+(x-y)^2=&(a-b)^2
+\end{align*}
+Since $s,t\in A$, we know $x-y>0$, $a-b>0$ so the line above is equivalent to $x-y=a-b$. Together with (1) we conclude that $x=a,y=b$ which means $s=t$, implying that $f$ is one-to-one.
+
+\textbf{(c) Prove that $f(A)=B$, where $B:=\{(s,t)\in\mathbb R^2\mid t>0, s>2\sqrt t\}$.}
+\setcounter{equation}{0}
+
+We will prove two things: $f(A)\subseteq B$, and conversely $B\subseteq f(A)$.
+
+Let $x=(a,b)$. Then $f(x)=(a+b,ab)$. Since $a>b>0$, we definitely have $ab>0$. Moreover, the AM-GM inequality tells us that $\frac{a+b}{2}>\sqrt{ab}$ (since $a\not=b$), so certainly $s>2\sqrt t$ is true as well. Thus we conclude that $f(A)\subseteq B$.
+
+Next we show that $B\subseteq f(A)$. That is, for any $(s,t)$ satisfying $s>2\sqrt t$ and $t>0$, there is some $(x,y)$ such that $f(x,y)=(s,t)$. Assume by contradiction that some such $(s,t)$ did \textit{not} belong to the image of $f$; that is, there is no solution to the system
+\begin{align}
+ x+y=&s\\
+ xy=&t
+\end{align}
+Well, from substituting (1) into (2) we get that
+\[
+ x(s-x)=xs-x^2=t\implies x^2-sx+t=0
+\]
+We apply the quadratic formula to this polynomial to obtain
+\[
+ x=\frac{s\pm\sqrt{s^2-4t}}{2}
+\]
+In our original equation (1) and (2), we see that $x$ and $y$ are completely symmetrical, so we could also have gotten
+\[
+ y=\frac{s\pm\sqrt{s^2-4t}}{2}
+\]
+However, we always need $x>y>0$, so we will choose the + sign in the former case, and the - sign in the latter. 
+\[
+ g(s,t)=\left(\frac{s+\sqrt{s^2-4t}}{2},\frac{s-\sqrt{s^2-4t}}{2}\right)
+\]
+Thus we have a function $g:B\to f(A)$ that maps every point in $B$ legally to one in $f(A)$ (since the condition $s>2\sqrt t$ ensures that the discriminant above exists). Thus the existance of this inverse ensures that $B\subseteq f(A)$, and we are done.
+
+
+\textbf{(d) Let $\vec a_0=(2,1)\in A$, and consider its image by $f$, the element $\vec b_0=f(\vec a)=(3,2)\in B$. By using the inverse function theorem, determine explicitly what is the Jacobian matrix $J_g(\vec b_0)$, where $g:B\to A$ is the inverse function for $f$.}
+
+By substituting $(x,y)=(2,1)$ into our expression for the Jacobian at $\vec a$ in part (a), we get
+\[
+ \begin{bmatrix}
+  1 & 1 \\ 1 & 2
+ \end{bmatrix}\implies\det{J_f}(\vec a_0)=1
+\]
+Thus the inverse of this matrix is simply its classical adjoint, which is ridiculously easy to compute for a $2\times2$ matrix:
+\begin{align*}
+ \left(J_f(\vec a_0)\right)^{-1}=J_f(\vec a_0)^{\mbox{adj}}=\begin{bmatrix}
+                             2 & -1 \\ -1 & 1
+                            \end{bmatrix}
+\end{align*}
+We have spent the previous three parts establishing the hypotheses of the inverse function theorem. We invoke it now to conclude that $J_g(\vec b_0)=\left(J_f(\vec a_0)\right)^{-1}$, which was found above.
+
+\textbf{(e) Determine explicitly for the inverse function $g:B\to A$, and re-derive the Jacobian matrix $J_g(\vec b_0)$ obtained in part (d) by direct calculation of partial derivatives of $g$. Is the direct calculation easier or harder than the one via the inverse function theorem.}
+
+We recall our inverse function from part (c): 
+\[
+ g(s,t)=\left(\frac{s+\sqrt{s^2-4t}}{2},\frac{s-\sqrt{s^2-4t}}{2}\right)
+\]
+
+We take the partials of this function in order to build its Jacobian:
+\begin{align*}
+ (\partial_1g)(s,t)&=\left(\frac12+\frac{s}{2\sqrt{s^2-4t}},\frac12-\frac{s}{2\sqrt{s^2-4t}}\right)\\
+ (\partial_2g)(s,t)&=\left(\frac{-1}{\sqrt{s^2-4t}},\frac{1}{\sqrt{s^2-4t}}\right)
+\end{align*}
+Thus the Jacobian at the point $\vec b_0=(3,2)$ above is
+\[
+ \begin{bmatrix}
+  \frac12+\frac{s}{2\sqrt{s^2-4t}} &  \frac{-1}{\sqrt{s^2-4t}} \\
+  \frac12-\frac{s}{2\sqrt{s^2-4t}} & \frac{1}{\sqrt{s^2-4t}}
+ \end{bmatrix}=\begin{bmatrix}
+	\frac12+\frac{3}{2\sqrt{9-8}} & \frac{-1}{9-8} \\
+ \frac12-\frac{3}{2\sqrt{9-8}} & \frac{1}{9-8}
+\end{bmatrix}=\begin{bmatrix}
+2 & -1 \\ -1 & 1
+\end{bmatrix}
+\]
+This is the exact same matrix as obtained in part (d), but with a lot more pain and effort.
+
+\textbf{4. Consider the function $f:\mathbb R^2\to\mathbb R^2$ defined by $f(x,y)=(e^x\cos{y},e^x\sin{y})$, for any $(x,y)\in\mathbb R^2$. It is accepted here that $f$ is a $C^1$ function.}
+
+\textbf{(a) Let $\vec a$ be an arbitrary point in $\mathbb R^2$. By computing the Jacobian $|J_f|(\vec a)$, verify that $J_f(\vec a)$ is an invertible $2\times 2$ matrix.}
+
+To find the Jacobian $J_f(\vec a)$, we take the partial derivatives of $f$ at $\vec a=(x,y)$:
+\begin{align*}
+ (\partial_1f)(\vec a)&=(e^x\cos{y},-e^x\sin{y}) \\
+ (\partial_2f)(\vec a)&=(e^x\sin{y}, e^x\cos{y})
+\end{align*}
+Hence the Jacobian for $f$ is:
+\[
+ J_f(\vec a)=\begin{bmatrix}
+              e^x\cos{y} & e^x\sin{y} \\
+-e^x\sin{y} & e^x\cos{y}
+             \end{bmatrix}
+\]
+We can easily take the determinant:
+\[
+ |J_f|(\vec a)=(e^x\cos{y})(e^x\cos{y})-(-e^x\sin{y})(e^x\sin{y})=(e^x\cos{y})^2+(e^x\sin{y})^2
+\]
+As a sum of two squares, (which are not both $0$ at the same time since $\sin$ and $\cos$ never intersect at $0$, and $e^x$ is never $0$), this quantity is always strictly positive, and hence the Jacobian matrix is invertible.
+
+\textbf{(b) Explain why the function $f$ is \textit{not} one-to-one on $\mathbb R^2$.}
+
+Well, $\cos$ and $\sin$ are periodic functions, so if we hold $x=0$ to get rid of the exponential factor, the function $f(0,y)$ repeats all the time. For instance, $f(0,0)=(1,0)$, but also $f(0,2\pi)=(1,0)$. So $f$ is $\textit{not}$ one-to-one.
+
+\textbf{(c) Let $\vec a_0=(0,\pi/4)\in\mathbb R^2$ and consider its image $\vec b_0=f(\vec a_0)=(\sqrt2/2,\sqrt2/2)$. By using the inverse function theorem, show that $f$ has a local inverse $g$ defined on an open set $V\ni\vec b_0$, and determine explicitly what is the Jacobian matrix $J_g(\vec b_0)$.}
+
+Consider the restriction of $f$ to the open interval $C=\left(-\frac\pi2,\frac\pi2\right)\ni\vec a$, called $f_C$. We see that $f_C$ is indeed one-to-one, since the interval falls just short of the period of $\sin$ and $\cos$ (and the exponential function is strictly increasing anyway). The open mapping theorem tells us that $V=f_C(C)$ is also an open subset of $\mathbb R^n$. Thus we can apply the inverse function theorem to this restricted $f_C$ to get a local inverse $g:f_C(C)\to\mathbb R^2$, whose Jacobian is simply the inverse of $J_f(\vec a)$. We again use the classical adjoint of $J_f(\vec a)$ to obtain its inverse; using the derivative obtained in part (a), we find
+\begin{align*}
+ J_g(\vec b_0)=&\frac{1}{\det{J_f(\vec a_0)}}J_f(\vec a_0)^{\mbox{adj}}\\
+=&\frac{1}{(e^{x_0}\cos{y_0})^2+(e^{x_0}\sin{y_0})^2}\begin{bmatrix}
+                                                      e^{x_0}\cos{y_0} & e^{x_0}\sin{y_0} \\
+						      -e^{x_0}\sin{y_0} & e^{x_0}\cos{y_0}
+                                                     \end{bmatrix}\\
+=&\frac{1}{\cos^2\left(\frac\pi4\right)+\sin^2\left(\frac\pi4\right)}\begin{bmatrix}
+                                                                      \cos\left(\frac\pi4\right) & \sin\left(\frac\pi4\right) \\
+-\sin\left(\frac\pi4\right) & \cos\left(\frac\pi4\right)
+                                                                     \end{bmatrix}\\
+=&\begin{bmatrix}
+    \frac{\sqrt2}2 & \frac{\sqrt2}2 \\
+ -\frac{\sqrt2}2 & \frac{\sqrt2}2
+\end{bmatrix}
+\end{align*}
+
+\textbf{(d) Determine explicitly the formula for the local inverse function $g$ found in part (c), and re-derive the Jacobian matrix $J_g(\vec b_0)$ by direct calculation of partial derivatives of $g$.}
+\setcounter{equation}{0}
+
+We have
+\begin{align}
+ s&=e^x\cos{y} \\
+ t&=e^x\sin{y}
+\end{align}
+And we need to write $x,y$ in terms of $s,t$. Well, $(1)^2+(2)^2$ gives us
+\begin{align*}
+ s^2+t^2=&e^{2x}\cos^2{y}+e^{2x}\sin^2{y}\\
+=&e^{2x}\left(\cos^2{y}+\cos^2{y}\right)\\
+\sqrt{s^2+t^2}=&e^{x}\\
+x=&\ln{\left(\sqrt{s^2+t^2}\right)}
+\end{align*}
+Similarly, if we take $(2)/(1)$ we get
+\begin{align*}
+ \frac{t}{s}&=\frac{e^x\sin{y}}{e^x\cos{y}}\\
+y&=\arctan{\left(\frac{t}{s}\right)}
+\end{align*}
+Thus we can express the local inverse $g$ as $$g(s,t)=\left(\ln{\left(\sqrt{s^2+t^2}\right)},\arctan{\left(\frac{t}{s}\right)}\right)$$
+Then, to find this Jacobian, we take the partial derivatives of $g$:
+\begin{align*}
+ (\partial_1g)(\vec b)=&\left(\frac{s}{s^2+t^2},\frac{-t}{s^2\left(1+\frac{t^2}{s^2}\right)}\right)\\
+ (\partial_2g)(\vec b)=&\left(\frac{t}{s^2+t^2},\frac{1}{s\left(1+\frac{t^2}{s^2}\right)}\right)
+\end{align*}
+So at the particular point $\vec b_0=(\sqrt2/2,\sqrt2/2)$, (keeping in mind that $(\sqrt2/2)^2=1/2$), the Jacobian is
+\begin{align*}
+ \begin{bmatrix}
+  \frac{(\sqrt2/2)}{(\sqrt2/2)^2+(\sqrt2/2)^2} &  \frac{(\sqrt2/2)}{(\sqrt2/2)^2+(\sqrt2/2)^2} \\
+\frac{-(\sqrt2/2)}{(\sqrt2/2)^2\left(1+\frac{(\sqrt2/2)^2}{(\sqrt2/2)^2}\right)} & \frac{1}{(\sqrt2/2)\left(1+\frac{(\sqrt2/2)^2}{(\sqrt2/2)^2}\right)}
+ \end{bmatrix}=\begin{bmatrix}
+    \frac{\sqrt2}2 & \frac{\sqrt2}2 \\
+ -\frac{\sqrt2}2 & \frac{\sqrt2}2
+\end{bmatrix}
+\end{align*}
+Thus we see that we have obtained the same result as above, though with a lot more pain.
+
+\textbf{5. Consider again the function $f\in C^1(\mathbb R^2,\mathbb R^2)$ from Problem 4, and consider the vectors $\vec a=(1,0)$ and $\vec b=(1,2\pi)$ in $\mathbb R^2$. By applying the mean value theorem to the function $f^{(1)}\in C^1(\mathbb R^2,\mathbb R)$ and the points $\vec a,\vec b$, we get an intermediate point $\vec c_1\in\operatorname{Co}(\vec a,\vec b)$. By doing the same for the function $f^{(2)}\in C^1(\mathbb R^2,\mathbb R)$, we obtain an intermediate point $\vec c_2\in\operatorname{Co}(\vec a,\vec b)$. Could the mean value theorem be adjusted so that we have $\vec c_1=\vec c_2$?}
+\setcounter{equation}{0}
+
+First we calculate $f(\vec a), f(\vec b)$:
+\begin{align*}
+ f(1,0)=&(e,0)\\
+ f(1,2\pi)=&(e,0)
+\end{align*}
+We see that $\vec a,\vec b$ actually have the same image under $f$, so $f(\vec a)-f(\vec b)=\vec 0$ It is also clear that $\vec b-\vec a=(1-1,2\pi-0)=(0,2\pi)$ and that the gradient of $f^{(1)}$ and $f^{(2)}$ are simply the two columns (respectively) of the Jacobian in Problem 4. Thus what the Mean Value theorem is giving is, respectively, is
+\begin{align}
+ 0=&(0,2\pi)\cdot\left((\partial_1f^{(1)})(\vec c_1), (\partial_2f^{(1)})(\vec c_1)\right)=2\pi(\partial_2f^{(1)})(\vec c_1)=-2\pi e^{x_1}\sin{y_1}\\
+ 0=&(0,2\pi)\cdot\left((\partial_1f^{(1)})(\vec c_2), (\partial_2f^{(2)})(\vec c_2)\right)=2\pi(\partial_2f^{(2)})(\vec c_2)=2\pi e^{x_2}\cos{y_2}
+\end{align}
+Now, I can conceive of each of these being 0 on their own (for instance, $\vec c_1=(x_1,0), \vec c_2=(x_2,\frac\pi2)$). But we cannot satisfy (1) and (2) at once with the same $x,y$; that would require $\cos x$ and $\sin x$ to be identically $0$ at the same time, which never happens. Thus $\vec c_1\not=\vec c_2$.
+
+\end{document}

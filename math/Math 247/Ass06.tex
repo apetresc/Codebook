@@ -1,0 +1,186 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Math 247 - Assignment 6}
+\author{Adrian Petrescu}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+\textbf{1. Let $A=(0,\infty)\times(0,\infty)\subseteq\mathbb R^2$, and let $f:A\to\mathbb R^2$ be defined by
+\[
+f(x,y)=(x^y,y^x),\quad\forall(x,y)\in\mathbb R^2
+\]
+Explain why $f\in C^1(A,\mathbb R^2)$, and calculate the Jacobian matrix of $f$ at the point $(1, e)\in A$.}\newline
+
+We calculate the partial derivatives of $f$ with respect to both components $(x,y)$ of $f$:
+\begin{align*}
+\frac{\partial}{\partial{x}}f\left(x,y\right)=&\frac{\partial}{\partial{x}}\left(x^y,y^x\right)=(y\cdot x^{y-1}, y^x\ln{y})\\
+\frac{\partial}{\partial{y}}f\left(x,y\right)=&\frac{\partial}{\partial{y}}\left(x^y,y^x\right)=(x^y\ln{x},x\cdot y^{x-1})
+\end{align*}
+
+Well, by Remark 7.6, we know that these two partial derivatives are in $C^1$ if and only if each of their respective components are in $C^1$. Well, $y\cdot x^{y-1}$ and $x\cdot y^{x-1}$ are simply polynomials in their respective variable, so those two components are obviously continuous. As for $x^y\ln{x}$ and $y^x\ln{y}$, those are each products of two continuous functions (an exponential function and a logarithmic function), and thus also continuous. So, on a whole, each component of each partial derivative of $f$ is continuous, implying that $f\in C^1(A,\mathbb R^2)$.
+
+To calculate the Jacobian of $f$ at the point $(1,e)$, we must evaluate the partial derivatives there:
+\begin{align*}
+ \frac{\partial}{\partial{x}}f\left(1,e\right)=&(e\cdot1^{e-1},e^1\ln{e})=(e,e)\\
+ \frac{\partial}{\partial{y}}f\left(1,e\right)=&(1^e\ln{1},1\cdot e^{1-1})=(0,1)
+\end{align*}
+Thus the Jacobian of $f$ at this point simply becomes
+\[
+ \begin{bmatrix}
+  e & 0 \\
+  e & 1
+ \end{bmatrix}
+\]
+
+\textbf{2. Suppose that $f\in C^1(\mathbb R^3,\mathbb R)$ and that $(\partial_1f)(\vec 0)=2,(\partial_2f)(\vec 0)=3, (\partial_3f)(\vec0)=-1$. Determine, with justification, the formula for $(\partial_{\vec v}(\vec 0)$, where $\vec v=(\alpha,\beta,\gamma)$ is a non-zero vector in $\mathbb R^3$.}
+
+Since $f\in C^1(\mathbb R^3,\mathbb R)$, and we have all the partial derivatives of $f$ at $\vec 0$, we can easily construct the Jacobian of $f$ at $\vec 0$:
+\[
+ J=\begin{bmatrix}
+  2 & 3 & -1
+ \end{bmatrix}
+\]
+
+We know that $J$ is simply the matrix representation of the linear transformation $L$ which is the derivative of $f$ at $\vec 0$. Then, by Proposition 7.1, we have that
+\[
+ (\partial_{\vec v}f)(\vec a)=L(\vec v)\implies(\partial_{\vec v}f)(\vec 0)=J\vec v\implies\boxed{(\partial_{\vec v}f)(\vec 0)=\begin{bmatrix}3 & 2 & -1\end{bmatrix}\begin{bmatrix}\alpha \\ \beta \\ \gamma \end{bmatrix}=3\alpha+2\beta-\gamma}
+\]
+
+\textbf{3. Let $A$ be a non-empty open subset of $\mathbb R^n$, and let $f$ be a function in $C^1(A,\mathbb R)$. Suppose that $f(\vec x)\not=0,\forall\vec x\in A$, and define $g : A\to\mathbb R$ by putting $g(\vec x)=1/f(\vec x),\vec x\in A$. Prove that $g\in C^1(A,\mathbb R)$, and give a formula expressing the partial derivative $\partial_ig$ in terms of $f$ and $\partial_if$ (for some $1\leq i\leq n$).}
+
+Since $f\in C^1(A,\mathbb R)$, it is differentiable. Consider now the function
+\begin{align*}
+ h(x) : f(A)\to\mathbb R& \\
+x \mapsto\frac1x&
+\end{align*}
+Since $0\not\in A$, we know that this simple one-dimensional function is differentiable across its whole domain. Now we see that the function $g$ is simply $(h\circ f)(\vec x)$. Then Proposition 8.6 tells us that $g$ is also differentiable, and its derivative can be expressed as
+\[
+ (Dg)(\vec x)=(D(h\circ f))(\vec x)=(Dh)(f(\vec x))\cdot(Df)(\vec x)
+\]
+
+But this is now easy to compute. We know from Calculus 1 that the derivative of $h$ is $-1/x^2$, so the Jacobian for $(Dh)(f(\vec x))$ is simply
+\[
+ \begin{bmatrix}\frac{-1}{(f(\vec x))^2}\end{bmatrix}
+\]
+And the question tells that the Jacobian for $f$ is 
+\[
+ \begin{bmatrix}
+  (\partial_1 f)(\vec x) & \cdots & (\partial_nf)(\vec x)
+ \end{bmatrix}
+\]
+
+Thus with the help of Remark 8.5 we conclude that the Jacobian for $g$ is
+\[
+  \begin{bmatrix}
+  \frac{-(\partial_1 f)(\vec x)}{f(\vec x)^2} & \cdots & \frac{(\partial_nf)(\vec x)}{f(\vec x)^2} 
+ \end{bmatrix}
+\]
+And so the $i$th partial derivative of $g$ is $\frac{-(\partial_i f)(\vec x)}{f(\vec x)^2}$. Since $f\in C^1(A,\mathbb R)$, we know that the numerator is continuous, and we certainly know that $\frac{-1}{x^2}$ is continuous (since, again, $0\not\in f(A)$), and we know from Calculus 1 that a quotient of continuous functions is also continuous, we can conclude that each of these partial derivatives of $g$ is also continuous. This means that $g\in C^1( A,\mathbb R)$.\newline
+
+\textbf{4. Let $f\in C^1(\mathbb R,\mathbb R)$ be a differentiable function, and define $F:\mathbb R^2\to\mathbb R$ by the formula $F(s,t):=f(st),\quad\forall(s,t)\in\mathbb R^2$. Verify that $F\in C^1(\mathbb R^2,\mathbb R)$, and prove that
+\[
+ s(\partial_1F)(s,t)=t(\partial_2F)(s,t),\quad\forall(s,t)\in\mathbb R^2.
+\]
+}
+
+Consider the new function $g(s,t)=st$. This function is trivially continuous and its partial derivatives are the easiest things in the world to calculate:
+\[
+ (\partial_1g)(s,t)=t,\quad(\partial_2g)(s,t)=s
+\]
+So the Jacobian of this function at a point $(s,t)$ is simply
+\[
+ X=\begin{bmatrix}
+  t & s
+ \end{bmatrix}
+\]
+
+As for the Jacobian matrix of $f$ at $st$, we do not know much about it except for the fact that it exists, and it has only one component:
+\[
+ Y=\begin{bmatrix}
+    (\partial_{1}f)(st)
+   \end{bmatrix}
+\]
+
+Now we observe that $F(s,t)$ is simply $f(g(s,t))=(f\circ g)(s,t)$. Thus the Chain Rule tells us that the derivative of $F$ exists, and the Jacobian can be obtained by
+\begin{align*}
+ Z=&Y\cdot X\\
+\begin{bmatrix}
+ (\partial_1F)(s,t) & (\partial_2F)(s,t)
+\end{bmatrix}=&\begin{bmatrix}
+    (\partial_{1}f)(st)
+   \end{bmatrix}\begin{bmatrix}
+  t & s
+ \end{bmatrix}=\begin{bmatrix}t(\partial_{1}f)(st) & s(\partial_{1}f)(st)\end{bmatrix}\\
+\implies&(\partial_1F)(s,t)=t(\partial_{1}f)(st),\quad (\partial_2F)(s,t)=s(\partial_{1}f)(st)
+\end{align*}
+
+By substituting in for $(\partial_{1}f)(st)$, we immediately get the desired result:
+\[
+ \boxed{s(\partial_1F)(s,t)=t(\partial_2F)(s,t),\quad\forall(s,t)\in\mathbb R^2}
+\]
+
+Lastly, since we know $f\in C^1(\mathbb R,\mathbb R)$, and $s,t$ are both clearly continuous functions, by the expression for the partial derivatives of $F$ given above, we see that they are simply the product of two continuous functions, and therefore also continuous. Therefore, $F\in C^1(\mathbb R^2,\mathbb R)$.\newline
+
+\textbf{5. Let $A$ be a non-empty open subset of $\mathbb R^n$ and let $B$ be a non-empty open subset of $\mathbb R^m$, where $m$ and $n$ are two positive integers. Suppose that we have functions $f\in C^1(A,\mathbb R^m)$ and $g\in C^1(B,\mathbb R^n)$ such that $f(\vec x)\in B$ for every $\vec x\in A$ and such that:
+\[
+ g(f(\vec x))=\vec x,\quad\forall\vec x\in A.
+\]
+}
+
+\textbf{(a) Let $\vec a$ be in $A$, and denote $\vec b=f(\vec a)\in B$. Let $J\in\mathcal{M}_{m,n}(\mathbb R)$ be the Jacobian matrix of $f$ at $\vec a$, and let $K\in\mathcal{M}_{n,m}(\mathbb R)$ be the Jacobian amatrix of $g$ at $\vec b$. Prove that $KJ$ is the identity $n\times n$ matrix.}
+
+By the very handy Remark 8.5, we know that $KJ=Z$, where $Z$ is the Jacobian matrix of $(g\circ f(\vec x))$. But, by definition, $(g\circ f(\vec x))=\vec x$, so $Z$ is really just the Jacobian matrix of the function $i: \mathbb R^n\to\mathbb R^n$ defined by $i(\vec x)=\vec x$. Then the Jacobian of $i$ is:
+\[
+ \begin{bmatrix}
+  \left(\frac{\partial_1i}{\partial x_1}\right)(\vec x) & \left(\frac{\partial_2i}{\partial x_1}\right)(\vec x) & \hdots & \left(\frac{\partial_ni}{\partial x_1}\right)(\vec x) \\
+\left(\frac{\partial_1i}{\partial x_2}\right)(\vec x) & \left(\frac{\partial_2i}{\partial x_2}\right)(\vec x) & \hdots & \left(\frac{\partial_ni}{\partial x_2}\right)(\vec x) \\
+\vdots & \vdots & \ddots & \vdots \\
+\left(\frac{\partial_1i}{\partial x_n}\right)(\vec x) & \left(\frac{\partial_2i}{\partial x_n}\right)(\vec x) & \hdots & \left(\frac{\partial_ni}{\partial x_n}\right)(\vec x)
+ \end{bmatrix}
+\]
+
+We know that $(\partial_ii)(\vec x)=x_i$ simply by decomposition into components (for $x_j$ with $j\not=i$, we simply have $x_j$ being a constant with respect to $x_i$, but otherwise the derivative of $x_i$ with respect to $x_i$ is $1$.) Thus it is easy to see that the entries in the above matrix go to $1$ when $i=j$ (ie, along the main diagonal), and to $0$ everywhere else. Thus, it is simply the identity matrix. So, by the argument above, we conclude that $KJ=I$.\newline
+
+\textbf{(b) Consider the same notations as in part (a). Must it be true that $JK$ is the identity $m\times m$ matrix?}
+
+We essentially need a function $f$ that is one-to-one, but not onto, and a complementary function $g$ that is onto, but not one-to-one. Consider the case $n=1,m=2$, and define $f:\mathbb R\to\mathbb R^2$ by $f(x)=(x,x)$. This is clearly one-to-one since every $x$ maps to a unique point on the line $y=x$, but it is not onto since there are many points in $\mathbb R^2$ that are not on the $y=x$ line. Consequently, we must choose a $g$ that maps every point in $\mathbb R^2$ to a point on the real line so that it always maps $(x,x)$ to $x$, but which is NOT unique. Well, $g(x_1,x_2)=\frac{x_1+x_2}{2}$ does the trick. It is easy to see that both of these are in their respective $C^1$. It is also easy to see that $g(f(x))$ will map $x$ to $x$ since $\frac{x+x}{2}=x$. However, it is not neccesarily true that $f(g(\vec x))=\vec x$. For instance, take $\vec x=(1,3)$. Then $g(\vec x)=2$, but $f(2)=(2,2)\not=(1,3)$. One would therefore expect that the derivative of $(f\circ g)(\vec x)$ be the identity matrix. But let's calculate it anyway, at $\vec a, \vec b$: 
+\[
+ (\partial_{x_1}g)(\vec a,\vec b)=\frac{1}{2}\quad(\partial_{x_2}g)(\vec a,\vec b)=\frac12
+\]
+And, similarly, at $f(1,3)$:
+\[
+ (\partial_{x}f_1)(\vec a,\vec b)=1,\quad (\partial_{x}f_2)(\vec a,\vec b)=1
+\]
+Thus the product of these two matrices is
+\[
+ \begin{bmatrix}
+  1 \\ 1
+ \end{bmatrix}
+\begin{bmatrix}
+ \frac12 & \frac12
+\end{bmatrix}
+=\begin{bmatrix}
+   \frac12 & \frac12 \\  \frac12 & \frac12
+ \end{bmatrix}
+\]
+This is not the $m\times m$ identity matrix, so we are done.
+ 
+\textbf{(c) Prove that $n\leq m$, and show by example that this can be a strict inequality.}
+
+It is easy to see that there exist cases where $n=m$; any of the invertible functions from $\mathbb R\to\mathbb R$ suffice for this. We've also shown that the inequality can be strict in the example shown above in part (b). All that remains to prove is that $n>m$ never happens.
+
+Actually, I am not sure what this means. Which $n$, and which $m$? I do not think it is true that, if $n>m$, there are no functions $f,g$ that satisfy $g(f(\vec x))=\vec x,\forall\vec x\in A$. Indeed, it has been proven that the cardinality of $\mathbb R^n$ is the same no matter what $n$ is; that is, there is a bijection between any $\mathbb R^j$ and $\mathbb R^k$. Any bijection will satisfy $g(f(\vec x))=\vec x$ if we take $f=g^{-1}$.
+\end{document}  
