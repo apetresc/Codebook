@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<overlay id="eidogo" 
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript"><![CDATA[
+  eidogoExtension = {
+    init : function(event) {
+      removeEventListener("load",eidogoExtension.init,false);
+      var contextMenu = document.getElementById("contentAreaContextMenu");
+      contextMenu.addEventListener("popupshowing",eidogoExtension.contextPopupshowing,false);
+    },
+    contextPopupshowing : function(event) {
+      if(gContextMenu)
+        document.getElementById("eidogoExtension-context-test").hidden
+           = (!(gContextMenu.onLink && (gContextMenu.linkURL.substr(gContextMenu.linkURL.length-3) == "sgf") ));
+    },
+    doCommand : function(event) {
+          gBrowser.selectedTab = gBrowser.addTab("http://www.eidogo.com/#url:" + gContextMenu.linkURL);
+	}
+  }
+  addEventListener("load",eidogoExtension.init,false);
+]]></script>
+
+
+ <popup id="contentAreaContextMenu" >
+  <menuitem id="eidogoExtension-context-test"
+	label="Open in EidoGo"
+	oncommand="eidogoExtension.doCommand(event);"
+	insertafter="context-openlinkintab"
+	hidden="true"
+ />
+ </popup>
+</overlay>
+

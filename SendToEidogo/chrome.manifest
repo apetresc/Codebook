@@ -1,0 +1,3 @@
+content eidogo chrome/content/
+
+overlay chrome://browser/content/browser.xul chrome://eidogo/content/link-overlay.xul
