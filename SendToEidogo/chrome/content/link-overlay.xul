@@ -13,7 +13,10 @@
     contextPopupshowing : function(event) {
       if(gContextMenu)
         document.getElementById("eidogoExtension-context-test").hidden
-           = (!(gContextMenu.onLink && (gContextMenu.linkURL.substr(gContextMenu.linkURL.length-3) == "sgf") ));
+           = (!(gContextMenu.onLink && 
+		((gContextMenu.linkURL.substr(gContextMenu.linkURL.length-3) == "sgf") ||
+		( gContextMenu.linkURL.indexOf("dragongoserver.net/sgf.php?gid=") != -1 )
+	  )));
     },
     doCommand : function(event) {
           gBrowser.selectedTab = gBrowser.addTab("http://www.eidogo.com/#url:" + gContextMenu.linkURL);
