@@ -85,6 +85,24 @@ identities: that is, the zero ring.
 \textbf{(b) Let $\phi:\mathbb C[x]\to\mathbb C[x]$ be defined by
 $\phi(p(x)) = p(x^2)$. Is $\phi$ a homomorphism? Prove your answer.}
 
+We check the three properties of a homomorphism. First, the $0$ and $1$ of
+$\mathbb C[x]$ are $p(x)=0$ and $p(x)=1$ respectively, neither of which are
+affected by $\phi$, since they are constant polynomials, so it is true that
+$\phi(1)=1$.
+
+Next, consider $p(x)=\sum_{i=0}^n{a_ix^i}$ and $q(x)=\sum_{j=0}^m{b_jx^j}$.
+Then we have:
+\begin{align*}
+&r(x)=p(x)+q(x)
+\implies \phi(r)=r(x^2)=p(x^2)+q(x^2)=\phi(p)+\phi(q)
+\end{align*}
+Similarly,
+\begin{align*}
+s(x)=p(x)q(x)\implies\phi(s)=p(x^2)q(x^2)=\phi(p)\phi(q)
+\end{align*}
+So it satisfies the rules for addition and multiplication, and therefore is a
+homomorphism.
+
 \textbf{3. Let $\phi:\mathbb Z_9\to\mathbb Z_3$ be a homomorphism. What is
 $\phi(4)$?}
 
@@ -153,5 +171,15 @@ subtract $1$ from both sides to get $1=-1$, so the previous expression is
 equivalent to $(-1)r_1(-1)r_2=\phi(r_1)\phi(r_2)$, so $\phi$ is also closed
 under multiplication. Lastly, we need to show that $\phi(1)=1$, but as we just
 stated, $1=-1$, so $\phi(1)=-1=1$, and we are done.
+
+\textbf{7. Suppose $\phi$ is a ring homomorphism from $\mathbb Z\times\mathbb Z$
+to $\mathbb Z\times\mathbb Z$. What are the possibilities for $\phi((1,0))$?
+Make sure you list all possible values of $\phi((1,0))$, and for each value give
+an example of a homomorphism that acheives it.}
+
+\textbf{8. Let $R$ be a commutative ring, and let $N\subseteq R$ be the set of
+elements $x\in R$ such that $x^n=0$ for some positive integer $n$. Is $N$
+necessarily an ideal of $R$? If yes, prove it. If no, find a specific ring $R$
+such that $N$ is not an ideal.}
 
 \end{document}
