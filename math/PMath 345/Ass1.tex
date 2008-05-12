@@ -1,0 +1,157 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage[parfill]{parskip}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{PMATH 345 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+
+\begin{document}
+
+\maketitle
+
+\textbf{1. (a) Let $R = \mathbb{R}[x, y]$ be the set of all polynomials in two
+variables with real coefficients. Let $S$ be the subset of polynomials $p(x, y)$ such that
+$p_x(0, 0) = 0$ ($p_x$ denotes the partial derivative of $p$ with respect to
+$x$). Is $S$ a subring of $R$? Prove your answer.}
+
+To check if $S$ is a subring, three things need to be checked. 
+
+The additive identity for $R$ is the zero polynomial $p(x,y)=0$, whose partial
+derivative with respect to $x$ is also the zero polynomial, which is $0$ at the origin,
+and therefore in $S$. Similarly, the multiplicative inverse $p(x,y)=1$ has the
+same partial derivative with respect to $x$, so it is also in $S$.
+
+Next, we check that $S$ is closed under subtraction. Let $p(x,y),q(x,y)\in S$.
+We want to check if $r(x,y)=p(x,y)-q(x,y)$ is also in $S$. It is obvious that
+$r$ is a polynomial, but it remains to show that $r_x(0,0)=0$. Well,
+polynomials are smooth, so we can safely use the subtraction rule for partial
+derivatives. That is,
+\begin{align*}
+	&\frac{\partial{r}}{\partial{x}}=\frac{\partial}{\partial{x}}(p-q)=\frac{\partial p}{\partial x} - \frac{\partial q}{\partial x} \\
+	\implies&r_x(x,y)=p_x(x,y)-q_x(x,y) \\
+	\implies&r_x(0,0)=p_x(0,0)-q_x(0,0)=0 \\
+	\implies&r\in S
+\end{align*}
+
+Lastly, we check that $S$ is closed under multiplication. Let $s(x,y)=p(x,y)q(x,y)$. Once again we can use the product rule 
+for partial derivatives, so
+\begin{align*}
+	&\frac{\partial{r}}{\partial{x}} = q\frac{\partial p}{\partial{x}} +
+	p\frac{\partial{q}}{\partial{x}} \\
+	\implies &s_x(x,y) = p_x(x,y)q(x,y) + p(x,y)q_x(x,y) \\
+	\implies &s_x(0,0) = 0 \\
+	\implies &s\in S
+\end{align*}
+
+Thus, by the subring theorem, $S$ is a subring of $R$.
+
+\textbf{(b) Let $R = \mathbb C$, the set of complex numbers, and let $S$ be the
+subset of complex numbers $z$ of the form $z = a + b\sqrt2$, where $a, b \in
+\mathbb Z$ are integers. Is $S$ a subring of $R$? Prove your answer.}
+
+Once more, we check the three facts. The multiplicative and additive identities
+for $R$ are $1+0i=1+0\sqrt2\in S$ and $0+0i=0+0\sqrt2\in S$ respectively, so
+the first condition is satisfied.
+
+Next we check that $S$ is closed under subtraction:
+\begin{align*}
+	(a+b\sqrt2)-(c+d\sqrt2)=(a-c)+(b-d)\sqrt2\in S \quad\text{(Since the integers
+	are a ring.)}
+\end{align*}
+Lastly, we check closure under multiplication:
+\begin{align*}
+	(a+b\sqrt2)(c+d\sqrt2)=&ac+ad\sqrt2+bc\sqrt2+2bd \\
+	=&(ac+2bd) + (ad+bc)\sqrt2\in S
+\end{align*}
+So by the subring theorem, $S$ is a subring.
+
+\textbf{2. (a) Is the mapping from $\mathbb Z_{10}$ to $\mathbb Z_{10}$ given by
+$x\to2x$ a ring homomorphism? Prove your answer.}
+
+This mapping fails the simplest condition for a homorphism. Simply, the
+multiplicative identity of $\mathbb Z_{10}$ is $1$, which should be preserved
+under a homomorphism, but under this mapping, it goes to $2$ which is not the
+identity for $\mathbb Z_{10}$. Indeed, any homomorphism from a ring to itself
+would have to have a fixed point at $1$ since the identity is unique, but the
+only element with $x=2x$ is $x=0$, so the only ring under which this could be a
+homomorphism would have to have $0$ as both the additive and multiplicative
+identities: that is, the zero ring.
+
+\textbf{(b) Let $\phi:\mathbb C[x]\to\mathbb C[x]$ be defined by
+$\phi(p(x)) = p(x^2)$. Is $\phi$ a homomorphism? Prove your answer.}
+
+\textbf{3. Let $\phi:\mathbb Z_9\to\mathbb Z_3$ be a homomorphism. What is
+$\phi(4)$?}
+
+By the definition of a homomorphism, $\phi(1)=1$. Also by the definition of a
+homomorphism, $\phi(p_1+p_2)=\phi{(p_1)}+\phi{(p_2)}$. Putting these two facts
+together, we get
+\begin{align*}
+\phi(4)=&\phi(1)+\phi(1)+\phi(1)+\phi(1) \\
+	=& [1]_3+[1]_3+[1]_3+[1]_3 \\
+	=& [4]_3=1
+\end{align*}
+
+\textbf{4. Let $R$ be a commutative ring, and let $\phi:R\to R$ be a
+homomorphism. Define the following subset of $R$: \[ R^\phi=\{x\in
+R\mid\phi(x)=x\} \] Is $R^\phi$ a subring of $R$? If so, prove your answer. If
+not, give a specific example of a ring $R$ and a homomorphism $\phi:R\to R$
+such that $R^\phi$ is not a ring.}
+
+Firstly, it is clear (by definition) that $\phi(1)=1\implies 1\in R^\phi$. It
+also follows easily from the fact that $\phi(0\cdot a)=\phi(0)\phi(a)=\phi(0)$
+for any $a\in R$, that $\phi(0)=0\implies 0\in R^\phi$. So it only remains to
+show that $R^\phi$ is closed under subtraction and multiplication.
+
+Take $r_1,r_2\in R^\phi$. We want to see if $r_1r_2$ is in $R^\phi$; well,
+$\phi(r_1r_2)=\phi(r_1)\phi(r_2)=r_1r_2$, so it is in $R^\phi$.
+
+To show that $R^\phi$ is also closed under subtraction, we first show that
+$-1\in R^\phi$. We know that $\phi(1+(-1))=\phi(1)+\phi(-1)$, but since we
+already have that $\phi(1)=1$ and $\phi(0)=0$, it follows that $1+\phi(-1)=0$
+which implies $\phi(-1)=-1$, so $(-1)\in R^\phi$. Now, using the result of
+$5(a)$, we simply have
+\begin{align*}
+	\phi(r_1-r_2)=&\phi(r_1+(-1)(r_2))=\phi(r_1)+\phi(-1)\phi(r_2)\\
+	=&r_1+(-1)r_2=r_1-r_2\implies(r_1-r_2)\in R^\phi
+\end{align*}
+Thus, $R^\phi$ is a subring of $R$.
+
+\textbf{5. Let $R$ be a commutative ring.}
+
+\textbf{(a) Prove that $-x=(-1)x$ for all $x\in R$. (Recall that $-x$ denotes
+the additive inverse of $x$, and $(-1)x$ denotes the product of $x$ with $-1$,
+the additive inverse of $1$.)}
+
+We wish to prove that $x+(-1)x=0$, showing that the additive inverse of $x$ is
+simply the product of $x$ with the additive inverse of $1$. By the definition
+of $1$, the left-hand side of the above is equivalent to $(1)x+(-1)x$. Then,
+using the 9th property of a commutative ring, we can say
+\[
+(1)x+(-1)x=(1+(-1))x=0x=0
+\]
+Thus, $-x$ is indeed the additive inverse.
+
+\textbf{(b) Let $\phi:R\to R$ be defined by $\phi(x) = -x$. Prove that $\phi$ is
+a homomorphism if and only if $1 + 1 = 0$ in $R$.}
+
+Suppose $\phi$ is a homomorphism. Then, by definition of a homomorphism,
+$\phi(1)=1$. But, by the definition of $\phi$, $\phi(1)=-1$. In order for this
+to be possible, $-1$ must be the same as $1$; so $1=-1$. Adding $1$ to both
+sides we get $1+1=-1+1=0$, so the condition is necessary.
+
+To show it is sufficient, we assume $1+1=0$ and show that the definition of a
+homomorphism is met. Firstly, it is clear that
+$\phi(r_1+r_2)=-(r_1+r_2)=(-1)(r_1+r_2)=-r_1-r_2=\phi(r_1)+\phi(r_2)$.
+Similarly, $\phi(r_1r_2)=-r_1r_2=(-1)r_1(1)r_2$. But, since $1+1=0$, we we can
+subtract $1$ from both sides to get $1=-1$, so the previous expression is
+equivalent to $(-1)r_1(-1)r_2=\phi(r_1)\phi(r_2)$, so $\phi$ is also closed
+under multiplication. Lastly, we need to show that $\phi(1)=1$, but as we just
+stated, $1=-1$, so $\phi(1)=-1=1$, and we are done.
+
+\end{document}
