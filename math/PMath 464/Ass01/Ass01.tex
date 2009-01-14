@@ -1,0 +1,69 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+%\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{PMATH 464 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Suppose that $X$ is an algebraic set and $L$ is a line in $A^n(k)$ such that $L\not\subset X$. Show that $L\cap X$ is either empty or a finite set of points.}
+
+Let $S$ be the finite set of polynomials such that $V(S)=X$. Since $L\not\subset X$, we cannot have $X$ be the whole space, so there exists a non-zero polynomial $f\in S$. We know that $V(S)\subseteq V(f)$, so if $L\cap X$ were an infinite set, then $L\cap V(f)$ would also be an infinite set. We denote $L=V(Y-(aX+b))$ and note that 
+
+\textbf{2. Determine whether or not the following sets are algebraic.}
+
+\textbf{(a) The set of points in $\mathbb R^2$ whose polar coordinates $(r,\theta)$ satisfy the equation $r=\theta$.}
+
+The equation $r=\theta + 2k\pi$ for $k\in\mathbb N$ defines an Archimedean spiral, so it will intersect \textit{any} line in $\mathbb R^2$ infinitely many times. In polar coordinates, a line is specified by $\theta=a$, for some $a\in\mathbb R$. So take $a=1$. Then $r=\theta+2k\pi$ intersects with $\theta=1$ at all the points $r=1+2k\pi$ for $k\in\mathbb N$. That is, $r=1,1+2\pi,1+4\pi+\ldots$ are all points of intersection. Since there are infinitely many of them, the spiral cannot possibly be an algebraic set.
+
+\textbf{(b) The set of points in $\mathbb R^2$ whose polar coordinates $(r,\theta)$ satisfy $r=\cos{(\theta)}$.}
+
+\textbf{(c) $\{(\cos{t},1,\sin{t}) \mid t\in\mathbb R\}\subseteq\mathbb R^3$.}
+
+Intuitively speaking, this set looks like a single circle centered around the point $(0,1,0)$ with radius $1$, parallel to the $xz$-plane; thus intuitively we know it is the intersection of the vertical plane $y=1$ and the cylinder of radius $1$ centered around $x$ axis, $x^2+z^2=1$, both of which are polynomials in $\mathbb A^3(\mathbb R)$.
+
+The $x$ and $z$ components parametrize the circle $x^2+z^2=1$ and the $y$ component specifies that the circle is on the plane $y=1$.
+
+\textbf{(d) $\{(\cos{t},t,\sin{t}) \mid t\in\mathbb R\}\subseteq\mathbb R^3$.}
+
+\textbf{3. Consider the real line $\mathbb R$ endowed with the Zariski topology. Verify that, given any two points $p,q\in\mathbb R$, any two open neighbourhoods of $p$ and $q$, have a non-empty intersection, thus proving that the Zariski topology on $\mathbb R$ is not Hausdorff.}
+
+On $\mathbb R$, the only algebraic sets (and therefore the only closed sets) are empty, finite, or $\mathbb R$ itself. Let $X\subseteq\mathbb R$ be a closed set in $\mathbb R$. Therefore the only open sets are $\mathbb R$ with finitely many points missing. Since the neighbourhoods of $p$ and $q$ contain open sets, their intersection will also be an open set -- namely $\mathbb R$ missing the points which both $N(p)$ and $N(q)$ were missing. This is nonempty, and therefore the Zariski topology on $\mathbb R$ is not Hausdorff. 
+
+\textbf{If $k$ is a finite field, show that every subset of $\mathbb A^n{k}$ is both open and closed in the Zariski topology. Is the Zariski topology Hausdorff in this case?}
+
+We know that if $k$ is a finite field, any subset of $A^n(k)$ is an algebraic set. Indeed, if $\{v_0,v_1,\ldots,v_m\}$ is a subset of $A^n(k)$ then it is a finite union $\cup_{i=0}^m{(v_i)}$. Thus it suffices to prove that each $v_i$ is an algebraic set. Well, if $v_i=(a_1,a_2,\ldots,a_n)$ then we have $V(X_1-a_1,X_2-a_2,\ldots,X_n-a_n)=v_i$, so each $v_i$ \textit{is} an algebraic set.
+
+Once we've established that all subsets are algebraic, it follows that all subsets are both closed (since they're algebraic) and open (since their complement is also a subset of $A^n(k)$ which must also be algebraic, hence closed). Therefore the Zariski topology over such fields is Hausdorff, since for any distinct points $p,q$, the sets $\{p\}$ and $\{q\}$ are open subsets with empty intersection.
+
+\textbf{5. Let $k$ be any field and $M_{n\times n}(k)$ be the set of $n\times n$ matrices with entries in $k$. This set can naturally be identified with $\mathbb A^{n^2}(k)$, by considering the (ordered) $n^2$ entries of a matrix as a point in $\mathbb A^{n^2}(k)$, and is thus endowed with the Zariski topology. Show that the group $GL(n,k)$ of all invertible matrices in $M_{n\times n}(k)$ is open in the Zariski topology on $M_{n\times n}(k)$.}
+
+To show the open-ness of $GL(n,k)$, we must show that its complement (the non-invertible matrices) are an algebraic set. We know that the non-invertible matrices are precisely those with determinant $0$. However, the determinant of a matrix is itself a polynomial $\det_n:\mathbb A^{n^2}(k)\to k$, and it will be $0$ precisely when it is passed a (non-invertable) matrix of determinant 0. Thus the complement of $GL(n,k)$ is precisely $V(\det_n)$, a closed set.
+
+\textbf{6. Let $V\subset\mathbb A^n(k)$ and $W\subset\mathbb A^m(k)$ be algebraic sets. Show that
+\[
+V\times W:=\{(a_1,\ldots,a_n,b_1,\ldots,b_m) \mid (a_1,\ldots,a_n)\in V, (b_1,\ldots,b_m)\in W\}
+\] is an algebraic set in $\mathbb A^{n+m}(k)$. It is called the \textit{product} of $V$ and $W$.}
+
+Since $V,W$ are algebraic, there exist two finite sets of polynomials $S_1, S_2$ such that $V(S_1)=V$ and $V(S_2)=W$. Now, we note that for each polynomial $f(a_1,\ldots,a_n)\in\mathbb A^n(k)$ there is a corresponding polynomial $f'\in\mathbb A^{n+m}(k)$ such that $f'(a_1,a_2,\ldots,a_n,x_1,\ldots,x_{m})=f(a_1,a_2,\ldots,a_n), \forall x_1,\ldots,x_m\in k$, and a corresponding polynomial $f''(x_1,\ldots,x_m,a_1,\ldots,a_n)=f(a_1,\ldots,a_n),\forall x_1,\ldots,x_m\in k$. Thus we can define the sets $S_1'=\{f' \mid f \in S_1\}$ and $S_2''=\{g'' \mid g\in S_2\}$. These are now both sets of polynomials in $\mathbb A^{n+m}(k)$.
+
+Let $I=\langle S_1'\rangle$ and $J=\langle S_2''\rangle$. Then consider the ideal $IJ$. We claim that $V(IJ)=V\times W$.
+
+To show that $V\times W\subseteq V(IJ)$, let $A\subseteq S_1$ be a subset such that $V(A)=(a_1,\ldots,a_n)$ and $B\subseteq S_2$ such that $V(B)=(b_1,\ldots,b_ m)$. $A$ and $B$ must exist since $V$ and $W$ are algebraic. Then \[\prod_{f\in A,g\in B}{f'+g''}\]
+
+
+
+\end{document}
