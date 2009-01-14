@@ -105,4 +105,13 @@ Cancellation: False
 Square root: True
 \end{verbatim}
 
+\textbf{6. What is the result of the given operation?}
+
+Python has unbounded integers, so we will do this in plain C instead:
+\lstset{language=C}
+\lstinputlisting{overflow.c}
+
+This, of course, prints
+\begin{verbatim}x + y = -1294967296\end{verbatim}
+because $x + y = 3000000000$ which is outside the range of a 32-bit integer, so the value wraps around.
 \end{document}  
