@@ -1,0 +1,89 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{CS 341 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $f,g$ be two functions with $f(n)=\Theta(g(n))$.}
+
+\textbf{(a) Must $e^{f(n)}$ be $O(e^{g(n)})$? Prove or give a counterexample.}
+
+Consider the functions $f(n)=2n$ and $g(n)=n$. Clearly $f(n)$ is in $\Theta(g(n))$, since they differ only by a constant. However, $e^{2n}$ is not in $O(e^{n})$, since
+\[
+\lim_{n\to\infty}{\frac{e^{2n}}{e^n}}=\lim_{n\to\infty}{e^n}=\infty \implies f(n)\in\omega(g(n))\implies f(n)\not\in O(g(n))
+\]
+
+\textbf{(b) Must $\ln{(f(n))}$ be $O(\ln(g(n)))$? Prove or give a counterexample.}
+
+Since $f(n)\in\Theta(g(n))$ we know there exist constants $c_1,c_2$ such that $f(n)\leq c_1\cdot g(n)$ and $g(n)\leq c_2\cdot f(n)$. Then we examine the limit
+\begin{align*}
+\lim_{n\to\infty}{\frac{\ln{(f(n))}}{\ln{(c_2\cdot f(n))}}}\leq&\lim_{n\to\infty}{\frac{\ln{(f(n))}}{\ln{(g(n))}}}\leq\lim_{n\to\infty}{\frac{\ln{(c_1\cdot g(n))}}{\ln{(g(n))}}} \\ \implies
+\lim_{n\to\infty}{\frac{\ln{(f(n))}}{\ln{(c_2)}+\ln{(f(n))}}}\leq&\lim_{n\to\infty}{\frac{\ln{(f(n))}}{\ln{(g(n))}}}\leq\lim_{n\to\infty}{\frac{\ln{(c_1)}+\ln{(g(n))}}{\ln{(g(n))}}}
+\end{align*}
+
+We recall the elementary limits $\lim_{x\to\infty}{\frac{x}{x+k}}=1$ and $\lim_{x\to\infty}{\frac{x+k}{x}}=1$. Since $\ln{(c_1)}$ and $\ln{(c_2)}$ are both constants, the left and right sides of the above equation are both $1$. Therefore, by the squeeze theorem, the middle limit also goes to $1$, thus showing that $\ln{(f(n))}\in O(\ln{(g(n))}$.
+
+\textbf{2. Rank the given functions by order of growth from slowest to fastest; that is, find an arrangement $g_1,g_2,\ldots,g_{20}$ of the functions satisfying $g_1=O(g_2),g_2=O(g_3),\ldots,g_{19}=O(g_{20})$. Partition your list into equivalence classes such that $f(n)$ and $g(n)$ are in the same class if and only if $f(n)=\Theta(g(n))$.}
+
+The ordering is:
+\[
+1,\lg{\lg{n}},\ln{\ln{n}},\lg{n},\ln{n},\sqrt{n},n,n^2, n^2\ln{n},n^3,(\ln{n})^{\ln{n}},n^{\ln{n}},n^{\lg{n}},e^{\sqrt{n}},(4/3)^n,2^n,e^n,n!,(n+5)!,2^{2^n}
+\]
+
+The equivalence classes are
+\begin{enumerate}
+\item $1$
+\item $\lg{\lg{n}},\ln{\ln{n}}$
+\item $\lg{n},\ln{n}$
+\item $\sqrt{n}$
+\item $n$
+\item $n^2$
+\item $n^2\ln{n}$
+\item $n^3$
+\item $(\ln{n})^{\ln{n}}$
+\item $n^{\ln{n}},n^{\lg{n}}$
+\item $e^{\sqrt{n}}$
+\item $(4/3)^n$
+\item $2^n$
+\item $e^n$
+\item $n!$
+\item $(n+5)!$
+\item $2^{2^n}$
+\end{enumerate}
+
+\textbf{3. Construct two strictly increasing functions (from the natural numbers to the natural numbers) $f(n)$ and $g(n)$ such that $f(n)\not= O(g(n))$ and $g(n)\not=O(f(n))$. Prove that your functions have the desired property.}
+
+Consider the recursively defined functions
+\begin{align*}
+&a_1=1,\quad a_{2n}=2n\cdot a_{2n-1},\quad a_{2n-1}=a_{2n-2} \\
+&b_1=1,\quad b_{2n-1}=(2n-1)\cdot b_{2n-2},\quad b_{2n}=b_{2n-1}
+\end{align*}
+
+It is clear that $a_{2n}=a_{2n+1}=\prod_{i=1}^{n}{2i}$ while $b_{2n-1}=b_{2n}=\prod_{i=1}^{n}{(2i-1)}$. Thus we see that when $k$ is even, $a_k>b_k$ since $a_k=2\cdot4\cdot5\cdots k$, while $b_k=(2-1)(4-1)(6-1)\cdots (k-1)$, so each of its factors is smaller, and so it must be smaller. When $k$ is odd, however, $b_k>a_k$ since $b_k=k(k-2)(k-4)\cdots 3$ while $a_k=(k-1)((k-2)-1)((k-4)-1)\cdots(3-1)$, so each of $a_k$'s factors is less than its corresponding factor in $b_k$.
+
+Does this hold true when we scale by a constant? For instance, does there exist a $c>1$ and $n_0>1$ such that $a_n\leq c\cdot b_n,\forall n>n_0$? Well, we note that for even $k=2n$, we have the ratio
+\[
+\frac{a_k}{b_k}=\prod_{i=1}^n{\frac{2i}{2i-1}}=\prod_{i=1}^n{\left(1+\frac{1}{2i-1}\right)}=\left(1+\frac{1}{1}\right)\left(1+\frac{1}{3}\right)\left(1+\frac{1}{5}\right)\cdots\left(1+\frac{1}{2n-1}\right)
+\]
+which can become arbitrarily large since it is strictly greater than the harmonic series (this can be seen by expanding the product taking the first $1$ in the first term and the fractional term from each other term), which we know diverges even when you throw out the even-denominator terms. Thus $a_k=\phi(n)b_k$ where $\phi(n)=\prod_{i=1}^n{\frac{2i}{2i-1}}$ which can grow arbitrarily large. Thus for any $c>1$ we see that once $\phi(n)>c$, we will have $a_n=\phi(n)b_n>c\cdot b(n)$, no matter what $c$ is, so $a_n\not\in O(b_n)$.
+
+Conversely, for odd $k=2n-1$ we have the ratio
+\[
+\frac{b_k}{a_k}=\prod_{i=1}^{n}{\frac{2i+1}{2i}}
+\]
+which is in fact the same as the above ratio but offset by one, and induces a function $\psi(n)$ such that $b_n=\psi(n)a_n$, so $b_n \geq c\cdot a_n$ for any constant $c$ (since $\psi(n)>c$ eventually). Therefore, $b_n\not\in O(a(n))$ either, and we are done.
+\end{document}  
