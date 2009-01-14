@@ -1,0 +1,109 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage[usenames,dvipsnames]{color}
+%\usepackage{fullpage}
+\usepackage{listings}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\definecolor{gray}{cmyk}{0.06,0.04,0.03,0}
+
+\title{CS 371 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. What is the largest number you can add to 1 and have the answer still be 1?}
+
+Consider the following Python code (in Python, 'float' is the IEEE double-precision floating point representation):
+\\
+\lstset{language=Python,showstringspaces=false,numbers=left,frame=single,backgroundcolor=\color{gray}}
+
+\lstinputlisting{epsilon.py}
+
+The output when this code is run is:
+\begin{verbatim}
+eps = 1.11022302463e-16
+1.0 + eps = 1.0
+\end{verbatim}
+Thus the machine epsilon is around $1.11022\times 10^{-16}$.
+
+\textbf{2. What is the result in your computer of the operation of dividing by zero?}
+
+As most programming languages do, Python will throw an exception upon attempting to divide by zero. The following code:
+
+\lstinputlisting{divzero.py}
+
+will result in:
+\begin{verbatim}
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: float division
+\end{verbatim}
+
+However, consider a more ancient language such as the following program written in C:
+
+\lstset{language=C}
+\lstinputlisting{divzero.c}
+
+This will successfully compile and execute, returning the exceptional float number
+\begin{verbatim}
+result = inf
+\end{verbatim}
+
+\textbf{3. What does your computer do if you compute $\sqrt{-1}$? }
+
+This is highly language-specific, since it depends on the implementation of the square root function. For instance, the Python interpreter gives
+\begin{verbatim}
+>>> sqrt(-1)
+nan
+\end{verbatim}
+while the following C program:
+\lstinputlisting{sqrt.c}
+gives:
+\begin{verbatim}
+sqrt(-1) = -2147483648
+\end{verbatim}
+On the other hand, a more enlightened language will behave quite differently:
+\begin{verbatim}
+Welcome to DrScheme, version 4.0 [cgc].
+Language: Pretty Big (includes MrEd and Advanced Student).
+> (sqrt -1)
+0+1i
+\end{verbatim}
+
+\textbf{4. If your program did not crash in \#3, what is the result of the logical test $num == num$?}
+
+In C, the augmented program
+\lstinputlisting{sqrteq.c}
+returns
+\begin{verbatim}
+(-2147483648 == -2147483648): 1
+\end{verbatim}
+In Python, NaN is never equal to NaN, and in the ever-enlightened Scheme, \texttt{(eq 0+1i 0+1i)} always evaluates to \texttt{true}.
+
+\textbf{5. Let’s do some algebra. Check if the given statements are true and report the results.}
+
+In Python, which claims to be IEEE-compliant, the following code:
+\lstset{language=Python}
+\lstinputlisting{algebra.py}
+
+returns all true:
+\begin{verbatim}
+Commutativity: True
+Distributativity: True
+Cancellation: True
+Square root: True
+\end{verbatim}
+
+This is probably due to the Python interpreter doing some internal optimization.
+\end{document}  
