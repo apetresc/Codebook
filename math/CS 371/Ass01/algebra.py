@@ -1,10 +1,23 @@
 from math import sqrt
+from random import random
+from random import randint
 
-x = 1.1
-y = -2.5
-z = 3.14
+commutativity = distributativity = cancellation = squareroot = True
 
-print "Commutativity:" , (x*y == y*x)
-print "Distributativity:" , ((x+y)*z == x*z + y*z)
-print "Cancellation:" , (x*y) / y == x
-print "Square root:" , (sqrt(x*x) == x) # (x > 0)
+for i in range(500):
+	x = random() * randint(1, 1000000)
+	y = random() * randint(1, 1000000)
+	z = random() * randint(1, 1000000)
+	if x * y != y * x:
+		commutativity = False
+	if (x + y) * z != x * z + y * z:
+		distributativity = False
+	if (x * y) / y != x:
+		cancellation = False
+	if sqrt(x * x) != x:
+		squareroot = False
+
+print "Commutativity:" , commutativity
+print "Distributativity:" , distributativity
+print "Cancellation:" , cancellation
+print "Square root:" , squareroot

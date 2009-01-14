@@ -7,7 +7,7 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage[usenames,dvipsnames]{color}
-%\usepackage{fullpage}
+\usepackage{fullpage}
 \usepackage{listings}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -93,17 +93,16 @@ In Python, NaN is never equal to NaN, and in the ever-enlightened Scheme, \textt
 
 \textbf{5. Let’s do some algebra. Check if the given statements are true and report the results.}
 
-In Python, which claims to be IEEE-compliant, the following code:
+It is not enough to check the algebra for just one set of three numbers $x,y,z$. It is conceivable that some forms of rounding will occur with one set of numbers, but not another, which would skew the results. Therefore, we run the four tests on 500 sets of random doubles:
 \lstset{language=Python}
 \lstinputlisting{algebra.py}
 
-returns all true:
+which returns:
 \begin{verbatim}
 Commutativity: True
-Distributativity: True
-Cancellation: True
+Distributativity: False
+Cancellation: False
 Square root: True
 \end{verbatim}
 
-This is probably due to the Python interpreter doing some internal optimization.
 \end{document}  
