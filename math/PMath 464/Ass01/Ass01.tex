@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
-% \usepackage{fullpage}
+\usepackage{fullpage}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \title{PMATH 464 - Assignment 1}
@@ -20,7 +20,24 @@
 
 \textbf{1. Suppose that $X$ is an algebraic set and $L$ is a line in $A^n(k)$ such that $L\not\subset X$. Show that $L\cap X$ is either empty or a finite set of points.}
 
-We assume that by a line in $\mathbb A^n(k)$,
+We assume that by a line in $\mathbb A^n(k)$, it is referred to a system of
+$n-1$ equations of the form $Y=A_iX_i-B_i$, so that $L=V(X_2-(A_2X_1-B_2),
+X_3-(A_3X_1-B_3), \ldots, X_n-(A_nX_1-B_n))$. Now, since
+$L\not\subset X$, we cannot have $X$ be the whole space, and therefore there exists some non-zero
+polynomial $F\in k[X_1,\ldots, X_n]$ such that $X\subseteq V(F)$. Thus if
+$L \cap X$ were to be an infinite set, $L \cap V(F)$ would be an infinite set
+as well. But
+\begin{align*}
+&V(X_2-(A_2X_1-B_2),
+X_3-(A_3X_1-B_3), \ldots, X_n-(A_nX_1-B_n)) \cap V(F(X_1, \ldots,
+X_n)) \\
+=&F(X_1, A_2X_1-B_2, A_3X_1-B_3, \ldots, A_nX_1-B_n) \in k[X_1]\quad\text{since
+$X_i-(A_iX_1+B_i)=0$}
+\end{align*}
+
+So $L\cap V(F)$ is the zero set of some polynomial in one variable. There are
+obviously only finitely many points in such a set, so $L\cap X$ must be finite
+or empty as well.
 
 \textbf{2. Determine whether or not the following sets are algebraic.}
 
@@ -36,6 +53,8 @@ infinitely many of them, the spiral cannot possibly be an algebraic set.
 
 \textbf{(b) The set of points in $\mathbb R^2$ whose polar coordinates $(r,\theta)$ satisfy $r=\cos{(\theta)}$.}
 
+
+
 \textbf{(c) $\{(\cos{t},1,\sin{t}) \mid t\in\mathbb R\}\subseteq\mathbb R^3$.}
 
 Intuitively speaking, this set looks like a single circle centered around the
@@ -48,6 +67,31 @@ The $x$ and $z$ components parametrize the circle $x^2+z^2=1$ and the $y$
 component specifies that the circle is on the plane $y=1$.
 
 \textbf{(d) $\{(\cos{t},t,\sin{t}) \mid t\in\mathbb R\}\subseteq\mathbb R^3$.}
+
+Consider the line in $\mathbb R^3$ parametrized by $\left\{\frac{1}{\sqrt2}, t,
+\frac{1}{\sqrt2}\right\}$. It is easy to see that this line intersects the
+given set at all points of the form $\left\{\frac{1}{\sqrt2},2k\pi,
+\frac{1}{\sqrt2}\right\}$, for all $k\in Z$. Since there are infinitely many
+such points of intersection, it cannot be an algebraic set.
+
+\textbf{(e) $\{v\in\mathbb R^4 \mid |v|^2=1\}\subset\mathbb R^4$, where
+$| \cdot |$ represents length.}
+
+This set is simply $S^3$, the unit 3-sphere in 4-dimensional Euclidean space. It
+is defined by $x^2+y^2+z^2+t^2=1$ which means that it is the zero set of the
+polynomial $f(x,y,z,t)=x^2+y^2+z^2+t^2-1$.
+
+\textbf{(f) $\{(z,w)\in\mathbb C^2 \mid |z|^2 + |w|^2 = 1\}\subset\mathbb C^2$,
+where $|x+iy|^2=x^2+y^2$ for $x,y\in\mathbb R$.}
+
+Observe that $\mathbb R^4\hookrightarrow\mathbb C^2$; that is, $\mathbb R^4$
+can be embedded into $\mathbb C^2$ with the ring homomorphism
+$\phi(a,b,c,d)=(a+bi,c+di)$. In particular, this means that $\phi$ carries zero
+sets in $\mathbb R^4$ to zero sets in $\mathbb C^2$. Now, we proved in part (e)
+that $\{v\in\mathbb R^4 \mid |v|^2=1\}\subset\mathbb R^4$ was the zero set of
+$x^2+y^2+z^2+t^2-1$.  But $\phi(v)=(z,w)=(x+yi, z+ti)$, so $|v|=1\implies
+x^2+y^2+z^2+t^2=1\implies |z|^2+|w|^2=1$. Since $\phi$ carries zero sets to
+zero sets, this must also be an algebraic set.
 
 \textbf{3. Consider the real line $\mathbb R$ endowed with the Zariski topology. Verify that, given any two points $p,q\in\mathbb R$, any two open neighbourhoods of $p$ and $q$, have a non-empty intersection, thus proving that the Zariski topology on $\mathbb R$ is not Hausdorff.}
 
@@ -96,17 +140,28 @@ $f'\in\mathbb A^{n+m}(k)$ such that
 $f'(a_1,a_2,\ldots,a_n,x_1,\ldots,x_{m})=f(a_1,a_2,\ldots,a_n), \forall
 x_1,\ldots,x_m\in k$, and a corresponding polynomial
 $f''(x_1,\ldots,x_m,a_1,\ldots,a_n)=f(a_1,\ldots,a_n),\forall x_1,\ldots,x_m\in
-k$. Thus we can define the sets $S_1'=\{f' \mid f \in S_1\}$ and $S_2''=\{g''
-\mid g\in S_2\}$. These are now both sets of polynomials in $\mathbb A^{n+m}(k)$.
-
-Let $I=\langle S_1'\rangle$ and $J=\langle S_2''\rangle$. Then consider the ideal
-$IJ$. We claim that $V(IJ)=V\times W$.
-
-To show that $V\times W\subseteq V(IJ)$, let $A\subseteq S_1$ be a subset such
-that $V(A)=(a_1,\ldots,a_n)$ and $B\subseteq S_2$ such that $V(B)=(b_1,\ldots,b_
-m)$. $A$ and $B$ must exist since $V$ and $W$ are algebraic. Then \[\prod_{f\in
-A,g\in B}{f'+g''}\]
+k$. Thus we can safely talk about the sets $S_1',S_2''$ as being subsets of $k[X_1,\ldots,X_{n+m}]$.
 
 
+Let $I=I(S_1')$ and $J=I(S_2'')$. Then consider the ideal
+$I\cup J$. We claim that $V(I\cup J)=V\times W$.
 
+It is easy to see that $V\times W \subseteq V(I\cup J)$ since for any $r=(a_1,\ldots,a_n)\in V, (b_1,\ldots,l_m)\in W$ and any $f\in I\cup J$, we have 
+$f(a_1,\ldots,a_n,b_1,\ldots,b_m)$ as the sum of multiples of things in $S_1', S_2''$. Since polynomials in $S_1'$ only care about the first $n$ variables and polynomials in $S_2''$ only care about the last $m$ variables, each such polynomial will be $0$ at $r$, and thus so will its linear combinations. 
+
+To show $V(I\cup J)\subseteq V\times W$,  let $r=(x_1,\ldots,x_n,y_1,\ldots,y_m)\in V(I\cup J)$. Then for any $f'\in I$ we will have a corresponding $f\in S_1$ such that $f'(r)=f(x_1,\ldots,x_n)=0$, so $(x_1,\ldots,x_n)\in V$. Similarly $(y_1,\ldots, y_m)\in W$. Therefore $r=(x_1,\ldots,x_n,y_1,\ldots,y_m)\in V\times W$.
+
+Thus $V\times W=V(I\cup J)$ is an algebraic set.
+
+\textbf{7. The \textit{product topology} on the Cartesian product $X\times Y$ of two topologoical spaces is defined as the topology whose open sets are the unions of subsets $A\times B$, where $A,B$ are open subsets of $X$ and $Y$ respectively. Let $k$ be any field, and consider the affine line $\mathbb A^1(k)$ and the affine plane $\mathbb A^2(k)$.}
+
+\textbf{(a) Describe the product topology of the Zariski topologies on the two copies of $\mathbb A^1$ in $\mathbb A^1\times \mathbb A^1$.}
+
+We recall that the closed sets in $\mathbb A^1(k)$ are the empty set, the entire line, and finite sets of points, so the open sets are the empty set, the entire line, and the line with finitely many points missing. Now, suppose $X,Y\in\mathbb A^1$ were open sets missing $(a_1,\ldots,a_n)$ and $(b_1,\ldots,b_m)$ respectively. Then $X\times Y$ would be missing the whole plane except for horizontal lines of the form $(x,k)$ for $x\in a_i, 1\leq i\leq n$, and vertical lines of the for $(k, y)$ for $y=b_j, 1\leq j\leq m$.
+
+Thus in $\mathbb A^1\times\mathbb A^1$ the closed sets are the empty set, the entire plane, and finite collections of horizontal and vertical lines.
+
+\textbf{(b) Show that although $\mathbb A^2$ can be naturally identified with $\mathbb A^1\times\mathbb A^1$, the Zariski topology on $\mathbb A^2$ is not equal to the "product Zariski topology" on $\mathbb A^1\times\mathbb A^1$ you described in (a), if $k$ is an infinite field.}
+
+Any closed set in the Zariski topology on $\mathbb A^2$ not of the form of a vertical or horizontal line is not a closed set in the product Zariski topology. For example, by the classification given in part (a) above, the set $V(Y-X)\subset\mathbb A^2$ is closed under the Zariski topology, but not under the product Zariski topology, so they cannot be equal.
 \end{document}
