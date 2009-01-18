@@ -1,0 +1,12 @@
+READ 1   % Load n into register 1
+
+% Compute n(n+1)/2
+
+LOAD  1
+ADD   =1
+MULT  1
+DIV   =2
+STORE 2
+
+% Sum together the next n symbols on the input tape.
+

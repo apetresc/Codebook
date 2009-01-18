@@ -1,0 +1,33 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{CS 341 - Assignment 2}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Write a RAM program for the following problem: you are given a list $L$ of $n-1$ integers $x_1,x_2,\ldots,x_{n-1}$ for some $n\geq2$, and you are told that $L$ contains every number in $\{1,2,\ldots,n\}$ exactly once (in unknown order), except that one number $m$ is missing. You must find $m$, the missing number. \\\\
+Try to find the most efficient algorithm (in terms of time and space) you can, under the unit-cost model. Your solution will be marked on efficiency and correctness.}
+
+We note that the sum of the entire set $\{1,2,\ldots,n\}$ is equal to $\frac{n(n+1)}{2}$, a well-known identity. Since $L$ is missing exactly one of the elements of that set, $m$, we know that the sum of $L$ will be 
+\[\sum{L}=\frac{n(n+1)}{2}-m \implies \boxed{m=\frac{n(n+1)}{2}-\sum{L}}\]
+Thus our algorithm need only sum together the elements of $L$ (in $O(n)$ time), and subtract it from $\frac{n(n+1)}{2}$, in $O(1)$ time, for a total runtime cost of $O(n)$. Since it is absolutely necessary to read in every element of $L$ in order to solve this problem, we can be reasonably certain that no substantial improvement over this algorithm is possible.
+
+So let us get down to actually implementing the algorithm:
+
+\begin{verbatim}
+aaa
+\end{verbatim}
+\end{document}  
