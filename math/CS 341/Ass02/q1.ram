@@ -9,4 +9,18 @@ DIV   =2
 STORE 2
 
 % Sum together the next n symbols on the input tape.
+loop:
+READ   0
+ADD    3
+STORE  3
+LOAD   1
+SUB    =1
+STORE  1
+JUMP>0 loop
 
+% Now v2 contains n(n+1)/2 and v3 contains Sum(L), so just 
+% find the difference
+LOAD  2
+SUB   3
+WRITE 0
+HALT

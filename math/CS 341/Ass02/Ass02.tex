@@ -7,6 +7,8 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage{fullpage}
+\usepackage{listings}
+
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \title{CS 341 - Assignment 2}
@@ -27,7 +29,19 @@ Thus our algorithm need only sum together the elements of $L$ (in $O(n)$ time), 
 
 So let us get down to actually implementing the algorithm:
 
-\begin{verbatim}
-aaa
-\end{verbatim}
+\lstset{showstringspaces=false,numbers=left,frame=single}
+\lstinputlisting{q1.ram}
+
+$\quad$\\
+
+\textbf{2. Analyze your algorithm's worst-case time and space complexity using the unit-cost method. Express your answer as accurately as possible, in terms of $n$ and (possibly) $m$.}
+
+The algorithm consists of a prefix, a loop that is repeated $n-1$ times (once for each element in $L$), and a suffix. The length of the prefix is $6$, the length of the suffix is $4$, and the loop has length $7$. Thus the unit-cost runtime is $7(n-1)+10$.
+
+Moreover, the algorithm makes use only of registers $v_0,v_1,v_2,v_3$ no matter how large the input is. Since the unit-cost model charges only $1$ unit of space for each register, this gives the algorithm a constant space cost of $4$.
+
+\textbf{3. Analyze your algorithm's worst-case time and space complexity using the log-cost method. You may express your answer using asymptotic notation.}
+
+
+
 \end{document}  
