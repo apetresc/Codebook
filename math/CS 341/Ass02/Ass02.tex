@@ -28,8 +28,8 @@ We note that the sum of the entire set $\{1,2,\ldots,n\}$ is equal to $\frac{n(n
 Thus our algorithm need only sum together the elements of $L$ (in $O(n)$ time), and subtract it from $\frac{n(n+1)}{2}$, in $O(1)$ time, for a total runtime cost of $O(n)$. Since it is absolutely necessary to read in every element of $L$ in order to solve this problem, we can be reasonably certain that no substantial improvement over this algorithm is possible.
 
 So let us get down to actually implementing the algorithm:
-
 \lstset{showstringspaces=false,numbers=left,frame=single}
+
 \lstinputlisting{q1.ram}
 
 $\quad$\\
@@ -42,6 +42,38 @@ Moreover, the algorithm makes use only of registers $v_0,v_1,v_2,v_3$ no matter 
 
 \textbf{3. Analyze your algorithm's worst-case time and space complexity using the log-cost method. You may express your answer using asymptotic notation.}
 
+We can see that the algorithm performs exactly the same number of steps and uses exactly the same number of registers across all inputs of size $n$; the only difference is the size of the numbers being handled. Obviously the worst case is when $m=1$ is missing since this maximizes $\sum{L}$.
 
+Consider the run-time of the prefix. Since the first symbol of the input tape is simply $n$, and is therefore independent of $m$, the prefix (which simply computes $n(n+1)/2$ and stores it in $r2$) will always have the same runtime across all inputs of size $n$:
+\begin{align*}
+T_{\text{prefix}}(n,m)=&\underbrace{(l(n)+l(1))}_{\texttt{READ 1}}+\underbrace{l(1)}_{\texttt{LOAD 1}} +\underbrace{(l(n) + l(1))}_{\texttt{ADD =1}} + \underbrace{(l(n+1) + l(n) + l(1))}_{\texttt{MULT 1}} +  \\
+& + \underbrace{(l(n(n+1)) + l(2))}_{\texttt{DIV =2}} + \underbrace{l(n(n+1)/2) + l(2)}_{\texttt{STORE 2}}
+\end{align*}
+Since $l(n(n+1))=l(n^2+n)=\log_2{(n^2+n)}=O(\log_2{(n^2)})=O(2\log_2{(n)})=O(\log_2{n})$, and $l(n(n+1))$ is the dominant term in $T_{\text{prefix}}(n)$, we can say that the prefix time is in $O(\log_2{n})$.
 
-\end{document}  
+Similarly, the runtime of the suffix is
+\begin{align*}
+T_{\text{suffix}}(n,m)=&\underbrace{(l(2)+l(n(n+1)/2))}_{\texttt{LOAD 2}} + \underbrace{(l(n(n+1)/2) + l((n(n+1)/2)-m))}_{\texttt{SUB 3}} + \\
+& + \underbrace{(l(0) + l(m))}_{\texttt{WRITE 0}}+\underbrace{1}_{\texttt{HALT}}
+\end{align*}
+Since the worst case is when $m=1$, by an almost identical argument to the above, the runtime $T_{\text{suffix}}(n,m)$ is in $O(\log_2{n})$.
+
+It remains to analyze the main loop, which is executed $n-1$ times regardless of what $m$ is. We proceed as before:
+\begin{align*}
+T_{\text{loop}}(n,m)=&\underbrace{(l(n) + l(0))}_{\texttt{READ 0}} + \underbrace{l(n) + l(3) + l\left(\sum{L}-n\right)}_{\texttt{ADD 3}} + \underbrace{l\left(\sum L\right) + l(3)}_{\texttt{STORE 3}} \\
+& + \underbrace{(l(n)+l(1))}_{\texttt{LOAD 1}} + \underbrace{(l(n)+l(1))}_{\texttt{SUB =1}} + \underbrace{l(n) + l(1)}_{\texttt{STORE 1}} + \underbrace{l(n)}_{\texttt{JUMP>0 loop}}
+\end{align*}
+
+The dominant term here is $l\left(\sum L\right)$, which as we saw before is $O(\log_2{n})$. Thus the total runtime of the algorithm in the log-cost model is
+\begin{align*}
+T(n,m) =& T_{\text{prefix}}(n,m) + (n-1)T_{\text{loop}}(n,m)+ T_{\text{suffix}}(n,m) \\
+=& O(\log_2{n}) + (n-1)O(\log_2{n}) + O(\log_2{n}) \\
+=& O(n\log_2{n})
+\end{align*}
+
+So under the log-cost model, the total runtime is actually $n\log{n}$, which reflects the fact that larger numbers take longer to work with.
+
+Space is easier to analyze. The largest value ever stored in $r_0$ is $n(n+1)$. The largest value ever stored in $r_1$ is $n$, the largest value stored in $r_2$ is $n(n+1)/2$ and the largest value ever stored in $r_3$ is $\sum L=(n(n+1)/2-m)$. Since the total space complexity is the sum of the maximum contents of each register, we have
+\[S(n,m) = l(n(n+1)) + l(n) + l(n(n+1)/2) + l(n(n+1)/2 -m)\]
+Each one of these terms is $O(\log_2{n})$, and there's always only $4$ registers used regardless of the size of the input, so we conclude that the space efficiency of the algorithm is $O(\log_2{n})$.
+\end{document} 

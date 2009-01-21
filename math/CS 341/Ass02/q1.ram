@@ -3,13 +3,14 @@ READ 1   % Load n into register 1
 % Compute n(n+1)/2
 
 LOAD  1
-ADD   =1
+SUB   =1    % store n-1 in r1 for loop index.
+STORE 1
+ADD   =2
 MULT  1
 DIV   =2
 STORE 2
 
-% Sum together the next n symbols on the input tape.
-loop:
+% Sum together the next n-1 symbols on the input tape.
 READ   0
 ADD    3
 STORE  3
@@ -18,8 +19,8 @@ SUB    =1
 STORE  1
 JUMP>0 loop
 
-% Now v2 contains n(n+1)/2 and v3 contains Sum(L), so just 
-% find the difference
+% Now r2 contains n(n+1)/2 and r3 contains Sum(L), so 
+% just find the difference
 LOAD  2
 SUB   3
 WRITE 0
