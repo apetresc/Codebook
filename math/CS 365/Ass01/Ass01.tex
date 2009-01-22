@@ -1,0 +1,116 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{CS 365 - Assignment 1}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. For each of the following languages, state whether or not it is regular. If it is regular, give a finite automaton or a regular expression for it, with a brief explanation; if it is not regular, give a detailed proof.}
+
+\textbf{(a) $L=\{a^ib^j\mid\gcd{(i,j)}>1\}$}
+
+We claim that $L$ is not regular. If it were regular, it would satisfy the pumping lemma. However, consider the string $s=a^pb^{p^2}$ which is obviously in $L$ since $\gcd{(p,p^2)}=p>1$, where $p>P$ is a prime number greater than the pumping length $P$ of $L$. Then there must exist a partitioning $s=xyz$ satisfying the pumping lemma. We know that $y$ must consist only of $a$'s, since $|xy|\leq p$. Suppose $|y|=q>0$. Then $xy^0z$ has $p-q$ copies of $a$ and $p^2$ copies of $b$. Since $p$ is a prime number, the only non-trivial divisors of $p^2$ are $p$. But $p-q$ cannot possibly divide $p$ since $p$ is prime. Thus $p^2$ and $p-q$ cannot have any divisors in common, so $\gcd{(p-q,p^2)}=1$ which implies that $xy^0z\not\in L$, which contradicts the pumping lemma.
+
+(It is of course possible that $p-q=1$ which \textit{does} divide $p$, but $\gcd{(1,p^2)}=1$ still, so the proof holds). 
+
+\textbf{(b) The language $L$ is defined as follows: for a string over $\Gamma=\{0,1\}^3$, we can view each element of $\Gamma$ as a column:
+\[
+\begin{pmatrix}
+0 \\ 1 \\ 1
+\end{pmatrix}
+\]
+We define a string over $\Gamma^*$ to be in $L$ if a correct binary addition problem is formed by the elements (where the third row is the sum of the first and second). Leading $0$'s are allowed in any of the numbers.\\
+For example, since $2+3=5$, the following string is in $L$:
+\[
+\begin{pmatrix}0\\0\\0\end{pmatrix}\begin{pmatrix}0\\0\\1\end{pmatrix}\begin{pmatrix}1\\1\\0\end{pmatrix}\begin{pmatrix}0\\1\\1\end{pmatrix}
+\]
+}
+
+We know that if a language $L$ is regular, then so is its reverse, $L^R$. Thus. without loss of generality, we can 'read' in the characters of $L$ starting from the right side. But now the problem is very simple: we simply have to check if the current column (each character) is a correct binary addition given only one piece of information -- whether or not there was a bit carried over from the previous column. As long as each individual column is correct given the carry bit, and as long as there is no left-over carry bit after the last column, the computation as a whole is correct. A deterministic state machine for $L$ is given below (on the next page).
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.65]{1b.png}
+\caption{Bit adder state machine}
+\label{dfa1}
+\end{center}
+\end{figure}
+\pagebreak
+\textbf{2. Show that the language $L=\{a^ib^jc^k \mid \text{if $i=1$ then $j=k$}\}$ is non-regular, even though it satisfies the pumping lemma.}
+
+It is easy to see that this language does satisfy the pumping lemma, since for any string $s=a^ib^jc^k$ with $i\not=1$ we can always choose $y$ to be any amount of $a$'s, as long as $|y|\not=i-1$. (Which we can always do). Then any amount of iterations of $y$ will still maintain $i\not=1$ so there will be no restriction on the number of $b$'s and $c$'s, so the resulting string cannot fail to be in the language. The only edge cases are if $i=1$ or $i=0$. In the former case choose $y=a$ and it is easy to see that iterating it will not ruin the equality of $b$'s and $c$'s so it also cannot fail to be in the language. Similarly if $i=0$ let $y$ be any amount of $b$'s or $c$'s (but not both) at all -- there is no restriction on their number since $i\not=0$ so reiterating these cannot fail to be in the language either. Thus $L$ does satisfy the pumping lemma.
+
+Now, consider the language $L_0$ consisting of all strings over $\Sigma=\{a,b,c\}$ that starts with only one $a$, and then has anything after it. This is obviously regular, so if $L$ were regular, then $L\cap L_0$ would also be regular. Well, $L\cap L_0$ is just like $L$ except it no longer accepts those strings where $a\not=1$. So $L\cap L_0=\{ab^jc^k\mid j=k\}$. But now it is easy to see that this language is essentially identical to the language $\{0^j1^k \mid j=k\}$. except that there is an extra $a$ in front. This $a$ can never reappear so it will just look like an extra buffer state between $q_0$ and the rest of the DFA in terms of the state machine; in other words, it is easy to see that this leading $a$ cannot magically grant regularity to a non-regular language. Thus $L\cap L_0$ is not regular, implying $L$ is not regular.
+
+This does not contradict the pumping lemma, because it is a necessary, not sufficient, condition for regularity.
+
+\textbf{3. Let $T$ be the language over the alphabet $\{0,1\}$ consisting of all strings that are the binary representation of a multiple of $3$. Leading $0$'s are allowed; thus $T=\{\epsilon, 0, 00, 11, 000, 011, 110,\ldots\}$. \\\\ Let $R$ be the language defined by the regular expression $E=(1(01^*0)^*1\cup 0)^*$.}
+
+\textbf{(a) Show that $R\subseteq T$; that is, every string in $L(E)$ represents a multiple of $3$. }
+
+Note that if $x,y$ are multiples of $3$, then $2^kx+y$ is also a multiple of $3$. In terms of binary, this means that if you have two strings which represent numbers divisible by $3$, then concatenating them with any arbitrary amount of $0$s in between will still represent a number divisible by $3$. Thus, in the expres	sion $(1(01^*0)^*1\cup0)^*$, it is enough to show that the subexpression $1(01^*0)^*1$ represents numbers divisible by $3$; the rest of the expression simply iterates the operation described above.
+
+Consider the following state machine which accepts all those binary strings which are divisible by 3:
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.65]{3a.png}
+\caption{Divisibility by 3 state machine}
+\label{dfa2}
+\end{center}
+\end{figure}
+
+We start at the state $0\pmod3$. The first $1$ in the regular expression takes us to the state $1\pmod3$. From there, the $(01^*0)^*$ section keeps us in this state with each iteration, since the first $0$ moves the state to $2\pmod 3$, the arbitrary number of $1$'s keeps it there, and the last $0$ of the block moves it back to $1\pmod 3$.  No matter how many times you iterate this, the state when exiting the $(01^*0)^*$ block will be $1\pmod 3$, so that the final $1$ of the regular expression moves it back to $0\pmod 3$, which means it is divisible by $3$. Thus by the argument given above, every string in $L(E)$ represents a multiple of $3$.
+
+
+\textbf{(b) Show that $T\subseteq R$; that is, that every string that represents a multiple of $3$ is in $L(E)$.}
+
+We must show the converse; that is, we have to show that any valid sequence of states in the DFA shown in Figure 2 will also be recognized by $L(E)$ (since the DFA in Figure 2 accepts exactly those strings that represent a multiple of 3).
+
+Let $q_0q_1q_2\ldots q_n$ be a sequence of states with $q_0=q_n=0\pmod3$. There can be an arbitrary amount of leading $0$'s which will leave the state unchanged; this corresponds to taking the second element of the union $1(01^*0)^*1\cup 0$ arbitrarily many times. As soon as $1$ is an input, the state machine moves to the $1\pmod3$ state and the regular expression enters the first subexpression in the union. 
+
+If the next input is $1$ then we return to the state $0\pmod3$ and the regular expression takes $0$ iterations of $(01^*0)^*$ and matches $01$ and "returns" for a new iteration of the main clause. We are back where we started, in both senses.
+
+If the next input is $0$ instead, then we move to the $2\pmod3$ state in the DFA, and enter the $(01^*0)^*$ subexpression. It is easy to see that the subexpression will keep matching $1$'s until the DFA returns to the state $1\pmod3$ with a final $0$. If the next character is a $0$, we repeat the previous subexpression; if it is $1$ then we return to  the $0\pmod3$ state and enter the main expression of the regular expression once more.
+
+Thus we see that any sequence of legal states will be matched by the regular expression. Since $T\subseteq R$ and $R\subseteq T$, we conclude that $T=R$. 
+
+\textbf{4. Recall that, for an automaton $(Q,\Sigma,\delta,q,F)$, the extended transition function $\delta^*$ is defined by \begin{itemize}
+\item $\delta^*(q,\epsilon)=q$ for all states $q$, and
+\item $\delta^*(q,ya)=\delta(\delta^*(q,y),a)$, for all states $q$, strings $y$, and symbols $a$.
+\end{itemize}
+The function could have equally well been defined by "peeling off" symbols from the front of the string; that is, the function $\delta^*$ satisfies
+\[
+\delta^*(q,ay)=\delta^*(\delta(q,a),y)
+\]
+for all states $q$, strings $y$ and symbols $a$. Prove this statement, by induction.
+}
+
+We proceed by induction on $|y|$, the length of the string.
+
+If $|y|=0$ then $|y|=\epsilon$ so we have
+\[
+\delta^*(q,a)=\delta(q,a)=\delta^*(\delta(q,a),\epsilon),
+\]
+so the statement holds trivially.
+
+Suppose $\delta^*(q,ay)=\delta^*(\delta(q,a),y)$ for all $y$ with $|y|<k$. We wish to show that $bay$ satisfies the statement. (Note that $|bay|=k+1$). Well,
+\begin{align*}
+\delta^*(q,bay) =& \delta^*(q,b(ay))=\delta(\delta^*(q,ay),b)=\delta(\delta^*(\delta(q,a),y),b)=\delta^*(\delta(q,b),ay)
+\end{align*}
+
+Thus the statement holds for $bay$ as well.
+\end{document}

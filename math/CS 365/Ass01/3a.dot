@@ -1,0 +1,15 @@
+digraph dfa
+	{
+		rankdir=LR;
+		node [shape = circle]; "1 mod 3" "2 mod 3";
+		node [shape = doublecircle]; "0 mod 3";
+	
+		"0 mod 3" -> "1 mod 3" [ label = "1" ]
+		"0 mod 3" -> "0 mod 3" [ label = "0" ]
+		
+		"1 mod 3" -> "2 mod 3" [ label = "0" ]
+		"1 mod 3" -> "0 mod 3" [ label = "1" ]
+		
+		"2 mod 3" -> "2 mod 3" [ label = "1" ]
+		"2 mod 3" -> "1 mod 3" [ label = "0" ] 
+	}

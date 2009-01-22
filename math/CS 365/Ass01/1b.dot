@@ -1,0 +1,29 @@
+digraph untitled
+	{
+		rankdir=LR;
+		node [shape = circle]; "Error" "Carry 1";
+		node [shape = doublecircle]; "Carry 0";
+		
+		"Carry 0" -> "Carry 1" [ label = "110" ]
+		"Carry 0" -> "Carry 0" [ label = "000" ]
+		"Carry 0" -> "Carry 0" [ label = "011" ]
+		"Carry 0" -> "Carry 0" [ label = "101" ]
+		
+		"Carry 0" -> "Error" [ label = "111" ]
+		"Carry 0" -> "Error" [ label = "001" ]
+		"Carry 0" -> "Error" [ label = "010" ]
+		"Carry 0" -> "Error" [ label = "100" ]
+		
+		"Carry 1" -> "Carry 0" [ label = "001" ]
+		"Carry 1" -> "Carry 1" [ label = "111" ]
+		"Carry 1" -> "Carry 1" [ label = "010 "]
+		"Carry 1" -> "Carry 1" [ label = "100" ]
+		
+		"Carry 1" -> "Error" [ label = "110" ]
+		"Carry 1" -> "Error" [ label = "000" ]
+		"Carry 1" -> "Error" [ label = "011" ]
+		"Carry 1" -> "Error" [ label = "101" ]
+		
+		"Error" -> "Error" [ label = "any" ]
+		
+	}
