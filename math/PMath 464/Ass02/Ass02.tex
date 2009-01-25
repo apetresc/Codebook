@@ -1,0 +1,75 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsthm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem*{defn}{Definition}
+
+\title{PMATH 464 - Assignment 2}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. Let $k$ be an infinite field. Prove that any non-empty Zariski open subset of $\mathbb A^n(k)$ is dense.}
+
+There are many equivalent definitions of density; we will use the following:
+
+\begin{defn}
+A subset $A$ of a topological space $X$ is called {\bf dense} if for any point $x$ in $X$, any neighborhood of $x$ contains at least one point from $A$. Equivalently, $A$ is dense if, for any open subset $Y\subseteq X$, $A\cap Y\not=\emptyset$.
+\end{defn}
+
+%So let $A$ be any non-empty Zariski open subset of $\mathbb A^n(k)$. Suppose there was some other open subset $B\subset\mathbb A^n(k)$ such that $A\cap B=\emptyset$. 	Then let $\bar{A},\bar{B}$ be the (closed) complements of $A,B$ respectively. Since $\bar{A},\bar{B}$ are closed, there exist finite sets $S_1,S_2\subseteq k[x_1,x_2,\ldots,x_n]$ such that $V(S_1)=\bar{A}$ and $V(S_2)=\bar{B}$.
+
+%Since $A\cap B=\emptyset$, it follows that $B\subset\bar{A}=V(S_1)$; so every polynomial in $S_1$ is zero on $B$.
+
+So, let $A$ be any non-empty Zariski open subset of $\mathbb A^n(k)$. We define $\bar A$ to be the (closed) complement of $A$. Suppose that there was some other open subset $B\subset\mathbb A^n(k)$ such that $A\cap B=\emptyset$; this would imply that $B\subset \bar A$.
+
+Then, let $L$ be any line in $\mathbb A^n(k)$. Since $\bar A$ is closed, we know that $L\cap\bar A$ is a finite collection of points, so since $B\subset\bar A$, this implies $L\cap B$ is finite as well. But we know that $B\cup\bar B=\mathbb A^n(k)$, so if $L\cap B$ is finite, it must be the case that $L\cap\bar B$ is infinite (since the line $L$ has an infinite number of points, and $k$ is infinite). But $B$ is open implies that $\bar B$ is closed, which is a contradiction.
+
+\textbf{2. In this exercise, we prove that the spiral $r=\theta$ is dense in $\mathbb R^2$.}
+
+\textbf{(a) Let $V$ and $W$ be two algebraic sets in $\mathbb A^n(k)$. Show that $V=W$ if and only if $I(V)=I(W)$.}
+
+The forward direction of this is obvious -- if $V=W$ then $I(V)=I(W)$ since the operation $I$ is well-defined. Indeed, suppose $V=W$ but $I(V)\not=I(W)$. Without loss of generality, assume $I(V)\not\subseteq I(W)$. Let $f\in I(V)-I(W)$. Since it is in $I(V)$, it is zero over every point in $V$, which also means it is zero over every point in $W$, which implies that it is in $I(W)$, a contradiction.
+
+Next, assume $I(V)=I(W)$, and suppose $v\in V$. Then $f(v)=0, \forall f\in I(V)$; but by the same token this means $f(v)=0,\forall f\in I(W)$ which by definition means $v\in W$. Thus $V\subseteq W$. An identical argument on $w\in W$ shows that $W\subseteq V$ from which we conclude that $V=W$.
+
+\textbf{(b) Let $k$ be an infinite field and $f\in k[x,y]$ be an irreducible polynomial such that $V(f)$ is an infinite set of points in $\mathbb A^2(k)$. Prove that if $E$ is any infinite subset of $V(f)$, then $\bar E=V(f)$ in the Zariski topology.}
+
+Since both $\bar E$ and $V(f)$ are algebraic sets by definition, it suffices to show that $I(\bar E)=I(V(f))=\langle f\rangle$. Well, since $\bar E$ is the intersection of all closed sets containing $E$, this means in particular that $\bar E\subseteq V(f)$; thus $f(p)=0, 	\forall p\in\bar E$ so $f\in I(\bar E)$ implying that $\langle f\rangle\subseteq I(\bar E)$. To show that $I(\bar E)\subseteq\langle f\rangle$, just note that if $I(\bar E)=\langle f,g\rangle$ then $\bar E=V(f)\cap V(g)$; since $\bar E$ is infinite this implies that $V(f)$ and $V(g)$ have an infinite intersection; but $f,g$ are irreducible so their intersection is at most a finite set of points. Thus it must be the case that $I(\bar E)\subseteq \langle f\rangle$, and we are done.
+
+\textbf{(c) Let $E$ be the curve in $\mathbb R^2$ given in polar coordinates by $r=\theta$. Show that $E$ is dense in $\mathbb R^2$ in the Zariski topology.}
+
+This time we will use the following (equivalent) definition of density:
+\begin{defn}
+A subset $A$ of a topological space $X$ is called {\bf dense} if the closure $\bar A$ is equal to $X$.
+\end{defn}
+
+\textbf{4. Let $V$ and $W$ be algebraic sets in $\mathbb A^n(k)$ such that $V\subset W$. Show that each irreducible component of $V$ is contained in some irreducible component of $W$.}
+
+We can write
+\[ V = V_1 \cup V_2 \cup \cdots \cup V_j \]
+and
+\[ W = W_1 \cup W_2 \cup \cdots \cup W_k \]
+
+We proceed in a way analogous to the proof of the uniqueness of an irreducible decomposition. For any $V_i$ we know that $V_i=\bigcup_j{(W_j\cap V_i)}$. Now, since all the $V_i$'s and $W_j$'s are irreducible and closed, it must be the case that $V_i$ is entirely contained in just one of the $(W_j\cap V_i)$ components (otherwise, since the intersection of closed sets is closed, we would have contradicted the irreducibility of $V_i$). Thus $V_i\subseteq(W_j\cap V_i)\implies V_i\subseteq W_j$. This is true for each $V_i$ so the statement holds.
+
+\textbf{5. Show that although the algebraic curve $X=V(y^2+x^2(x-1)^2(x^2+1))$ is irreducible in $\mathbb C^2$, it is reducible in $\mathbb R^2$. What does this imply about the ideal of $X$? Verify your answer by giving an explicit description of $I(X)$ in both $\mathbb R[x,y]$ and $\mathbb C[x,y]$.}
+
+We claim that $y^2+x^2(x-1)^2(x^2+1)$ is irreducible. Indeed, we can look at $\mathbb R[x,y]$ as a polynomial ring over $y$ with coefficients in $\mathbb R[x]$ in which case $\langle (x^2+1)\rangle$ is a prime ideal which contains $x^2(x-1)^2(x^2+1)$, does not contain $1$, and whose square does not contain $x^2(x-1)^2(x^2+1)$. Thus by Eisenstein's Criterion, the polynomial is irreducible. 
+
+
+\end{document}  
