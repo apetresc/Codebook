@@ -1,0 +1,123 @@
+\documentclass[11pt,reqno]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{fullpage}
+
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{CS 341 - Assignment 3}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\textbf{1. Recall from Lecture 4 that we obtained the following recurrence for the running time of our algorithm $\texttt{printperm}$ (for $m\geq0,n\geq1$):
+\begin{align}
+T(m,n) = \left\{ \begin{array}{ll}
+ n(T(m+1,n-1)+m+1+n), &\mbox{ if $n>1$} \\
+  m+1, &\mbox{ if $n=1$}
+       \end{array} \right.
+\end{align}
+Also recall that I claimed that the solution to this equation was
+\begin{align} T(m,n) = (m+1+n)a(n)-n!\end{align}
+where the sequence $a$ is defined by
+\begin{align}
+a(n) = \left\{ \begin{array}{ll}
+ n(a(n-1)+1), &\mbox{ if $n>0$} \\
+  0, &\mbox{ if $n=0$}
+       \end{array} \right.
+\end{align}
+Your job is to prove that (2) holds.
+}
+
+We proceed by induction on $n$. Consider the base case when $n=1$. Then we wish to prove that 
+\[
+T(m,1)=(m+2)a(1)-1
+\]
+Well, by (1), we know $T(m,1)=m+1$. Moreover, we know $a(1)=a(0)+1=1$ so the right-hand side goes to $(m+2)-1=m+1$ so they agree and the statement holds for $n=1$.
+
+Now assume inductively that it holds for all $n<k$ and show it holds for $n=k$. Well, on the left-hand side we have $T(m,k) = k(T(m+1,k-1)+m+1+n)$ so we can apply the inductive hypothesis to $T(m+1,k-1)$ to conclude that it equals $(m+k+1)a(k-1)-(k-1)!$; thus we have
+\begin{align*}
+T(m,k)=&k((m+k+1)a(k-1)-(k-1)!)+m+1+k) \\
+=&k((m+k+1)a(k-1)-(k-1)!+m+k+1) \\
+=&k((m+k+1)(a(k-1)+1)-(k-1)!) \\
+=&(m+k+1)k(a(k-1)+1) - k! \\
+=&(m+k+1)a(k) - k! \quad &&\text{ by the definition of $a(n)$ }
+\end{align*}
+
+Thus, by induction, (2) holds.
+
+\textbf{2. Prove that $a(n) = n!\left(\frac{1}{0!} + \frac{1}{1!} + \cdots + \frac{1}{(n-1)!}\right)$ for $n\geq1$.}
+
+Once again we proceed by induction on $n$. For $n=1$ the equality trivially holds as $a(1)=a(0)+1=1$ so the base case holds. We assume the statement is true for all $n<k$ and must show it holds for $n=k$. We have
+\begin{align*}
+a(k)=&k(a(k-1)+1) \\
+=&k\left((k-1)!\left(\frac{1}{0!}+\frac{1}{1!}+\cdots+\frac{1}{(k-2)!}\right)+1\right) \quad &&\text{by the inductive hypothesis} \\
+=&k!\left(\frac{1}{0!}+\frac{1}{1!}+\cdots+\frac{1}{(k-2)!}\right)+k \\
+=&k!\left(\frac{1}{0!}+\frac{1}{1!}+\cdots+\frac{1}{(k-2)!}\right)+\frac{k!}{(k-1)!} \\
+=&k!\left(\frac{1}{0!}+\frac{1}{1!}+\cdots+\frac{1}{(k-1)!}\right)
+\end{align*}
+
+By induction, this identity holds for all $n$, so we are done.
+
+\textbf{3. In Lecture 4, we guessed equation (2) by looking at the values produced by the recurrence. But there's another, more direct way to derive it: by analyzing the computation tree formed by all the recursive calls of the $\texttt{printperm}$ algorithm. Do this.}
+
+We recall the source code of the \texttt{printperm} algorithm:
+\begin{verbatim}
+printperm(P,S)
+/* P is a prefix, S is a nonempty set */
+/* call it with P empty initially */
+
+if S has 1 element
+	 then print P followed by the single element of S 
+
+else
+	 for each element i of S do
+	 	printperm( (P,i), S - {i})
+\end{verbatim}
+
+This induces a computation tree like the one drawn below:
+\begin{verbatim}
+
+
+
+
+
+
+
+
+
+
+\end{verbatim}
+
+As we've seen before, it takes $m+1+n$ work to collapse each edge of the tree; (that is, $m+1$ units of work to copy $m$ and add $i$ to it, and $n$ units of work to scan $S$ for removing $i$ from it). The only branches which this job does not have to be done for is the very last level (of which there are $n!$ since there are $n!$ permutations of $\{1,2,\ldots,n\}$). Thus already we know that the formula should be of the form $T(m,n)=(m+1+n)f(x)-n!$ for some $f(n)$; (we can infer that it is a function of $n$, not $m$, from the fact that the source code recurses for every element of $S$ with $|S|=n$). But how do we show that $f(n)=a(n)$? We simply have to count the edges of the tree. Suppose there are $k$ nodes at level $l$; let $f_l$ represent the number of nodes whose height is greater than or equal to $l$. Well, there are the $k$ nodes at level $l$ by assumption. Each of these $k$ nodes will have $k$ children, each of height $l+1$ (and all \textit{their} children will have strictly greater height). Thus we can say that $f_l=k + k\cdot f_{l-1}$. Thus, since the total number of nodes is simply the number of nodes of height 1 or more, and there are exactly $n$ nodes of height $1$, we can say that $a(n) = f_1 = n+na(n-1)$. Thus, plugging this into our expression from before, we get \[ \boxed{T(m,n) = (m+1+n)a(n) - n!} \] 
+
+\textbf{4. Also in the Lecture 4 notes, we observed that $a(n)$ satisfies $a(n)=\lfloor e\cdot n!\rfloor-1$ for $n\geq1$. Prove this.}
+
+To not have to deal with the ugly floor function, we rephrase this question as proving that \[e\cdot n!-1\leq a(n)+1\leq e\cdot n!\]. This is equivalent to the given statement. We proved in question 2 that $a(n)=n!\left(\frac{1}{0!} + \frac{1}{1!} + \cdots + \frac{1}{(n-1)!}\right)$. Thus we can show that
+\begin{align}
+e\cdot n!-1\leq n!\left(\frac{1}{0!} + \frac{1}{1!} + \cdots + \frac{1}{(n-1)!}\right) + 1 \leq& e\cdot n! \nonumber \\
+e\cdot n!-1\leq n!\left(\frac{1}{0!} + \frac{1}{1!} + \cdots + \frac{1}{n!}\right) \leq& e\cdot n! \nonumber \\
+e-\frac{1}{n!}\leq\frac{1}{0!} + \frac{1}{1!} + \cdots + \frac{1}{n!}\leq& e
+\end{align}
+
+Recall that $e=\sum_{i=0}^\infty{\frac{1}{i!}}$; keeping that in mind, the second half of (4) is trivial since each term is positive. To show the left inequality, we observe that $e-\frac{1}{n!}=\sum_{i=0}^{n-1}{\frac{1}{i!}}+\sum_{i=n+1}^\infty{\frac{1}{i!}}$. Thus we just need to show that
+\[
+\frac{1}{n!}\geq\sum_{i=n+1}^\infty{\frac{1}{i!}}
+\]
+
+To do this, observe that
+\begin{align}
+&\frac{1}{(n+1)!} + \frac{1}{(n+2)!} + \frac{1}{(n+3)!} + \cdots \nonumber \\
+=&\frac{1}{n!}\left(\frac{1}{n+1}\right) + \frac{1}{n!}\left(\frac{1}{n+1}\right)\left(\frac{1}{n+2}\right) + \frac{1}{n!}\left(\frac{1}{n+1}\right)\left(\frac{1}{n+2}\right)\left(\frac{1}{n+3}\right) + \cdots \nonumber \\
+=&\frac{1}{n!}\left[\left(\frac{1}{n+1}\right) + \left(\frac{1}{n+1}\right)\left(\frac{1}{n+2}\right) + \left(\frac{1}{n+1}\right)\left(\frac{1}{n+2}\right)\left(\frac{1}{n+3}\right) + \cdots \right]
+\end{align}
+
+We see that the infinite sum in $(5)$ grows even slower than $\sum_{i=1}^\infty{\frac{1}{2^i}}$, since each term has the same number of factors, but each factor is piecewise smaller than $\frac12$. Thus it not only converges, but it is also certain to be less than $\sum_{i=1}^\infty{\frac1{2^i}}=1$, so the entire equation (5) must be less than $\frac{1}{n!}$ (since it scales it by a number less than $1$). Thus both sides of the inequality (4) hold, so we are done.
+\end{document}
