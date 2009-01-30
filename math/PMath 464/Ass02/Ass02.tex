@@ -69,7 +69,45 @@ We proceed in a way analogous to the proof of the uniqueness of an irreducible d
 
 \textbf{5. Show that although the algebraic curve $X=V(y^2+x^2(x-1)^2(x^2+1))$ is irreducible in $\mathbb C^2$, it is reducible in $\mathbb R^2$. What does this imply about the ideal of $X$? Verify your answer by giving an explicit description of $I(X)$ in both $\mathbb R[x,y]$ and $\mathbb C[x,y]$.}
 
-We claim that $y^2+x^2(x-1)^2(x^2+1)$ is irreducible. Indeed, we can look at $\mathbb R[x,y]$ as a polynomial ring over $y$ with coefficients in $\mathbb R[x]$ in which case $\langle (x^2+1)\rangle$ is a prime ideal which contains $x^2(x-1)^2(x^2+1)$, does not contain $1$, and whose square does not contain $x^2(x-1)^2(x^2+1)$. Thus by Eisenstein's Criterion, the polynomial is irreducible. 
+We will consider the real case first. We see that $y^2$ and $x^2(x-1)^2(x^2+1)$ are both non-negative quantities. Therefore, if their sum is $0$, they must both be $0$. That is, $y^2=0\implies y=0$ and $x^2(x-1)^2(x^2+1)=0\implies x=0$ or $x=1$. Thus there are two irreducible components: $\{0,0\}$ and $\{0,1\}$.
 
+In $\mathbb C^2$, however, this is an infinite set. We claim it is irreducible. By the classification of plane curves in $\mathbb A^2(k)$, it suffices to show that the polynomial $y^2+x^2(x-1)^2(x^2+1)$ is irreducible in $\mathbb C[x,y]$. Well, suppose it was reducible. Then we have two cases: either it factors as $(y^2+f(x))g(x)$ or as $(y+f(x))(y+g(x))$. In the first case, we have
+\[
+(y^2+f(x))g(x) = g(x)y^2 + f(x)g(x)
+\]
+But since the coefficient on $y^2$ needs to be $1$ we get that $g(x)=1$ which is a constant polynomial; thus this is not a proper factorization.
+
+In the second case we have
+\[
+(y+f(x))(y+g(x)) = y^2 + (f(x) + g(x))y + f(x)g(x)
+\]
+Since there is no $y$ term in our polynomial, we must have $f(x)+g(x)=0\implies f(x)=-g(x)$. This means that our constant (with respect to $y$) term must be of the form $-f(x)^2$. Thus, $f(x)^2=-x^2(x-1)^2(x^2+1)$. Now, multiplying a non-square by a square will never create a square; thus this implies that since $-1$, $x^2$ and $(x-1)^2$ are perfect squares, $x^2+1$ must be a perfect square as well. But the factorization $x^2+1=(x-i)(x+i)$ is clearly not a square, so this factorization cannot exist. Thus the polynomial is irreducible, which by our classification, means that $X$ is irreducible in $\mathbb C^2$.
+
+Now consider the ideal $I(X)$ in $\mathbb R[x,y]$. It is a finite collection of points so its ideal looks like 
+
+\textbf{6. Let $k$ be an algebraically closed field, which may have characteristic $2$. Find the irreducible components of the following algebraic sets.}
+
+\textbf{(a) $V(x^3+x^2y-2xy-2y^2)$ in $\mathbb A^2(k)$.}
+
+We notice that the polynomial factors as $(x+y)(x^2-2y)$. This expression will be $0$ whenever either of those two factors is $0$ so this implies that the zero set will look like the line $y=-x$ and the parabola $y=\frac{x^2}{2}$.
+
+
+If the field is of characteristic $2$, then immediately the terms $-2xy$ and $-2y^2$ disappear, leaving $V(x^3+x^2y)=V(x^2(x+y))$. Well, $x^2=0$ only when $x=0$; so the vertical plane $x=0$ is one irreducible component. That leaves $x+y=0\implies y=-x$ which includes the diagonal plane $y=-x$. So the irreducible components become $V(x)\cup V(x+y)$. 
+
+\textbf{(d) $V(x^2-yz,xz-x)$ in $\mathbb A^3(k)$.}
+
+We see that $V(x^2-yz,xz-z)=V(x^2-yz)\cap V(xz-z)$. Thus for any point in the intersection, we must have $xz-z=z(x-1)=0\implies z=0$ or $x-1$. If $z=0$ then $x^2-yz=x^2=0\iff x=0$, so we have the plane $x=0$. Otherwise, if $x=1$, then $x^2-yz=0\iff yz=1\iff y=\frac{1}{z}$. This induces the zero set $yz-1$. Thus the irreducible components are $V(x^2-yz,xz-x)=V(x)\cup V(yz-1)$. 
+
+In the case of a field of characteristic $2$,
+
+\textbf{7. Let $k$ be any field. Are the following ideals prime, radical, or closed in $k[x,y]$?}
+
+\textbf{(b) $\langle x+y, xy \rangle$}
+
+The only point in $V(\langle x+y,xy\rangle)$ is $(0,0)$ since $x+y$ is the line $y=-x$ passing through the origin, and $xy=0$ are the $x$- and $y$- axes; these three curves all meet only at the origin. Therefore the ideal of $(0,0)$ consists of all polynomials without a constant $a_0$ term. It is clear that $\langle x+y,xy\rangle$ does not generate all these: for instance, $y$ is in $I(\{0,0\})$ but not in $\langle x+y, xy\rangle$. Thus it is not closed. Moreover, $I(V(I))=I(\{0,0\})=\operatorname{Rad}{(I)}\not=I$ by Hilbert's Nullstellensatz, so it is also not a radical ideal. Lastly, it is not prime since $xy\in\langle x+y,xy\rangle$ but neither $x$ nor $y$ is.
+
+\textbf{(c) $\langle x^2-y^2\rangle$}
+
+Call this ideal $I$. We see that $V(I)$ is the simply the set $V(x+y,x-y)$, since $x^2-y^2=0\implies y=\pm\sqrt{x^2}$. So do we have $I(V(I))=I$? Well, consider the ideal $\langle x+y,x-y\rangle$. It's clear that $\langle x^2-y^2\rangle\subseteq\langle x+y,x-y\rangle$ since $x^2-y^2=(x+y)(x-y)\in\langle x+y,x-y\rangle$. However, the converse does not hold; $x+y$ is not in $\langle x^2-y^2\rangle$, so $I$ is not the smallest ideal whose zero set contains $V(I)$. Thus it is not algebraically closed. Similarly, we have that $\operatorname{Rad}{(I)}\not=I$ by Hilbert's Nullstellensatz as before. Finally, it is not prime either, as $(x+y)(x-y)\in I$ but neither $x+y$ nor $x-y$ are.
 
 \end{document}  
