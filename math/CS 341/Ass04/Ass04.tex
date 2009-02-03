@@ -1,0 +1,86 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{CS 341 - Assignment 4}
+\author{Adrian Petrescu (\#20240298)}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+\textbf{1. For each of the following recurrences, use the "master theorem" and give the solution using asymptotic notation. Explain your reasoning.}
+
+\textbf{(a) $T(n) = 7T(n/3) + 4n^3\log{n}$}
+
+In this case, $f(n)=4n^3\log{n}$, $b=3$ and $a=7$. Thus we need to look at $n^{\log_3{7}}$. We know that $\log_3{7}<3$ since $3^2=9>7$ so $f(n)\in\Omega(n^{\log_3{7}+\epsilon})$. Moreover, $af(n/b)=28(n/3)^3\log{n/3}=\frac{28}{27}n^3\log{\frac{n}{3}}\leq 4n^3\frac13{\log{n}}=4n^3\log{\frac{n}{3}}$. Thus all the conditions of case 3 of the master theorem are satisfied, and we can conclude that $T(n)\in\Theta(n^3\log{n})$.
+
+\textbf{(b) $T(n)=9T(n/3)+2n^2$}
+
+This time, $a=9$, $b=3$ and $f(n)=2n^2$. We see that $\log_b{a}=\log_3{9}=2$. Thus we easily see that $f(n)\in\Theta(n^2)$, so case 2 of the master theorem applies, and we conclude that $T(n)\in\Theta(n^2\lg{n})$.
+
+\textbf{(c) $12T(n/3)+3n^2(\log{n})^3$}
+
+In this case, $a=12$, $b=3$ and $f(n)=3n^2(\log{n})^3$. Thus we care about $\log_3{12}$ which is between $2$ and $3$. It's not immediately obvious which class $n^{\log_3{12}}$ belongs to, so we take the limit $\lim_{n\to\infty}{\frac{n^2(\log{n})^3}{n^{\log_3{12}}}}=\lim_{n\to\infty}\frac{(\log{n})^3}{n^{0.2619}}$ which appears to be amenable to L'Hopital's rule, since both the numerator and denominator obviously grow without bounds. Thus we get 
+\[
+\lim_{n\to\infty}{\frac{3(n^{-1})(\log{n})^2}{0.2619(n^{0.2619})(n^{-1})}} = \lim_{n\to\infty}{\left(\frac{3}{0.2619}\frac{(\log{n})^2}{n^{0.2619}}\right)} \approx \lim_{n\to\infty}{\frac{(\log{n})^2}{n^{0.2619}}}
+\]
+
+Proceeding in this way twice more, we eventually arrive at $\lim_{n\to\infty}{\frac{\log{n}}{n^{0.2619}}}$ which once more simplifies to $\lim_{n\to\infty}{\frac{1}{n^{0.2619}}}$ which obviously converges to $0$. We can see that if we had subtracted some small $\epsilon$ from $\log_3{12}$ we would have a slightly different constant instead of $0.2619$, but the proof would have worked in the same way. Thus we have that $f(n)\in O(\log_b{a}-\epsilon)$, so case 1 of the master theorem applies and we can conclude that $T(n)\in\Theta(n^{\log_3{12}})$.
+
+\textbf{2. A $2^k\times2^k$ $H$-matrix is defined recursively as follows: $H_0=[1]$ and $H_k$ is the matrix 
+\[
+\begin{bmatrix}H_{k-1} && H_{k-1} \\ H_{k-1} && -H_{k-1} \end{bmatrix}
+\]
+The $H$-transform of a column vector $v$ of length $n=2^k$ is the vector formed by the product $H_kv$. Show how to compute the $H$-transform of a vector of length $n=2^k$ in $O(n\log{n})$ time, under the unit-cost model.}
+
+We can view the multiplication in the following way:
+\[
+\begin{bmatrix}H_{k-1} && H_{k-1} \\ H_{k-1} && -H_{k-1}\end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \end{bmatrix}
+\]
+where $v_1,v_2$ are vectors of length $2^{k-1}$, and each $H_{k-1}$ is a $2^{k-1}\times2^{k-1}$ matrix. Then the result of this multiplication will simply be $\begin{bmatrix}v_1H_{k-1} + v_2H_{k-1} \\ v_1H_{k-1} + v_2(-H_{k-1})\end{bmatrix}$. Adding together these elements will take $O(n)$ time (since it will require adding together $2^k$ elements), so the recurrence relation looks like
+\[
+T(n) = 3T(n/2) + n
+\]
+We see that $n\in O(n^{\log_2{3}-\epsilon})$ since $\log_2{3}>1$. Thus by the master theorem we have that $T(n)\in \Theta(n^{\log_2{3}})$ which implies $T(n)\in O(n^{\log_2{3}}=O(n\cdot n^{0.585})$ which, since $n\lg{n}\in O(n\cdot n^{0.585})$, implies $T(n)\in O(n\lg{n})$ which is what we were trying to show. 
+
+\textbf{3. Consider trying to write a positive integer as a sum of squares of integers. For example, for $143$ we could write $143=9^2+6^2+5^2+1^2$. It is known that you can always express any positive integer as a sum of at most four positive integer squares; the squares do \textit{not} have to be distinct. But in this exercise, you will prove a weaker result.\\\\
+Prove that every positive integer $n$ can be written as the sum of at most $O(\lg\lg{n})$ squares of positive integers. State your algorithm using pseudocode, and state and prove the theorem about how many steps it takes in the worst-case in the unit-cost model using asymptotic notation.}
+
+We claim that the following pseudocode produces the needed decomposition:
+\begin{verbatim}
+def waring(n):
+     while n > 0:
+           term = floor(sqrt(n))
+           print term
+           n -= term * term
+\end{verbatim}
+
+(Okay, I lied, it's not pseudocode, it's Python)
+
+It is easy to see that \texttt{waring(n)} produces $\textit{some}$ decomposition of $n$ into a sum of squares, but it remains to show that it has no more than $O(\lg{\lg{n}})$ terms. Since each iteration of the main loop adds exactly one term to the list, this is equivalent to showing that the runtime of the algorithm is $O(\lg\lg{n})$.
+
+We note that, given two consecutive perfect squares $n^2, (n+1)^2$, the difference between them is $(n+1)^2-n^2=(n+1-n)(n+1+n)=2n+1$. Therefore, since $t^2=\lfloor\sqrt{n}\rfloor^2$ is the nearest perfect square to $n$, it must be the case that $n-t^2< 2t+1$. (If the gap was any bigger, then there would be some other perfect square larger than $t^2$ but smaller than $n$ in that gap, which would contradict the maximality of $t$). Thus we see that each iteration of the algorithm takes $n$ to approximately $2\sqrt{n}-1$. Thus, asymptotically, after the $k$-th iteration we have $\underbrace{\left(\cdots\left(\left(n^{\frac12}\right)^{\frac12}\right)^{\frac12}\cdots\right)^{\frac12}}_{k \text{ times}}=n^{\frac{1}{2^k}}$. Now, we claim that $\lg\lg n$ is an upper bound on the asymptotic growth. To prove this claim, it is enough to show that, after $\lg\lg{n}$ iterations, our asymptotic expression from before has reached a termination state. Thus we substitute $k=\lg\lg{n}$ to get
+\[
+n^{\frac{1}{2^{\lg\lg{n}}}}=n^{\frac{1}{\lg{n}}}
+\]
+
+We claim that $n^{\frac{1}{\lg{n}}} = 2$, for all $n$. We could take the derivative to show that it is a constant function, but instead, we do something neater:
+\begin{align*}
+x^{\frac{1}{\lg{x}}}=k \iff& \left(x^{\frac{1}{\lg{x}}}\right)^{\lg{x}} = k^{\log{x}} \\
+\iff& x = k^{\log{x}} = k^{\frac{\log_k{x}}{\log_k{2}}} = x^{\frac{1}{\log_k{2}}}\\
+\iff& 1 = \frac{1}{\log_k{2}} \implies \boxed{k = 2}
+\end{align*}
+
+Thus this function $n^\frac{1}{\lg{n}}=2$ is constantly 2. So we have that after $\lg\lg{n}$ iterations, we will have reduced $n$ to $2$, at which point we can just say $2 = 1^2 + 1^2$. Thus the asymptotic upper bound is at most $O(\lg\lg{n})$.
+
+\end{document}
