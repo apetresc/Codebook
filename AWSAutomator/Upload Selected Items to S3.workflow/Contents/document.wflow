@@ -180,14 +180,14 @@
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>378.000000:1476.000000</string>
+				<string>522.000000:1850.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -269,7 +269,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>378.000000:1434.000000</string>
+				<string>522.000000:1745.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Specified Text.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -375,14 +375,14 @@
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>378.000000:1267.000000</string>
+				<string>522.000000:1578.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -464,7 +464,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>378.000000:1225.000000</string>
+				<string>522.000000:1473.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Specified Text.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -570,14 +570,14 @@
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>378.000000:1058.000000</string>
+				<string>522.000000:1306.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -751,14 +751,14 @@
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>378.000000:1016.000000</string>
+				<string>522.000000:1201.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Text.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -863,7 +863,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>378.000000:974.000000</string>
+				<string>522.000000:1019.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Set Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -973,7 +973,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>378.000000:932.000000</string>
+				<string>522.000000:977.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1081,7 +1081,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>378.000000:890.000000</string>
+				<string>522.000000:935.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1191,7 +1191,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>378.000000:848.000000</string>
+				<string>522.000000:893.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1299,7 +1299,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>378.000000:806.000000</string>
+				<string>522.000000:851.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Get Value of Variable.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1356,7 +1356,13 @@ import sys
 
 AWS_ACCESS_KEY = sys.argv[1]
 AWS_SECRET_KEY = sys.argv[2]
-bucket_name = sys.argv[3].lower()
+if sys.argv[3].count('/') &gt; 0:
+	bucket_name = (sys.argv[3][:sys.argv[3].index('/')]).lower()
+	global_prefix = sys.argv[3][sys.argv[3].index('/')+1:] + '/'
+else:
+	bucket_name = sys.argv[3].lower()
+	global_prefix = ''
+
 return_url = ""
 
 files = []
@@ -1376,7 +1382,7 @@ def recursively_upload(f, prefix = ''):
 	else:
 		global return_url
 		k = Key(bucket)
-		k.key = ''.join([prefix, f[f.rindex('/')+1:]])
+		k.key = ''.join([global_prefix, prefix, f[f.rindex('/')+1:]])
 		k.set_contents_from_filename(f, policy='public-read')
 		return_url = "".join(["http://", bucket_name, ".s3.amazonaws.com/", k.key])
 		
@@ -1504,7 +1510,7 @@ print return_url</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>378.000000:764.000000</string>
+				<string>522.000000:809.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1585,91 +1591,91 @@ print return_url</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>00F4CE48-79BB-4BEA-BBE4-AB72B8984337</key>
+		<key>0CB14BE8-94A3-49D9-993A-675967B6CF7D</key>
 		<dict>
 			<key>from</key>
 			<string>787F10AD-F315-488A-8BAB-F69F4DA38493 - 787F10AD-F315-488A-8BAB-F69F4DA38493</string>
 		</dict>
-		<key>10940A4A-0BF2-4BCB-990C-243A8CABF7A5</key>
+		<key>15F2BB68-3A8D-4326-A0E7-764D96866703</key>
 		<dict>
 			<key>from</key>
-			<string>BED15FE1-0B2B-4147-B45B-96EEA1B1AB15 - BED15FE1-0B2B-4147-B45B-96EEA1B1AB15</string>
-			<key>to</key>
-			<string>1F60FDF0-5377-4147-83E3-762567BE2E2F - 1F60FDF0-5377-4147-83E3-762567BE2E2F</string>
-		</dict>
-		<key>443C4A13-5437-457A-975F-D2A225EC9D92</key>
-		<dict>
-			<key>from</key>
-			<string>417B359B-E2A3-4AF2-A8A5-A351FC2AE66A - 417B359B-E2A3-4AF2-A8A5-A351FC2AE66A</string>
-			<key>to</key>
-			<string>57BF65C9-58ED-4313-A8A2-F155EEC33741 - 57BF65C9-58ED-4313-A8A2-F155EEC33741</string>
-		</dict>
-		<key>453B62E3-2640-487D-A93F-A89193417E22</key>
-		<dict>
-			<key>from</key>
-			<string>AC329B65-37B1-4C0E-8F2F-FBCAA3A94314 - AC329B65-37B1-4C0E-8F2F-FBCAA3A94314</string>
-			<key>to</key>
-			<string>787F10AD-F315-488A-8BAB-F69F4DA38493 - 787F10AD-F315-488A-8BAB-F69F4DA38493</string>
-		</dict>
-		<key>4970856E-B294-44B9-BB1B-57B91AA6D425</key>
-		<dict>
-			<key>from</key>
-			<string>57BF65C9-58ED-4313-A8A2-F155EEC33741 - 57BF65C9-58ED-4313-A8A2-F155EEC33741</string>
-			<key>to</key>
-			<string>5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE - 5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE</string>
-		</dict>
-		<key>5565C8A6-156D-4854-968B-59FF2F50C954</key>
-		<dict>
-			<key>from</key>
-			<string>7085E3A0-77ED-4454-85FD-6C2F24929A7B - 7085E3A0-77ED-4454-85FD-6C2F24929A7B</string>
-			<key>to</key>
 			<string>98580F06-B88B-4FC3-9487-17D60374B095 - 98580F06-B88B-4FC3-9487-17D60374B095</string>
+			<key>to</key>
+			<string>BED15FE1-0B2B-4147-B45B-96EEA1B1AB15 - BED15FE1-0B2B-4147-B45B-96EEA1B1AB15</string>
 		</dict>
-		<key>60C7B86F-3721-46F3-8624-657372964A6E</key>
+		<key>1EA75550-672D-4B15-80A2-FA2195ED1622</key>
 		<dict>
 			<key>from</key>
-			<string>1F60FDF0-5377-4147-83E3-762567BE2E2F - 1F60FDF0-5377-4147-83E3-762567BE2E2F</string>
-			<key>to</key>
-			<string>AB91258C-68EF-4F2F-AC99-3E5021B3BBAB - AB91258C-68EF-4F2F-AC99-3E5021B3BBAB</string>
+			<string>0B36FC4C-55BB-492B-9282-A2821105E54C - 0B36FC4C-55BB-492B-9282-A2821105E54C</string>
 		</dict>
-		<key>82C99749-EA8C-41BF-9CF8-E0ECB10EBD0C</key>
+		<key>364EC224-384B-4B19-9C9B-532DA5C9C2A8</key>
 		<dict>
 			<key>from</key>
 			<string>4CC0B01D-1F36-41BB-AC26-E7EE98AF6954 - 4CC0B01D-1F36-41BB-AC26-E7EE98AF6954</string>
 			<key>to</key>
 			<string>417B359B-E2A3-4AF2-A8A5-A351FC2AE66A - 417B359B-E2A3-4AF2-A8A5-A351FC2AE66A</string>
 		</dict>
-		<key>84F73AAA-1F74-4C15-ABB3-0F780DDA1DAB</key>
+		<key>4879EDD3-4058-4C3E-97CE-3D086C3A7B12</key>
 		<dict>
 			<key>from</key>
-			<string>33D8EADF-8779-4629-BDDD-A27007174EE8 - 33D8EADF-8779-4629-BDDD-A27007174EE8</string>
+			<string>57BF65C9-58ED-4313-A8A2-F155EEC33741 - 57BF65C9-58ED-4313-A8A2-F155EEC33741</string>
 			<key>to</key>
-			<string>7085E3A0-77ED-4454-85FD-6C2F24929A7B - 7085E3A0-77ED-4454-85FD-6C2F24929A7B</string>
+			<string>5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE - 5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE</string>
 		</dict>
-		<key>9A61D866-C90B-44C4-9664-E3B787B2BDC2</key>
+		<key>6B461F3F-7D92-4D78-82B3-C9E0DFE06031</key>
 		<dict>
 			<key>from</key>
 			<string>5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE - 5ED1D4E9-EEBE-4D67-A116-7D9B10EC2FDE</string>
 			<key>to</key>
 			<string>33D8EADF-8779-4629-BDDD-A27007174EE8 - 33D8EADF-8779-4629-BDDD-A27007174EE8</string>
 		</dict>
-		<key>B16C4CF1-CB7E-4186-B8A0-28D0F4442F9A</key>
+		<key>85702E68-EB9C-4F14-97A1-E767F5FB6E3A</key>
 		<dict>
 			<key>from</key>
-			<string>98580F06-B88B-4FC3-9487-17D60374B095 - 98580F06-B88B-4FC3-9487-17D60374B095</string>
+			<string>AC329B65-37B1-4C0E-8F2F-FBCAA3A94314 - AC329B65-37B1-4C0E-8F2F-FBCAA3A94314</string>
 			<key>to</key>
-			<string>BED15FE1-0B2B-4147-B45B-96EEA1B1AB15 - BED15FE1-0B2B-4147-B45B-96EEA1B1AB15</string>
+			<string>787F10AD-F315-488A-8BAB-F69F4DA38493 - 787F10AD-F315-488A-8BAB-F69F4DA38493</string>
 		</dict>
-		<key>BF249BDB-0F78-4D6D-91CC-CEB7D30A3289</key>
+		<key>A844925A-92F2-4C20-9ADE-7A873EBE5DF0</key>
+		<dict>
+			<key>from</key>
+			<string>33D8EADF-8779-4629-BDDD-A27007174EE8 - 33D8EADF-8779-4629-BDDD-A27007174EE8</string>
+			<key>to</key>
+			<string>7085E3A0-77ED-4454-85FD-6C2F24929A7B - 7085E3A0-77ED-4454-85FD-6C2F24929A7B</string>
+		</dict>
+		<key>E640E2B0-1BE4-4331-9684-7F188843E0BC</key>
+		<dict>
+			<key>from</key>
+			<string>1F60FDF0-5377-4147-83E3-762567BE2E2F - 1F60FDF0-5377-4147-83E3-762567BE2E2F</string>
+			<key>to</key>
+			<string>AB91258C-68EF-4F2F-AC99-3E5021B3BBAB - AB91258C-68EF-4F2F-AC99-3E5021B3BBAB</string>
+		</dict>
+		<key>E6B21C41-349D-449C-9EA6-B366CCA63B70</key>
+		<dict>
+			<key>from</key>
+			<string>7085E3A0-77ED-4454-85FD-6C2F24929A7B - 7085E3A0-77ED-4454-85FD-6C2F24929A7B</string>
+			<key>to</key>
+			<string>98580F06-B88B-4FC3-9487-17D60374B095 - 98580F06-B88B-4FC3-9487-17D60374B095</string>
+		</dict>
+		<key>E7E76A62-F3E8-4400-8F8A-26E26560027B</key>
+		<dict>
+			<key>from</key>
+			<string>417B359B-E2A3-4AF2-A8A5-A351FC2AE66A - 417B359B-E2A3-4AF2-A8A5-A351FC2AE66A</string>
+			<key>to</key>
+			<string>57BF65C9-58ED-4313-A8A2-F155EEC33741 - 57BF65C9-58ED-4313-A8A2-F155EEC33741</string>
+		</dict>
+		<key>EEF5443E-BCAC-4A58-ADC8-A0D64CF68F48</key>
+		<dict>
+			<key>from</key>
+			<string>BED15FE1-0B2B-4147-B45B-96EEA1B1AB15 - BED15FE1-0B2B-4147-B45B-96EEA1B1AB15</string>
+			<key>to</key>
+			<string>1F60FDF0-5377-4147-83E3-762567BE2E2F - 1F60FDF0-5377-4147-83E3-762567BE2E2F</string>
+		</dict>
+		<key>FDF473F9-C131-4AE9-8FC9-D9C8343F17C8</key>
 		<dict>
 			<key>from</key>
 			<string>BF0750C3-2DDE-4144-B38F-6FE0CDEEBF0D - BF0750C3-2DDE-4144-B38F-6FE0CDEEBF0D</string>
 			<key>to</key>
-			<string>0B36FC4C-55BB-492B-9282-A2821105E54C - 0B36FC4C-55BB-492B-9282-A2821105E54C</string>
-		</dict>
-		<key>FF02C528-E0AD-472C-B589-0E025125D378</key>
-		<dict>
-			<key>from</key>
 			<string>0B36FC4C-55BB-492B-9282-A2821105E54C - 0B36FC4C-55BB-492B-9282-A2821105E54C</string>
 		</dict>
 	</dict>
@@ -1685,8 +1691,8 @@ print return_url</string>
 				<real>0.0</real>
 				<key>subviewState</key>
 				<array>
-					<string>0.000000, 0.000000, 381.000000, 514.000000, NO</string>
-					<string>0.000000, 515.000000, 381.000000, 184.000000, NO</string>
+					<string>0.000000, 0.000000, 381.000000, 567.000000, NO</string>
+					<string>0.000000, 568.000000, 381.000000, 184.000000, NO</string>
 				</array>
 			</dict>
 			<key>actionsMinorSplitViewState</key>
@@ -1695,8 +1701,8 @@ print return_url</string>
 				<real>0.0</real>
 				<key>subviewState</key>
 				<array>
-					<string>0.000000, 0.000000, 163.000000, 514.000000, NO</string>
-					<string>164.000000, 0.000000, 217.000000, 514.000000, NO</string>
+					<string>0.000000, 0.000000, 163.000000, 567.000000, NO</string>
+					<string>164.000000, 0.000000, 217.000000, 567.000000, NO</string>
 				</array>
 			</dict>
 			<key>variablesMajorSplitViewState</key>
@@ -1726,8 +1732,8 @@ print return_url</string>
 			<real>0.0</real>
 			<key>subviewState</key>
 			<array>
-				<string>0.000000, 0.000000, 381.000000, 744.000000, NO</string>
-				<string>382.000000, 0.000000, 771.000000, 744.000000, NO</string>
+				<string>0.000000, 0.000000, 381.000000, 797.000000, NO</string>
+				<string>382.000000, 0.000000, 1059.000000, 797.000000, NO</string>
 			</array>
 		</dict>
 		<key>minorSplitViewState</key>
@@ -1736,14 +1742,14 @@ print return_url</string>
 			<real>159</real>
 			<key>subviewState</key>
 			<array>
-				<string>0.000000, 0.000000, 771.000000, 556.000000, NO</string>
-				<string>0.000000, 566.000000, 771.000000, 159.000000, NO</string>
+				<string>0.000000, 0.000000, 1059.000000, 609.000000, NO</string>
+				<string>0.000000, 619.000000, 1059.000000, 159.000000, NO</string>
 			</array>
 		</dict>
 		<key>windowFrame</key>
-		<string>{{195, 57}, {1152, 821}}</string>
+		<string>{{0, 4}, {1440, 874}}</string>
 		<key>workflowViewScrollPosition</key>
-		<string>{{0, 1041}, {756, 556}}</string>
+		<string>{{0, 1362}, {1044, 609}}</string>
 	</dict>
 	<key>variables</key>
 	<array>
